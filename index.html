@@ -4,189 +4,3208 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SatuGo — Қазақстан маркетплейсі</title>
-<style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f6f8;color:#111827}
-header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #e5e7eb;padding:12px}
-.wrap{max-width:1100px;margin:auto}.top{display:flex;gap:10px;align-items:center}.logo{font-size:25px;font-weight:900;color:#2563eb;white-space:nowrap}
-input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:12px;background:#fff}
-.search{flex:1}.btn{border:0;border-radius:12px;padding:11px 14px;background:#111827;color:white;cursor:pointer}.blue{background:#2563eb}.green{background:#16a34a}.red{background:#dc2626}.light{background:#eef2ff;color:#1d4ed8}
-nav{display:flex;gap:8px;overflow:auto;margin-top:10px}nav button{white-space:nowrap}
-.hero{margin:18px 0;padding:25px;border-radius:20px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:white}
-.hero h1{margin:0 0 8px;font-size:30px}.muted{color:#6b7280}.hero .muted{color:#dbeafe}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px #0000000b;position:relative}.pic{height:180px;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:55px;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover}.cardbody{padding:12px}.price{font-size:20px;font-weight:800;margin:8px 0}.row{display:flex;gap:8px;align-items:center}.between{justify-content:space-between}.heart{position:absolute;right:8px;top:8px;border:0;border-radius:50%;background:#fff;padding:9px;cursor:pointer;font-size:18px}
-.chips{display:flex;gap:8px;overflow:auto;margin:14px 0}.chips button{white-space:nowrap}
-.section{margin:22px 0}.empty{padding:35px;text-align:center;background:#fff;border-radius:16px}
-.modal{display:none;position:fixed;inset:0;background:#0008;z-index:50;padding:15px;overflow:auto}.box{max-width:620px;margin:35px auto;background:#fff;border-radius:20px;padding:20px;position:relative}.close{position:absolute;right:12px;top:12px;border:0;background:#eee;border-radius:50%;width:34px;height:34px}
-.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:15px}.tabs button{border:0;border-radius:10px;padding:9px 12px;background:#eef2ff;color:#1e40af}
-.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f8fafc;padding:14px;border-radius:14px}.stat b{font-size:22px}
-.order{border:1px solid #e5e7eb;padding:13px;border-radius:14px;margin:10px 0}.status{display:inline-block;padding:5px 9px;border-radius:9px;background:#eef2ff;color:#3730a3;font-size:13px}
-footer{padding:35px 12px;color:#6b7280;text-align:center}
-@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.pic{height:150px}.top{flex-wrap:wrap}.search{order:3;flex-basis:100%}}
-@media(max-width:450px){.grid{grid-template-columns:repeat(2,1fr);gap:8px}.cardbody{padding:9px}.pic{height:130px}.hero h1{font-size:24px}.btn{padding:9px 10px}}
-</style>
 
 <style>
-.lang-btn{padding:8px 12px;border:0;border-radius:10px;cursor:pointer}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:12px 18px;border-radius:12px;z-index:9999}
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f6f8;
+  color:#171717;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+  border:0;
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#fff;
+  border-bottom:1px solid #eee;
+}
+
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:14px 18px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:800;
+  color:#111;
+  white-space:nowrap;
+}
+
+.search{
+  flex:1;
+  padding:12px 15px;
+  border:1px solid #ddd;
+  border-radius:12px;
+}
+
+.nav button{
+  padding:10px 12px;
+  border-radius:10px;
+  background:#f2f3f5;
+}
+
+.primary{
+  background:#111!important;
+  color:#fff;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+.hero{
+  padding:35px 25px;
+  border-radius:22px;
+  background:#fff;
+  margin-bottom:18px;
+}
+
+.hero h1{
+  font-size:36px;
+  margin:0 0 10px;
+}
+
+.hero p{
+  color:#666;
+}
+
+.categories,
+.filters{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  margin:12px 0;
+}
+
+.filter{
+  padding:10px 12px;
+  border-radius:10px;
+  background:#eee;
+  white-space:nowrap;
+}
+
+.filter.active{
+  background:#111;
+  color:#fff;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.card{
+  background:#fff;
+  border-radius:17px;
+  overflow:hidden;
+  border:1px solid #eee;
+  position:relative;
+}
+
+.card img{
+  width:100%;
+  height:210px;
+  object-fit:cover;
+}
+
+.card-body{
+  padding:13px;
+}
+
+.price{
+  font-size:19px;
+  font-weight:800;
+}
+
+.muted{
+  color:#777;
+  font-size:13px;
+}
+
+.actions{
+  display:flex;
+  gap:7px;
+  margin-top:10px;
+}
+
+.actions button{
+  padding:9px;
+  border-radius:9px;
+  background:#eee;
+  flex:1;
+}
+
+.actions .primary{
+  background:#111;
+}
+
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:#0008;
+  z-index:50;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+
+.modal{
+  background:#fff;
+  border-radius:20px;
+  width:min(900px,96vw);
+  max-height:92vh;
+  overflow:auto;
+  padding:22px;
+}
+
+.close{
+  float:right;
+  background:#eee;
+  border-radius:10px;
+  padding:8px 12px;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.field{
+  margin:9px 0;
+}
+
+.field label{
+  display:block;
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  padding:11px;
+  border:1px solid #ddd;
+  border-radius:10px;
+}
+
+.wide{
+  grid-column:1/-1;
+}
+
+.product-detail{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.product-detail img{
+  width:100%;
+  max-height:430px;
+  object-fit:cover;
+  border-radius:16px;
+}
+
+.table-wrap{
+  overflow:auto;
+}
+
+.table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.table th,
+.table td{
+  padding:10px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+  white-space:nowrap;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.stat{
+  padding:17px;
+  background:#f5f5f5;
+  border-radius:14px;
+}
+
+.stat b{
+  font-size:22px;
+  display:block;
+  margin-top:6px;
+}
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#111;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:12px;
+  z-index:100;
+  display:none;
+}
+
+footer{
+  text-align:center;
+  padding:35px;
+  color:#777;
+}
+
+@media(max-width:850px){
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .nav{
+    flex-wrap:wrap;
+  }
+
+  .search{
+    order:5;
+    flex-basis:100%;
+  }
+
+  .product-detail{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:500px){
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:28px;
+  }
+
+  .row{
+    grid-template-columns:1fr;
+  }
+}
 </style>
-</head>
-<body>
-<header><div class="wrap">
-<div class="top"><div class="logo">SatuGo</div><input id="search" class="search" placeholder="Тауар, дүкен іздеу..." oninput="render()">
-<button class="btn light" onclick="openModal('favModal')">❤️ <span id="favCount">0</span></button>
-<button class="btn" onclick="openModal('cartModal')">🛒 <span id="cartCount">0</span></button>
-<button class="btn blue" onclick="openAccount()">👤</button><button class="btn light" onclick="openChat()">💬</button><button class="lang-btn" onclick="toggleLanguage()">Қ/Р</button></div>
-<nav><button class="btn light" onclick="setCat('Барлығы')">Барлығы</button><button class="btn light" onclick="setCat('Киім')">Киім</button><button class="btn light" onclick="setCat('Аяқ киім')">Аяқ киім</button><button class="btn light" onclick="setCat('Косметика')">Косметика</button><button class="btn light" onclick="setCat('Электроника')">Электроника</button><button class="btn light" onclick="setCat('Үй')">Үй</button><button class="btn light" onclick="openSeller()">🏪 Дүкен ашу</button></nav>
-</div></header>
 
-<main class="wrap">
-<section class="hero"><h1>Қазақстандағы ыңғайлы маркетплейс</h1><div class="muted">Сатып ал • Сат • Дүкеніңді дамыт</div></section>
-<div class="chips"><select id="sort" onchange="render()"><option value="new">Жаңалары</option><option value="cheap">Арзаннан</option><option value="expensive">Қымбаттан</option><option value="rating">Рейтинг</option></select><input id="min" type="number" placeholder="Мин ₸" oninput="render()"><input id="max" type="number" placeholder="Макс ₸" oninput="render()"></div>
-<section class="section"><div class="row between"><h2>🔥 Трендте</h2><span class="muted">Хит продаж • Жаңа</span></div><h2>🤖 Сізге ұсынылады</h2><div id="recommendations" class="grid"></div><div id="products" class="grid"></div></section>
-</main>
-<footer>SatuGo © 2026 • Төлем және жеткізу таңдау арқылы рәсімделеді</footer>
-
-<div id="accountModal" class="modal"><div class="box"><button class="close" onclick="closeModal('accountModal')">×</button><h2>👤 Аккаунт</h2><div id="account"></div></div></div>
-<div id="sellerModal" class="modal"><div class="box"><button class="close" onclick="closeModal('sellerModal')">×</button><h2>🏪 Сатушы кабинеті</h2><div id="seller"></div></div></div>
-<div id="cartModal" class="modal"><div class="box"><button class="close" onclick="closeModal('cartModal')">×</button><h2>🛒 Себет</h2><div id="cart"></div></div></div>
-<div id="favModal" class="modal"><div class="box"><button class="close" onclick="closeModal('favModal')">×</button><h2>❤️ Таңдаулылар</h2><div id="favorites"></div></div></div>
-<div id="productModal" class="modal"><div class="box"><button class="close" onclick="closeModal('productModal')">×</button><div id="productDetail"></div></div></div>
-<div id="storeModal" class="modal"><div class="box"><button class="close" onclick="closeModal('storeModal')">×</button><div id="storeDetail"></div></div></div>
-<div id="chatModal" class="modal"><div class="box"><button class="close" onclick="closeModal('chatModal')">×</button><h2>💬 SatuGo чат</h2><div id="chatList" class="order">Сатушымен сөйлесу үшін тауар бетінде «Чат» батырмасын қолданыңыз.</div><input id="chatText" placeholder="Хабарлама..."><button class="btn blue" onclick="sendChat()">Жіберу</button></div></div>
-<div id="adminModal" class="modal"><div class="box"><button class="close" onclick="closeModal('adminModal')">×</button><h2>🛡️ SatuGo Admin</h2><div id="admin"></div></div></div>
-
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+  <div class="nav">
+
+    <div class="logo">
+      SatuGo
+    </div>
+
+    <input
+      id="search"
+      class="search"
+      placeholder="Тауар немесе дүкен іздеу"
+      oninput="renderProducts()"
+    >
+
+    <button onclick="showFavorites()">
+      ❤️ <span id="favCount">0</span>
+    </button>
+
+    <button onclick="showCart()">
+      🛒 <span id="cartCount">0</span>
+    </button>
+
+    <button onclick="showAccount()">
+      👤 Аккаунт
+    </button>
+
+    <button
+      id="sellerBtn"
+      onclick="openSeller()"
+      style="display:none">
+      🏪 Seller
+    </button>
+
+    <button
+      id="adminBtn"
+      onclick="openAdmin()"
+      style="display:none">
+      🛡️ Admin
+    </button>
+
+  </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+  <section class="hero">
+
+    <h1>
+      Қазақстандағы ыңғайлы маркетплейс
+    </h1>
+
+    <p>
+      Сатып ал • Сат • Дүкеніңді дамыт
+    </p>
+
+    <button
+      class="primary"
+      style="padding:12px 18px;border-radius:11px"
+      onclick="showAccount()">
+      Аккаунтқа кіру
+    </button>
+
+  </section>
+
+
+  <!-- CATEGORIES -->
+
+  <div
+    id="categories"
+    class="categories">
+  </div>
+
+
+  <!-- FILTERS -->
+
+  <div class="filters">
+
+    <input
+      id="minPrice"
+      class="search"
+      style="max-width:150px"
+      type="number"
+      placeholder="Мин ₸"
+      oninput="renderProducts()"
+    >
+
+    <input
+      id="maxPrice"
+      class="search"
+      style="max-width:150px"
+      type="number"
+      placeholder="Макс ₸"
+      oninput="renderProducts()"
+    >
+
+    <select
+      id="sort"
+      class="filter"
+      onchange="renderProducts()">
+
+      <option value="new">
+        Жаңа
+      </option>
+
+      <option value="cheap">
+        Арзан
+      </option>
+
+      <option value="expensive">
+        Қымбат
+      </option>
+
+      <option value="rating">
+        Рейтинг
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <h2>
+    Тауарлар
+  </h2>
+
+
+  <div
+    id="products"
+    class="grid">
+  </div>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+  SatuGo © 2026
+
+</footer>
+
+
+<!-- ================= MODAL ================= -->
+
+<div
+  id="modalOverlay"
+  class="modal-overlay"
+  onclick="outsideClose(event)">
+
+  <div
+    id="modal"
+    class="modal">
+  </div>
+
+</div>
+
+
+<!-- ================= TOAST ================= -->
+
+<div
+  id="toast"
+  class="toast">
+</div>
+
+
 <script>
-const firebaseConfig={apiKey:"AIzaSyCj7VBpb0u5YgFqz2Mm8NhvbytX_Fs5tJE",authDomain:"satugo-c3b7c.firebaseapp.com",projectId:"satugo-c3b7c",storageBucket:"satugo-c3b7c.firebasestorage.app",messagingSenderId:"32133349747",appId:"1:32133349747:web:8df062f6428b4eb7ed8506",measurementId:"G-4PF4DV016B"};
-firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.firestore();
-let products=[],cart=JSON.parse(localStorage.getItem("satugoCart")||"[]"),favs=JSON.parse(localStorage.getItem("satugoFavs")||"[]"),cat="Барлығы",user=null,profile=null;
-const demo=[
-{id:"d1",name:"Классикалық худи",price:14990,category:"Киім",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=700",sellerId:"demo",sellerName:"SatuGo Demo",rating:4.8,sales:120},
-{id:"d2",name:"Кроссовка",price:24990,category:"Аяқ киім",image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700",sellerId:"demo",sellerName:"SatuGo Demo",rating:4.7,sales:98},
-{id:"d3",name:"Смартфон",price:129990,category:"Электроника",image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=700",sellerId:"demo",sellerName:"SatuGo Demo",rating:4.9,sales:210},
-{id:"d4",name:"Бетке арналған крем",price:8990,category:"Косметика",image:"https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=700",sellerId:"demo",sellerName:"SatuGo Demo",rating:4.6,sales:77}
-];
-const money=n=>Number(n||0).toLocaleString("kk-KZ")+" ₸";
-function openModal(id){document.getElementById(id).style.display="block"}function closeModal(id){document.getElementById(id).style.display="none"}
-function saveLocal(){localStorage.setItem("satugoCart",JSON.stringify(cart));localStorage.setItem("satugoFavs",JSON.stringify(favs));updateCounts()}
-function updateCounts(){document.getElementById("cartCount").textContent=cart.reduce((a,x)=>a+(x.qty||1),0);document.getElementById("favCount").textContent=favs.length}
-function setCat(x){cat=x;render()}
-async function load(){let snap;try{snap=await db.collection("products").get();products=demo.concat(snap.docs.map(d=>({id:d.id,...d.data()})))}catch(e){products=demo}render()}
-function filtered(){let q=(document.getElementById("search").value||"").toLowerCase(),mi=+document.getElementById("min").value||0,ma=+document.getElementById("max").value||Infinity,s=document.getElementById("sort").value;
-let a=products.filter(p=>(cat==="Барлығы"||p.category===cat)&&(!q||`${p.name} ${p.category} ${p.sellerName||""}`.toLowerCase().includes(q))&&p.price>=mi&&p.price<=ma);
-if(s==="cheap")a.sort((x,y)=>x.price-y.price);if(s==="expensive")a.sort((x,y)=>y.price-x.price);if(s==="rating")a.sort((x,y)=>(y.rating||0)-(x.rating||0));if(s==="new")a.reverse();return a}
-function render(){let a=filtered(),el=document.getElementById("products");el.innerHTML=a.length?a.map(p=>card(p)).join(""):'<div class="empty">Тауар табылмады</div>';updateCounts()}
-function card(p){let f=favs.includes(p.id);return `<div class="card"><button class="heart" onclick="event.stopPropagation();toggleFav('${p.id}')">${f?"❤️":"🤍"}</button><div onclick="openProduct('${p.id}')"><div class="pic">${p.image?`<img src="${p.image}">`:"🛍️"}</div><div class="cardbody"><div class="muted">${p.category||""}</div><b>${p.name}</b><div class="price">${money(p.price)}</div><div>⭐ ${(p.rating||5).toFixed(1)} • ${p.sales||0} сатылым</div><small>${p.sellerName||"SatuGo"}</small></div></div><div class="cardbody"><button class="btn blue" style="width:100%" onclick="addCart('${p.id}')">🛒 Себетке қосу</button></div></div>`}
-function find(id){return products.find(p=>p.id===id)}
-function toggleFav(id){favs.includes(id)?favs=favs.filter(x=>x!==id):favs.push(id);saveLocal();render();showFavs()}
-function showFavs(){let a=favs.map(find).filter(Boolean);document.getElementById("favorites").innerHTML=a.length?a.map(card).join(""):"<div class='empty'>Таңдаулы тауар жоқ</div>"}
-function addCart(id){let p=find(id);if(!p)return;let x=cart.find(x=>x.id===id);x?x.qty++:cart.push({id,qty:1});saveLocal();alert("Себетке қосылды")}
-function changeQty(id,n){let x=cart.find(x=>x.id===id);if(!x)return;x.qty+=n;if(x.qty<=0)cart=cart.filter(a=>a.id!==id);saveLocal();showCart()}
-function showCart(){let a=cart.map(x=>({...find(x.id),qty:x.qty})).filter(x=>x.name),total=a.reduce((s,x)=>s+x.price*x.qty,0);document.getElementById("cart").innerHTML=a.length?`<div>${a.map(x=>`<div class="order"><div class="row between"><b>${x.name}</b><b>${money(x.price*x.qty)}</b></div><div class="row"><button class="btn light" onclick="changeQty('${x.id}',-1)">−</button><b>${x.qty}</b><button class="btn light" onclick="changeQty('${x.id}',1)">+</button></div></div>`).join("")}</div><h3>Барлығы: ${money(total)}</h3><button class="btn green" onclick="checkout()">📦 Тапсырыс беру</button>`:"<div class='empty'>Себет бос</div>"}
-function checkout(){if(!user){closeModal("cartModal");openAccount();alert("Алдымен аккаунтқа кіріңіз.");return}document.getElementById("cart").innerHTML+=`<hr><h3>Тапсырысты рәсімдеу</h3><input id="oName" placeholder="Аты-жөні"><input id="oPhone" placeholder="Телефон"><textarea id="oAddr" placeholder="Мекенжай"></textarea><div class="order">💳 Төлем провайдері таңдалды. Нақты ақша қабылдау API кілттері қосылғаннан кейін іске қосылады.</div><select id="oPay"><option>Kaspi / карта (төлемді кейін қосамыз)</option><option>Freedom</option><option>Қолма-қол</option></select><select id="oDelivery"><option>Курьер арқылы</option><option>Өзі алып кету</option></select><input id="promo" placeholder="Промокод"><button class="btn green" onclick="placeOrder()">Тапсырысты растау</button>`}
-async function placeOrder(){let items=cart.map(x=>({...find(x.id),qty:x.qty})).filter(x=>x.name),sum=items.reduce((s,x)=>s+x.price*x.qty,0),promo=(document.getElementById("promo").value||"").trim().toUpperCase();if(promo==="SATUSALE10")sum=Math.round(sum*.9);let bySeller={};items.forEach(x=>(bySeller[x.sellerId||"demo"]??=[]).push(x));
-try{for(const sid in bySeller){await db.collection("orders").add({customerId:user.uid,sellerId:sid,customerName:document.getElementById("oName").value,phone:document.getElementById("oPhone").value,address:document.getElementById("oAddr").value,payment:document.getElementById("oPay").value,delivery:document.getElementById("oDelivery").value,deliveryStatus:"Курьерге дайындалады",estimatedDelivery:"1–3 күн",promo,total:bySeller[sid].reduce((s,x)=>s+x.price*x.qty,0),items:bySeller[sid],status:"Қабылданды",createdAt:firebase.firestore.FieldValue.serverTimestamp()})}cart=[];saveLocal();showCart();alert("Тапсырыс қабылданды!")}catch(e){console.error(e);alert("Тапсырыс кезінде қате: "+e.message)}}
-  async function openProduct(id){let p=find(id);if(!p)return;openModal("productModal");document.getElementById("productDetail").innerHTML=`<div class="pic">${p.image?`<img src="${p.image}">`:"🛍️"}</div><h2>${p.name}</h2><p>${p.description||"Тауар сипаттамасы сатушы тарапынан көрсетілмеген."}</p><h2>${money(p.price)}</h2><p>⭐ ${(p.rating||5).toFixed(1)} • ${p.sales||0} сатылым</p><p>🏪 <button class="btn light" onclick="openStore('${p.sellerId}')">${p.sellerName||"Дүкен"}</button></p><button class="btn blue" onclick="addCart('${p.id}')">🛒 Себетке қосу</button> <button class="btn light" onclick="startChat('${p.sellerId}','${p.name}')">💬 Чат</button><h3>⭐ Пікірлер</h3><div id="reviews">Жүктелуде...</div><hr><textarea id="reviewText" placeholder="Пікіріңіз"></textarea><select id="reviewStars"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select><button class="btn green" onclick="addReview('${p.id}')">Пікір қалдыру</button>`;loadReviews(id)}
-async function loadReviews(id){try{let s=await db.collection("reviews").where("productId","==",id).get();document.getElementById("reviews").innerHTML=s.empty?"Пікір әзірге жоқ":s.docs.map(d=>`<div class="order">⭐ ${d.data().stars} — ${d.data().text||""}</div>`).join("")}catch(e){document.getElementById("reviews").innerHTML="Пікірлерді жүктеу мүмкін болмады"}}
-async function addReview(id){if(!user){alert("Пікір жазу үшін кіріңіз");return}try{await db.collection("reviews").add({productId:id,userId:user.uid,userName:profile?.name||user.email,stars:+document.getElementById("reviewStars").value,text:document.getElementById("reviewText").value,createdAt:firebase.firestore.FieldValue.serverTimestamp()});document.getElementById("reviewText").value="";loadReviews(id)}catch(e){alert("Пікір қосылмады: "+e.message)}}
-async function openStore(sid){openModal("storeModal");let name="Дүкен",owner=sid;try{let d=await db.collection("stores").doc(sid).get();if(d.exists){name=d.data().name||name;owner=d.data().ownerId||sid}}catch(e){}let a=products.filter(p=>p.sellerId===sid);document.getElementById("storeDetail").innerHTML=`<h2>🏪 ${name}</h2><p>⭐ Сатушы дүкені • ${a.length} тауар</p><button class="btn light" onclick="followStore('${sid}')">➕ Дүкенге жазылу</button><div class="grid" style="margin-top:15px">${a.length?a.map(card).join(""):"<div class='empty'>Бұл дүкенде әзірге тауар жоқ</div>"}</div>`}
-function followStore(id){let a=JSON.parse(localStorage.getItem("satugoStores")||"[]");a.includes(id)?a=a.filter(x=>x!==id):a.push(id);localStorage.setItem("satugoStores",JSON.stringify(a));alert(a.includes(id)?"Дүкенге жазылдыңыз":"Жазылым тоқтатылды")}
-function openAccount(){openModal("accountModal");renderAccount()}
-function renderAccount(){let e=document.getElementById("account");if(user){e.innerHTML=`<h3>${profile?.name||user.email}</h3><p>${user.email}</p><button class="btn blue" onclick="showMyOrders()">📦 Менің тапсырыстарым</button> <button class="btn light" onclick="showNotifications()">🔔 Хабарламалар</button> <button class="btn light" onclick="enableNotifications()">📲 Push</button> <button class="btn light" onclick="openAdmin()">🛡️ Admin</button> <button class="btn red" onclick="auth.signOut()">Шығу</button><div id="accountExtra"></div>`}else e.innerHTML=`<input id="email" placeholder="Email"><input id="pass" type="password" placeholder="Құпиясөз"><input id="regName" placeholder="Атыңыз"><div class="row"><button class="btn blue" onclick="login()">Кіру</button><button class="btn green" onclick="register()">Тіркелу</button></div>`}
-async function register(){try{let c=await auth.createUserWithEmailAndPassword(email.value,pass.value);await db.collection("users").doc(c.user.uid).set({name:regName.value,email:c.user.email});alert("Аккаунт құрылды")}catch(e){alert(e.message)}}
-async function login(){try{await auth.signInWithEmailAndPassword(email.value,pass.value);closeModal("accountModal")}catch(e){alert(e.message)}}
-async function loadProfile(){if(!user)return;let d=await db.collection("users").doc(user.uid).get();profile=d.exists?d.data():null}
-async function showMyOrders(){if(!user)return;let e=document.getElementById("accountExtra");try{let s=await db.collection("orders").where("customerId","==",user.uid).get();e.innerHTML="<h3>📦 Тапсырыстар</h3>"+(s.empty?"Тапсырыс жоқ":s.docs.map(d=>{let x=d.data();return `<div class="order"><b>${money(x.total)}</b> <span class="status">${x.status}</span><p>${x.delivery||""} • ${x.payment||""}</p><small>${x.address||""}</small></div>`}).join(""))}catch(err){e.innerHTML="<p>Тапсырыстарды жүктеу қатесі.</p>"}}
-async function showNotifications(){let e=document.getElementById("accountExtra");if(!user)return;try{let s=await db.collection("orders").where("customerId","==",user.uid).get();e.innerHTML="<h3>🔔 Хабарламалар</h3>"+(s.empty?"Хабарлама жоқ":s.docs.map(d=>`<div class="order">📦 Тапсырысыңыздың статусы: <b>${d.data().status}</b></div>`).join(""))}catch(e){alert("Хабарламалар қатесі")}}
-function openSeller(){if(!user){openAccount();alert("Сатушы болу үшін аккаунтқа кіріңіз");return}openModal("sellerModal");renderSeller()}
-async function renderSeller(){let e=document.getElementById("seller"),store={};try{let d=await db.collection("stores").doc(user.uid).get();if(d.exists)store=d.data()}catch(x){}let ps=products.filter(p=>p.sellerId===user.uid);let orders=[];try{let s=await db.collection("orders").where("sellerId","==",user.uid).get();orders=s.docs.map(d=>({id:d.id,...d.data()}))}catch(x){}
-let revenue=orders.reduce((a,x)=>a+(x.total||0),0);e.innerHTML=`<div class="statgrid"><div class="stat">Тауар<br><b>${ps.length}</b></div><div class="stat">Тапсырыс<br><b>${orders.length}</b></div><div class="stat">Түсім<br><b>${money(revenue)}</b></div></div><h3>🏪 Дүкен</h3><input id="storeName" value="${store.name||""}" placeholder="Дүкен атауы"><input id="storeDesc" value="${store.description||""}" placeholder="Дүкен сипаттамасы"><button class="btn blue" onclick="saveStore()">Дүкенді сақтау</button><h3>➕ Тауар қосу</h3><input id="pn" placeholder="Тауар атауы"><input id="pp" type="number" placeholder="Бағасы"><select id="pc"><option>Киім</option><option>Аяқ киім</option><option>Косметика</option><option>Электроника</option><option>Үй</option></select><input id="pi" placeholder="Сурет URL"><textarea id="pd" placeholder="Сипаттама"></textarea><button class="btn green" onclick="saveProduct()">Тауарды қосу</button><h3>📦 Тапсырыстар</h3>${orders.length?orders.map(o=>`<div class="order"><b>${money(o.total)}</b> • ${o.customerName||""}<p>${o.phone||""} • ${o.address||""}</p><select onchange="updateStatus('${o.id}',this.value)"><option ${o.status==="Қабылданды"?"selected":""}>Қабылданды</option><option ${o.status==="Дайындалуда"?"selected":""}>Дайындалуда</option><option ${o.status==="Жолда"?"selected":""}>Жолда</option><option ${o.status==="Жеткізілді"?"selected":""}>Жеткізілді</option></select></div>`).join(""):"Тапсырыс жоқ"}<h3>🛍️ Менің тауарларым</h3>${ps.map(p=>`<div class="order">${p.name} — ${money(p.price)} <button class="btn red" onclick="deleteProduct('${p.id}')">Өшіру</button></div>`).join("")}`}
-async function saveStore(){try{await db.collection("stores").doc(user.uid).set({ownerId:user.uid,name:storeName.value,description:storeDesc.value});alert("Дүкен сақталды");await renderSeller()}catch(e){alert(e.message)}}
-async function saveProduct(){try{await db.collection("products").add({name:pn.value,price:+pp.value,category:pc.value,image:pi.value,description:pd.value,sellerId:user.uid,sellerName:storeName.value||profile?.name||user.email,rating:0,sales:0,createdAt:firebase.firestore.FieldValue.serverTimestamp()});alert("Тауар қосылды");await load();await renderSeller()}catch(e){alert(e.message)}}
-async function deleteProduct(id){if(!confirm("Өшіру керек пе?"))return;await db.collection("products").doc(id).delete();await load();renderSeller()}
-async function updateStatus(id,status){try{await db.collection("orders").doc(id).update({status});alert("Статус жаңартылды")}catch(e){alert(e.message)}}
 
-let activeChatSeller="",activeChatProduct="";
-function openChat(){openModal("chatModal");renderChat()}
-function startChat(seller,product){activeChatSeller=seller;activeChatProduct=product;openChat()}
-function chatKey(){return "satugoChat_"+(user?user.uid:"guest")+"_"+activeChatSeller}
-function renderChat(){let a=JSON.parse(localStorage.getItem(chatKey())||"[]");document.getElementById("chatList").innerHTML=a.length?a.map(x=>`<div style="margin:7px 0"><b>${x.from==="me"?"Сіз":"Сатушы"}:</b> ${x.text}</div>`).join(""):"Хабарлама жоқ";if(activeChatProduct)document.getElementById("chatList").innerHTML="<b>Тауар:</b> "+activeChatProduct+"<hr>"+document.getElementById("chatList").innerHTML}
-function sendChat(){let t=(document.getElementById("chatText").value||"").trim();if(!t)return;let a=JSON.parse(localStorage.getItem(chatKey())||"[]");a.push({from:"me",text:t,time:Date.now()});localStorage.setItem(chatKey(),JSON.stringify(a));document.getElementById("chatText").value="";renderChat();alert("Хабарлама жіберілді")}
-async function openAdmin(){
- if(!user){openAccount();alert("Admin бөліміне кіру үшін аккаунтқа кіріңіз");return}
- openModal("adminModal");let e=document.getElementById("admin");
- let ps=products.length, os=0, us=0, st=0;
- try{let a=await db.collection("orders").get();os=a.size}catch(x){}
- try{let a=await db.collection("users").get();us=a.size}catch(x){}
- try{let a=await db.collection("stores").get();st=a.size}catch(x){}
- e.innerHTML=`<div class="statgrid">
- <div class="stat">👥 Қолданушы<br><b>${us}</b></div>
- <div class="stat">🏪 Дүкен<br><b>${st}</b></div>
- <div class="stat">📦 Тапсырыс<br><b>${os}</b></div>
- </div>
- <h3>📊 Платформа</h3><div class="order">🛍️ Каталогтағы тауар: <b>${ps}</b></div>
- <div class="order">💰 Комиссия моделі: <b>5%</b> (әзірге есептік)</div>
- <div class="order">📢 Ақылы көтеру: <b>500 ₸</b></div>
- <div class="order">👑 VIP дүкен: <b>2 990 ₸/ай</b></div>
- <h3>🛡️ Қауіпсіздік</h3>
- <div class="order">Сатушыларды тексеру және шағымдарды Firebase арқылы басқаруға болады.</div>`;
-}
+/* =========================================================
+   FIREBASE
+========================================================= */
 
+const firebaseConfig = {
 
-// SatuGo v3 additions: language, smart recommendations, seller verification, promo management, notifications.
-let satugoLang=localStorage.getItem("satugoLang")||"kk";
-const translations={
- kk:{search:"Тауар немесе дүкен іздеу",cart:"Себет",fav:"Таңдаулылар",orders:"Тапсырыстар",login:"Кіру"},
- ru:{search:"Поиск товара или магазина",cart:"Корзина",fav:"Избранное",orders:"Заказы",login:"Войти"}
+  apiKey:
+    "AIzaSyCj7VBpb0u5YgFqz2Mm8NhvbytX_Fs5tJE",
+
+  authDomain:
+    "satugo-c3b7c.firebaseapp.com",
+
+  projectId:
+    "satugo-c3b7c",
+
+  storageBucket:
+    "satugo-c3b7c.firebasestorage.app",
+
+  messagingSenderId:
+    "32133349747",
+
+  appId:
+    "1:32133349747:web:8df062f6428b4eb7ed8506",
+
+  measurementId:
+    "G-4PF4DV016"
 };
-function toast(t){let x=document.createElement("div");x.className="toast";x.textContent=t;document.body.appendChild(x);setTimeout(()=>x.remove(),2200)}
-function toggleLanguage(){satugoLang=satugoLang==="kk"?"ru":"kk";localStorage.setItem("satugoLang",satugoLang);applyLanguage();toast(satugoLang==="kk"?"Қазақша":"Русский")}
-function applyLanguage(){
- let t=translations[satugoLang];
- document.querySelectorAll("[data-i18n]").forEach(e=>{if(t[e.dataset.i18n])e.textContent=t[e.dataset.i18n]});
- let s=document.getElementById("search");if(s)s.placeholder=t.search;
-}
-function smartRecommendations(currentId){
- let arr=(products||[]).filter(p=>p.id!==currentId);
- let current=(products||[]).find(p=>p.id===currentId);
- if(current)arr.sort((a,b)=>Number(a.category===current.category)-Number(b.category===current.category));
- return arr.slice(0,6);
-}
-function showRecommendations(currentId){
- let arr=smartRecommendations(currentId);
- if(!arr.length)return;
- let el=document.getElementById("recommendations");
- if(el)el.innerHTML=arr.map(card).join("");
-}
-function notifyBrowser(title,body){
- if("Notification" in window && Notification.permission==="granted")new Notification(title,{body});
-}
-async function enableNotifications(){
- if(!("Notification" in window)){toast("Бұл браузер хабарламаны қолдамайды");return}
- let p=await Notification.requestPermission();
- toast(p==="granted"?"Хабарламалар қосылды":"Хабарламаларға рұқсат берілмеді");
-}
-async function verifySeller(uid){
- if(!user || !uid)return;
- try{await db.collection("users").doc(uid).set({verified:true,verifiedAt:Date.now()},{merge:true});toast("Сатушы тексерілді")}
- catch(e){toast("Тек admin рұқсатымен орындалады")}
-}
-async function reportItem(type,id,reason){
- if(!user){openAccount();return}
- await db.collection("reports").add({type,id,reason,userId:user.uid,createdAt:Date.now(),status:"Жаңа"});
- toast("Шағым жіберілді");
-}
-function openPromos(){
- if(!user){openAccount();return}
- openModal("adminModal");
- document.getElementById("admin").innerHTML+=`<h3>🎁 Промокод</h3>
- <div class="order"><b>SATUSALE10</b> — 10% жеңілдік. Клиенттерге акция ретінде ұсынуға болады.</div>
- <div class="order">Кейін admin арқылы жаңа промокодтар мен мерзімдерді басқаруға болады.</div>`;
+
+
+firebase.initializeApp(firebaseConfig);
+
+const auth =
+  firebase.auth();
+
+const db =
+  firebase.firestore();
+
+
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
+
+let user = null;
+
+let profile = null;
+
+let products = [];
+
+let category = "Барлығы";
+
+let cart =
+  JSON.parse(
+    localStorage.getItem("satugoCart") || "[]"
+  );
+
+let favs =
+  JSON.parse(
+    localStorage.getItem("satugoFavs") || "[]"
+  );
+
+
+/* =========================================================
+   DEMO PRODUCTS
+========================================================= */
+
+const demo = [
+
+  {
+    id:"demo1",
+    name:"Oversize Hoodie",
+    price:15990,
+    category:"Киім",
+    rating:4.8,
+    sellerName:"SatuGo Demo",
+    sellerId:"demo",
+
+    image:
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80",
+
+    active:true
+  },
+
+  {
+    id:"demo2",
+    name:"Nike Style Sneakers",
+    price:24990,
+    category:"Аяқ киім",
+    rating:4.7,
+    sellerName:"SatuGo Demo",
+    sellerId:"demo",
+
+    image:
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+
+    active:true
+  },
+
+  {
+    id:"demo3",
+    name:"Smartphone",
+    price:89990,
+    category:"Электроника",
+    rating:4.6,
+    sellerName:"SatuGo Demo",
+    sellerId:"demo",
+
+    image:
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
+
+    active:true
+  },
+
+  {
+    id:"demo4",
+    name:"Face Cream",
+    price:12990,
+    category:"Косметика",
+    rating:4.9,
+    sellerName:"SatuGo Demo",
+    sellerId:"demo",
+
+    image:
+      "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?auto=format&fit=crop&w=800&q=80",
+
+    active:true
+  }
+
+];
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function esc(x=""){
+
+  return String(x).replace(
+    /[&<>"']/g,
+
+    m => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[m])
+  );
 }
 
-auth.onAuthStateChanged(async u=>{user=u;if(u)await loadProfile();updateCounts()});
-window.addEventListener("click",e=>document.querySelectorAll(".modal").forEach(m=>{if(e.target===m)m.style.display="none"}));
-document.getElementById("favorites").innerHTML="";load();showCart();showFavs();
+
+function money(n){
+
+  return Number(n || 0)
+    .toLocaleString("kk-KZ");
+}
+
+
+function toast(message){
+
+  const element =
+    document.getElementById("toast");
+
+  element.textContent =
+    message;
+
+  element.style.display =
+    "block";
+
+  setTimeout(
+    () => {
+      element.style.display =
+        "none";
+    },
+    2200
+  );
+}
+
+
+function openModal(html){
+
+  document.getElementById("modal")
+    .innerHTML = html;
+
+  document.getElementById(
+    "modalOverlay"
+  ).style.display = "flex";
+}
+
+
+function closeModal(){
+
+  document.getElementById(
+    "modalOverlay"
+  ).style.display = "none";
+}
+
+
+function outsideClose(event){
+
+  if(
+    event.target.id ===
+    "modalOverlay"
+  ){
+
+    closeModal();
+
+  }
+}
+
+
+function badges(){
+
+  document.getElementById(
+    "cartCount"
+  ).textContent =
+    cart.reduce(
+      (sum,item) =>
+        sum + item.qty,
+      0
+    );
+
+  document.getElementById(
+    "favCount"
+  ).textContent =
+    favs.length;
+}
+
+
+function saveLocal(){
+
+  localStorage.setItem(
+    "satugoCart",
+    JSON.stringify(cart)
+  );
+
+  localStorage.setItem(
+    "satugoFavs",
+    JSON.stringify(favs)
+  );
+
+  badges();
+}
+
+
+function requireLogin(){
+
+  if(!user){
+
+    showAccount();
+
+    return false;
+  }
+
+  return true;
+}
+
+
+/* =========================================================
+   LOAD PRODUCTS
+========================================================= */
+
+async function load(){
+
+  try{
+
+    const snapshot =
+      await db
+        .collection("products")
+        .get();
+
+    products = [
+
+      ...demo,
+
+      ...snapshot.docs.map(
+        doc => ({
+          id:doc.id,
+          ...doc.data()
+        })
+      )
+
+    ];
+
+  }catch(error){
+
+    console.error(error);
+
+    products =
+      [...demo];
+
+  }
+
+  renderCategories();
+
+  renderProducts();
+
+  badges();
+}
+
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+function renderCategories(){
+
+  const cats = [
+
+    "Барлығы",
+    "Киім",
+    "Аяқ киім",
+    "Косметика",
+    "Электроника",
+    "Үй"
+
+  ];
+
+
+  document.getElementById(
+    "categories"
+  ).innerHTML =
+
+    cats.map(
+      c => `
+
+        <button
+          class="filter ${
+            category === c
+              ? "active"
+              : ""
+          }"
+          onclick="
+            category='${c}';
+            renderCategories();
+            renderProducts();
+          ">
+
+          ${c}
+
+        </button>
+
+      `
+    ).join("");
+
+}
+
+
+/* =========================================================
+   RENDER PRODUCTS
+========================================================= */
+
+function renderProducts(){
+
+  const q =
+    (
+      document.getElementById(
+        "search"
+      ).value || ""
+    ).toLowerCase();
+
+
+  const min =
+    Number(
+      document.getElementById(
+        "minPrice"
+      ).value || 0
+    );
+
+
+  const max =
+    Number(
+      document.getElementById(
+        "maxPrice"
+      ).value ||
+      Infinity
+    );
+
+
+  const sort =
+    document.getElementById(
+      "sort"
+    ).value;
+
+
+  let array =
+
+    products.filter(
+
+      p =>
+
+        p.active !== false &&
+
+        (
+          !q ||
+
+          `${p.name}
+           ${p.category}
+           ${p.sellerName}`
+            .toLowerCase()
+            .includes(q)
+        ) &&
+
+        (
+          category === "Барлығы" ||
+          p.category === category
+        ) &&
+
+        Number(p.price || 0)
+          >= min &&
+
+        Number(p.price || 0)
+          <= max
+
+    );
+
+
+  if(sort === "cheap"){
+
+    array.sort(
+      (a,b) =>
+        Number(a.price || 0) -
+        Number(b.price || 0)
+    );
+
+  }
+
+
+  if(sort === "expensive"){
+
+    array.sort(
+      (a,b) =>
+        Number(b.price || 0) -
+        Number(a.price || 0)
+    );
+
+  }
+
+
+  if(sort === "rating"){
+
+    array.sort(
+      (a,b) =>
+        Number(b.rating || 0) -
+        Number(a.rating || 0)
+    );
+
+  }
+
+
+  document.getElementById(
+    "products"
+  ).innerHTML =
+
+    array.length
+
+      ?
+
+      array
+        .map(card)
+        .join("")
+
+      :
+
+      `<div class="muted">
+        Тауар табылмады
+       </div>`;
+
+}
+
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+function card(p){
+
+  const liked =
+    favs.includes(p.id);
+
+
+  return `
+
+    <div class="card">
+
+      <img
+        src="${
+          esc(
+            p.image ||
+            "https://via.placeholder.com/800x600?text=SatuGo"
+          )
+        }"
+        alt=""
+      >
+
+
+      <button
+        style="
+          position:absolute;
+          right:10px;
+          top:10px;
+          border-radius:50%;
+          padding:9px;
+        "
+        onclick="
+          toggleFav('${p.id}')
+        ">
+
+        ${liked ? "❤️" : "🤍"}
+
+      </button>
+
+
+      <div class="card-body">
+
+        <h3>
+          ${esc(p.name)}
+        </h3>
+
+
+        <div class="muted">
+
+          ${esc(p.category || "")}
+
+          • ⭐ ${p.rating || "—"}
+
+        </div>
+
+
+        <div class="price">
+
+          ${money(p.price)} ₸
+
+        </div>
+
+
+        <div class="muted">
+
+          ${esc(
+            p.sellerName ||
+            "Дүкен"
+          )}
+
+        </div>
+
+
+        <div class="actions">
+
+          <button
+            onclick="
+              showProduct('${p.id}')
+            ">
+
+            Көру
+
+          </button>
+
+
+          <button
+            class="primary"
+            onclick="
+              addCart('${p.id}')
+            ">
+
+            Себетке
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================================================
+   FIND PRODUCT
+========================================================= */
+
+function findProduct(id){
+
+  return products.find(
+    p => p.id === id
+  );
+
+}
+
+
+/* =========================================================
+   FAVORITES
+========================================================= */
+
+function toggleFav(id){
+
+  if(favs.includes(id)){
+
+    favs =
+      favs.filter(
+        x => x !== id
+      );
+
+  }else{
+
+    favs.push(id);
+
+  }
+
+  saveLocal();
+
+  renderProducts();
+}
+
+
+function showFavorites(){
+
+  const array =
+    products.filter(
+      p => favs.includes(p.id)
+    );
+
+
+  openModal(`
+
+    <button
+      class="close"
+      onclick="closeModal()">
+
+      ✕
+
+    </button>
+
+
+    <h2>
+      ❤️ Таңдаулылар
+    </h2>
+
+
+    <div class="grid">
+
+      ${
+        array
+          .map(card)
+          .join("")
+
+        ||
+
+        "<p>Таңдаулылар бос.</p>"
+      }
+
+    </div>
+
+  `);
+
+}
+
+
+/* =========================================================
+   CART
+========================================================= */
+
+function addCart(id){
+
+  const product =
+    findProduct(id);
+
+
+  if(!product)
+    return;
+
+
+  const existing =
+    cart.find(
+      item =>
+        item.id === id
+    );
+
+
+  if(existing){
+
+    existing.qty++;
+
+  }else{
+
+    cart.push({
+
+      id,
+
+      name:
+        product.name,
+
+      price:
+        Number(
+          product.price || 0
+        ),
+
+      qty:1,
+
+      sellerId:
+        product.sellerId || "",
+
+      sellerName:
+        product.sellerName || ""
+
+    });
+
+  }
+
+
+  saveLocal();
+
+  toast(
+    "🛒 Себетке қосылды"
+  );
+
+}
+
+
+function showCart(){
+
+  const total =
+    cart.reduce(
+      (sum,item) =>
+        sum +
+        item.price *
+        item.qty,
+
+      0
+    );
+
+
+  openModal(`
+
+    <button
+      class="close"
+      onclick="closeModal()">
+
+      ✕
+
+    </button>
+
+
+    <h2>
+      🛒 Себет
+    </h2>
+
+
+    ${
+      cart.length
+
+      ?
+
+      cart.map(
+        (item,index) => `
+
+          <div
+            style="
+              padding:12px 0;
+              border-bottom:1px solid #eee
+            ">
+
+            <b>
+              ${esc(item.name)}
+            </b>
+
+            <br>
+
+            ${money(item.price)}
+            ₸ × ${item.qty}
+
+
+            <button
+              onclick="
+                cartQty(${index},-1)
+              ">
+
+              −
+
+            </button>
+
+
+            <button
+              onclick="
+                cartQty(${index},1)
+              ">
+
+              +
+
+            </button>
+
+
+            <button
+              onclick="
+                removeCart(${index})
+              ">
+
+              🗑️
+
+            </button>
+
+          </div>
+
+        `
+      ).join("")
+
+      :
+
+      "<p>Себет бос.</p>"
+    }
+
+
+    <h3>
+
+      Барлығы:
+      ${money(total)} ₸
+
+    </h3>
+
+
+    ${
+      cart.length
+
+      ?
+
+      `
+
+        <button
+          class="primary"
+          style="
+            padding:12px;
+            border-radius:10px;
+            width:100%
+          "
+          onclick="checkout()">
+
+          Тапсырыс беру
+
+        </button>
+
+      `
+
+      :
+
+      ""
+
+    }
+
+  `);
+
+}
+
+
+function cartQty(index,number){
+
+  cart[index].qty +=
+    number;
+
+
+  if(cart[index].qty <= 0){
+
+    cart.splice(
+      index,
+      1
+    );
+
+  }
+
+
+  saveLocal();
+
+  showCart();
+
+}
+
+
+function removeCart(index){
+
+  cart.splice(
+    index,
+    1
+  );
+
+  saveLocal();
+
+  showCart();
+
+}
+
+
+/* =========================================================
+   PRODUCT
+========================================================= */
+
+function showProduct(id){
+
+  const p =
+    findProduct(id);
+
+
+  if(!p)
+    return;
+
+
+  openModal(`
+
+    <button
+      class="close"
+      onclick="closeModal()">
+
+      ✕
+
+    </button>
+
+
+    <div class="product-detail">
+
+      <img
+        src="${esc(
+          p.image || ""
+        )}"
+      >
+
+
+      <div>
+
+        <h2>
+          ${esc(p.name)}
+        </h2>
+
+
+        <p>
+
+          ${esc(
+            p.description ||
+            "Сапалы тауар."
+          )}
+
+        </p>
+
+
+        <h2>
+
+          ${money(p.price)} ₸
+
+        </h2>
+
+
+        <p>
+
+          ⭐ ${p.rating || "—"}
+
+          •
+
+          ${esc(
+            p.sellerName ||
+            "Дүкен"
+          )}
+
+        </p>
+
+
+        <button
+          class="primary"
+          style="
+            padding:12px;
+            border-radius:10px
+          "
+          onclick="
+            addCart('${p.id}')
+          ">
+
+          🛒 Себетке
+
+        </button>
+
+      </div>
+
+    </div>
+
+  `);
+
+}
+
+
+/* =========================================================
+   CHECKOUT
+========================================================= */
+
+function checkout(){
+
+  if(!requireLogin())
+    return;
+
+
+  openModal(`
+
+    <button
+      class="close"
+      onclick="closeModal()">
+
+      ✕
+
+    </button>
+
+
+    <h2>
+      📦 Тапсырыс
+    </h2>
+
+
+    <div class="row">
+
+
+      <div class="field">
+
+        <label>
+          Аты-жөні
+        </label>
+
+        <input
+          id="oName"
+          value="${esc(
+            profile?.name ||
+            user.displayName ||
+            ""
+          )}"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Телефон
+        </label>
+
+        <input
+          id="oPhone"
+          value="${esc(
+            profile?.phone ||
+            ""
+          )}"
+        >
+
+      </div>
+
+
+      <div class="field wide">
+
+        <label>
+          Мекенжай
+        </label>
+
+        <textarea
+          id="oAddress"
+        ></textarea>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Жеткізу
+        </label>
+
+        <select id="oDelivery">
+
+          <option>
+            Курьер
+          </option>
+
+          <option>
+            Сам алып кету
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Төлем
+        </label>
+
+        <select id="oPayment">
+
+          <option>
+            Kaspi / онлайн
+          </option>
+
+          <option>
+            Қолма-қол
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="primary"
+      style="
+        padding:12px;
+        border-radius:10px;
+        width:100%
+      "
+      onclick="placeOrder()">
+
+      Тапсырыс жасау
+
+    </button>
+
+  `);
+
+}
+
+
+/* =========================================================
+   PLACE ORDER
+========================================================= */
+
+async function placeOrder(){
+
+  if(!user || !cart.length)
+    return;
+
+
+  const name =
+    document.getElementById(
+      "oName"
+    ).value.trim();
+
+
+  const phone =
+    document.getElementById(
+      "oPhone"
+    ).value.trim();
+
+
+  const address =
+    document.getElementById(
+      "oAddress"
+    ).value.trim();
+
+
+  if(
+    !name ||
+    !phone ||
+    !address
+  ){
+
+    toast(
+      "Барлық жолды толтырыңыз"
+    );
+
+    return;
+  }
+
+
+  const total =
+    cart.reduce(
+      (sum,item) =>
+        sum +
+        item.price *
+        item.qty,
+
+      0
+    );
+
+
+  const sellerIds =
+    [
+      ...new Set(
+        cart
+          .map(
+            item =>
+              item.sellerId
+          )
+          .filter(Boolean)
+      )
+    ];
+
+
+  try{
+
+    await db
+      .collection("orders")
+      .add({
+
+        userId:
+          user.uid,
+
+        sellerIds,
+
+        customer:{
+
+          name,
+
+          phone,
+
+          address
+
+        },
+
+        items:
+
+          cart.map(
+            item => ({
+
+              productId:
+                item.id,
+
+              name:
+                item.name,
+
+              price:
+                item.price,
+
+              qty:
+                item.qty,
+
+              sellerId:
+                item.sellerId,
+
+              sellerName:
+                item.sellerName
+
+            })
+          ),
+
+        total,
+
+        delivery:
+          document.getElementById(
+            "oDelivery"
+          ).value,
+
+        payment:
+          document.getElementById(
+            "oPayment"
+          ).value,
+
+        status:
+          "pending",
+
+        createdAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp(),
+
+        updatedAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp()
+
+      });
+
+
+    cart = [];
+
+    saveLocal();
+
+    closeModal();
+
+    toast(
+      "✅ Тапсырыс қабылданды"
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "❌ Тапсырыс қатесі"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   ACCOUNT
+========================================================= */
+
+function showAccount(){
+
+  if(user){
+
+    openModal(`
+
+      <button
+        class="close"
+        onclick="closeModal()">
+
+        ✕
+
+      </button>
+
+
+      <h2>
+        👤 ${
+          esc(
+            profile?.name ||
+            user.email
+          )
+        }
+      </h2>
+
+
+      <p>
+
+        ${esc(
+          user.email || ""
+        )}
+
+      </p>
+
+
+      <button
+        class="filter"
+        onclick="showOrders()">
+
+        📦 Тапсырыстар
+
+      </button>
+
+
+      <button
+        class="filter"
+        onclick="
+          auth.signOut();
+          closeModal();
+        ">
+
+        Шығу
+
+      </button>
+
+    `);
+
+    return;
+  }
+
+
+  openModal(`
+
+    <button
+      class="close"
+      onclick="closeModal()">
+
+      ✕
+
+    </button>
+
+
+    <h2>
+      Кіру / Тіркелу
+    </h2>
+
+
+    <div class="field">
+
+      <input
+        id="aEmail"
+        placeholder="Email"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <input
+        id="aPass"
+        type="password"
+        placeholder="Пароль (кемі 6 таңба)"
+      >
+
+    </div>
+
+
+    <div class="actions">
+
+      <button
+        class="primary"
+        onclick="login()">
+
+        Кіру
+
+      </button>
+
+
+      <button
+        onclick="register()">
+
+        Тіркелу
+
+      </button>
+
+    </div>
+
+  `);
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function login(){
+
+  try{
+
+    await auth
+      .signInWithEmailAndPassword(
+
+        document.getElementById(
+          "aEmail"
+        ).value,
+
+        document.getElementById(
+          "aPass"
+        ).value
+
+      );
+
+
+    closeModal();
+
+    toast(
+      "✅ Кірдіңіз"
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "❌ Email немесе пароль қате"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+async function register(){
+
+  try{
+
+    const email =
+      document.getElementById(
+        "aEmail"
+      ).value;
+
+
+    const password =
+      document.getElementById(
+        "aPass"
+      ).value;
+
+
+    if(
+      password.length < 6
+    ){
+
+      toast(
+        "Пароль кемі 6 таңба"
+      );
+
+      return;
+    }
+
+
+    const credential =
+      await auth
+        .createUserWithEmailAndPassword(
+          email,
+          password
+        );
+
+
+    await db
+      .collection("users")
+      .doc(
+        credential.user.uid
+      )
+      .set({
+
+        email,
+
+        role:
+          "buyer",
+
+        banned:
+          false,
+
+        createdAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp()
+
+      });
+
+
+    closeModal();
+
+    toast(
+      "✅ Аккаунт құрылды"
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "❌ Тіркелу қатесі"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   BUYER ORDERS
+========================================================= */
+
+async function showOrders(){
+
+  if(!requireLogin())
+    return;
+
+
+  try{
+
+    const snapshot =
+      await db
+        .collection("orders")
+        .where(
+          "userId",
+          "==",
+          user.uid
+        )
+        .get();
+
+
+    const orders =
+      snapshot.docs.map(
+        doc => ({
+          id:doc.id,
+          ...doc.data()
+        })
+      );
+
+
+    openModal(`
+
+      <button
+        class="close"
+        onclick="closeModal()">
+
+        ✕
+
+      </button>
+
+
+      <h2>
+        📦 Тапсырыстар
+      </h2>
+
+
+      ${
+        orders.map(
+          order => `
+
+            <div
+              style="
+                padding:12px;
+                border-bottom:1px solid #eee
+              ">
+
+              <b>
+                #${order.id.slice(0,8)}
+              </b>
+
+              —
+
+              ${money(
+                order.total
+              )} ₸
+
+
+              <br>
+
+
+              Статус:
+
+              ${esc(
+                order.status ||
+                "pending"
+              )}
+
+            </div>
+
+          `
+        ).join("")
+
+        ||
+
+        "<p>Тапсырыс жоқ.</p>"
+      }
+
+    `);
+
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "❌ Тапсырыстарды жүктеу қатесі"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SELLER
+========================================================= */
+
+async function openSeller(){
+
+  if(!user){
+
+    showAccount();
+
+    return;
+  }
+
+
+  try{
+
+    const token =
+      await user.getIdTokenResult(
+        true
+      );
+
+
+    if(
+      token.claims.role !==
+        "seller" &&
+
+      token.claims.admin !==
+        true
+    ){
+
+      toast(
+        "❌ Seller рұқсаты жоқ"
+      );
+
+      return;
+    }
+
+
+    await renderSeller();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "❌ Seller қатесі"
+    );
+
+  }
+
+}
+
+
+async function renderSeller(){
+
+  const sellerProducts =
+    products.filter(
+      product =>
+        product.sellerId ===
+        user.uid
+    );
+
+
+  let orders = [];
+
+
+  try{
+
+    const snapshot =
+      await db
+        .collection("orders")
+        .where(
+          "sellerIds",
+          "array-contains",
+          user.uid
+        )
+        .get();
+
+
+    orders =
+      snapshot.docs.map(
+        doc => ({
+          id:doc.id,
+          ...doc.data()
+        })
+      );
+
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
+
+  const revenue =
+    orders.reduce(
+      (sum,order) =>
+        sum +
+        Number(
+          order.total || 0
+        ),
+
+      0
+    );
+
+
+  openModal(`
+
+    <button
+      class="close"
+      onclick="closeModal()">
+
+      ✕
+
+    </button>
+
+
+    <h2>
+      🏪 Seller кабинеті
+    </h2>
+
+
+    <div class="stats">
+
+      <div class="stat">
+
+        Тауар
+
+        <b>
+          ${sellerProducts.length}
+        </b>
+
+      </div>
+
+
+      <div class="stat">
+
+        Тапсырыс
+
+        <b>
+          ${orders.length}
+        </b>
+
+      </div>
+
+
+      <div class="stat">
+
+        Айналым
+
+        <b>
+          ${money(revenue)} ₸
+        </b>
+
+      </div>
+
+
+      <div class="stat">
+
+        Статус
+
+        <b>
+          Seller
+        </b>
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Тауар қосу
+    </h3>
+
+
+    <div class="row">
+
+      <input
+        id="spName"
+        placeholder="Тауар атауы"
+      >
+
+
+      <input
+        id="spPrice"
+        type="number"
+        placeholder="Баға"
+      >
+
+
+      <input
+        id="spCat"
+        placeholder="Категория"
+      >
+
+
+      <input
+        id="spImg"
+        placeholder="Сурет URL"
+      >
+
+    </div>
+
+
+    <br>
+
+
+    <button
+      class="primary"
+      style="
+        padding:11px;
+        border-radius:10px
+      "
+      onclick="addSellerProduct()">
+
+      + Тауар қосу
+
+    </button>
+
+
+    <h3>
+      Менің тауарларым
+    </h3>
+
+
+    <div class="table-wrap">
+
+      <table class="table">
+
+        <tr>
+
+          <th>
+            Атауы
+          </th>
+
+          <th>
+            Баға
+          </th>
+
+          <th>
+            Әрекет
+          </th>
+
+        </tr>
+
+
+        ${
+          sellerProducts.map(
+            p => `
+
+              <tr>
+
+                <td>
+                  ${esc(p.name)}
+                </td>
+
+                <td>
+                  ${money(p.price)} ₸
+                </td>
+
+                <td>
+
+                  <button
+                    onclick="
+                      deleteSellerProduct(
+                        '${p.id}'
+                      )
+                    ">
+
+                    🗑️
+
+                  </button>
+
+                </td>
+
+              </tr>
+
+            `
+          ).join("")
+        }
+
+      </table>
+
+    </div>
+
+  `);
+
+}
+
+
+async function addSellerProduct(){
+
+  try{
+
+    const name =
+      document.getElementById(
+        "spName"
+      ).value.trim();
+
+
+    const price =
+      Number(
+        document.getElementById(
+          "spPrice"
+        ).value
+      );
+
+
+    const cat =
+      document.getElementById(
+        "spCat"
+      ).value.trim();
+
+
+    const image =
+      document.getElementById(
+        "spImg"
+      ).value.trim();
+
+
+    if(
+      !name ||
+      !price
+    ){
+
+      toast(
+        "Атау мен бағаны енгіз"
+      );
+
+      return;
+    }
+
+
+    await db
+      .collection("products")
+      .add({
+
+        name,
+
+        price,
+
+        category:
+          cat || "Басқа",
+
+        image,
+
+        sellerId:
+          user.uid,
+
+        sellerName:
+          profile?.storeName ||
+          profile?.name ||
+          user.email,
+
+        active:
+          true,
+
+        rating:
+          0,
+
+        createdAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp()
+
+      });
+
+
+    toast(
+      "✅ Тауар қосылды"
+    );
+
+
+    await load();
+
+    renderSeller();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "❌ Тауар қосу қатесі"
+    );
+
+  }
+
+}
+
+
+async function deleteSellerProduct(id){
+
+  if(
+    !confirm(
+      "Тауарды өшіру керек пе?"
+    )
+  ){
+
+    return;
+  }
+
+
+  try{
+
+    await db
+      .collection("products")
+      .doc(id)
+      .update({
+
+        active:
+          false
+
+      });
+
+
+    toast(
+      "Өшірілді"
+    );
+
+
+    await load();
+
+    renderSeller();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "❌ Қате"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   ADMIN
+========================================================= */
+
+async function openAdmin(){
+
+  if(!user){
+
+    showAccount();
+
+    return;
+  }
+
+
+  try{
+
+    const token =
+      await user.getIdTokenResult(
+        true
+      );
+
+
+    if(
+      token.claims.admin !==
+      true
+    ){
+
+      toast(
+        "❌ Admin рұқсаты жоқ"
+      );
+
+      return;
+    }
+
+
+    const [
+
+      usersSnapshot,
+
+      storesSnapshot,
+
+      productsSnapshot,
+
+      ordersSnapshot
+
+    ] =
+
+      await Promise.all([
+
+        db
+          .collection("users")
+          .get(),
+
+        db
+          .collection("stores")
+          .get(),
+
+        db
+          .collection("products")
+          .get(),
+
+        db
+          .collection("orders")
+          .limit(300)
+          .get()
+
+      ]);
+
+
+    const users =
+      usersSnapshot.docs.map(
+        doc => ({
+          id:doc.id,
+          ...doc.data()
+        })
+      );
+
+
+    const stores =
+      storesSnapshot.docs.map(
+        doc => ({
+          id:doc.id,
+          ...doc.data()
+        })
+      );
+
+
+    const prods =
+      productsSnapshot.docs.map(
+        doc => ({
+          id:doc.id,
+          ...doc.data()
+        })
+      );
+
+
+    const orders =
+      ordersSnapshot.docs.map(
+        doc => ({
+          id:doc.id,
+          ...doc.data()
+        })
+      );
+
+
+    openModal(`
+
+      <button
+        class="close"
+        onclick="closeModal()">
+
+        ✕
+
+      </button>
+
+
+      <h2>
+        🛡️ SatuGo Admin
+      </h2>
+
+
+      <div class="stats">
+
+        <div class="stat">
+
+          Users
+
+          <b>
+            ${users.length}
+          </b>
+
+        </div>
+
+
+        <div class="stat">
+
+          Stores
+
+          <b>
+            ${stores.length}
+          </b>
+
+        </div>
+
+
+        <div class="stat">
+
+          Products
+
+          <b>
+            ${prods.length}
+          </b>
+
+        </div>
+
+
+        <div class="stat">
+
+          Orders
+
+          <b>
+            ${orders.length}
+          </b>
+
+        </div>
+
+      </div>
+
+
+      <h3>
+        👤 Қолданушылар
+      </h3>
+
+
+      <div class="table-wrap">
+
+        <table class="table">
+
+          <tr>
+
+            <th>
+              Email
+            </th>
+
+            <th>
+              Рөл
+            </th>
+
+            <th>
+              Статус
+            </th>
+
+            <th>
+              Әрекет
+            </th>
+
+          </tr>
+
+
+          ${
+            users.map(
+              u => `
+
+                <tr>
+
+                  <td>
+                    ${esc(
+                      u.email || "-"
+                    )}
+                  </td>
+
+                  <td>
+                    ${esc(
+                      u.role ||
+                      "buyer"
+                    )}
+                  </td>
+
+                  <td>
+
+                    ${
+                      u.banned
+                      ? "🚫"
+                      : "✅"
+                    }
+
+                  </td>
+
+                  <td>
+
+                    <button
+                      onclick="
+                        adminBan(
+                          '${u.id}',
+                          ${!u.banned}
+                        )
+                      ">
+
+                      ${
+                        u.banned
+                        ? "Unban"
+                        : "Ban"
+                      }
+
+                    </button>
+
+
+                    <button
+                      onclick="
+                        adminSeller(
+                          '${u.id}'
+                        )
+                      ">
+
+                      Seller
+
+                    </button>
+
+                  </td>
+
+                </tr>
+
+              `
+            ).join("")
+          }
+
+        </table>
+
+      </div>
+
+
+      <h3>
+        🏪 Дүкендер
+      </h3>
+
+
+      <div class="table-wrap">
+
+        <table class="table">
+
+          <tr>
+
+            <th>
+              Дүкен
+            </th>
+
+            <th>
+              Owner
+            </th>
+
+            <th>
+              Verified
+            </th>
+
+            <th>
+              Әрекет
+            </th>
+
+          </tr>
+
+
+          ${
+            stores.map(
+              s => `
+
+                <tr>
+
+                  <td>
+                    ${esc(
+                      s.name || "-"
+                    )}
+                  </td>
+
+                  <td>
+                    ${esc(
+                      s.ownerId || "-"
+                    )}
+                  </td>
+
+                  <td>
+
+                    ${
+                      s.verified
+                      ? "✅"
+                      : "⏳"
+                    }
+
+                  </td>
+
+                  <td>
+
+                    <button
+                      onclick="
+                        verifyStore(
+                          '${s.id}',
+                          ${!s.verified}
+                        )
+                      ">
+
+                      ${
+                        s.verified
+                        ? "Алу"
+                        : "Растау"
+                      }
+
+                    </button>
+
+                  </td>
+
+                </tr>
+
+              `
+            ).join("")
+          }
+
+        </table>
+
+      </div>
+
+    `);
+
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "❌ Admin қатесі"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   ADMIN USER ACTIONS
+========================================================= */
+
+async function adminBan(
+  id,
+  value
+){
+
+  try{
+
+    await db
+      .collection("users")
+      .doc(id)
+      .update({
+
+        banned:
+          value
+
+      });
+
+
+    toast(
+      value
+      ? "🚫 Block"
+      : "✅ Unblock"
+    );
+
+
+    openAdmin();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "❌ Қате"
+    );
+
+  }
+
+}
+
+
+async function adminSeller(id){
+
+  try{
+
+    await db
+      .collection("users")
+      .doc(id)
+      .update({
+
+        role:
+          "seller",
+
+        sellerApproved:
+          true
+
+      });
+
+
+    toast(
+      "🏪 Seller берілді"
+    );
+
+
+    openAdmin();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "❌ Қате"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   STORE VERIFICATION
+========================================================= */
+
+async function verifyStore(
+  id,
+  value
+){
+
+  try{
+
+    await db
+      .collection("stores")
+      .doc(id)
+      .update({
+
+        verified:
+          value
+
+      });
+
+
+    toast(
+      value
+      ? "✅ Расталды"
+      : "Растау алынды"
+    );
+
+
+    openAdmin();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "❌ Қате"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+auth.onAuthStateChanged(
+  async currentUser => {
+
+    user =
+      currentUser;
+
+    profile =
+      null;
+
+
+    if(user){
+
+      try{
+
+        const snapshot =
+          await db
+            .collection("users")
+            .doc(user.uid)
+            .get();
+
+
+        profile =
+          snapshot.exists
+          ? snapshot.data()
+          : null;
+
+
+        const token =
+          await user
+            .getIdTokenResult(
+              true
+            );
+
+
+        const isSeller =
+          token.claims.role ===
+          "seller";
+
+
+        const isAdmin =
+          token.claims.admin ===
+          true;
+
+
+        document.getElementById(
+          "sellerBtn"
+        ).style.display =
+
+          (
+            isSeller ||
+            isAdmin
+          )
+
+          ? "block"
+          : "none";
+
+
+        document.getElementById(
+          "adminBtn"
+        ).style.display =
+
+          isAdmin
+          ? "block"
+          : "none";
+
+
+      }catch(error){
+
+        console.error(error);
+
+      }
+
+
+    }else{
+
+      document.getElementById(
+        "sellerBtn"
+      ).style.display =
+        "none";
+
+
+      document.getElementById(
+        "adminBtn"
+      ).style.display =
+        "none";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+load();
+
+badges();
+
 </script>
-</body></html>
+
+</body>
+</html>
