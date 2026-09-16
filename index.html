@@ -1721,27 +1721,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </div>
 
 
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js">
-<script>
-/* SatuGo compact product-card behavior */
-function openProductFromCard(id){
-  if(typeof openProduct === 'function'){
-    openProduct(id);
-    return;
-  }
-  if(typeof openProductDetail === 'function'){
-    openProductDetail(id);
-    return;
-  }
-  if(typeof showProduct === 'function'){
-    showProduct(id);
-    return;
-  }
-  alert('Тауар туралы толық ақпарат ашылмады.');
-}
-</script>
-
-</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 
@@ -2011,6 +1991,32 @@ async function loadProducts(){
 }
 
 
+
+/* ===== SatuGo v4: compact marketplace cards ===== */
+.products{grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.card{border-radius:14px;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px #00000014}
+.product-image{height:165px;font-size:44px}
+.card-body{padding:10px}
+.card h3{margin:6px 0 4px;font-size:14px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.price{font-size:18px;margin:5px 0}
+.rating{font-size:12px}
+.card .muted{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-buttons{display:none !important}
+.card .favorite{width:32px;height:32px;right:7px;top:7px}
+.card-open{margin-top:8px;width:100%;min-height:34px;border:1px solid var(--border);border-radius:9px;background:#fff;font-weight:800;cursor:pointer}
+.detail-image{min-height:260px;max-height:430px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:16px;background:#f8fafc}
+.detail-image img{width:100%;height:100%;max-height:430px;object-fit:contain}
+.detail-price-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.detail-old-price{color:#9ca3af;text-decoration:line-through}
+.qty-control{display:flex;align-items:center;gap:10px;margin:14px 0}
+.qty-control button{width:38px;height:38px;border:1px solid var(--border);border-radius:10px;background:#fff;font-size:20px;cursor:pointer}
+.qty-control strong{min-width:30px;text-align:center}
+.detail-extra-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+@media(max-width:1100px){.products{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:800px){.products{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.product-image{height:145px}}
+@media(max-width:560px){.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.product-image{height:125px}.card-body{padding:8px}.card h3{font-size:13px}.price{font-size:16px}.card-open{font-size:12px}}
+
 /* =========================================================
    CATEGORY
 ========================================================= */
@@ -2145,117 +2151,50 @@ function renderProducts(){
 
 function productCard(p){
 
-  const liked=
-    favorites.includes(p.id);
-
-  const compared=
-    compare.includes(p.id);
+  const liked = favorites.includes(p.id);
 
   return `
-
-    <article class="card">
+    <article class="card" onclick="showProduct('${esc(p.id)}')">
 
       ${
         p.discount
-        ?
-        `<span class="discount">-20%</span>`
-        :""
+        ? `<span class="discount">-${esc(String(p.discount).replace('%',''))}%</span>`
+        : ""
       }
 
       <button
         class="favorite"
-        onclick="toggleFavorite('${esc(p.id)}')"
+        onclick="event.stopPropagation(); toggleFavorite('${esc(p.id)}')"
+        aria-label="Таңдаулыға қосу"
       >
         ${liked?"❤️":"🤍"}
       </button>
 
-      <div
-        class="product-image"
-        onclick="showProduct('${esc(p.id)}')"
-        style="cursor:pointer"
-      >
-
+      <div class="product-image">
         ${
           p.image
-          ?
-          `<img
-            src="${esc(p.image)}"
-            alt="${esc(p.title)}"
-            onerror="this.style.display='none'"
-          >`
-          :
-          esc(p.emoji||"🛍️")
+          ? `<img src="${esc(p.image)}" alt="${esc(p.title||p.name||'Тауар')}" onerror="this.style.display='none'">`
+          : esc(p.emoji||"🛍️")
         }
-
       </div>
 
       <div class="card-body">
+        <span class="tag">${esc(p.cat||p.category||"Тауар")}</span>
+        <h3>${esc(p.title||p.name||"Тауар")}</h3>
+        <div class="price">${money(p.price)}</div>
+        <div class="rating">⭐ ${p.rating||"Жаңа"} · ${esc(p.city||"Қазақстан")}</div>
+        <div class="muted" style="margin-top:4px">🏪 ${esc(p.seller||"Сатушы")}</div>
 
-        <span class="tag">
-          ${esc(p.cat||p.category)}
-        </span>
-
-        <h3>
-          ${esc(p.title||p.name)}
-        </h3>
-
-        <div class="price">
-          ${money(p.price)}
-        </div>
-
-        <div class="rating">
-          ⭐ ${p.rating||"Жаңа"}
-          · ${esc(p.city||"Қазақстан")}
-        </div>
-
-        <div class="muted" style="margin-top:5px">
-          🏪 ${esc(p.seller||"Сатушы")}
-        </div>
-
-        <div class="card-buttons">
-
-          <button
-            class="btn btn-primary"
-            onclick="addToCart('${esc(p.id)}')"
-          >
-            🛒 Себетке
-          </button>
-
-          <button
-            class="btn btn-light"
-            onclick="showProduct('${esc(p.id)}')"
-          >
-            Көру
-          </button>
-
-          <button
-            class="btn btn-light full"
-            onclick="openOffer('${esc(p.id)}')"
-          >
-            💰 Баға ұсыну
-          </button>
-
-          <button
-            class="btn btn-light full"
-            onclick="toggleCompare('${esc(p.id)}')"
-          >
-            ${
-              compared
-              ?"✓ Салыстырудан алу"
-              :"⚖️ Салыстыру"
-            }
-          </button>
-
-        </div>
-
+        <button
+          class="card-open"
+          onclick="event.stopPropagation(); showProduct('${esc(p.id)}')"
+        >
+          Толық көру →
+        </button>
       </div>
-
     </article>
-
   `;
-
 }
-
 
 /* =========================================================
    CART
@@ -2651,134 +2590,145 @@ function openFavorites(){
 
 async function showProduct(id){
 
-  const p=
-    getProduct(id);
+  const p = getProduct(id);
+  if(!p) return;
 
-  if(!p)
-    return;
+  currentProduct = id;
 
-  currentProduct=id;
+  const liked = favorites.includes(id);
+  const compared = compare.includes(id);
+  const discount = Number(p.discount||0);
+  const oldPrice = discount > 0 ? Number(p.price||0)/(1-discount/100) : null;
 
-
-  document.getElementById(
-    "productDetail"
-  ).innerHTML=`
+  document.getElementById("productDetail").innerHTML = `
 
     <div class="detail-image">
-
       ${
         p.image
-        ?
-        `<img
-          src="${esc(p.image)}"
-          alt="${esc(p.title)}"
-        >`
-        :
-        esc(p.emoji||"🛍️")
+        ? `<img src="${esc(p.image)}" alt="${esc(p.title||p.name||'Тауар')}">`
+        : esc(p.emoji||"🛍️")
       }
-
     </div>
 
-    <span class="tag" style="margin-top:15px">
-      ${esc(p.cat||p.category)}
-    </span>
+    <span class="tag" style="margin-top:15px">${esc(p.cat||p.category||"Тауар")}</span>
 
-    <h2>
-      ${esc(p.title)}
-    </h2>
+    <h2>${esc(p.title||p.name||"Тауар")}</h2>
 
-    <div class="price">
-      ${money(p.price)}
+    <div class="detail-price-row">
+      <div class="price">${money(p.price)}</div>
+      ${
+        oldPrice
+        ? `<div class="detail-old-price">${money(Math.round(oldPrice))}</div>
+           <span class="discount">-${discount}%</span>`
+        : ""
+      }
     </div>
-
-    <p>
-      ${esc(
-        p.description||
-        "Тауар туралы толық ақпарат."
-      )}
-    </p>
 
     <p class="muted">
-      ⭐ ${p.rating||"Жаңа"}
-      · 📍 ${esc(p.city||"Қазақстан")}
-      · 🏪 ${esc(p.seller||"Сатушы")}
+      ⭐ ${p.rating||"Жаңа"} · 📍 ${esc(p.city||"Қазақстан")} · 🏪 ${esc(p.seller||"Сатушы")}
     </p>
 
-    <div class="detail-actions">
+    <p>${esc(p.description||"Тауар туралы толық ақпарат сатушы тарапынан көрсетілмеген.")}</p>
 
-      <button
-        class="btn btn-primary"
-        onclick="addToCart('${p.id}')"
-      >
-        🛒 Себетке
+    ${p.size ? `<p><b>Өлшем:</b> ${esc(p.size)}</p>` : ""}
+    ${p.color ? `<p><b>Түс:</b> ${esc(p.color)}</p>` : ""}
+
+    <div class="qty-control">
+      <b>Саны:</b>
+      <button onclick="changeDetailQty(-1)">−</button>
+      <strong id="detailQty">1</strong>
+      <button onclick="changeDetailQty(1)">+</button>
+    </div>
+
+    <div class="detail-actions">
+      <button class="btn btn-primary" onclick="addDetailToCart('${esc(p.id)}')">
+        🛒 Себетке қосу
+      </button>
+      <button class="btn btn-blue" onclick="buyNow('${esc(p.id)}')">
+        ⚡ Қазір сатып алу
+      </button>
+    </div>
+
+    <div class="detail-extra-actions">
+      <button class="btn btn-light" onclick="toggleFavorite('${esc(p.id)}'); showProduct('${esc(p.id)}')">
+        ${liked ? "❤️ Таңдаулыдан алу" : "🤍 Таңдаулыға қосу"}
       </button>
 
-      <button
-        class="btn btn-light"
-        onclick="openOffer('${p.id}')"
-      >
+      <button class="btn btn-light" onclick="toggleCompare('${esc(p.id)}'); showProduct('${esc(p.id)}')">
+        ${compared ? "✓ Салыстырудан алу" : "⚖️ Салыстыру"}
+      </button>
+
+      <button class="btn btn-light full" onclick="openOffer('${esc(p.id)}')">
         💰 Баға ұсыну
       </button>
-
     </div>
 
     <hr style="margin:22px 0">
 
     <h3>⭐ Пікірлер</h3>
-
-    <div id="reviews">
-      Жүктелуде...
-    </div>
+    <div id="reviews">Жүктелуде...</div>
 
     ${
       user
-      ?
-
+      ? `
+        <h4>Пікір қалдыру</h4>
+        <select id="reviewStars">
+          <option value="5">⭐⭐⭐⭐⭐</option>
+          <option value="4">⭐⭐⭐⭐</option>
+          <option value="3">⭐⭐⭐</option>
+          <option value="2">⭐⭐</option>
+          <option value="1">⭐</option>
+        </select>
+        <textarea id="reviewText" placeholder="Пікіріңіз..."></textarea>
+        <button class="btn btn-blue" onclick="addReview('${esc(p.id)}')">Пікір қалдыру</button>
       `
-
-      <h4>Пікір қалдыру</h4>
-
-      <select id="reviewStars">
-
-        <option value="5">⭐⭐⭐⭐⭐</option>
-        <option value="4">⭐⭐⭐⭐</option>
-        <option value="3">⭐⭐⭐</option>
-        <option value="2">⭐⭐</option>
-        <option value="1">⭐</option>
-
-      </select>
-
-      <textarea
-        id="reviewText"
-        placeholder="Пікіріңіз..."
-      ></textarea>
-
-      <button
-        class="btn btn-blue"
-        onclick="addReview('${p.id}')"
-      >
-        Пікір қалдыру
-      </button>
-
-      `
-
       :
-
-      `<p class="muted">
-        Пікір қалдыру үшін аккаунтқа кіріңіз.
-      </p>`
-
+      `<p class="muted">Пікір қалдыру үшін аккаунтқа кіріңіз.</p>`
     }
-
   `;
 
-
+  window.detailQty = 1;
   openModal("productModal");
-
   loadReviews(id);
-
 }
 
+function changeDetailQty(delta){
+  window.detailQty = Math.max(1, Number(window.detailQty||1) + delta);
+  const el = document.getElementById("detailQty");
+  if(el) el.textContent = window.detailQty;
+}
+
+function addDetailToCart(id){
+  const qty = Math.max(1, Number(window.detailQty||1));
+  const item = cart.find(x=>x.id===id);
+
+  if(item) item.qty += qty;
+  else cart.push({id, qty});
+
+  saveCart();
+  updateCounts();
+  alert("✅ Тауар себетке қосылды.");
+}
+
+function buyNow(id){
+  const qty = Math.max(1, Number(window.detailQty||1));
+  const item = cart.find(x=>x.id===id);
+
+  if(item) item.qty += qty;
+  else cart.push({id, qty});
+
+  saveCart();
+  updateCounts();
+  closeModal("productModal");
+
+  if(!user){
+    openAccount();
+    alert("Сатып алуды аяқтау үшін аккаунтқа кіріңіз.");
+    return;
+  }
+
+  openCart();
+}
 
 async function loadReviews(id){
 
