@@ -1013,6 +1013,99 @@ button,input,select,textarea{max-width:100%}
 }
 </style>
 
+
+<style id="satugo-v2-redesign">
+/* SatuGo compact redesign */
+:root{
+  --sg-radius:16px;
+  --sg-gap:12px;
+}
+body{overflow-x:hidden}
+header{
+  position:sticky!important;top:0;z-index:1000;
+  backdrop-filter:blur(14px);
+}
+header .header-inner, header>div{
+  gap:10px!important;
+}
+nav{gap:6px!important}
+nav a, nav button{
+  padding:8px 10px!important;
+  border-radius:11px!important;
+}
+main{
+  max-width:1280px!important;
+  margin:auto!important;
+  padding-left:14px!important;
+  padding-right:14px!important;
+}
+section{margin-bottom:18px!important}
+.card,.panel,.sg-panel,.sg-v2-card{
+  border-radius:var(--sg-radius)!important;
+}
+.sg-v2-card{
+  padding:14px!important;
+}
+.products-grid,.product-grid{
+  gap:12px!important;
+}
+.product-card{
+  border-radius:16px!important;
+  overflow:hidden;
+}
+footer{
+  margin-top:24px!important;
+}
+.sg-compact-tools{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:10px;
+  margin:12px 0 18px;
+}
+.sg-tool{
+  display:flex;align-items:center;gap:8px;
+  padding:11px 12px;border-radius:14px;
+  border:1px solid rgba(127,127,127,.16);
+  background:rgba(127,127,127,.06);
+  cursor:pointer;text-decoration:none;
+}
+.sg-tool span:first-child{font-size:20px}
+.sg-tool small{display:block;opacity:.68;font-size:11px}
+.sg-extra-wrap{margin:12px 0 18px}
+.sg-extra-toggle{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  border:1px solid rgba(127,127,127,.16);border-radius:14px;
+  padding:12px 14px;background:rgba(127,127,127,.06);
+  cursor:pointer;font-weight:700;
+}
+.sg-extra-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;margin-top:8px;
+}
+.sg-extra-grid[hidden]{display:none}
+.sg-extra-grid button{
+  padding:10px;border:1px solid rgba(127,127,127,.14);
+  border-radius:12px;background:transparent;cursor:pointer;
+}
+@media(max-width:700px){
+  main{padding-left:10px!important;padding-right:10px!important}
+  header{position:sticky!important}
+  nav a,nav button{font-size:12px!important}
+  .sg-compact-tools{grid-template-columns:repeat(2,1fr)}
+  .sg-extra-grid{grid-template-columns:repeat(2,1fr)}
+  .product-card{min-width:0}
+  footer{padding-bottom:78px!important}
+}
+@media(min-width:701px){
+  .sg-extra-grid{grid-template-columns:repeat(4,1fr)}
+}
+</style>
+
+
+<style id="satugo-v2-bottom-cleanup">
+/* Seller utilities remain functional through Profile/Cabinet, but no longer clutter the page bottom. */
+</style>
+
 </head>
 
 <body>
@@ -1149,7 +1242,7 @@ function sgToggleSmartTop(){
 
     </div>
 
-    <div class="categories">
+    <div class="categories" id="categoryRow">
 
       <button class="active" data-cat="Барлығы"
         onclick="setCategory('Барлығы',this)">
@@ -1193,6 +1286,32 @@ function sgToggleSmartTop(){
 
 <main class="wrap">
 
+<div class="sg-compact-tools" id="sgCompactTools">
+  <a class="sg-tool" href="#deals"><span>🔥</span><div><b>Deals</b><small>Арнайы ұсыныстар</small></div></a>
+  <a class="sg-tool" href="#categoryRow"><span>📂</span><div><b>Категория</b><small>Тауарларды таңда</small></div></a>
+  <button class="sg-tool" type="button" onclick="document.getElementById('sgExtraGrid').hidden=!document.getElementById('sgExtraGrid').hidden">
+    <span>⚡</span><div><b>Қосымша</b><small>AI және басқа функциялар</small></div>
+  </button>
+  <button class="sg-tool" type="button" onclick="typeof sgProfileOpenV3==='function'?sgProfileOpenV3():openAccount()"><span>👤</span><div><b>Профиль</b><small>Тапсырыс және кабинет</small></div></button>
+</div>
+<div class="sg-extra-wrap" id="sgExtraWrap">
+  <button class="sg-extra-toggle" type="button" onclick="document.getElementById('sgExtraGrid').hidden=!document.getElementById('sgExtraGrid').hidden">
+    <span>⚡ Қосымша мүмкіндіктер</span><span>⌄</span>
+  </button>
+  <div class="sg-extra-grid" id="sgExtraGrid" hidden>
+    <button type="button" onclick="typeof sgUniqueAI==='function'&&sgUniqueAI()">🤖 AI Кеңесші</button>
+    <button type="button" onclick="typeof sgBudgetMode==='function'&&sgBudgetMode()">💰 Бюджет</button>
+    <button type="button" onclick="typeof sgBundleMode==='function'&&sgBundleMode()">🧩 Комплект</button>
+    <button type="button" onclick="typeof sgPriceWatch==='function'&&sgPriceWatch()">📉 Баға бақылау</button>
+    <button type="button" onclick="typeof sgEarnCoins==='function'&&sgEarnCoins()">🪙 Coins</button>
+    <button type="button" onclick="typeof sgGroupDeal==='function'&&sgGroupDeal()">👥 Group Deal</button>
+    <button type="button" onclick="typeof openRequest==='function'&&openRequest()">📣 Маған тауып бер</button>
+    <button type="button" onclick="typeof openOffers==='function'&&openOffers()">💵 Баға ұсыну</button>
+  </div>
+</div>
+
+
+
   <section class="hero">
 
     <h1>
@@ -1234,100 +1353,7 @@ function sgToggleSmartTop(){
     </div>
 
   </section>
-
-
-  <!-- FEATURES -->
-
-  <section class="section">
-
-    <div class="feature-grid">
-
-      <div class="feature">
-        <div class="feature-icon">🤖</div>
-        <h3>SatuGo AI</h3>
-        <p>
-          Тауар сипаттамасынан атау,
-          категория және ұсынылатын баға жасаңыз.
-        </p>
-        <button class="btn btn-dark" onclick="scrollToAI()">
-          AI қолдану
-        </button>
-      </div>
-
-      <div class="feature">
-        <div class="feature-icon">📣</div>
-        <h3>Маған тауып бер</h3>
-        <p>
-          Қажетті тауарды сипаттаңыз,
-          сатушылар сізге ұсыныс жібереді.
-        </p>
-        <button class="btn btn-blue" onclick="openRequest()">
-          Сұраныс жасау
-        </button>
-      </div>
-
-      <div class="feature">
-        <div class="feature-icon">💰</div>
-        <h3>Баға ұсыну</h3>
-        <p>
-          Ұнаған тауарға өз бағаңызды ұсыныңыз.
-        </p>
-        <button class="btn btn-light" onclick="openOffers()">
-          Ұсыныстар
-        </button>
-      </div>
-
-      <div class="feature">
-        <div class="feature-icon">⚖️</div>
-        <h3>Салыстыру</h3>
-        <p>
-          3 тауарға дейін қатар салыстырыңыз.
-        </p>
-        <button class="btn btn-light" onclick="openCompare()">
-          Салыстыру
-        </button>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- AI -->
-
-  <section class="section" id="aiSection">
-
-    <div class="ai">
-
-      <h2>🤖 SatuGo AI</h2>
-
-      <p style="color:#d1d5db">
-        Тауарды сипаттаңыз — AI сізге
-        дайын карточка жасауға көмектеседі.
-      </p>
-
-      <textarea
-        id="aiPrompt"
-        rows="4"
-        placeholder="Мысалы: iPhone 15, 128GB, көк түсті, жаңа, кепілдігі бар"
-      ></textarea>
-
-      <button
-        class="btn btn-primary"
-        style="width:100%;margin-top:8px"
-        onclick="runAI()"
-      >
-        ✨ AI арқылы жасау
-      </button>
-
-      <div id="aiResult" class="ai-result" style="display:none"></div>
-
-    </div>
-
-  </section>
-
-
-  <!-- FILTER -->
+<!-- FILTER -->
 
   <section class="section">
 
@@ -1396,13 +1422,6 @@ function sgToggleSmartTop(){
   </section>
 
 </main>
-
-
-<footer>
-  SatuGo © 2026 — Қазақстан маркетплейсі
-</footer>
-
-
 <!-- PRODUCT MODAL -->
 
 <div id="productModal" class="modal">
@@ -5638,7 +5657,8 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 
 <!-- SatuGo clean navigation / quick actions -->
 <style id="satugo-clean-layout">
-  /* Ескі қосымша панельдерді жинақы режимге ауыстыру */
+  /* Ескі қосымша панельдер — функциялар сақталған, визуалды блоктар жаңа мәзірге көшірілді. */
+#sgCleanActions, .sg-clean-actions, #sgGoodSection, .sg-good-section, .sg-chat-float { display:none !important; }
   #sgCoreQuickBar,
   #sgFeatureStrip,
   .sg-core-floating,
@@ -5801,71 +5821,6 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 })();
 </script>
 
-
-<!-- SatuGo Unique Features v2 -->
-<style id="satugo-unique-v2-style">
-.sg-unique-wrap{margin:24px auto;max-width:1200px}
-.sg-unique-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.sg-unique-card{border:1px solid #e5e7eb;border-radius:20px;padding:18px;background:#fff;box-shadow:0 8px 28px #0000000a}
-.sg-unique-card .uico{font-size:30px}
-.sg-unique-card h3{margin:8px 0 5px}
-.sg-unique-card p{margin:0 0 12px;color:#6b7280;font-size:13px;line-height:1.45}
-.sg-unique-card button{width:100%}
-.sg-budget-box,.sg-ai-box{display:grid;gap:10px}
-.sg-budget-result,.sg-ai-result-v2{margin-top:10px;padding:12px;border-radius:14px;background:#f3f4f6}
-.sg-coins{font-weight:800}
-.sg-chip{display:inline-block;padding:5px 9px;border-radius:999px;background:#ecfdf5;color:#166534;font-size:12px;font-weight:800;margin:3px}
-@media(max-width:800px){.sg-unique-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:520px){.sg-unique-grid{grid-template-columns:1fr}}
-</style>
-
-<section id="sgUniqueFeatures" class="sg-unique-wrap">
-  <div style="display:flex;justify-content:space-between;align-items:end;gap:10px;margin-bottom:12px">
-    <div>
-      <div class="tag">SatuGo Exclusive</div>
-      <h2 style="margin:7px 0 0">🚀 SatuGo-ның ерекше мүмкіндіктері</h2>
-    </div>
-    <span class="sg-coins">🪙 <span id="sgCoinBalance">0</span> Coins</span>
-  </div>
-
-  <div class="sg-unique-grid">
-    <div class="sg-unique-card">
-      <div class="uico">🤖</div><h3>AI Кеңесші</h3>
-      <p>Қалаған тауарыңды сипатта. SatuGo бюджетке және сұранысқа сай өнімдерді ұсынады.</p>
-      <button class="btn btn-primary" onclick="sgUniqueAI()">Іздеп көру</button>
-    </div>
-
-    <div class="sg-unique-card">
-      <div class="uico">💰</div><h3>Бюджетпен жинау</h3>
-      <p>Мысалы: «50 000 ₸-ге оқу жиынтығын жина» — жүйе қолжетімді тауарларды есептейді.</p>
-      <button class="btn btn-light" onclick="sgBudgetMode()">Бюджет енгізу</button>
-    </div>
-
-    <div class="sg-unique-card">
-      <div class="uico">🧩</div><h3>Комплект құрастырғыш</h3>
-      <p>Бір тауарға керек аксессуарларды автоматты түрде тауып, бірге көрсетеді.</p>
-      <button class="btn btn-light" onclick="sgBundleMode()">Комплект құру</button>
-    </div>
-
-    <div class="sg-unique-card">
-      <div class="uico">📉</div><h3>Баға төмендесе хабарла</h3>
-      <p>Тауар бағасын бақылауға қойып, браузерде еске салғыш сақтауға болады.</p>
-      <button class="btn btn-light" onclick="sgPriceWatch()">Баға бақылауын қосу</button>
-    </div>
-
-    <div class="sg-unique-card">
-      <div class="uico">🪙</div><h3>SatuGo Coins</h3>
-      <p>Белсенділік үшін ұпай жинайтын қарапайым loyalty жүйесі. Баланс браузерде сақталады.</p>
-      <button class="btn btn-light" onclick="sgEarnCoins()">Coins алу</button>
-    </div>
-
-    <div class="sg-unique-card">
-      <div class="uico">👥</div><h3>Топтық жеңілдік</h3>
-      <p>Достарыңа тауар сілтемесін жіберіп, қызығушылықты бір жерге жинауға арналған demo режим.</p>
-      <button class="btn btn-light" onclick="sgGroupDeal()">Топтық deal</button>
-    </div>
-  </div>
-</section>
 
 <script>
 (function(){
@@ -6105,73 +6060,6 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   setInterval(install,1000); setTimeout(install,300);
 })();
 </script>
-
-
-<!-- SATUGO CLEAN FOOTER START -->
-<style>
-.sg-clean-footer{
-  margin-top:40px;padding:28px 16px 95px;
-  border-top:1px solid #e5e7eb;background:#f8fafc;color:#475569
-}
-.sg-clean-footer-inner{
-  width:min(1180px,100%);margin:auto;display:grid;
-  grid-template-columns:2fr 1fr 1fr 1fr;gap:24px
-}
-.sg-clean-footer h3{margin:0 0 10px;color:#111827}
-.sg-clean-footer h4{margin:0 0 9px;color:#111827}
-.sg-clean-footer p{margin:5px 0;line-height:1.5}
-.sg-clean-footer button{
-  display:block;border:0;background:none;padding:5px 0;cursor:pointer;
-  color:#475569;text-align:left
-}
-.sg-clean-footer-bottom{
-  width:min(1180px,100%);margin:22px auto 0;padding-top:16px;
-  border-top:1px solid #e5e7eb;font-size:12px
-}
-@media(max-width:700px){
-  .sg-clean-footer{padding:22px 10px 88px;margin-top:25px}
-  .sg-clean-footer-inner{grid-template-columns:1fr 1fr;gap:18px}
-  .sg-clean-footer-brand{grid-column:1/-1}
-}
-@media(max-width:430px){
-  .sg-clean-footer-inner{grid-template-columns:1fr}
-  .sg-clean-footer-brand{grid-column:auto}
-}
-</style>
-
-<footer class="sg-clean-footer">
-  <div class="sg-clean-footer-inner">
-    <div class="sg-clean-footer-brand">
-      <h3>🛍️ SatuGo</h3>
-      <p>Тауар сатып алыңыз, сатыңыз және сатушымен тікелей байланысыңыз.</p>
-      <p>© 2026 SatuGo</p>
-    </div>
-    <div>
-      <h4>Сатып алушыға</h4>
-      <button onclick="typeof openCart==='function'&&openCart()">🛒 Себет</button>
-      <button onclick="typeof openFavorites==='function'&&openFavorites()">❤️ Таңдаулы</button>
-      <button onclick="typeof openAccount==='function'&&openAccount()">👤 Профиль</button>
-    </div>
-    <div>
-      <h4>Сатушыға</h4>
-      <button onclick="typeof openAccount==='function'&&openAccount()">🏪 Сатушы кабинеті</button>
-      <button onclick="typeof sgOpenChat==='function'&&sgOpenChat()">💬 Чат</button>
-      <button onclick="typeof sgOpenNotifications==='function'&&sgOpenNotifications()">🔔 Хабарламалар</button>
-    </div>
-    <div>
-      <h4>SatuGo</h4>
-      <p>Қауіпсіз сауда</p>
-      <p>Жылдам байланыс</p>
-      <p>Ыңғайлы кабинет</p>
-    </div>
-  </div>
-  <div class="sg-clean-footer-bottom">
-    SatuGo — онлайн сауда платформасы
-  </div>
-</footer>
-<!-- SATUGO CLEAN FOOTER END -->
-
-
 <nav id="sgMobileNav" class="sg-mobile-nav">
   <button onclick="window.scrollTo({top:0,behavior:'smooth'})"><span>⌂</span><small>Басты бет</small></button>
   <button onclick="document.querySelector('input[type=search],input[placeholder*=Іздеу],input[placeholder*=іздеу]')?.focus()"><span>⌕</span><small>Іздеу</small></button>
@@ -6204,3 +6092,17 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 
 <!-- SatuGo feature package complete -->
 </html>
+<style id="satugo-v3-final-cleanup">
+/* V3: page layout is compact; functionality remains in modals/menus. */
+#sgCleanActions, .sg-clean-actions,
+#sgGoodSection, .sg-good-section,
+.sg-chat-float { display:none !important; }
+
+/* Old standalone exclusive block is removed; compact "Қосымша" menu is the entry point. */
+#sgUniqueFeatures { display:none !important; }
+
+/* Keep the main page focused on marketplace content. */
+@media (min-width: 701px){
+  body{padding-bottom:24px;}
+}
+</style>
