@@ -722,6 +722,18 @@ footer{
     height:250px;
   }
 }
+
+/* SATUGO PERSONAL CABINET */
+.sg-account-login{ text-align:center; padding:25px 10px; }
+.sg-account-avatar{width:88px;height:88px;margin:0 auto 15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,#dcfce7,#dbeafe);font-size:42px;box-shadow:0 8px 25px rgba(0,0,0,.08)}
+.sg-profile-head{display:flex;align-items:center;gap:15px;padding:18px;border-radius:20px;background:linear-gradient(135deg,#f0fdf4,#eff6ff);border:1px solid var(--border);margin-bottom:15px}
+.sg-profile-avatar{width:70px;height:70px;flex:0 0 70px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#dcfce7;font-size:32px}
+.sg-profile-info{min-width:0}.sg-profile-info h2{margin:0 0 4px;font-size:21px}.sg-profile-info p{margin:0 0 8px;color:var(--muted);font-size:13px;overflow:hidden;text-overflow:ellipsis}.sg-profile-role{display:inline-block;padding:5px 10px;border-radius:999px;background:#fff;border:1px solid var(--border);font-size:12px;font-weight:700}
+.sg-account-section{background:#fff;border:1px solid var(--border);border-radius:18px;padding:15px;margin-bottom:14px}.sg-account-section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:800;margin-bottom:12px}.sg-profile-data{display:grid;grid-template-columns:1fr 1fr;gap:10px}.sg-profile-item{padding:11px;border-radius:13px;background:#f9fafb;border:1px solid #f0f0f0}.sg-profile-item span{display:block;color:var(--muted);font-size:11px;margin-bottom:4px}.sg-profile-item b{display:block;font-size:13px;overflow:hidden;text-overflow:ellipsis}
+.sg-account-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}.sg-account-stat{border:1px solid var(--border);background:#fff;border-radius:16px;padding:13px 8px;text-align:center;transition:.15s}.sg-account-stat:hover{transform:translateY(-2px);box-shadow:0 7px 20px rgba(0,0,0,.07)}.sg-account-stat strong{display:block;font-size:17px;margin-bottom:4px}.sg-account-stat span{color:var(--muted);font-size:11px}
+.sg-account-menu{display:grid;gap:8px;margin-bottom:14px}.sg-account-menu-item{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:13px;border-radius:15px;border:1px solid var(--border);background:#fff;transition:.15s}.sg-account-menu-item:hover{transform:translateX(2px);background:#f9fafb}.sg-menu-icon{width:40px;height:40px;flex:0 0 40px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#f3f4f6;font-size:20px}.sg-account-menu-item>span:nth-child(2){flex:1;min-width:0}.sg-account-menu-item b{display:block;font-size:14px;margin-bottom:2px}.sg-account-menu-item small{display:block;color:var(--muted);font-size:11px}.sg-arrow{font-size:25px;color:#9ca3af}.seller-item{background:linear-gradient(135deg,#f0fdf4,#fff);border-color:#bbf7d0}
+.sg-account-warning{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border-radius:14px;background:#fffbeb;border:1px solid #fde68a;margin-bottom:10px}.sg-account-warning b{display:block;color:#92400e;font-size:13px}.sg-account-warning small{display:block;color:#a16207;font-size:11px;margin-top:3px}.sg-account-success{text-align:center;padding:9px;border-radius:12px;background:#f0fdf4;color:#166534;font-size:12px;font-weight:700;margin-bottom:10px}
+@media(max-width:650px){.sg-profile-head{padding:14px}.sg-profile-avatar{width:58px;height:58px;flex-basis:58px;font-size:27px}.sg-profile-info h2{font-size:18px}.sg-profile-data{grid-template-columns:1fr}.sg-account-section-title{align-items:flex-start}.sg-account-stats{gap:6px}.sg-account-stat{padding:11px 5px}.sg-account-menu-item{padding:11px}}
 </style>
 
 <style id="satugo-card-style">
@@ -871,6 +883,333 @@ footer{
  #sgProfilePanel{top:auto;bottom:10px;left:10px;right:10px;width:auto;max-width:none}
 }
 </style>
+
+
+<style id="satugo-phone-fix-v2">
+html,body{width:100%;max-width:100%;margin:0;padding:0;overflow-x:hidden}
+*,*:before,*:after{box-sizing:border-box}
+img{max-width:100%;height:auto}
+button,input,select,textarea{max-width:100%}
+
+@media (max-width:768px){
+  body{font-size:14px!important;line-height:1.4!important}
+  body>*{max-width:100vw!important}
+
+  /* Generic containers */
+  .container,.wrap,.wrapper,.content,.main,.page,.section,.shell{
+    width:100%!important;max-width:100%!important;
+    margin-left:0!important;margin-right:0!important;
+    padding-left:10px!important;padding-right:10px!important;
+  }
+
+  /* Any common grid: make it two columns for products, one for wide forms/sections */
+  .products,.products-grid,.product-grid,.catalog-grid,.cards,.grid{
+    width:100%!important;max-width:100%!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+  }
+  .product-card,.card{min-width:0!important;max-width:100%!important;width:100%!important}
+  .product-card>*,.card>*{max-width:100%!important}
+
+  /* Header */
+  header,nav,.header,.navbar,.topbar{
+    width:100%!important;max-width:100%!important;
+  }
+  header>*,nav>*,.header>*,.navbar>*{
+    max-width:100%!important;
+  }
+
+  /* Kill desktop fixed widths / row overflow */
+  [style*="width:1200px"],[style*="width: 1200px"],
+  [style*="width:1100px"],[style*="width: 1100px"],
+  [style*="width:1000px"],[style*="width: 1000px"],
+  [style*="width:900px"],[style*="width: 900px"],
+  [style*="min-width:1000px"],[style*="min-width: 1000px"]{
+    width:100%!important;min-width:0!important;max-width:100%!important;
+  }
+
+  /* Forms and button groups */
+  form{width:100%!important;max-width:100%!important}
+  .form-row,.form-grid{
+    display:grid!important;grid-template-columns:1fr!important;gap:8px!important;
+  }
+  .form-row>*,.form-grid>*{width:100%!important;min-width:0!important}
+  input,select,textarea{width:100%!important;min-width:0!important}
+  button,.btn{min-height:40px}
+  .actions,.button-row,.btn-row{
+    display:flex!important;flex-wrap:wrap!important;gap:7px!important;
+  }
+
+  /* Modals */
+  .modal{padding:8px!important}
+  .modal-box,.modal-content,.modal-card{
+    width:calc(100vw - 16px)!important;
+    max-width:calc(100vw - 16px)!important;
+    margin:0 auto!important;
+    max-height:90dvh!important;
+    overflow:auto!important;
+  }
+
+  /* Chat panel */
+  #sgChatPanel.sg-chat-panel{
+    position:fixed!important;
+    left:5px!important;right:5px!important;bottom:5px!important;top:auto!important;
+    width:auto!important;max-width:none!important;
+    height:min(84dvh,680px)!important;
+    max-height:calc(100dvh - 10px)!important;
+    z-index:2147483000!important;
+    display:flex!important;flex-direction:column!important;
+    overflow:hidden!important;
+  }
+  #sgChatPanel .sg-chat-head{flex:0 0 auto!important}
+  #sgChatPanel .sg-chat-list,
+  #sgChatPanel .sg-chat-messages{
+    flex:1 1 auto!important;width:100%!important;
+    min-height:0!important;overflow-x:hidden!important;overflow-y:auto!important;
+  }
+  #sgChatPanel .sg-chat-compose{
+    flex:0 0 auto!important;width:100%!important;
+    display:flex!important;gap:6px!important;
+    padding:7px!important;margin:0!important;
+    border-top:1px solid #ddd!important;background:#fff!important;
+  }
+  #sgChatPanel .sg-chat-compose input{
+    flex:1 1 0!important;width:0!important;min-width:0!important;
+    height:42px!important;
+  }
+  #sgChatPanel .sg-chat-compose button{
+    flex:0 0 76px!important;width:76px!important;height:42px!important;
+  }
+  #sgChatPanel .sg-msg{
+    max-width:85%!important;overflow-wrap:anywhere!important;word-break:break-word!important;
+  }
+  #sgChatFab.sg-chat-fab{
+    right:10px!important;bottom:10px!important;z-index:2147482999!important;
+  }
+
+  /* Tables */
+  .table-wrap,.table-responsive{width:100%!important;overflow-x:auto!important}
+  table{min-width:550px}
+
+  /* Common two-column areas should stack */
+  .two-col,.two-columns,.split,.layout-2,.columns-2{
+    grid-template-columns:1fr!important;
+    display:grid!important;
+  }
+}
+
+@media (max-width:430px){
+  .container,.wrap,.wrapper,.content,.main,.page,.section,.shell{
+    padding-left:7px!important;padding-right:7px!important;
+  }
+  .products,.products-grid,.product-grid,.catalog-grid,.cards,.grid{
+    gap:6px!important;
+  }
+  #sgChatPanel.sg-chat-panel{
+    left:2px!important;right:2px!important;bottom:2px!important;
+    height:86dvh!important;max-height:calc(100dvh - 4px)!important;
+    border-radius:14px!important;
+  }
+}
+</style>
+
+
+<!-- SATUGO MOBILE REDESIGN START -->
+<style id="satugo-mobile-redesign">
+*{box-sizing:border-box}
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+img{max-width:100%;height:auto}
+button,input,select,textarea{font:inherit}
+body{padding-bottom:78px}
+.container,.wrap,.content,.page,.main,.section,.products-wrap,.product-section{
+  width:min(1180px,calc(100% - 28px));max-width:1180px;margin-left:auto;margin-right:auto
+}
+header,.header,.topbar,.navbar{
+  max-width:100%;width:100%
+}
+.sg-mobile-nav{display:none}
+
+@media(max-width:700px){
+  body{font-size:14px;padding-bottom:72px}
+  .container,.wrap,.content,.page,.main,.section,.products-wrap,.product-section{
+    width:calc(100% - 20px)!important;max-width:none!important
+  }
+
+  /* Header */
+  header,.header,.topbar,.navbar{
+    width:100%!important;max-width:none!important
+  }
+  header .container,.header .container,.topbar .container,.navbar .container{
+    width:100%!important;padding-left:10px!important;padding-right:10px!important
+  }
+  header [style*="width"],.header [style*="width"],.topbar [style*="width"]{
+    max-width:100%!important
+  }
+
+  /* Search */
+  input[type="search"],input[placeholder*="Іздеу"],input[placeholder*="іздеу"],
+  input[placeholder*="Тауар"],.search input{
+    width:100%!important;min-width:0!important
+  }
+
+  /* Grids */
+  .products,.product-grid,.cards,.grid,.category-grid,.shop-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important
+  }
+  .product-card,.card,.shop-card{
+    min-width:0!important;width:100%!important;overflow:hidden
+  }
+  .product-card img,.card img,.shop-card img{
+    width:100%!important;aspect-ratio:1/1;object-fit:cover
+  }
+
+  /* Generic flex rows */
+  .row,.actions,.toolbar,.filters,.form-row,.stats,.info-row{
+    flex-wrap:wrap!important
+  }
+  .form-row>*,.form-group,.field{
+    width:100%!important;min-width:0!important
+  }
+
+  /* Tables */
+  table{min-width:650px}
+  .table-wrap,.table-responsive{width:100%;overflow-x:auto}
+
+  /* Modals */
+  .modal,.modal-overlay{
+    padding:8px!important
+  }
+  .modal-box,.modal-content,.modal-dialog{
+    width:min(100%,520px)!important;max-width:100%!important;
+    max-height:calc(100dvh - 16px)!important;overflow:auto!important;
+    margin:0 auto!important;border-radius:16px!important
+  }
+
+  /* Chat */
+  .sg-chat-panel{
+    position:fixed!important;z-index:99999!important;
+    left:8px!important;right:8px!important;bottom:74px!important;
+    top:auto!important;width:auto!important;height:min(78dvh,650px)!important;
+    max-height:calc(100dvh - 92px)!important;border-radius:18px!important;
+    overflow:hidden!important
+  }
+  .sg-chat-head{min-height:52px!important}
+  .sg-chat-list,.sg-chat-messages{
+    min-height:0!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch
+  }
+  .sg-chat-row{padding:13px 12px!important}
+  .sg-chat-compose{
+    display:flex!important;gap:7px!important;padding:8px!important;
+    position:sticky!important;bottom:0!important;
+    background:#fff!important;border-top:1px solid #e5e7eb!important;
+    z-index:3!important
+  }
+  .sg-chat-compose input{
+    flex:1!important;min-width:0!important;height:44px!important
+  }
+  .sg-chat-compose button{height:44px!important;white-space:nowrap}
+  .sg-chat-fab{
+    position:fixed!important;right:14px!important;bottom:82px!important;
+    z-index:99998!important
+  }
+
+  /* Buttons */
+  button,.btn{
+    min-height:42px
+  }
+  .actions button,.actions .btn{
+    flex:1 1 140px
+  }
+
+  /* Product detail */
+  .product-detail,.product-view,.detail-layout,.product-page{
+    display:flex!important;flex-direction:column!important
+  }
+  .product-detail>*,.product-view>*{width:100%!important}
+  .product-detail img,.product-view img{max-height:55dvh;object-fit:contain}
+
+  /* Account / cabinet */
+  .account-grid,.cabinet-grid,.profile-grid,.two-col{
+    display:flex!important;flex-direction:column!important
+  }
+  .account-grid>*,.cabinet-grid>*{width:100%!important}
+
+  /* Prevent fixed desktop dimensions from breaking the phone */
+  [style*="width: 900px"],[style*="width:900px"],
+  [style*="width: 1000px"],[style*="width:1000px"],
+  [style*="min-width: 900px"],[style*="min-width:900px"]{
+    width:100%!important;min-width:0!important;max-width:100%!important
+  }
+  [style*="height: 700px"],[style*="height:700px"]{
+    max-height:calc(100dvh - 30px)!important
+  }
+}
+
+/* Small phone */
+@media(max-width:430px){
+  .container,.wrap,.content,.page,.main,.section,.products-wrap,.product-section{
+    width:calc(100% - 12px)!important
+  }
+  .products,.product-grid,.cards,.grid,.category-grid,.shop-grid{
+    gap:7px!important
+  }
+  .product-card,.card,.shop-card{
+    border-radius:12px!important
+  }
+  h1{font-size:24px!important}
+  h2{font-size:20px!important}
+  h3{font-size:17px!important}
+  .sg-chat-panel{
+    left:4px!important;right:4px!important;bottom:70px!important;
+    height:calc(100dvh - 82px)!important;border-radius:15px!important
+  }
+  .sg-chat-fab{right:10px!important;bottom:78px!important}
+}
+</style>
+
+<script>
+(function(){
+  // Keep the Firebase chat composer from duplicating.
+  const oldOpen = window.openChat;
+  if (typeof oldOpen === 'function' && !oldOpen.__sgWrapped) {
+    const wrapped = function(){
+      document.querySelectorAll('.sg-chat-compose').forEach(x=>x.remove());
+      return oldOpen.apply(this, arguments);
+    };
+    wrapped.__sgWrapped = true;
+    window.openChat = wrapped;
+  }
+
+  // Mobile bottom navigation.
+  function installBottomNav(){
+    if(document.getElementById('sgMobileNav')) return;
+    const nav=document.createElement('nav');
+    nav.id='sgMobileNav';
+    nav.className='sg-mobile-nav';
+    nav.innerHTML=
+      '<button onclick="location.hash=\'home\'"><span>⌂</span><small>Басты бет</small></button>'+
+      '<button onclick="document.querySelector(\'input[type=search],input[placeholder*=Іздеу],input[placeholder*=іздеу]\')?.focus()"><span>⌕</span><small>Іздеу</small></button>'+
+      '<button onclick="typeof openCart===\'function\'?openCart():document.querySelector(\'#cartModal,.cart-modal\')?.classList.add(\'open\')"><span>🛒</span><small>Себет</small></button>'+
+      '<button onclick="typeof openFavorites===\'function\'?openFavorites():document.querySelector(\'#favoritesModal,.favorites-modal\')?.classList.add(\'open\')"><span>♡</span><small>Таңдаулы</small></button>'+
+      '<button onclick="typeof openAccount===\'function\'?openAccount():document.querySelector(\'#accountModal\')?.classList.add(\'open\')"><span>👤</span><small>Профиль</small></button>';
+    document.body.appendChild(nav);
+  }
+  function installStyle(){
+    const s=document.createElement('style');
+    s.textContent=
+      '.sg-mobile-nav{position:fixed;display:flex;left:0;right:0;bottom:0;height:64px;background:#fff;border-top:1px solid #e5e7eb;z-index:99990;justify-content:space-around;padding:5px 4px calc(5px + env(safe-area-inset-bottom));box-shadow:0 -3px 14px rgba(0,0,0,.08)}'+
+      '.sg-mobile-nav button{border:0;background:none;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#374151;font-size:20px;min-height:0;padding:2px}'+
+      '.sg-mobile-nav small{font-size:10px;line-height:1.1}'+
+      '@media(min-width:701px){.sg-mobile-nav{display:none!important}}';
+    document.head.appendChild(s);
+  }
+  installStyle();
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',installBottomNav);
+  else installBottomNav();
+})();
+</script>
+<!-- SATUGO MOBILE REDESIGN END -->
 
 </head>
 
@@ -2456,6 +2795,13 @@ async function showProduct(id){
         💰 Баға ұсыну
       </button>
 
+      <button
+        class="btn btn-light"
+        onclick="sgStartChat('${p.sellerId||''}','${esc(p.seller||'Сатушы')}')"
+      >
+        💬 Сатушымен чат
+      </button>
+
     </div>
 
     <hr style="margin:22px 0">
@@ -3358,241 +3704,69 @@ function openAccount(){
 function renderAccount(){
 
   const box = document.getElementById("account");
-
   if(!box) return;
 
-
-  /* USER КІРГЕН */
-
-  if(user){
-
-    const name =
-      profile?.name ||
-      user.displayName ||
-      user.email?.split("@")[0] ||
-      "Қолданушы";
-
-    const email =
-      user.email || "";
-
-
+  if(!user){
     box.innerHTML = `
-
-      <div style="
-        text-align:center;
-        padding:10px 0 20px;
-      ">
-
-        <div style="
-          width:70px;
-          height:70px;
-          border-radius:50%;
-          background:#dcfce7;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          margin:0 auto 12px;
-          font-size:32px;
-        ">
-          👤
-        </div>
-
-        <h3 style="margin:0">
-          ${esc(name)}
-        </h3>
-
-        <p class="muted" style="margin:6px 0">
-          ${esc(email)}
-        </p>
-
-        ${
-          user.emailVerified
-          ?
-          `
-            <span class="tag">
-              ✓ Email расталған
-            </span>
-          `
-          :
-          `
-            <span style="
-              display:inline-block;
-              padding:5px 8px;
-              border-radius:999px;
-              background:#fef3c7;
-              color:#92400e;
-              font-size:11px;
-              font-weight:700;
-            ">
-              ⚠️ Email расталмаған
-            </span>
-          `
-        }
-
-      </div>
-
-
-      <div style="
-        display:grid;
-        gap:9px;
-      ">
-
-        <button
-          class="btn btn-primary"
-          onclick="openSeller()"
-        >
-          🏪 Сатушы кабинеті
-        </button>
-
-
-        <button
-          class="btn btn-blue"
-          onclick="openRequest()"
-        >
-          📣 Маған тауып бер
-        </button>
-
-
-        <button
-          class="btn btn-light"
-          onclick="openOffers()"
-        >
-          💰 Менің ұсыныстарым
-        </button>
-
-        <button class="btn btn-light" onclick="openOrders()">📦 Менің тапсырыстарым</button>
-
-
-        ${
-          !user.emailVerified
-          ?
-          `
-            <button
-              class="btn btn-light"
-              onclick="resendVerification()"
-            >
-              📧 Email-ды қайта растау
-            </button>
-          `
-          :
-          ""
-        }
-
-
-        <button
-          class="btn btn-danger"
-          onclick="logout()"
-        >
-          🚪 Аккаунттан шығу
-        </button>
-
-      </div>
-
-    `;
-
+      <div class="sg-account-login">
+        <div class="sg-account-avatar">👤</div>
+        <h2>Жеке кабинет</h2>
+        <p class="muted">Тапсырыстарды, таңдаулыларды және профильді басқару үшін аккаунтқа кіріңіз.</p>
+        <button class="btn btn-primary" style="width:100%;margin-top:15px" onclick="openAuth()">🔐 Аккаунтқа кіру</button>
+      </div>`;
     return;
   }
 
-
-  /* USER КІРМЕГЕН */
+  const name = profile?.name || user.displayName || user.email?.split("@")[0] || "Қолданушы";
+  const email = user.email || "";
+  const phone = profile?.phone || user.phoneNumber || "Телефон енгізілмеген";
+  const city = profile?.city || "Қала енгізілмеген";
+  const address = profile?.address || "Мекенжай енгізілмеген";
+  const role = profile?.role === "seller" ? "🏪 Сатушы" : "🛒 Сатып алушы";
+  const favoriteCount = Array.isArray(favorites) ? favorites.length : 0;
+  const cartCount = Array.isArray(cart) ? cart.reduce((sum,item)=>sum + Number(item.qty || 1),0) : 0;
 
   box.innerHTML = `
-
-    <div style="
-      text-align:center;
-      margin-bottom:20px;
-    ">
-
-      <div style="
-        font-size:48px;
-        margin-bottom:8px;
-      ">
-        👤
+    <div class="sg-profile-head">
+      <div class="sg-profile-avatar">👤</div>
+      <div class="sg-profile-info">
+        <h2>${esc(name)}</h2>
+        <p>${esc(email)}</p>
+        <span class="sg-profile-role">${role}</span>
       </div>
-
-      <h2 style="margin:0">
-        SatuGo аккаунты
-      </h2>
-
-      <p class="muted">
-        Кіру немесе жаңа аккаунт ашу
-      </p>
-
     </div>
 
-
-    <input
-      id="authName"
-      type="text"
-      placeholder="Атыңыз"
-      autocomplete="name"
-    >
-
-
-    <input
-      id="authEmail"
-      type="email"
-      placeholder="Email"
-      autocomplete="email"
-    >
-
-
-    <input
-      id="authPassword"
-      type="password"
-      placeholder="Құпиясөз"
-      autocomplete="current-password"
-    >
-
-
-    <div style="
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-      margin-top:8px;
-    ">
-
-      <button
-        class="btn btn-blue"
-        onclick="login()"
-      >
-        🔑 Кіру
-      </button>
-
-
-      <button
-        class="btn btn-primary"
-        onclick="register()"
-      >
-        📝 Тіркелу
-      </button>
-
+    <div class="sg-account-section">
+      <div class="sg-account-section-title">
+        <span>👤 Жеке мәліметтер</span>
+        <button class="btn btn-light" onclick="sgCoreOpenProfile()">✏️ Өзгерту</button>
+      </div>
+      <div class="sg-profile-data">
+        <div class="sg-profile-item"><span>📱 Телефон</span><b>${esc(phone)}</b></div>
+        <div class="sg-profile-item"><span>📍 Қала</span><b>${esc(city)}</b></div>
+        <div class="sg-profile-item"><span>🏠 Мекенжай</span><b>${esc(address)}</b></div>
+        <div class="sg-profile-item"><span>📧 Email</span><b>${esc(email || "—")}</b></div>
+      </div>
     </div>
 
+    <div class="sg-account-stats">
+      <button onclick="openFavorites()" class="sg-account-stat"><strong>❤️ ${favoriteCount}</strong><span>Таңдаулы</span></button>
+      <button onclick="openCart()" class="sg-account-stat"><strong>🛒 ${cartCount}</strong><span>Себет</span></button>
+      <button onclick="openOrders()" class="sg-account-stat"><strong>📦</strong><span>Тапсырыстар</span></button>
+    </div>
 
-    <button
-      class="btn btn-light"
-      style="
-        width:100%;
-        margin-top:8px;
-      "
-      onclick="resetPassword()"
-    >
-      🔐 Құпиясөзді ұмыттым
-    </button>
+    <div class="sg-account-menu">
+      <button onclick="openOrders()" class="sg-account-menu-item"><span class="sg-menu-icon">📦</span><span><b>Менің тапсырыстарым</b><small>Барлық тапсырыстарыңызды көру</small></span><span class="sg-arrow">›</span></button>
+      <button onclick="openFavorites()" class="sg-account-menu-item"><span class="sg-menu-icon">❤️</span><span><b>Таңдаулылар</b><small>Сақталған тауарлар</small></span><span class="sg-arrow">›</span></button>
+      <button onclick="openOffers()" class="sg-account-menu-item"><span class="sg-menu-icon">💰</span><span><b>Менің ұсыныстарым</b><small>Баға бойынша ұсыныстар</small></span><span class="sg-arrow">›</span></button>
+      <button onclick="openRequest()" class="sg-account-menu-item"><span class="sg-menu-icon">📣</span><span><b>Менің сұраныстарым</b><small>Тауар іздеу сұраныстары</small></span><span class="sg-arrow">›</span></button>
+      <button onclick="openSeller()" class="sg-account-menu-item seller-item"><span class="sg-menu-icon">🏪</span><span><b>Сатушы кабинеті</b><small>Тауарлар мен сатылымдарды басқару</small></span><span class="sg-arrow">›</span></button>
+    </div>
 
+    ${!user.emailVerified ? `<div class="sg-account-warning"><div><b>⚠️ Email расталмаған</b><small>Аккаунтыңыздың қауіпсіздігі үшін email-ды растаңыз.</small></div><button class="btn btn-light" onclick="resendVerification()">📧 Растау</button></div>` : `<div class="sg-account-success">✓ Email расталған</div>`}
 
-    <p
-      id="authStatus"
-      class="muted"
-      style="
-        text-align:center;
-        margin-top:14px;
-      "
-    ></p>
-
+    <button class="btn btn-danger" style="width:100%;margin-top:14px" onclick="logout()">🚪 Аккаунттан шығу</button>
   `;
-
 }
 
 
@@ -4979,11 +5153,7 @@ init();
   </div>
 </div>
 
-<div id="sgChatModal" class="sg-modal" onclick="if(event.target===this)sgClose('sgChatModal')">
-  <div class="sg-box">
-    <h2>💬 SatuGo чат</h2>
-    <div id="sgChatMessages" style="min-height:180px"></div>
-    <input id="sgChatInput" class="sg-input" placeholder="Хабарлама...">
+<input id="sgChatInput" class="sg-input" placeholder="Хабарлама...">
     <button class="sg-btn" onclick="sgSendChat()">Жіберу</button>
     <button class="sg-btn light" onclick="sgClose('sgChatModal')">Жабу</button>
   </div>
@@ -5079,16 +5249,7 @@ init();
     document.getElementById('sgOrdersModal').classList.add('open');
   };
 
-  window.sgOpenChat=function(){
-    const box=document.getElementById('sgChatMessages');
-    box.innerHTML=sg.chat.length?sg.chat.map(x=>'<div class="sg-row"><span><b>'+x.from+'</b><br>'+String(x.text).replace(/</g,'&lt;')+'</span><small>'+new Date(x.date).toLocaleTimeString('kk-KZ',{hour:'2-digit',minute:'2-digit'})+'</small></div>').join(''):'<p class="sg-muted">Чат бос.</p>';
-    document.getElementById('sgChatModal').classList.add('open');
-  };
-  window.sgSendChat=function(){
-    const e=document.getElementById('sgChatInput'), t=e.value.trim(); if(!t)return;
-    sg.chat.push({from:window.currentUser?.displayName||'Пайдаланушы',text:t,date:Date.now()});
-    localStorage.setItem('satugo_chat',JSON.stringify(sg.chat));e.value='';sgOpenChat();
-  };
+  
 
   window.sgOpenNearby=function(city){
     const q=city||prompt('Қай қаладағы тауарлар керек?','Тараз'); if(!q)return;
@@ -5347,6 +5508,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
       try{localStorage.removeItem('cart')}catch(e){}
       sgCoreClose('sgCoreCheckoutModal');
       toast('Тапсырыс жіберілді');
+      window.sgNotify?.('📦 Жаңа тапсырыс','Тапсырысыңыз сәтті қабылданды.');
       window.sgCoreOpenOrders();
     }catch(e){
       const arr=localOrders();order.id='local_'+Date.now();arr.push(order);saveLocalOrders(arr);
@@ -5409,6 +5571,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
         const a=localOrders(), x=a.find(o=>o.id===id); if(x)x.status=status; saveLocalOrders(a);
       }
       toast('Статус өзгертілді');
+      window.sgNotify?.('🔄 Тапсырыс статусы', 'Тапсырыс статусы: '+status);
       sgCoreOpenOrders();
     }catch(e){toast('Статус өзгермеді: '+e.message)}
   };
@@ -6072,6 +6235,92 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
    if(a&&b)b.textContent=a.textContent;
   },500);
  }
+})();
+</script>
+
+
+<!-- SatuGo Notifications -->
+<style id="sgNotifyStyle">
+  .sg-notify-bell{position:fixed;right:18px;bottom:140px;z-index:9998;border:0;border-radius:999px;background:#fff;color:#111827;padding:12px 15px;font-weight:800;cursor:pointer;box-shadow:0 8px 25px #0002;border:1px solid #e5e7eb}
+  .sg-notify-badge{display:inline-flex;min-width:20px;height:20px;align-items:center;justify-content:center;background:#ef4444;color:#fff;border-radius:999px;font-size:11px;margin-left:5px}
+  .sg-notify-panel{position:fixed;right:18px;bottom:195px;width:min(360px,calc(100vw - 36px));max-height:430px;overflow:auto;background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 15px 45px #0003;z-index:10000;padding:14px;display:none}
+  .sg-notify-panel.open{display:block}
+  .sg-notify-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .sg-notify-item{padding:11px;border:1px solid #eef0f3;border-radius:12px;margin:8px 0;background:#fafafa}
+  .sg-notify-item.unread{background:#f0fdf4;border-color:#bbf7d0}
+  .sg-notify-time{font-size:11px;color:#6b7280;margin-top:4px}
+</style>
+
+<script id="sgChatJS">
+(function(){
+  const CHAT='satugo_chats_cache';
+  let activeChat=null, unsubList=null, unsubMsgs=null;
+  const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  function me(){return window.currentUser || window.user || (window.firebase?.auth ? firebase.auth().currentUser : null)}
+  function toast(t){if(window.sgToast)sgToast(t);else alert(t)}
+  function chatId(a,b){return [a,b].sort().join('_')}
+  function panel(){return document.getElementById('sgChatPanel')}
+  function renderShell(){
+    if(document.getElementById('sgChatFab'))return;
+    const fab=document.createElement('button');fab.id='sgChatFab';fab.className='sg-chat-fab';fab.innerHTML='💬 Чат <span id="sgChatBadge" class="sg-chat-badge" style="display:none">0</span>';fab.onclick=sgOpenChat;document.body.appendChild(fab);
+    const p=document.createElement('div');p.id='sgChatPanel';p.className='sg-chat-panel';p.innerHTML=`<div class="sg-chat-head"><b id="sgChatTitle">💬 Чаттар</b><button onclick="sgCloseChat()" style="border:0;background:#f3f4f6;border-radius:9px;padding:6px 10px;cursor:pointer">×</button></div><div id="sgChatBody" class="sg-chat-list"></div>`;document.body.appendChild(p);
+  }
+  window.sgOpenChat=function(){renderShell();const p=panel();p.classList.add('open');showChats();};
+  window.sgCloseChat=function(){panel()?.classList.remove('open'); if(unsubMsgs){unsubMsgs();unsubMsgs=null} activeChat=null;};
+  window.sgStartChat=async function(sellerId,sellerName){
+    const u=me(); if(!u){toast('Чатқа кіру үшін аккаунтқа кіріңіз');return;}
+    if(!sellerId || sellerId===u.uid){toast('Бұл тауардың сатушысы чатқа қолжетімсіз');return;}
+    renderShell(); panel().classList.add('open');
+    const id=chatId(u.uid,sellerId);
+    try{await db.collection('chats').doc(id).set({participants:[u.uid,sellerId],participantNames:{[u.uid]:profile?.name||u.email||'Қолданушы',[sellerId]:sellerName||'Сатушы'},updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}); openChat(id,sellerName||'Сатушы');}
+    catch(e){toast('Чатты ашу мүмкін болмады: '+e.message)}
+  };
+  async function showChats(){
+    const u=me(), body=document.getElementById('sgChatBody'), title=document.getElementById('sgChatTitle'); if(!u){title.textContent='💬 Чаттар';body.innerHTML='<div class="sg-chat-empty">Чат үшін аккаунтқа кіріңіз.</div>';return;}
+    title.textContent='💬 Чаттар'; body.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';
+    try{const snap=await db.collection('chats').where('participants','array-contains',u.uid).limit(30).get(); if(snap.empty){body.innerHTML='<div class="sg-chat-empty">Әзірге чат жоқ.<br>Тауардан «💬 Сатушымен чат» батырмасын басыңыз.</div>';return;} body.innerHTML=snap.docs.map(d=>{const x=d.data(), other=(x.participants||[]).find(id=>id!==u.uid)||'', name=x.participantNames?.[other]||'Қолданушы';return `<div class="sg-chat-row" onclick="sgOpenExistingChat('${d.id}','${esc(name)}')"><b>👤 ${esc(name)}</b><small>Чатты ашу</small></div>`}).join('');}catch(e){body.innerHTML='<div class="sg-chat-empty">Чаттарды жүктеу қатесі.<br>'+esc(e.message)+'</div>'; }
+  }
+  window.sgOpenExistingChat=function(id,name){openChat(id,name)};
+  function openChat(id,name){
+    document.querySelectorAll('.sg-chat-compose').forEach(el=>el.remove());
+    activeChat=id; const u=me(); document.getElementById('sgChatTitle').innerHTML=`<button class="sg-chat-back" onclick="sgBackChats()">←</button> 💬 ${esc(name)}`; const body=document.getElementById('sgChatBody'); body.className='sg-chat-messages'; body.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';
+    if(unsubMsgs)unsubMsgs();
+    unsubMsgs=db.collection('chats').doc(id).collection('messages').orderBy('createdAt','asc').limitToLast(100).onSnapshot(snap=>{body.innerHTML=snap.empty?'<div class="sg-chat-empty">Сәлемдесуден бастаңыз 👋</div>':snap.docs.map(d=>{const x=d.data();return `<div class="sg-msg ${x.senderId===u.uid?'me':'other'}">${esc(x.text)}<div style="font-size:10px;opacity:.6;margin-top:3px">${x.createdAt?.toDate?x.createdAt.toDate().toLocaleString('kk-KZ'):''}</div></div>`}).join('');body.scrollTop=body.scrollHeight;});
+    document.querySelector('.sg-chat-compose')?.remove(); const compose=document.createElement('div');compose.className='sg-chat-compose';compose.innerHTML='<input id="sgChatInput" placeholder="Хабарлама жазыңыз..." onkeydown="if(event.key==='Enter')sgSendMessage()"><button onclick="sgSendMessage()">Жіберу</button>'; panel().appendChild(compose);
+  }
+  window.sgBackChats=function(){const c=document.querySelector('.sg-chat-compose');if(c)c.remove(); if(unsubMsgs){unsubMsgs();unsubMsgs=null} showChats();};
+  window.sgSendMessage=async function(){const u=me(), inp=document.getElementById('sgChatInput');if(!u||!activeChat||!inp)return;const text=inp.value.trim();if(!text)return;inp.value='';try{await db.collection('chats').doc(activeChat).collection('messages').add({senderId:u.uid,senderName:profile?.name||u.email||'Қолданушы',text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await db.collection('chats').doc(activeChat).set({lastMessage:text,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});}catch(e){toast('Хабарлама жіберілмеді: '+e.message)}};
+  function install(){renderShell();}
+  window.sgChatInstall=install; setTimeout(install,400);
+})();
+</script>
+<script id="sgNotifyJS">
+(function(){
+  const KEY='satugo_notifications';
+  function read(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
+  function write(a){localStorage.setItem(KEY,JSON.stringify(a.slice(0,50)));render()}
+  function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+  function render(){
+    const panel=document.getElementById('sgNotifyPanel'), list=document.getElementById('sgNotifyList'), badge=document.getElementById('sgNotifyBadge');
+    if(!panel||!list)return;
+    const a=read(), unread=a.filter(x=>!x.read).length;
+    badge.textContent=unread; badge.style.display=unread?'inline-flex':'none';
+    list.innerHTML=a.length?a.map((x,i)=>`<div class="sg-notify-item ${x.read?'':'unread'}" onclick="sgReadNotification(${i})"><b>${esc(x.title)}</b><div>${esc(x.text)}</div><div class="sg-notify-time">${esc(x.time||'')}</div></div>`).join(''):'<div class="muted">Хабарлама жоқ.</div>';
+  }
+  window.sgNotify=function(title,text){
+    const a=read(); a.unshift({title,text,time:new Date().toLocaleString('kk-KZ'),read:false}); write(a);
+  };
+  window.sgReadNotification=function(i){const a=read();if(a[i])a[i].read=true;write(a)};
+  window.sgClearNotifications=function(){write([])};
+  window.sgOpenNotifications=function(){document.getElementById('sgNotifyPanel')?.classList.toggle('open');render()};
+  function install(){
+    if(document.getElementById('sgNotifyBell'))return;
+    const b=document.createElement('button');b.id='sgNotifyBell';b.className='sg-notify-bell';b.innerHTML='🔔 Хабарламалар <span id="sgNotifyBadge" class="sg-notify-badge">0</span>';b.onclick=sgOpenNotifications;
+    const panel=document.createElement('div');panel.id='sgNotifyPanel';panel.className='sg-notify-panel';panel.innerHTML='<div class="sg-notify-head"><b>🔔 Хабарламалар</b><button onclick="sgClearNotifications()" style="border:0;background:#f3f4f6;border-radius:8px;padding:6px 9px;cursor:pointer">Тазалау</button></div><div id="sgNotifyList"></div>';
+    document.body.appendChild(b);document.body.appendChild(panel);render();
+  }
+  window.sgNotifyInstall=install;
+  setInterval(install,1000); setTimeout(install,300);
 })();
 </script>
 
