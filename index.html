@@ -1206,6 +1206,91 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 }
 
 </style>
+
+<style id="satugo-card-only-open">
+/* SatuGo: карточка ықшам, әрекеттер тауардың толық бетінде */
+.satugo-compact-card{
+  position:relative;
+  cursor:pointer;
+  overflow:hidden;
+  min-width:0;
+}
+.satugo-compact-card .card-image-wrap{
+  height:150px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.satugo-compact-card .card-image{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.satugo-compact-card .card-body{
+  padding:10px 12px 12px;
+}
+.satugo-compact-card .card-category{
+  font-size:11px;
+  opacity:.65;
+  margin-bottom:4px;
+}
+.satugo-compact-card .card-title{
+  font-size:14px;
+  line-height:1.25;
+  margin:0 0 7px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.satugo-compact-card .card-price{
+  font-size:17px;
+  font-weight:700;
+  margin-bottom:5px;
+}
+.satugo-compact-card .card-meta,
+.satugo-compact-card .card-seller{
+  font-size:11px;
+  opacity:.7;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.satugo-compact-card .favorite-btn{
+  position:absolute;
+  top:8px;
+  right:8px;
+  z-index:3;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  border:0;
+  cursor:pointer;
+  font-size:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.9);
+}
+.satugo-compact-card .card-buttons,
+.satugo-compact-card .add-cart,
+.satugo-compact-card .buy-btn,
+.satugo-compact-card .compare-btn,
+.satugo-compact-card .offer-btn,
+.satugo-compact-card .card-open{
+  display:none !important;
+}
+@media (max-width:650px){
+  .satugo-compact-card .card-image-wrap{height:120px}
+  .satugo-compact-card .card-body{padding:8px 9px 10px}
+  .satugo-compact-card .card-title{font-size:13px}
+  .satugo-compact-card .card-price{font-size:15px}
+  .satugo-compact-card .favorite-btn{width:29px;height:29px;font-size:18px}
+}
+</style>
+
 </head>
 
 <body>
@@ -2150,56 +2235,30 @@ function renderProducts(){
 
 
 function productCard(p){
-
-  const liked = favorites.includes(p.id);
+  const id = esc(p.id);
+  const title = esc(p.title || "Тауар");
+  const image = esc(p.image || p.img || "");
+  const price = Number(p.price || 0).toLocaleString("ru-RU");
+  const rating = p.rating ? `⭐ ${esc(p.rating)}` : "";
+  const city = esc(p.city || p.location || "");
+  const seller = esc(p.sellerName || p.seller || "");
 
   return `
-    <article class="card" onclick="showProduct('${esc(p.id)}')">
-
-      ${
-        p.discount
-        ? `<span class="discount">-${esc(String(p.discount).replace('%',''))}%</span>`
-        : ""
-      }
-
-      <button
-        class="favorite"
-        onclick="event.stopPropagation(); toggleFavorite('${esc(p.id)}')"
-        aria-label="Таңдаулыға қосу"
-      >
-        ${liked?"❤️":"🤍"}
-      </button>
-
-      <div class="product-image">
-        ${
-          p.image
-          ? `<img src="${esc(p.image)}" alt="${esc(p.title||p.name||'Тауар')}" onerror="this.style.display='none'">`
-          : esc(p.emoji||"🛍️")
-        }
+    <article class="card satugo-compact-card" onclick="showProduct('${id}')">
+      <button class="favorite-btn" type="button" onclick="event.stopPropagation(); toggleFavorite('${id}')" aria-label="Таңдаулыға қосу">♡</button>
+      <div class="card-image-wrap">
+        ${image ? `<img class="card-image" src="${image}" alt="${title}" loading="lazy">` : `<div class="card-image card-image-empty">SatuGo</div>`}
       </div>
-
       <div class="card-body">
-        <span class="tag">${esc(p.cat||p.category||"Тауар")}</span>
-        <h3>${esc(p.title||p.name||"Тауар")}</h3>
-        <div class="price">${money(p.price)}</div>
-        <div class="rating">⭐ ${p.rating||"Жаңа"} · ${esc(p.city||"Қазақстан")}</div>
-        <div class="muted" style="margin-top:4px">🏪 ${esc(p.seller||"Сатушы")}</div>
-
-        <button
-          class="card-open"
-          onclick="event.stopPropagation(); showProduct('${esc(p.id)}')"
-        >
-          Толық көру →
-        </button>
+        <div class="card-category">${esc(p.category || "")}</div>
+        <h3 class="card-title">${title}</h3>
+        <div class="card-price">${price} ₸</div>
+        <div class="card-meta">${rating}${rating && city ? " · " : ""}${city}</div>
+        ${seller ? `<div class="card-seller">${seller}</div>` : ""}
       </div>
     </article>
   `;
 }
-
-/* =========================================================
-   CART
-========================================================= */
-
 function addToCart(id){
 
   const item=
