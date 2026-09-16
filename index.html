@@ -835,6 +835,43 @@ footer{
 @media(max-width:650px){.sg-core-grid{grid-template-columns:1fr}.sg-core-box{padding:14px}}
 </style>
 
+
+<style id="satugo-phone-auth-css">
+.sg-phone-auth{display:none;position:absolute;top:100%;right:12px;width:min(390px,calc(100vw - 24px));background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:16px;box-shadow:0 12px 35px rgba(0,0,0,.12);z-index:99999}
+.sg-phone-auth.open{display:block}
+.sg-phone-box{width:100%}
+.sg-phone-box h2{margin:0 0 5px;font-size:19px}.sg-phone-help{font-size:12px;color:#777;margin-bottom:12px}
+.sg-phone-input{width:100%;box-sizing:border-box;padding:11px;border:1px solid #ddd;border-radius:10px;margin:5px 0 9px;font-size:16px;outline:none}
+.sg-phone-input:focus{border-color:#222}
+.sg-phone-btn{width:100%;border:0;border-radius:10px;padding:11px;margin:3px 0;font-weight:700;cursor:pointer;background:#111;color:#fff}
+.sg-phone-btn.alt{background:#f3f3f3;color:#111}.sg-phone-btn.green{background:#16834d}
+.sg-phone-msg{font-size:12px;margin:7px 0;min-height:17px}.sg-phone-error{color:#c62828}.sg-phone-ok{color:#16834d}
+.sg-recaptcha{margin:6px 0;overflow:hidden}
+.sg-auth-badge{display:inline-block;background:#eef8f1;color:#16834d;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700}
+#sgPhoneLoginButton{width:auto!important;display:inline-block!important}
+@media(max-width:600px){
+ .sg-phone-auth{position:fixed;top:auto;bottom:10px;left:10px;right:10px;width:auto;border-radius:18px;padding:15px}
+}
+</style>
+
+
+<style id="satugo-profile-v3-css">
+#sgProfileOverlay{position:fixed;inset:0;background:rgba(0,0,0,.28);display:none;z-index:120000}
+#sgProfileOverlay.open{display:block}
+#sgProfilePanel{position:absolute;top:68px;right:16px;width:360px;max-width:calc(100vw - 32px);background:#fff;border:1px solid #e8e8e8;border-radius:18px;padding:16px;box-shadow:0 16px 50px rgba(0,0,0,.16)}
+.sg-p-head{display:flex;align-items:center;gap:12px;padding:4px 4px 14px;border-bottom:1px solid #eee}
+.sg-p-avatar{width:46px;height:46px;border-radius:50%;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;font-size:21px}
+.sg-p-name{font-weight:800;font-size:17px}.sg-p-phone{font-size:12px;color:#777;margin-top:3px}
+.sg-p-close{position:absolute;right:12px;top:10px;border:0;background:#f2f2f2;width:30px;height:30px;border-radius:50%;cursor:pointer}
+.sg-p-item{display:flex!important;align-items:center!important;gap:12px!important;width:100%!important;border:0!important;background:transparent!important;padding:12px 8px!important;border-radius:10px!important;text-align:left!important;cursor:pointer!important;font-size:14px!important;color:#111!important}
+.sg-p-item:hover{background:#f5f5f5!important}.sg-p-icon{width:26px;text-align:center;font-size:18px}
+.sg-p-sub{margin-left:auto;color:#999;font-size:11px}
+#sgProfileButtonV3{border:0!important;background:transparent!important;cursor:pointer!important;font-size:21px!important;padding:7px!important}
+@media(max-width:600px){
+ #sgProfilePanel{top:auto;bottom:10px;left:10px;right:10px;width:auto;max-width:none}
+}
+</style>
+
 </head>
 
 <body>
@@ -5282,7 +5319,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   // Add quick entry points only once.
   function addButtons(){
     if(document.getElementById('sgCoreQuickBar')) return;
-    const host=document.querySelector('header')||document.body;
+    const host=document.querySelector('header')||document.body; host.style.position=host.style.position||'relative';
     const bar=document.createElement('div');bar.id='sgCoreQuickBar';
     bar.style.cssText='display:flex;gap:6px;flex-wrap:wrap;padding:8px 12px;justify-content:center;background:#fff;border-bottom:1px solid #eee';
     bar.innerHTML='<button class="sg-core-btn light" onclick="sgCoreOpenProfile()">👤 Профиль</button>'+
@@ -5301,6 +5338,256 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
     }else addButtons();
   }catch(e){addButtons()}
   setTimeout(addButtons,700);
+})();
+</script>
+
+
+<div id="sgPhoneAuth" class="sg-phone-auth">
+  <div class="sg-phone-box">
+    <h2>📱 SatuGo-ға кіру</h2>
+    <div class="sg-phone-help">Қазақстанның +7 нөміріне SMS-код жіберіледі.</div>
+
+    <div id="sgPhoneStep1">
+      <label>Телефон нөмірі</label>
+      <input id="sgPhoneNumber" class="sg-phone-input" inputmode="tel" autocomplete="tel"
+             placeholder="+7 700 123 45 67" maxlength="17">
+      <div id="sgRecaptcha" class="sg-recaptcha"></div>
+      <button id="sgSendSmsBtn" class="sg-phone-btn green" onclick="sgSendSms()">📨 SMS код жіберу</button>
+    </div>
+
+    <div id="sgPhoneStep2" style="display:none">
+      <div class="sg-auth-badge">SMS жіберілді</div>
+      <input id="sgPhoneCode" class="sg-phone-input" inputmode="numeric" autocomplete="one-time-code"
+             placeholder="6 таңбалы код" maxlength="6">
+      <button id="sgVerifySmsBtn" class="sg-phone-btn green" onclick="sgVerifySms()">✅ Кодты растау</button>
+      <button class="sg-phone-btn alt" onclick="sgResendSms()">🔄 Қайта жіберу</button>
+    </div>
+
+    <div id="sgPhoneMsg" class="sg-phone-msg"></div>
+    <button class="sg-phone-btn alt" onclick="sgPhoneClose()">Жабу</button>
+  </div>
+</div>
+
+
+<script id="satugo-phone-auth-js">
+(function(){
+  let confirmationResult=null;
+  let verifier=null;
+
+  function msg(text,ok=false){
+    const e=document.getElementById('sgPhoneMsg');
+    if(!e)return;
+    e.textContent=text;
+    e.className='sg-phone-msg '+(ok?'sg-phone-ok':'sg-phone-error');
+  }
+  function normalize(v){
+    let s=String(v||'').replace(/[^\d+]/g,'');
+    if(s.startsWith('8')) s='+7'+s.slice(1);
+    if(s.startsWith('7')&&!s.startsWith('+')) s='+'+s;
+    return s;
+  }
+  function valid(v){return /^\+7\d{10}$/.test(v)}
+  function authAvailable(){
+    return !!(window.firebase && firebase.auth && window.firebaseConfig);
+  }
+
+  window.sgPhoneOpen=function(){
+    document.getElementById('sgPhoneAuth')?.classList.add('open');
+    document.getElementById('sgPhoneNumber')?.focus();
+    msg('');
+    try{
+      if(!verifier && window.firebase?.auth?.RecaptchaVerifier){
+        verifier=new firebase.auth.RecaptchaVerifier('sgRecaptcha',{size:'normal'});
+        verifier.render();
+      }
+    }catch(e){ /* reCAPTCHA will be initialized on send */ }
+  };
+  window.sgPhoneClose=function(){
+    document.getElementById('sgPhoneAuth')?.classList.remove('open');
+  };
+
+  async function makeVerifier(){
+    if(verifier)return verifier;
+    if(!window.firebase?.auth)throw new Error('Firebase Authentication қосылмаған.');
+    verifier=new firebase.auth.RecaptchaVerifier('sgRecaptcha',{size:'normal'});
+    await verifier.render();
+    return verifier;
+  }
+
+  window.sgSendSms=async function(){
+    if(!authAvailable()){
+      msg('Firebase конфигурациясы табылмады. Алдымен Firebase Authentication баптау керек.');
+      return;
+    }
+    const input=document.getElementById('sgPhoneNumber');
+    const phone=normalize(input.value);
+    input.value=phone;
+    if(!valid(phone)){msg('Нөмірді +7 және 10 цифрмен енгізіңіз. Мысалы: +77001234567');return}
+
+    const btn=document.getElementById('sgSendSmsBtn');
+    btn.disabled=true; btn.textContent='SMS жіберілуде...';
+    try{
+      const v=await makeVerifier();
+      confirmationResult=await firebase.auth().signInWithPhoneNumber(phone,v);
+      document.getElementById('sgPhoneStep1').style.display='none';
+      document.getElementById('sgPhoneStep2').style.display='block';
+      msg('SMS код жіберілді. Кодты енгізіңіз.',true);
+      document.getElementById('sgPhoneCode').focus();
+    }catch(e){
+      confirmationResult=null;
+      msg('SMS жіберу қатесі: '+(e.message||e));
+      try{verifier?.clear();}catch(x){}
+      verifier=null;
+      document.getElementById('sgRecaptcha').innerHTML='';
+    }finally{
+      btn.disabled=false; btn.textContent='📨 SMS код жіберу';
+    }
+  };
+
+  window.sgVerifySms=async function(){
+    if(!confirmationResult){msg('Алдымен SMS код сұратыңыз.');return}
+    const code=document.getElementById('sgPhoneCode').value.trim();
+    if(!/^\d{6}$/.test(code)){msg('6 таңбалы SMS кодты енгізіңіз.');return}
+    const btn=document.getElementById('sgVerifySmsBtn');
+    btn.disabled=true;btn.textContent='Тексерілуде...';
+    try{
+      const result=await confirmationResult.confirm(code);
+      const user=result.user;
+      window.currentUser=user;
+
+      const old=JSON.parse(localStorage.getItem('satugo_core_profile')||'{}');
+      const profile={...old,uid:user.uid,phone:user.phoneNumber||normalize(document.getElementById('sgPhoneNumber').value),email:user.email||old.email||'',role:old.role||'buyer'};
+      localStorage.setItem('satugo_core_profile',JSON.stringify(profile));
+
+      if(window.db){
+        await db.collection('users').doc(user.uid).set({
+          uid:user.uid,phone:user.phoneNumber||profile.phone,email:user.email||'',
+          role:profile.role,name:profile.name||'',city:profile.city||'',address:profile.address||'',
+          phoneVerified:true,updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+        },{merge:true});
+      }
+
+      msg('Телефон нөмірі расталды. Кіру сәтті аяқталды.',true);
+      setTimeout(()=>sgPhoneClose(),800);
+    }catch(e){
+      msg('Код қате немесе мерзімі өткен: '+(e.message||e));
+    }finally{
+      btn.disabled=false;btn.textContent='✅ Кодты растау';
+    }
+  };
+
+  window.sgResendSms=async function(){
+    // Reset reCAPTCHA and request another SMS through the same flow.
+    confirmationResult=null;
+    document.getElementById('sgPhoneStep2').style.display='none';
+    document.getElementById('sgPhoneStep1').style.display='block';
+    try{verifier?.clear();}catch(e){}
+    verifier=null;
+    document.getElementById('sgRecaptcha').innerHTML='';
+    msg('Нөмірді тексеріп, SMS-ті қайта жіберіңіз.');
+    setTimeout(()=>sgSendSms(),250);
+  };
+
+  function addPhoneButton(){
+    if(document.getElementById('sgPhoneLoginButton'))return;
+    const host=document.querySelector('header')||document.body; host.style.position=host.style.position||'relative';
+    const b=document.createElement('button');
+    b.id='sgPhoneLoginButton';
+    b.className='sg-phone-btn';
+    b.style.cssText='width:auto;display:inline-block;margin:5px';
+    b.textContent='📱 Кіру';
+    b.onclick=sgPhoneOpen;
+    host.appendChild(b);
+  }
+
+  try{
+    if(window.firebase?.auth){
+      firebase.auth().onAuthStateChanged(user=>{
+        window.currentUser=user||null;
+        if(user && user.phoneNumber) localStorage.setItem('satugo_phone_verified','1');
+      });
+    }
+  }catch(e){}
+
+  setTimeout(addPhoneButton,900);
+})();
+</script>
+
+
+<div id="sgProfileOverlay" onclick="if(event.target===this)sgProfileCloseV3()">
+  <div id="sgProfilePanel">
+    <button class="sg-p-close" onclick="sgProfileCloseV3()">✕</button>
+    <div class="sg-p-head">
+      <div class="sg-p-avatar">👤</div>
+      <div>
+        <div id="sgPName" class="sg-p-name">Менің профилім</div>
+        <div id="sgPPhone" class="sg-p-phone">Телефон нөмірі расталмаған</div>
+      </div>
+    </div>
+    <button class="sg-p-item" onclick="sgProfileActionV3('profile')"><span class="sg-p-icon">✏️</span><span>Профильді өзгерту</span></button>
+    <button class="sg-p-item" onclick="sgProfileActionV3('orders')"><span class="sg-p-icon">📦</span><span>Менің тапсырыстарым</span></button>
+    <button class="sg-p-item" onclick="sgProfileActionV3('seller')"><span class="sg-p-icon">🏪</span><span>Менің дүкенім</span><span class="sg-p-sub">Сатушы</span></button>
+    <button class="sg-p-item" onclick="sgProfileActionV3('cart')"><span class="sg-p-icon">🛒</span><span>Себет</span></button>
+    <button class="sg-p-item" onclick="sgProfileActionV3('phone')"><span class="sg-p-icon">📱</span><span>Телефон арқылы кіру</span></button>
+    <button class="sg-p-item" onclick="sgProfileActionV3('logout')"><span class="sg-p-icon">🚪</span><span>Шығу</span></button>
+  </div>
+</div>
+
+
+<script id="satugo-profile-v3-js">
+(function(){
+  function profile(){
+    try{return JSON.parse(localStorage.getItem('satugo_core_profile')||'{}')}catch(e){return {}}
+  }
+  function refresh(){
+    const p=profile();
+    const n=document.getElementById('sgPName'), ph=document.getElementById('sgPPhone');
+    if(n)n.textContent=p.name||'Менің профилім';
+    if(ph)ph.textContent=p.phone||'Телефон нөмірі расталмаған';
+  }
+  window.sgProfileOpenV3=function(){refresh();document.getElementById('sgProfileOverlay')?.classList.add('open')};
+  window.sgProfileCloseV3=function(){document.getElementById('sgProfileOverlay')?.classList.remove('open')};
+  window.sgProfileActionV3=function(type){
+    sgProfileCloseV3();
+    if(type==='phone'){if(typeof sgPhoneOpen==='function')sgPhoneOpen();return}
+    if(type==='logout'){
+      try{if(window.firebase?.auth)firebase.auth().signOut()}catch(e){}
+      localStorage.removeItem('satugo_phone_verified'); location.reload(); return;
+    }
+    const map={
+      profile:['openProfile','profileModal','sgProfileModal'],
+      orders:['openOrders','ordersModal','sgOrdersModal'],
+      seller:['openSeller','openSellerModal','openStore','sellerModal'],
+      cart:['openCart','openCheckout','checkoutModal']
+    };
+    const a=map[type]||[];
+    for(const fn of a){if(typeof window[fn]==='function'){window[fn]();return}}
+    for(const id of a.slice(1)){const e=document.getElementById(id);if(e){e.style.display='flex';return}}
+  };
+
+  function findAndReplaceOld(){
+    // Remove old standalone profile/orders buttons, preserving the new compact profile button.
+    document.querySelectorAll('button,a').forEach(el=>{
+      if(el.id==='sgPhoneLoginButton'||el.id==='sgProfileButtonV3')return;
+      const t=(el.textContent||'').replace(/\s+/g,' ').trim();
+      if(t==='Профиль'||t==='👤 Профиль'||t==='📦 Тапсырыстар'||t==='Менің тапсырыстарым'||t==='Тапсырыстар'){
+        el.remove();
+      }
+    });
+
+    if(!document.getElementById('sgProfileButtonV3')){
+      const header=document.querySelector('header');
+      if(header){
+        const b=document.createElement('button');
+        b.id='sgProfileButtonV3';b.textContent='👤';b.title='Профиль';b.setAttribute('aria-label','Профиль');
+        b.onclick=function(e){e.preventDefault();e.stopPropagation();sgProfileOpenV3()};
+        header.appendChild(b);
+      }
+    }
+  }
+  setTimeout(findAndReplaceOld,1000);
+  setTimeout(findAndReplaceOld,2500);
+  refresh();
 })();
 </script>
 
