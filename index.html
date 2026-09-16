@@ -618,6 +618,65 @@ footer{
   padding:40px 15px 90px;
 }
 
+
+/* PRODUCT CARD: compact + details inside modal */
+.product-extra{
+  display:none;
+}
+.product-card-open{
+  width:100%;
+  margin-top:8px;
+}
+.detail-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:20px;
+}
+.detail-info h2{
+  margin:0 0 8px;
+}
+.detail-price{
+  font-size:28px;
+  font-weight:900;
+  margin:10px 0;
+}
+.detail-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:10px 0;
+}
+.detail-meta span{
+  padding:6px 9px;
+  border-radius:999px;
+  background:#f3f4f6;
+  color:#374151;
+  font-size:12px;
+}
+.detail-description{
+  color:#4b5563;
+  line-height:1.6;
+  margin:12px 0 18px;
+}
+.detail-buy{
+  position:sticky;
+  bottom:0;
+  background:#fff;
+  padding-top:10px;
+}
+@media(max-width:650px){
+  .detail-grid{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .detail-image{
+    height:210px;
+  }
+  .detail-price{
+    font-size:24px;
+  }
+}
+
 /* MOBILE */
 
 @media(max-width:900px){
@@ -722,6 +781,430 @@ footer{
     height:250px;
   }
 }
+
+
+/* =========================================================
+   SATUGO UI REFRESH — 2026
+   Visual-only overrides. Existing functionality is unchanged.
+========================================================= */
+:root{
+  --primary:#16a34a;
+  --primary-dark:#0f7a36;
+  --primary-soft:#ecfdf3;
+  --blue:#2563eb;
+  --dark:#0f172a;
+  --muted:#64748b;
+  --bg:#f7f8fa;
+  --card:#ffffff;
+  --border:#e8edf3;
+  --danger:#dc2626;
+  --radius:22px;
+  --shadow-sm:0 6px 22px rgba(15,23,42,.06);
+  --shadow-md:0 14px 38px rgba(15,23,42,.10);
+}
+
+body{
+  background:
+    radial-gradient(circle at 15% 0%,rgba(22,163,74,.05),transparent 26%),
+    var(--bg);
+  color:var(--dark);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+.wrap{width:min(1220px,calc(100% - 32px));}
+
+header{
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  border-bottom:1px solid rgba(226,232,240,.9);
+  box-shadow:0 4px 18px rgba(15,23,42,.035);
+}
+.header-main{min-height:76px;gap:14px;}
+.logo{
+  font-size:29px;
+  font-weight:950;
+  letter-spacing:-1.4px;
+  color:var(--primary);
+  text-shadow:0 1px 0 #fff;
+}
+.search-wrap input{
+  height:50px;
+  padding-left:46px;
+  border-radius:16px;
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  transition:.2s ease;
+}
+.search-wrap input:hover{background:#fff;border-color:#dbe3ec;}
+.search-wrap input:focus{
+  background:#fff;
+  border-color:#86efac;
+  box-shadow:0 0 0 4px rgba(34,197,94,.10);
+}
+.icon-btn{
+  width:46px;
+  height:46px;
+  border:1px solid #e7ebf0;
+  border-radius:15px;
+  background:#fff;
+  box-shadow:0 4px 14px rgba(15,23,42,.045);
+  transition:.18s ease;
+}
+.icon-btn:hover{background:#f8fafc;transform:translateY(-1px);box-shadow:0 8px 18px rgba(15,23,42,.08);}
+
+.categories{gap:9px;padding:0 0 14px;scrollbar-width:none;}
+.categories::-webkit-scrollbar{display:none;}
+.categories button{
+  padding:10px 15px;
+  border:1px solid #e7ebf0;
+  background:#fff;
+  color:#334155;
+  font-weight:700;
+  box-shadow:0 3px 10px rgba(15,23,42,.025);
+  transition:.18s ease;
+}
+.categories button:hover{border-color:#bbf7d0;background:#f7fff9;color:#166534;}
+.categories button.active{
+  background:linear-gradient(135deg,#16a34a,#22c55e);
+  border-color:transparent;
+  color:#fff;
+  box-shadow:0 8px 20px rgba(22,163,74,.20);
+}
+
+.btn{
+  min-height:44px;
+  border-radius:14px;
+  padding:11px 17px;
+  font-weight:800;
+  letter-spacing:-.1px;
+  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+}
+.btn:hover{transform:translateY(-2px);filter:brightness(.99);}
+.btn:active{transform:translateY(0);}
+.btn-primary{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 8px 20px rgba(22,163,74,.18);}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 8px 20px rgba(37,99,235,.16);}
+.btn-dark{background:linear-gradient(135deg,#0f172a,#1e293b);box-shadow:0 8px 20px rgba(15,23,42,.16);}
+.btn-light{background:#f1f5f9;color:#334155;border:1px solid #e2e8f0;}
+.btn-danger{background:#fff1f2;color:#be123c;border:1px solid #fecdd3;}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  margin:28px 0 34px;
+  padding:54px 52px;
+  border-radius:32px;
+  background:
+    radial-gradient(circle at 88% 16%,rgba(255,255,255,.22),transparent 25%),
+    radial-gradient(circle at 72% 90%,rgba(59,130,246,.30),transparent 28%),
+    linear-gradient(135deg,#0f7a36 0%,#16a34a 43%,#2563eb 100%);
+  box-shadow:0 24px 60px rgba(15,118,54,.18);
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  width:260px;height:260px;
+  right:-85px;bottom:-120px;
+  border-radius:50%;
+  border:42px solid rgba(255,255,255,.08);
+}
+.hero h1{
+  position:relative;
+  z-index:1;
+  max-width:760px;
+  font-size:clamp(36px,4.5vw,58px);
+  line-height:1.02;
+  letter-spacing:-2.4px;
+}
+.hero p{
+  position:relative;z-index:1;
+  max-width:680px;
+  margin:18px 0 0;
+  color:rgba(255,255,255,.82);
+  font-size:17px;
+  line-height:1.65;
+}
+.hero-search{position:relative;z-index:1;max-width:760px;margin-top:26px;gap:10px;}
+.hero-search input{
+  min-height:52px;
+  border:1px solid rgba(255,255,255,.65);
+  background:rgba(255,255,255,.96);
+  box-shadow:0 10px 28px rgba(15,23,42,.12);
+}
+.hero-search .btn{min-width:120px;}
+
+.section{margin:38px 0;}
+.section-head{margin-bottom:16px;}
+.section-head h2{font-size:26px;letter-spacing:-.65px;}
+.muted{color:#7c8799;}
+
+.filters{
+  gap:12px;
+  padding:14px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:var(--shadow-sm);
+  margin-bottom:22px;
+}
+input,select,textarea{
+  min-height:46px;
+  border:1px solid #dfe5ec;
+  border-radius:14px;
+  background:#fff;
+  color:var(--dark);
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+}
+input::placeholder,textarea::placeholder{color:#94a3b8;}
+input:focus,select:focus,textarea:focus{
+  border-color:#86efac;
+  box-shadow:0 0 0 4px rgba(34,197,94,.10);
+}
+
+.grid{gap:18px;}
+.card{
+  border-radius:22px;
+  border:1px solid #e8edf3;
+  box-shadow:0 8px 24px rgba(15,23,42,.055);
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+.card:hover{
+  transform:translateY(-5px);
+  border-color:#dbe4ec;
+  box-shadow:0 18px 40px rgba(15,23,42,.11);
+}
+.product-image{height:230px;background:linear-gradient(180deg,#f8fafc,#f1f5f9);}
+.product-image img{transition:transform .35s ease;}
+.card:hover .product-image img{transform:scale(1.035);}
+.favorite{
+  right:12px;top:12px;
+  width:40px;height:40px;
+  border:1px solid rgba(226,232,240,.9);
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(10px);
+  box-shadow:0 7px 18px rgba(15,23,42,.10);
+}
+.card-body{padding:16px;}
+.tag{
+  padding:6px 9px;
+  background:#ecfdf3;
+  color:#15803d;
+  border:1px solid #dcfce7;
+  font-size:11px;
+  letter-spacing:.15px;
+}
+.card h3{margin:10px 0 6px;font-size:16px;line-height:1.38;letter-spacing:-.2px;}
+.price{font-size:22px;letter-spacing:-.55px;margin:8px 0 5px;}
+.rating{color:#718096;}
+.card-buttons{gap:8px;margin-top:13px;}
+
+.feature-grid{gap:16px;}
+.feature{
+  min-height:210px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  padding:22px;
+  border-radius:22px;
+  border:1px solid #e8edf3;
+  box-shadow:0 7px 22px rgba(15,23,42,.045);
+  transition:.22s ease;
+}
+.feature:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(15,23,42,.085);}
+.feature-icon{
+  width:50px;height:50px;
+  display:grid;place-items:center;
+  border-radius:15px;
+  background:#f1f5f9;
+  font-size:25px;
+}
+.feature h3{margin:14px 0 6px;font-size:18px;}
+.feature p{margin:0 0 18px;line-height:1.55;flex:1;}
+.feature .btn{width:100%;}
+
+.ai{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(145deg,#0f172a,#182235 55%,#0b3d25);
+  padding:28px;
+  border-radius:26px;
+  box-shadow:0 18px 42px rgba(15,23,42,.16);
+}
+.ai::after{
+  content:"";
+  position:absolute;right:-80px;top:-90px;
+  width:220px;height:220px;border-radius:50%;
+  background:rgba(34,197,94,.10);
+  filter:blur(2px);
+}
+.ai>*{position:relative;z-index:1;}
+.ai textarea{background:rgba(255,255,255,.98);}
+.ai-result{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);}
+
+.discount{border-radius:10px;box-shadow:0 6px 16px rgba(220,38,38,.2);}
+
+.modal{
+  background:rgba(15,23,42,.58);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+.modal.show{animation:fadeIn .16s ease;}
+.modal-box{
+  margin:34px auto;
+  border-radius:26px;
+  padding:26px;
+  border:1px solid rgba(226,232,240,.9);
+  box-shadow:0 28px 80px rgba(15,23,42,.24);
+  animation:modalUp .22s ease;
+}
+.close{
+  width:38px;height:38px;
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  color:#475569;
+  transition:.18s ease;
+}
+.close:hover{background:#eef2f7;transform:rotate(4deg);}
+
+.detail-image{border-radius:20px;background:#f8fafc;}
+.order,.request,.seller-product{
+  background:#fff;
+  border-color:#e6ebf1;
+  box-shadow:0 4px 14px rgba(15,23,42,.035);
+}
+.stat{background:#f8fafc;border:1px solid #edf1f5;}
+.compare-bar{border:1px solid rgba(255,255,255,.08);box-shadow:0 18px 46px rgba(15,23,42,.28);}
+
+.bottom-nav{
+  height:70px;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 -5px 20px rgba(15,23,42,.045);
+}
+.bottom-nav button{transition:.18s ease;}
+.bottom-nav button:hover{color:var(--primary);}
+.empty{border:1px dashed #dbe3ec;background:rgba(255,255,255,.8);}
+footer{color:#8a94a4;}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes modalUp{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+
+@media(max-width:900px){
+  .wrap{width:min(100% - 24px,1220px);}
+  .hero{padding:42px 34px;}
+  .grid{grid-template-columns:repeat(3,1fr);}
+}
+
+@media(max-width:650px){
+  body{padding-bottom:82px;}
+  .wrap{width:min(100% - 14px,1220px);}
+  .header-main{padding:9px 0;min-height:auto;gap:9px;}
+  .logo{font-size:24px;}
+  .icon-btn{width:42px;height:42px;border-radius:13px;}
+  .search-wrap input{height:46px;border-radius:14px;}
+  .categories{padding-bottom:10px;}
+  .categories button{padding:9px 13px;font-size:13px;}
+
+  .hero{
+    margin:15px 0 26px;
+    padding:30px 22px;
+    border-radius:24px;
+  }
+  .hero h1{font-size:34px;letter-spacing:-1.5px;}
+  .hero p{font-size:15px;line-height:1.55;}
+  .hero-search{flex-direction:column;}
+  .hero-search .btn{width:100%;}
+
+  .section{margin:30px 0;}
+  .section-head h2{font-size:22px;}
+  .filters{padding:10px;gap:8px;border-radius:16px;}
+
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .card{border-radius:17px;}
+  .product-image{height:155px;}
+  .favorite{width:36px;height:36px;right:8px;top:8px;}
+  .card-body{padding:11px;}
+  .tag{font-size:10px;padding:4px 7px;}
+  .card h3{font-size:14px;line-height:1.32;margin:8px 0 5px;}
+  .price{font-size:18px;}
+  .rating{font-size:12px;}
+  .card-buttons{grid-template-columns:1fr;gap:6px;}
+  .card-buttons .btn{min-height:40px;padding:9px 10px;font-size:12px;}
+
+  .feature-grid{grid-template-columns:1fr;gap:11px;}
+  .feature{min-height:auto;padding:18px;border-radius:19px;}
+  .feature-icon{width:46px;height:46px;font-size:23px;}
+  .ai{padding:20px;border-radius:21px;}
+
+  .modal{padding:10px;}
+  .modal-box{margin:18px auto;padding:20px;border-radius:22px;}
+  .detail-image{height:245px;}
+  .bottom-nav{height:68px;}
+}
+
+@media(max-width:390px){
+  .hero h1{font-size:30px;}
+  .product-image{height:140px;}
+  .card-body{padding:9px;}
+  .card h3{font-size:13px;}
+  .price{font-size:17px;}
+}
+
+
+
+/* =========================================================
+   SATUGO FINAL POLISH
+========================================================= */
+body{overflow-x:hidden;}
+body.modal-open{overflow:hidden;}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(37,99,235,.18);outline-offset:2px;}
+.card{transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:#dce5ee;}
+.product-image{position:relative;cursor:pointer;}
+.product-image img{transition:transform .35s ease;}
+.card:hover .product-image img{transform:scale(1.035);}
+.favorite{transition:transform .18s ease,background .18s ease;}
+.favorite:hover{transform:scale(1.08);background:#f0fdf4;}
+.price{letter-spacing:-.5px;}
+.rating{margin-top:3px;}
+.card h3{min-height:42px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.empty{border:1px solid var(--border);box-shadow:var(--shadow-sm);}
+.modal{backdrop-filter:blur(4px);}
+.modal-box{box-shadow:0 24px 80px rgba(15,23,42,.20);}
+.detail-image{background:linear-gradient(135deg,#f8fafc,#eef2f7);}
+.order{background:#fff;box-shadow:0 3px 14px rgba(15,23,42,.035);}
+.feature{box-shadow:var(--shadow-sm);transition:transform .2s ease,box-shadow .2s ease;}
+.feature:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+#productCount{font-weight:700;}
+#products{min-height:80px;}
+.toast-wrap{position:fixed;right:18px;bottom:88px;z-index:300;display:grid;gap:10px;max-width:min(380px,calc(100% - 36px));}
+.satugo-toast{background:#0f172a;color:#fff;padding:13px 16px;border-radius:14px;box-shadow:0 14px 40px rgba(15,23,42,.22);font-weight:700;animation:toastIn .22s ease both;}
+.satugo-toast.success{background:#166534;}
+.satugo-toast.error{background:#991b1b;}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;background:#f1f5f9;border-radius:14px;padding:4px;margin-bottom:14px;}
+.auth-tabs button{border:0;background:transparent;padding:10px;border-radius:10px;font-weight:800;color:#64748b;}
+.auth-tabs button.active{background:#fff;color:#166534;box-shadow:0 2px 8px rgba(15,23,42,.08);}
+.cart-summary{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--border);padding-top:12px;margin-top:12px;}
+@media(max-width:650px){
+  .wrap{width:calc(100% - 14px);}
+  .header-main{gap:8px;}
+  .hero{margin:16px 0 24px;padding:28px 20px;border-radius:24px;}
+  .hero h1{font-size:32px;letter-spacing:-1.3px;}
+  .hero p{font-size:15px;}
+  .section{margin:28px 0;}
+  .section-head h2{font-size:21px;}
+  .filters{padding:10px;gap:8px;}
+  .card{border-radius:16px;}
+  .card-buttons{gap:6px;}
+  .btn{min-height:42px;padding:10px 11px;font-size:13px;}
+  .modal{padding:8px;}
+  .modal-box{margin:18px auto;padding:16px;border-radius:18px;}
+  .toast-wrap{right:10px;bottom:75px;max-width:calc(100% - 20px);}
+}
+
 </style>
 </head>
 
@@ -1238,7 +1721,27 @@ footer{
 </div>
 
 
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js">
+<script>
+/* SatuGo compact product-card behavior */
+function openProductFromCard(id){
+  if(typeof openProduct === 'function'){
+    openProduct(id);
+    return;
+  }
+  if(typeof openProductDetail === 'function'){
+    openProductDetail(id);
+    return;
+  }
+  if(typeof showProduct === 'function'){
+    showProduct(id);
+    return;
+  }
+  alert('Тауар туралы толық ақпарат ашылмады.');
+}
+</script>
+
+</script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 
@@ -1620,7 +2123,10 @@ function renderProducts(){
 
     box.innerHTML=`
       <div class="empty" style="grid-column:1/-1">
-        🔍 Тауар табылмады.
+        <div style="font-size:34px">🔎</div>
+        <h3>Тауар табылмады</h3>
+        <p>Іздеу немесе баға сүзгісін өзгертіп көріңіз.</p>
+        <button class="btn btn-light" onclick="clearProductFilters()">Сүзгілерді тазалау</button>
       </div>
     `;
 
@@ -4609,6 +5115,126 @@ document.addEventListener(
 
   }
 );
+
+
+
+/* =========================================================
+   FINAL FUNCTIONAL IMPROVEMENTS
+========================================================= */
+function satugoToast(message,type='success'){
+  let wrap=document.getElementById('toastWrap');
+  if(!wrap){
+    wrap=document.createElement('div');
+    wrap.id='toastWrap';
+    wrap.className='toast-wrap';
+    document.body.appendChild(wrap);
+  }
+  const el=document.createElement('div');
+  el.className='satugo-toast '+type;
+  el.textContent=message;
+  wrap.appendChild(el);
+  setTimeout(()=>el.remove(),2800);
+}
+
+function normalizeLocalState(){
+  if(!Array.isArray(cart)) cart=[];
+  if(!Array.isArray(favorites)) favorites=[];
+  if(!Array.isArray(compare)) compare=[];
+  cart=cart.filter(x=>x&&x.id).map(x=>({id:String(x.id),qty:Math.max(1,Number(x.qty)||1)}));
+  favorites=[...new Set(favorites.map(String))];
+  compare=[...new Set(compare.map(String))].slice(0,3);
+  saveCart();
+  localStorage.setItem('satugo_favorites',JSON.stringify(favorites));
+  localStorage.setItem('satugo_compare',JSON.stringify(compare));
+}
+
+function syncHeroSearch(){
+  const main=document.getElementById('search');
+  const hero=document.getElementById('heroSearch');
+  if(!main||!hero) return;
+  hero.value=main.value;
+}
+
+function clearProductFilters(){
+  const s=document.getElementById('search');
+  const min=document.getElementById('minPrice');
+  const max=document.getElementById('maxPrice');
+  const sort=document.getElementById('sort');
+  if(s) s.value='';
+  if(min) min.value='';
+  if(max) max.value='';
+  if(sort) sort.value='new';
+  currentCategory='Барлығы';
+  document.querySelectorAll('.categories button').forEach(b=>b.classList.toggle('active',b.dataset.cat==='Барлығы'));
+  syncHeroSearch();
+  renderProducts();
+}
+
+function renderProductsFinal(){
+  renderProducts();
+  const box=document.getElementById('products');
+  if(box && !box.children.length){
+    box.innerHTML='<div class="empty" style="grid-column:1/-1"><div style="font-size:34px">🔎</div><h3>Тауар табылмады</h3><p>Іздеу немесе баға сүзгісін өзгертіп көріңіз.</p><button class="btn btn-light" onclick="clearProductFilters()">Сүзгілерді тазалау</button></div>';
+  }
+}
+
+/* Replace add-to-cart feedback without changing its data model. */
+const _satugoOriginalAddToCart=addToCart;
+addToCart=function(id){
+  const p=getProduct(id);
+  _satugoOriginalAddToCart(id);
+  satugoToast(p ? '🛒 '+(p.title||'Тауар')+' себетке қосылды' : '🛒 Себетке қосылды','success');
+};
+
+const _satugoOriginalToggleFavorite=toggleFavorite;
+toggleFavorite=function(id){
+  const was=favorites.includes(id);
+  _satugoOriginalToggleFavorite(id);
+  satugoToast(was?'Таңдаулылардан алынды':'❤️ Таңдаулыларға қосылды',was?'success':'success');
+};
+
+const _satugoOriginalChangeQty=changeQty;
+changeQty=function(id,delta){
+  _satugoOriginalChangeQty(id,delta);
+  if(document.getElementById('cartModal')?.classList.contains('show')) renderCart();
+};
+
+const _satugoOriginalCheckout=checkout;
+checkout=async function(){
+  if(!user){return _satugoOriginalCheckout();}
+  satugoToast('⏳ Тапсырыс рәсімделуде...','success');
+  await _satugoOriginalCheckout();
+};
+
+/* Better modal behavior: ESC + body scroll lock. */
+const _satugoOriginalOpenModal=openModal;
+openModal=function(id){
+  _satugoOriginalOpenModal(id);
+  document.body.classList.add('modal-open');
+};
+const _satugoOriginalCloseModal=closeModal;
+closeModal=function(id){
+  _satugoOriginalCloseModal(id);
+  if(!document.querySelector('.modal.show')) document.body.classList.remove('modal-open');
+};
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    const m=document.querySelector('.modal.show');
+    if(m) closeModal(m.id);
+  }
+});
+
+/* Keep search in sync with the hero field and support Enter. */
+const _satugoOriginalRenderProducts=renderProducts;
+renderProducts=function(){
+  _satugoOriginalRenderProducts();
+  const main=document.getElementById('search');
+  const hero=document.getElementById('heroSearch');
+  if(main&&hero&&document.activeElement!==hero) hero.value=main.value;
+};
+
+/* Safer quantity persistence. */
+normalizeLocalState();
 
 
 /* =========================================================
