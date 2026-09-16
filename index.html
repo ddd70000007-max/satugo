@@ -1249,13 +1249,13 @@ footer{
 ========================================================= */
 
 const firebaseConfig = {
-  apiKey:"AIzaSyCj7VBpb-0u5YgFqz2Mm8NhvbytX_Fs5tJE",
-  authDomain:"satugo-c3b7c.firebaseapp.com",
-  projectId:"satugo-c3b7c",
-  storageBucket:"satugo-c3b7c.firebasestorage.app",
-  messagingSenderId:"32133349747",
-  appId:"1:32133349747:web:8df062f6428b4eb7ed8506",
-  measurementId:"G-4PF4DV016B"
+apiKey: "AIzaSyCj7VBpb0u5YgFqz2Mm8NhvbytX_Fs5tJE",
+  authDomain: "satugo-c3b7c.firebaseapp.com",
+  projectId: "satugo-c3b7c",
+  storageBucket: "satugo-c3b7c.firebasestorage.app",
+  messagingSenderId: "32133349747",
+  appId: "1:32133349747:web:8df062f6428b4eb7ed8506",
+  measurementId: "G-4PF4DV016B"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -3077,7 +3077,27 @@ async function openOffers(){
 
 
 /* =========================================================
-   AUTH
+   AUTH — КІРУ / ТІРКЕЛУ / ШЫҒУ
+========================================================= */
+
+auth.onAuthStateChanged(async (firebaseUser) => {
+
+  user = firebaseUser;
+
+  if (user) {
+    await loadProfile();
+  } else {
+    profile = null;
+  }
+
+  renderAccount();
+  updateCounts();
+
+});
+
+
+/* =========================================================
+   ACCOUNT MODAL
 ========================================================= */
 
 function openAccount(){
@@ -3089,38 +3109,91 @@ function openAccount(){
 }
 
 
+/* =========================================================
+   ACCOUNT UI
+========================================================= */
+
 function renderAccount(){
 
-  const box=
-    document.getElementById("account");
+  const box = document.getElementById("account");
 
-  if(!box)
-    return;
+  if(!box) return;
 
+
+  /* USER КІРГЕН */
 
   if(user){
 
-    box.innerHTML=`
+    const name =
+      profile?.name ||
+      user.displayName ||
+      user.email?.split("@")[0] ||
+      "Қолданушы";
 
-      <h3>
-        ${esc(
-          profile?.name||
-          user.displayName||
-          user.email||
-          user.phoneNumber||
-          "Қолданушы"
-        )}
-      </h3>
+    const email =
+      user.email || "";
 
-      <p class="muted">
-        ${esc(
-          user.email||
-          user.phoneNumber||
-          ""
-        )}
-      </p>
 
-      <div style="display:grid;gap:8px">
+    box.innerHTML = `
+
+      <div style="
+        text-align:center;
+        padding:10px 0 20px;
+      ">
+
+        <div style="
+          width:70px;
+          height:70px;
+          border-radius:50%;
+          background:#dcfce7;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          margin:0 auto 12px;
+          font-size:32px;
+        ">
+          👤
+        </div>
+
+        <h3 style="margin:0">
+          ${esc(name)}
+        </h3>
+
+        <p class="muted" style="margin:6px 0">
+          ${esc(email)}
+        </p>
+
+        ${
+          user.emailVerified
+          ?
+          `
+            <span class="tag">
+              ✓ Email расталған
+            </span>
+          `
+          :
+          `
+            <span style="
+              display:inline-block;
+              padding:5px 8px;
+              border-radius:999px;
+              background:#fef3c7;
+              color:#92400e;
+              font-size:11px;
+              font-weight:700;
+            ">
+              ⚠️ Email расталмаған
+            </span>
+          `
+        }
+
+      </div>
+
+
+      <div style="
+        display:grid;
+        gap:9px;
+      ">
 
         <button
           class="btn btn-primary"
@@ -3129,18 +3202,44 @@ function renderAccount(){
           🏪 Сатушы кабинеті
         </button>
 
+
         <button
-          class="btn btn-light"
+          class="btn btn-blue"
           onclick="openRequest()"
         >
           📣 Маған тауып бер
         </button>
 
+
+        <button
+          class="btn btn-light"
+          onclick="openOffers()"
+        >
+          💰 Менің ұсыныстарым
+        </button>
+
+
+        ${
+          !user.emailVerified
+          ?
+          `
+            <button
+              class="btn btn-light"
+              onclick="resendVerification()"
+            >
+              📧 Email-ды қайта растау
+            </button>
+          `
+          :
+          ""
+        }
+
+
         <button
           class="btn btn-danger"
           onclick="logout()"
         >
-          Шығу
+          🚪 Аккаунттан шығу
         </button>
 
       </div>
@@ -3148,56 +3247,104 @@ function renderAccount(){
     `;
 
     return;
-
   }
 
 
-  box.innerHTML=`
+  /* USER КІРМЕГЕН */
+
+  box.innerHTML = `
+
+    <div style="
+      text-align:center;
+      margin-bottom:20px;
+    ">
+
+      <div style="
+        font-size:48px;
+        margin-bottom:8px;
+      ">
+        👤
+      </div>
+
+      <h2 style="margin:0">
+        SatuGo аккаунты
+      </h2>
+
+      <p class="muted">
+        Кіру немесе жаңа аккаунт ашу
+      </p>
+
+    </div>
+
 
     <input
       id="authName"
+      type="text"
       placeholder="Атыңыз"
+      autocomplete="name"
     >
+
 
     <input
       id="authEmail"
       type="email"
       placeholder="Email"
+      autocomplete="email"
     >
+
 
     <input
       id="authPassword"
       type="password"
       placeholder="Құпиясөз"
+      autocomplete="current-password"
     >
 
-    <div
-      style="
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:8px;
-      "
-    >
+
+    <div style="
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:8px;
+    ">
 
       <button
         class="btn btn-blue"
         onclick="login()"
       >
-        Кіру
+        🔑 Кіру
       </button>
+
 
       <button
         class="btn btn-primary"
         onclick="register()"
       >
-        Тіркелу
+        📝 Тіркелу
       </button>
 
     </div>
 
+
+    <button
+      class="btn btn-light"
+      style="
+        width:100%;
+        margin-top:8px;
+      "
+      onclick="resetPassword()"
+    >
+      🔐 Құпиясөзді ұмыттым
+    </button>
+
+
     <p
       id="authStatus"
       class="muted"
+      style="
+        text-align:center;
+        margin-top:14px;
+      "
     ></p>
 
   `;
@@ -3205,28 +3352,94 @@ function renderAccount(){
 }
 
 
+/* =========================================================
+   STATUS
+========================================================= */
+
+function authMessage(message, type="info"){
+
+  const box =
+    document.getElementById("authStatus");
+
+  if(!box){
+
+    alert(message);
+    return;
+
+  }
+
+
+  const colors = {
+
+    info:"#6b7280",
+    success:"#15803d",
+    error:"#dc2626"
+
+  };
+
+
+  box.style.color =
+    colors[type] || colors.info;
+
+  box.textContent = message;
+
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
 async function register(){
 
-  const name=
-    document.getElementById(
-      "authName"
-    ).value.trim();
+  const name =
+    document
+      .getElementById("authName")
+      ?.value
+      .trim();
 
-  const email=
-    document.getElementById(
-      "authEmail"
-    ).value.trim();
+  const email =
+    document
+      .getElementById("authEmail")
+      ?.value
+      .trim()
+      .toLowerCase();
 
-  const password=
-    document.getElementById(
-      "authPassword"
-    ).value;
+  const password =
+    document
+      .getElementById("authPassword")
+      ?.value;
 
 
-  if(!email||password.length<6){
+  if(!name){
 
-    alert(
-      "Email енгізіңіз және құпиясөз кемінде 6 таңба болсын."
+    authMessage(
+      "Атыңызды енгізіңіз.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!email){
+
+    authMessage(
+      "Email енгізіңіз.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(password.length < 6){
+
+    authMessage(
+      "Құпиясөз кемінде 6 таңбадан тұруы керек.",
+      "error"
     );
 
     return;
@@ -3236,28 +3449,37 @@ async function register(){
 
   try{
 
-    const result=
+    authMessage(
+      "⏳ Аккаунт құрылып жатыр..."
+    );
+
+
+    const result =
       await auth
         .createUserWithEmailAndPassword(
           email,
           password
         );
 
-    const u=result.user;
 
+    const newUser =
+      result.user;
+
+
+    /* PROFILE */
 
     await db
       .collection("users")
-      .doc(u.uid)
+      .doc(newUser.uid)
       .set({
 
-        uid:u.uid,
+        uid:newUser.uid,
 
-        name:
-          name||
-          "SatuGo қолданушысы",
+        name:name,
 
-        email,
+        email:email,
+
+        role:"buyer",
 
         createdAt:
           firebase.firestore
@@ -3267,17 +3489,134 @@ async function register(){
       });
 
 
-    await u.sendEmailVerification();
+    /* DISPLAY NAME */
 
-    alert(
-      "✅ Аккаунт құрылды. Email-іңізді растаңыз."
+    try{
+
+      await newUser.updateProfile({
+
+        displayName:name
+
+      });
+
+    }catch(error){
+
+      console.warn(
+        "Display name:",
+        error
+      );
+
+    }
+
+
+    /* EMAIL VERIFICATION */
+
+    try{
+
+      await newUser.sendEmailVerification();
+
+    }catch(error){
+
+      console.warn(
+        "Verification email:",
+        error
+      );
+
+    }
+
+
+    user =
+      auth.currentUser;
+
+    profile = {
+
+      uid:newUser.uid,
+
+      name:name,
+
+      email:email,
+
+      role:"buyer"
+
+    };
+
+
+    renderAccount();
+    updateCounts();
+
+
+    authMessage(
+      "✅ Аккаунт сәтті құрылды!",
+      "success"
     );
+
+
+    setTimeout(()=>{
+
+      closeModal("accountModal");
+
+    },1000);
+
 
   }catch(error){
 
-    alert(
-      "❌ "+
-      error.message
+    console.error(
+      "REGISTER ERROR:",
+      error
+    );
+
+
+    let message =
+      "Тіркелу кезінде қате пайда болды.";
+
+
+    switch(error.code){
+
+      case "auth/email-already-in-use":
+
+        message =
+          "Бұл Email бұрын тіркелген. Кіруге тырысыңыз.";
+
+        break;
+
+
+      case "auth/invalid-email":
+
+        message =
+          "Email форматы дұрыс емес.";
+
+        break;
+
+
+      case "auth/weak-password":
+
+        message =
+          "Құпиясөз тым әлсіз. Кемінде 6 таңба болуы керек.";
+
+        break;
+
+
+      case "auth/operation-not-allowed":
+
+        message =
+          "Firebase Console ішінде Email/Password авторизациясы қосылмаған.";
+
+        break;
+
+
+      case "auth/network-request-failed":
+
+        message =
+          "Интернет байланысын тексеріңіз.";
+
+        break;
+
+    }
+
+
+    authMessage(
+      "❌ "+message,
+      "error"
     );
 
   }
@@ -3285,38 +3624,273 @@ async function register(){
 }
 
 
+/* =========================================================
+   LOGIN
+========================================================= */
+
 async function login(){
 
-  const email=
-    document.getElementById(
-      "authEmail"
-    ).value.trim();
+  const email =
+    document
+      .getElementById("authEmail")
+      ?.value
+      .trim()
+      .toLowerCase();
 
-  const password=
-    document.getElementById(
-      "authPassword"
-    ).value;
+  const password =
+    document
+      .getElementById("authPassword")
+      ?.value;
+
+
+  if(!email){
+
+    authMessage(
+      "Email енгізіңіз.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!password){
+
+    authMessage(
+      "Құпиясөзді енгізіңіз.",
+      "error"
+    );
+
+    return;
+
+  }
 
 
   try{
 
-    const result=
+    authMessage(
+      "⏳ Кіріп жатыр..."
+    );
+
+
+    const result =
       await auth
         .signInWithEmailAndPassword(
           email,
           password
         );
 
-    user=result.user;
+
+    user =
+      result.user;
+
 
     await loadProfile();
 
+
+    renderAccount();
+    updateCounts();
+
+
     closeModal("accountModal");
+
+
+    console.log(
+      "SatuGo login:",
+      user.uid
+    );
+
 
   }catch(error){
 
+    console.error(
+      "LOGIN ERROR:",
+      error
+    );
+
+
+    let message =
+      "Кіру кезінде қате пайда болды.";
+
+
+    switch(error.code){
+
+      case "auth/invalid-email":
+
+        message =
+          "Email форматы дұрыс емес.";
+
+        break;
+
+
+      case "auth/user-not-found":
+
+        message =
+          "Бұл Email бойынша аккаунт табылмады.";
+
+        break;
+
+
+      case "auth/wrong-password":
+
+        message =
+          "Құпиясөз дұрыс емес.";
+
+        break;
+
+
+      case "auth/invalid-credential":
+
+        message =
+          "Email немесе құпиясөз дұрыс емес.";
+
+        break;
+
+
+      case "auth/too-many-requests":
+
+        message =
+          "Тым көп әрекет жасалды. Біраз уақыттан кейін қайталап көріңіз.";
+
+        break;
+
+
+      case "auth/user-disabled":
+
+        message =
+          "Бұл аккаунт бұғатталған.";
+
+        break;
+
+
+      case "auth/network-request-failed":
+
+        message =
+          "Интернет байланысын тексеріңіз.";
+
+        break;
+
+    }
+
+
+    authMessage(
+      "❌ "+message,
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   PASSWORD RESET
+========================================================= */
+
+async function resetPassword(){
+
+  const email =
+    document
+      .getElementById("authEmail")
+      ?.value
+      .trim()
+      .toLowerCase();
+
+
+  if(!email){
+
     alert(
-      "❌ Кіру қатесі:\n"+
+      "Алдымен Email енгізіңіз."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    await auth.sendPasswordResetEmail(
+      email
+    );
+
+
+    alert(
+      "📧 Құпиясөзді өзгерту сілтемесі Email-ге жіберілді."
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "RESET PASSWORD:",
+      error
+    );
+
+
+    let message =
+      "Құпиясөзді қалпына келтіру мүмкін болмады.";
+
+
+    switch(error.code){
+
+      case "auth/user-not-found":
+
+        message =
+          "Бұл Email бойынша аккаунт табылмады.";
+
+        break;
+
+
+      case "auth/invalid-email":
+
+        message =
+          "Email дұрыс емес.";
+
+        break;
+
+    }
+
+
+    alert(
+      "❌ "+message
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   RESEND EMAIL VERIFICATION
+========================================================= */
+
+async function resendVerification(){
+
+  if(!user)
+    return;
+
+
+  try{
+
+    await user.sendEmailVerification();
+
+
+    alert(
+      "📧 Растау хаты қайта жіберілді."
+    );
+
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+
+    alert(
+      "❌ Растау хатын жіберу мүмкін болмады.\n"+
       error.message
     );
 
@@ -3325,56 +3899,124 @@ async function login(){
 }
 
 
-async function logout(){
-
-  await auth.signOut();
-
-  user=null;
-  profile=null;
-
-  renderAccount();
-  updateCounts();
-
-}
-
-
-auth.onAuthStateChanged(
-  async firebaseUser=>{
-
-    user=firebaseUser;
-
-    if(user)
-      await loadProfile();
-    else
-      profile=null;
-
-    updateCounts();
-
-  }
-);
-
+/* =========================================================
+   LOAD PROFILE
+========================================================= */
 
 async function loadProfile(){
 
-  if(!user)
+  if(!user){
+
+    profile=null;
     return;
+
+  }
+
 
   try{
 
-    const snap=
+    const snap =
       await db
         .collection("users")
         .doc(user.uid)
         .get();
 
-    profile=
-      snap.exists
-      ?snap.data()
-      :null;
+
+    if(snap.exists){
+
+      profile =
+        snap.data();
+
+    }else{
+
+      /* Егер users құжаты кездейсоқ жоқ болса,
+         автоматты түрде қайта жасаймыз. */
+
+      profile = {
+
+        uid:user.uid,
+
+        name:
+          user.displayName ||
+          user.email?.split("@")[0] ||
+          "SatuGo қолданушысы",
+
+        email:
+          user.email || "",
+
+        role:"buyer"
+
+      };
+
+
+      await db
+        .collection("users")
+        .doc(user.uid)
+        .set({
+
+          ...profile,
+
+          createdAt:
+            firebase.firestore
+              .FieldValue
+              .serverTimestamp()
+
+        });
+
+    }
+
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "PROFILE ERROR:",
+      error
+    );
+
+    profile=null;
+
+  }
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout(){
+
+  try{
+
+    await auth.signOut();
+
+    user=null;
+    profile=null;
+
+
+    renderAccount();
+    updateCounts();
+
+
+    closeModal("accountModal");
+
+
+    alert(
+      "👋 Аккаунттан сәтті шықтыңыз."
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "LOGOUT ERROR:",
+      error
+    );
+
+
+    alert(
+      "❌ Шығу кезінде қате пайда болды."
+    );
 
   }
 
