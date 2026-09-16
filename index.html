@@ -5591,6 +5591,173 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 })();
 </script>
 
+
+
+<!-- SatuGo clean navigation / quick actions -->
+<style id="satugo-clean-layout">
+  /* Ескі қосымша панельдерді жинақы режимге ауыстыру */
+  #sgCoreQuickBar,
+  #sgFeatureStrip,
+  .sg-core-floating,
+  #sgPhoneLoginButton { display:none !important; }
+
+  .sg-clean-actions{
+    display:grid;
+    grid-template-columns:repeat(6,minmax(0,1fr));
+    gap:10px;
+    margin:18px 0 24px;
+  }
+  .sg-clean-action{
+    border:1px solid #e5e7eb;
+    background:#fff;
+    border-radius:16px;
+    padding:14px 10px;
+    text-align:center;
+    cursor:pointer;
+    box-shadow:0 3px 14px #00000008;
+    transition:.16s ease;
+    color:#111827;
+  }
+  .sg-clean-action:hover{transform:translateY(-2px);box-shadow:0 8px 22px #00000012;border-color:#bbf7d0}
+  .sg-clean-action .ico{font-size:25px;display:block;margin-bottom:6px}
+  .sg-clean-action b{font-size:13px;display:block}
+  .sg-clean-action small{display:block;color:#6b7280;font-size:10px;margin-top:3px}
+
+  .sg-good-section{
+    margin:22px 0 30px;
+    padding:18px;
+    background:linear-gradient(180deg,#fff,#f8fafc);
+    border:1px solid #e5e7eb;
+    border-radius:20px;
+  }
+  .sg-good-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+  .sg-good-head h2{margin:0;font-size:22px}
+  .sg-good-head button{border:0;background:#f3f4f6;border-radius:10px;padding:9px 12px;font-weight:700;cursor:pointer}
+  .sg-good-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .sg-good-card{background:#fff;border:1px solid #e5e7eb;border-radius:15px;overflow:hidden;cursor:pointer}
+  .sg-good-img{height:150px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:48px;overflow:hidden}
+  .sg-good-img img{width:100%;height:100%;object-fit:cover}
+  .sg-good-body{padding:11px}
+  .sg-good-title{font-weight:800;font-size:14px;line-height:1.3;height:37px;overflow:hidden}
+  .sg-good-price{font-size:17px;font-weight:900;margin-top:7px}
+  .sg-good-meta{font-size:11px;color:#6b7280;margin-top:4px}
+
+  .sg-chat-float{
+    position:fixed;right:18px;bottom:82px;z-index:9998;
+    border:0;border-radius:999px;background:#111827;color:#fff;
+    padding:12px 17px;font-weight:800;cursor:pointer;box-shadow:0 8px 25px #0003;
+  }
+  .sg-chat-float:hover{transform:translateY(-1px)}
+
+  @media(max-width:900px){
+    .sg-clean-actions{grid-template-columns:repeat(3,1fr)}
+    .sg-good-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width:600px){
+    .sg-clean-actions{grid-template-columns:repeat(2,1fr);gap:8px}
+    .sg-clean-action{padding:12px 8px}
+    .sg-good-section{padding:13px}
+    .sg-good-grid{gap:8px}
+    .sg-good-img{height:120px}
+    .sg-chat-float{right:12px;bottom:74px;padding:11px 14px}
+  }
+</style>
+
+<script id="satugo-clean-layout-js">
+(function(){
+  function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+  function money(v){return Number(v||0).toLocaleString('kk-KZ')+' ₸'}
+
+  function goProducts(){
+    document.getElementById('products')?.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function goPrice(){
+    goProducts();
+    setTimeout(()=>document.getElementById('minPrice')?.focus(),400);
+  }
+  function openLogin(){
+    if(typeof openAccount==='function') openAccount();
+    else if(typeof sgPhoneOpen==='function') sgPhoneOpen();
+  }
+  function order(){
+    if(typeof openCart==='function') openCart();
+    else if(typeof sgCoreOpenCheckout==='function') sgCoreOpenCheckout();
+  }
+  function promo(){
+    if(typeof openCart==='function') openCart();
+    else if(typeof sgOpenPromo==='function') sgOpenPromo();
+  }
+  function chat(){
+    if(typeof sgOpenChat==='function') sgOpenChat();
+  }
+
+  window.sgCleanShowGood=function(){
+    const box=document.getElementById('sgGoodGrid');
+    if(!box)return;
+    const ps=Array.isArray(window.products)?window.products.slice():[];
+    const good=ps.sort((a,b)=>{
+      const ra=Number(a.rating||a.rate||0), rb=Number(b.rating||b.rate||0);
+      const da=Number(a.discount||0), db=Number(b.discount||0);
+      return (rb+db/10)-(ra+da/10);
+    }).slice(0,8);
+    if(!good.length){box.innerHTML='<div style="grid-column:1/-1" class="muted">Жақсы тауарлар әзірге жүктелуде...</div>';return}
+    box.innerHTML=good.map(p=>{
+      const title=esc(p.title||p.name||'Тауар');
+      const img=p.image?'<img src="'+esc(p.image)+'" alt="'+title+'">':'🛍️';
+      return '<div class="sg-good-card" onclick="'+(p.id?`openProduct('${esc(p.id)}')`:'')+'">'+
+        '<div class="sg-good-img">'+img+'</div>'+
+        '<div class="sg-good-body"><div class="sg-good-title">'+title+'</div>'+ 
+        '<div class="sg-good-price">'+money(p.price)+'</div>'+ 
+        '<div class="sg-good-meta">'+(p.city?esc(p.city)+' · ':'')+'⭐ '+esc(p.rating||'5.0')+'</div></div></div>';
+    }).join('');
+  };
+
+  function install(){
+    if(document.getElementById('sgCleanActions'))return;
+    const hero=document.querySelector('.hero');
+    if(!hero)return;
+
+    const actions=document.createElement('div');
+    actions.id='sgCleanActions';
+    actions.className='sg-clean-actions';
+    actions.innerHTML=
+      '<button class="sg-clean-action" onclick="('+openLogin.toString()+')()"><span class="ico">👤</span><b>Кіру</b><small>Аккаунт</small></button>'+ 
+      '<button class="sg-clean-action" onclick="('+order.toString()+')()"><span class="ico">📦</span><b>Тапсырыс беру</b><small>Себеттен рәсімдеу</small></button>'+ 
+      '<button class="sg-clean-action" onclick="document.getElementById(\'sgGoodSection\')?.scrollIntoView({behavior:\'smooth\'})"><span class="ico">⭐</span><b>Жақсы тауарлар</b><small>Таңдаулы ұсыныстар</small></button>'+ 
+      '<button class="sg-clean-action" onclick="('+chat.toString()+')()"><span class="ico">💬</span><b>Сатушымен чат</b><small>Сұрақ қою</small></button>'+ 
+      '<button class="sg-clean-action" onclick="('+promo.toString()+')()"><span class="ico">🎁</span><b>Промокод</b><small>Жеңілдік себетте</small></button>'+ 
+      '<button class="sg-clean-action" onclick="('+goPrice.toString()+')()"><span class="ico">💰</span><b>Баға</b><small>Мин / Макс</small></button>';
+    hero.insertAdjacentElement('afterend',actions);
+
+    const good=document.createElement('section');
+    good.id='sgGoodSection';
+    good.className='sg-good-section';
+    good.innerHTML='<div class="sg-good-head"><h2>⭐ Жақсы тауарлар</h2><button onclick="sgCleanGoProducts()">Барлығын көру →</button></div><div id="sgGoodGrid" class="sg-good-grid"></div>';
+    actions.insertAdjacentElement('afterend',good);
+
+    const float=document.createElement('button');
+    float.className='sg-chat-float';
+    float.innerHTML='💬 Чат';
+    float.onclick=chat;
+    document.body.appendChild(float);
+
+    window.sgCleanGoProducts=goProducts;
+    window.sgCleanGoPrice=goPrice;
+    window.sgCleanOpenLogin=openLogin;
+    window.sgCleanOrder=order;
+    window.sgCleanPromo=promo;
+    window.sgCleanChat=chat;
+    window.sgCleanShowGood();
+  }
+
+  function refresh(){
+    if(document.getElementById('sgGoodGrid')) window.sgCleanShowGood();
+  }
+  const timer=setInterval(()=>{install();refresh()},1000);
+  setTimeout(()=>{install();refresh()},300);
+})();
+</script>
+
 </body>
 
 <!-- SatuGo feature package complete -->
