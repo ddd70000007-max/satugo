@@ -876,6 +876,104 @@ footer{
 
 <body>
 
+<!-- SATUGO UNIQUE TOP START -->
+<style>
+#sgSmartTop{
+  width:min(1180px,calc(100% - 28px));
+  margin:14px auto 18px;
+  position:relative;
+  z-index:20;
+  font-family:inherit;
+}
+.sg-smart-head{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:15px 18px;border-radius:20px;
+  background:linear-gradient(135deg,#111827,#263b66);
+  color:#fff;box-shadow:0 10px 30px rgba(15,23,42,.18);
+}
+.sg-smart-title{display:flex;align-items:center;gap:11px}
+.sg-smart-icon{font-size:27px}
+.sg-smart-title strong{display:block;font-size:18px}
+.sg-smart-title span{display:block;font-size:12px;opacity:.78;margin-top:2px}
+.sg-smart-toggle{
+  border:0;border-radius:12px;padding:10px 14px;background:#fff;color:#17213b;
+  font-weight:800;cursor:pointer;
+}
+.sg-smart-grid{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:10px;
+  margin-top:10px;max-height:0;overflow:hidden;opacity:0;
+  transform:translateY(-6px);transition:.28s ease;
+}
+#sgSmartTop.open .sg-smart-grid{
+  max-height:180px;opacity:1;transform:none;
+}
+.sg-smart-card{
+  border:1px solid #e5e7eb;background:#fff;border-radius:16px;padding:13px 10px;
+  cursor:pointer;text-align:left;box-shadow:0 5px 18px rgba(15,23,42,.07);
+  transition:.2s;
+}
+.sg-smart-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(15,23,42,.12)}
+.sg-smart-card b{display:block;font-size:21px;margin-bottom:7px}
+.sg-smart-card strong{display:block;font-size:13px;color:#111827}
+.sg-smart-card small{display:block;color:#6b7280;font-size:11px;margin-top:3px}
+@media(max-width:850px){
+ .sg-smart-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:520px){
+ #sgSmartTop{width:calc(100% - 18px);margin:9px auto 13px}
+ .sg-smart-head{padding:12px 13px}
+ .sg-smart-title strong{font-size:15px}
+ .sg-smart-title span{font-size:10px}
+ .sg-smart-grid{grid-template-columns:repeat(2,1fr)}
+ .sg-smart-card{padding:11px 9px}
+}
+</style>
+
+<section id="sgSmartTop" aria-label="SatuGo ерекше мүмкіндіктер">
+  <div class="sg-smart-head">
+    <div class="sg-smart-title">
+      <div class="sg-smart-icon">✨</div>
+      <div>
+        <strong>SatuGo Smart</strong>
+        <span>Маркетплейстегі ерекше мүмкіндіктер</span>
+      </div>
+    </div>
+    <button class="sg-smart-toggle" type="button" onclick="sgToggleSmartTop()">Мүмкіндіктерді ашу ▾</button>
+  </div>
+
+  <div class="sg-smart-grid">
+    <button class="sg-smart-card" type="button" onclick="sgUniqueAI()">
+      <b>🤖</b><strong>AI Кеңесші</strong><small>Тауар таңдауға көмектеседі</small>
+    </button>
+    <button class="sg-smart-card" type="button" onclick="sgBudgetMode()">
+      <b>💰</b><strong>Бюджетпен жинау</strong><small>Бюджетке сай комплект</small>
+    </button>
+    <button class="sg-smart-card" type="button" onclick="sgBundleMode()">
+      <b>🧩</b><strong>Комплект құрастыр</strong><small>Қосымша тауарларды табу</small>
+    </button>
+    <button class="sg-smart-card" type="button" onclick="sgPriceWatch()">
+      <b>📉</b><strong>Баға бақылау</strong><small>Баға түскенде белгі береді</small>
+    </button>
+    <button class="sg-smart-card" type="button" onclick="sgEarnCoins()">
+      <b>🪙</b><strong>SatuGo Coins</strong><small>Сатып алып бонус жина</small>
+    </button>
+    <button class="sg-smart-card" type="button" onclick="sgGroupDeal()">
+      <b>👥</b><strong>Group Deal</strong><small>Бірге алсаң — жеңілдік</small>
+    </button>
+  </div>
+</section>
+<script>
+function sgToggleSmartTop(){
+  const el=document.getElementById('sgSmartTop');
+  const btn=el.querySelector('.sg-smart-toggle');
+  el.classList.toggle('open');
+  btn.textContent=el.classList.contains('open')?'Жабу ▴':'Мүмкіндіктерді ашу ▾';
+}
+</script>
+<!-- SATUGO UNIQUE TOP END -->
+
+
+
 <header>
   <div class="wrap">
 
@@ -5755,6 +5853,225 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   }
   const timer=setInterval(()=>{install();refresh()},1000);
   setTimeout(()=>{install();refresh()},300);
+})();
+</script>
+
+
+<!-- SatuGo Unique Features v2 -->
+<style id="satugo-unique-v2-style">
+.sg-unique-wrap{margin:24px auto;max-width:1200px}
+.sg-unique-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.sg-unique-card{border:1px solid #e5e7eb;border-radius:20px;padding:18px;background:#fff;box-shadow:0 8px 28px #0000000a}
+.sg-unique-card .uico{font-size:30px}
+.sg-unique-card h3{margin:8px 0 5px}
+.sg-unique-card p{margin:0 0 12px;color:#6b7280;font-size:13px;line-height:1.45}
+.sg-unique-card button{width:100%}
+.sg-budget-box,.sg-ai-box{display:grid;gap:10px}
+.sg-budget-result,.sg-ai-result-v2{margin-top:10px;padding:12px;border-radius:14px;background:#f3f4f6}
+.sg-coins{font-weight:800}
+.sg-chip{display:inline-block;padding:5px 9px;border-radius:999px;background:#ecfdf5;color:#166534;font-size:12px;font-weight:800;margin:3px}
+@media(max-width:800px){.sg-unique-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.sg-unique-grid{grid-template-columns:1fr}}
+</style>
+
+<section id="sgUniqueFeatures" class="sg-unique-wrap">
+  <div style="display:flex;justify-content:space-between;align-items:end;gap:10px;margin-bottom:12px">
+    <div>
+      <div class="tag">SatuGo Exclusive</div>
+      <h2 style="margin:7px 0 0">🚀 SatuGo-ның ерекше мүмкіндіктері</h2>
+    </div>
+    <span class="sg-coins">🪙 <span id="sgCoinBalance">0</span> Coins</span>
+  </div>
+
+  <div class="sg-unique-grid">
+    <div class="sg-unique-card">
+      <div class="uico">🤖</div><h3>AI Кеңесші</h3>
+      <p>Қалаған тауарыңды сипатта. SatuGo бюджетке және сұранысқа сай өнімдерді ұсынады.</p>
+      <button class="btn btn-primary" onclick="sgUniqueAI()">Іздеп көру</button>
+    </div>
+
+    <div class="sg-unique-card">
+      <div class="uico">💰</div><h3>Бюджетпен жинау</h3>
+      <p>Мысалы: «50 000 ₸-ге оқу жиынтығын жина» — жүйе қолжетімді тауарларды есептейді.</p>
+      <button class="btn btn-light" onclick="sgBudgetMode()">Бюджет енгізу</button>
+    </div>
+
+    <div class="sg-unique-card">
+      <div class="uico">🧩</div><h3>Комплект құрастырғыш</h3>
+      <p>Бір тауарға керек аксессуарларды автоматты түрде тауып, бірге көрсетеді.</p>
+      <button class="btn btn-light" onclick="sgBundleMode()">Комплект құру</button>
+    </div>
+
+    <div class="sg-unique-card">
+      <div class="uico">📉</div><h3>Баға төмендесе хабарла</h3>
+      <p>Тауар бағасын бақылауға қойып, браузерде еске салғыш сақтауға болады.</p>
+      <button class="btn btn-light" onclick="sgPriceWatch()">Баға бақылауын қосу</button>
+    </div>
+
+    <div class="sg-unique-card">
+      <div class="uico">🪙</div><h3>SatuGo Coins</h3>
+      <p>Белсенділік үшін ұпай жинайтын қарапайым loyalty жүйесі. Баланс браузерде сақталады.</p>
+      <button class="btn btn-light" onclick="sgEarnCoins()">Coins алу</button>
+    </div>
+
+    <div class="sg-unique-card">
+      <div class="uico">👥</div><h3>Топтық жеңілдік</h3>
+      <p>Достарыңа тауар сілтемесін жіберіп, қызығушылықты бір жерге жинауға арналған demo режим.</p>
+      <button class="btn btn-light" onclick="sgGroupDeal()">Топтық deal</button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const money2 = n => new Intl.NumberFormat('kk-KZ').format(Math.round(Number(n)||0)) + ' ₸';
+
+  function products2(){
+    try {
+      if (Array.isArray(window.products)) return window.products;
+      if (Array.isArray(window.allProducts)) return window.allProducts;
+      if (Array.isArray(window.demoProducts)) return window.demoProducts;
+    } catch(e){}
+    return [];
+  }
+
+  function coins(){
+    return Number(localStorage.getItem('satugo_coins') || 0);
+  }
+  function setCoins(n){
+    const v=Math.max(0,Math.floor(n));
+    localStorage.setItem('satugo_coins',String(v));
+    const el=document.getElementById('sgCoinBalance');
+    if(el) el.textContent=v;
+  }
+  window.sgEarnCoins=function(){
+    const add=25;
+    setCoins(coins()+add);
+    alert('🪙 +25 SatuGo Coins!\nБаланс: '+coins());
+  };
+
+  window.sgUniqueAI=function(){
+    const q=prompt('Не іздеп жүрсіз? Мысалы: "50 000 ₸-ге ойынға арналған құлаққап"');
+    if(!q) return;
+    const ps=products2();
+    const nums=q.match(/[0-9][0-9\s]*/g)||[];
+    const budget=nums.length ? parseInt(nums[nums.length-1].replace(/\s/g,''),10) : 0;
+    const words=q.toLowerCase().split(/\s+/).filter(x=>x.length>2);
+    let arr=ps.filter(p=>{
+      const text=String((p.title||'')+' '+(p.category||'')+' '+(p.description||'')).toLowerCase();
+      return words.some(w=>text.includes(w));
+    });
+    if(!arr.length) arr=ps.slice(0,6);
+    if(budget) arr=arr.filter(p=>Number(p.price||0)<=budget).slice(0,6);
+    const msg=arr.length
+      ? '🤖 AI ұсынысы:\n\n'+arr.map((p,i)=>(i+1)+'. '+(p.title||'Тауар')+' — '+money2(p.price)).join('\n')
+      : 'Қазір сәйкес тауар табылмады.';
+    alert(msg);
+  };
+
+  window.sgBudgetMode=function(){
+    const raw=prompt('Бюджетіңіз қанша? Мысалы: 50000');
+    const budget=Number(String(raw||'').replace(/\s/g,'').replace(/₸/g,''));
+    if(!budget || budget<1) return;
+    const ps=products2().filter(p=>Number(p.price||0)>0).sort((a,b)=>Number(a.price)-Number(b.price));
+    let total=0, chosen=[];
+    for(const p of ps){
+      const price=Number(p.price);
+      if(total+price<=budget){chosen.push(p);total+=price;}
+      if(chosen.length>=8) break;
+    }
+    alert(chosen.length
+      ? '🧠 Бюджет режимі\n\n'+chosen.map(p=>'• '+(p.title||'Тауар')+' — '+money2(p.price)).join('\n')+'\n\nЖалпы: '+money2(total)+'\nҚалғаны: '+money2(budget-total)
+      : 'Бұл бюджетке демо каталогтан тауар табылмады.');
+  };
+
+  window.sgBundleMode=function(){
+    const ps=products2();
+    if(!ps.length){ alert('Каталог әлі жүктелмеді.'); return; }
+    const base=ps[0];
+    const keywords=String(base.title||'').toLowerCase().split(/\s+/).filter(x=>x.length>3);
+    let extras=ps.filter(p=>p!==base && keywords.some(k=>String(p.title||'').toLowerCase().includes(k))).slice(0,3);
+    if(!extras.length) extras=ps.filter(p=>p!==base).slice(0,3);
+    const total=[base,...extras].reduce((s,p)=>s+Number(p.price||0),0);
+    alert('🧩 Комплект:\n\n'+[base,...extras].map(p=>'• '+(p.title||'Тауар')+' — '+money2(p.price)).join('\n')+'\n\nКомплект сомасы: '+money2(total));
+  };
+
+  window.sgPriceWatch=function(){
+    const ps=products2();
+    if(!ps.length){alert('Алдымен каталогты жүктеңіз.');return;}
+    const p=ps[0];
+    const key='satugo_watch_'+(p.id||p.title||'product');
+    localStorage.setItem(key,JSON.stringify({title:p.title||'Тауар',price:Number(p.price||0),created:Date.now()}));
+    alert('📉 Баға бақылауы қосылды:\n'+(p.title||'Тауар')+'\nҚазіргі баға: '+money2(p.price));
+  };
+
+  window.sgGroupDeal=function(){
+    const p=products2()[0];
+    if(!p){alert('Каталог әлі жүктелмеді.');return;}
+    const key='satugo_group_interest_'+(p.id||p.title||'product');
+    const n=Number(localStorage.getItem(key)||0)+1;
+    localStorage.setItem(key,String(n));
+    const shareText='SatuGo: '+(p.title||'Тауар')+' — топтық жеңілдікке қосыл!';
+    alert('👥 Топтық deal қызығушылығы: '+n+' адам\n\n'+shareText);
+  };
+
+  setCoins(coins());
+})();
+</script>
+
+
+<style id="satugo-unique-launcher-style">
+#sgUniqueLauncher{
+ position:fixed;right:18px;bottom:82px;z-index:99999;
+ border:0;border-radius:999px;padding:14px 18px;
+ background:#111827;color:#fff;font-weight:900;font-size:15px;
+ box-shadow:0 10px 30px #0004;cursor:pointer
+}
+#sgUniquePanel{
+ position:fixed;right:18px;bottom:142px;width:min(380px,calc(100vw - 36px));
+ max-height:70vh;overflow:auto;z-index:99998;background:#fff;
+ border:1px solid #e5e7eb;border-radius:22px;padding:16px;
+ box-shadow:0 20px 60px #0004;display:none
+}
+#sgUniquePanel.open{display:block}
+.sg-up{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.sg-up button{min-height:68px;border:1px solid #e5e7eb;border-radius:15px;background:#f9fafb;cursor:pointer;text-align:left;padding:10px}
+.sg-up b{display:block}.sg-up small{color:#6b7280}
+@media(max-width:520px){
+ #sgUniqueLauncher{right:10px;bottom:72px}
+ #sgUniquePanel{right:10px;bottom:130px}
+}
+</style>
+<button id="sgUniqueLauncher" type="button">🚀 Ерекше SatuGo</button>
+<div id="sgUniquePanel">
+ <div style="display:flex;justify-content:space-between;align-items:center">
+  <div><b style="font-size:19px">SatuGo Exclusive 🚀</b><div style="color:#6b7280;font-size:12px">Жаңа функциялар</div></div>
+  <button type="button" onclick="document.getElementById('sgUniquePanel').classList.remove('open')" style="border:0;background:#f3f4f6;border-radius:50%;width:34px;height:34px">✕</button>
+ </div>
+ <div class="sg-up">
+  <button onclick="sgUniqueAI()"><b>🤖 AI Кеңесші</b><small>Тауар тауып береді</small></button>
+  <button onclick="sgBudgetMode()"><b>💰 Бюджет</b><small>Бюджетке жинау</small></button>
+  <button onclick="sgBundleMode()"><b>🧩 Комплект</b><small>Бірге керек заттар</small></button>
+  <button onclick="sgPriceWatch()"><b>📉 Баға бақылау</b><small>Бағаны есте сақтау</small></button>
+  <button onclick="sgEarnCoins()"><b>🪙 Coins</b><small>+25 ұпай алу</small></button>
+  <button onclick="sgGroupDeal()"><b>👥 Group Deal</b><small>Топтық қызығушылық</small></button>
+ </div>
+ <div style="margin-top:12px;padding:11px;border-radius:14px;background:#f3f4f6">
+  🪙 Coins: <b id="sgCoinBalanceLauncher">0</b>
+ </div>
+</div>
+<script>
+(function(){
+ const btn=document.getElementById('sgUniqueLauncher');
+ const panel=document.getElementById('sgUniquePanel');
+ if(btn&&panel){
+  btn.onclick=()=>panel.classList.toggle('open');
+  setInterval(()=>{
+   const a=document.getElementById('sgCoinBalance');
+   const b=document.getElementById('sgCoinBalanceLauncher');
+   if(a&&b)b.textContent=a.textContent;
+  },500);
+ }
 })();
 </script>
 
