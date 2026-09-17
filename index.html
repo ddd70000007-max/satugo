@@ -1184,6 +1184,103 @@ body.sg-modal-active .sg-core-modal {
 })();
 </script>
 
+
+<!-- SatuGo MOBILE BUTTON SAFETY FIX -->
+<style id="satugo-mobile-buttons-final-fix">
+@media (max-width: 768px){
+  button,
+  a,
+  input,
+  select,
+  textarea{
+    touch-action:manipulation;
+  }
+
+  button,
+  .btn,
+  [role="button"]{
+    pointer-events:auto !important;
+  }
+
+  #sgMobileNav{
+    pointer-events:auto !important;
+    z-index:2147483646 !important;
+  }
+
+  #sgMobileNav button{
+    pointer-events:auto !important;
+    position:relative;
+    z-index:2147483647;
+  }
+
+  /* A closed modal must never block touches on the page. */
+  .modal:not(.show),
+  .sg-modal:not(.open),
+  .sg-v2-modal:not(.open),
+  .sg-core-modal:not(.open),
+  #sgProfileOverlay:not(.open){
+    pointer-events:none !important;
+  }
+}
+</style>
+
+<script id="satugo-mobile-buttons-final-fix-js">
+(function(){
+  function isVisible(el){
+    if(!el) return false;
+    const cs = getComputedStyle(el);
+    const r = el.getBoundingClientRect();
+    return cs.display !== 'none' &&
+           cs.visibility !== 'hidden' &&
+           cs.pointerEvents !== 'none' &&
+           r.width > 0 && r.height > 0;
+  }
+
+  function repair(){
+    const modalSelectors = [
+      '.modal.show',
+      '.sg-modal.open',
+      '.sg-v2-modal.open',
+      '.sg-core-modal.open',
+      '#sgProfileOverlay.open'
+    ];
+
+    const hasOpenModal = modalSelectors.some(sel =>
+      Array.from(document.querySelectorAll(sel)).some(isVisible)
+    );
+
+    /* If no modal is actually visible, remove the global modal lock. */
+    if(!hasOpenModal){
+      document.body.classList.remove('sg-modal-active');
+
+      document.querySelectorAll(
+        '.modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),.sg-core-modal:not(.open),#sgProfileOverlay:not(.open)'
+      ).forEach(el => {
+        el.style.pointerEvents = 'none';
+      });
+    }
+
+    /* Keep the mobile navigation clickable above page content. */
+    const nav = document.getElementById('sgMobileNav');
+    if(nav){
+      nav.style.pointerEvents = 'auto';
+      nav.style.zIndex = '2147483646';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', repair);
+  window.addEventListener('load', repair);
+
+  /* Repair after opening/closing any SatuGo section. */
+  document.addEventListener('click', function(){
+    setTimeout(repair, 30);
+    setTimeout(repair, 250);
+  }, true);
+
+  setInterval(repair, 1000);
+})();
+</script>
+
 </head>
 
 <body>
@@ -6189,11 +6286,21 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 })();
 </script>
 <nav id="sgMobileNav" class="sg-mobile-nav">
-  <button onclick="window.scrollTo({top:0,behavior:'smooth'})"><span>⌂</span><small>Басты бет</small></button>
-  <button onclick="document.querySelector('input[type=search],input[placeholder*=Іздеу],input[placeholder*=іздеу]')?.focus()"><span>⌕</span><small>Іздеу</small></button>
-  <button onclick="typeof openCart==='function'&&openCart()"><span>🛒</span><small>Себет</small></button>
-  <button onclick="typeof openFavorites==='function'&&openFavorites()"><span>♡</span><small>Таңдаулы</small></button>
-  <button onclick="typeof openAccount==='function'&&openAccount()"><span>👤</span><small>Профиль</small></button>
+  <button type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <span>⌂</span><small>Басты бет</small>
+  </button>
+
+  <button type="button" onclick="typeof openFavorites==='function' ? openFavorites() : (typeof sgOpenFavorites==='function' && sgOpenFavorites())">
+    <span>♡</span><small>Таңдаулы</small>
+  </button>
+
+  <button type="button" id="sgMobileChatBtn" onclick="typeof sgOpenChat==='function' ? sgOpenChat() : (document.getElementById('sgChatFab')?.click())">
+    <span>💬</span><small>Чаттар</small><b id="sgMobileChatBadge" style="display:none"></b>
+  </button>
+
+  <button type="button" onclick="typeof openAccount==='function' ? openAccount() : (typeof sgCoreOpenProfile==='function' && sgCoreOpenProfile())">
+    <span>👤</span><small>Аккаунт</small>
+  </button>
 </nav>
 <style>
 .sg-mobile-nav{
@@ -6299,6 +6406,86 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
       toast2('Чат ашылмады: '+(e.message||'Firebase қатесі'));
     }
   };
+})();
+</script>
+
+
+<style id="satugo-mobile-chat-nav-final">
+@media(max-width:700px){
+  #sgMobileNav{
+    display:flex!important;
+    height:66px!important;
+    padding:5px 6px!important;
+    padding-bottom:calc(5px + env(safe-area-inset-bottom))!important;
+    background:#fff!important;
+    border-top:1px solid #e5e7eb!important;
+    box-shadow:0 -3px 14px rgba(0,0,0,.08)!important;
+  }
+  #sgMobileNav button{
+    flex:1!important;
+    min-width:0!important;
+    min-height:0!important;
+    border:0!important;
+    background:transparent!important;
+    color:#374151!important;
+    cursor:pointer!important;
+    pointer-events:auto!important;
+    position:relative!important;
+    z-index:2147483647!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    flex-direction:column!important;
+    gap:2px!important;
+    padding:3px 2px!important;
+    -webkit-tap-highlight-color:transparent!important;
+  }
+  #sgMobileNav button span{
+    font-size:21px!important;
+    line-height:22px!important;
+  }
+  #sgMobileNav button small{
+    font-size:10px!important;
+    line-height:12px!important;
+    white-space:nowrap!important;
+  }
+  #sgMobileChatBtn{
+    font-weight:700!important;
+  }
+  #sgMobileChatBadge{
+    position:absolute!important;
+    top:3px!important;
+    right:calc(50% - 19px)!important;
+    min-width:8px!important;
+    height:8px!important;
+    border-radius:50%!important;
+    background:#ef4444!important;
+    border:2px solid #fff!important;
+  }
+}
+</style>
+<script id="satugo-mobile-chat-nav-js">
+(function(){
+  function fixChatButton(){
+    var b=document.getElementById('sgMobileChatBtn');
+    if(!b) return;
+    b.onclick=function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      if(typeof window.sgOpenChat === 'function'){
+        window.sgOpenChat();
+        return false;
+      }
+      var fab=document.getElementById('sgChatFab');
+      if(fab){ fab.click(); return false; }
+      alert('Чаттар қазір жүктеліп жатыр. Бірнеше секундтан кейін қайта басыңыз.');
+      return false;
+    };
+  }
+  document.addEventListener('DOMContentLoaded',fixChatButton);
+  window.addEventListener('load',fixChatButton);
+  setTimeout(fixChatButton,500);
+  setTimeout(fixChatButton,1500);
 })();
 </script>
 
