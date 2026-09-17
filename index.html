@@ -829,10 +829,10 @@ footer{
 </style>
 
 <style id="satugo-v2-css">
-.sg-v2-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.sg-v2-card{background:#fff;border:1px solid #e7e7e7;border-radius:16px;padding:15px}.sg-v2-card h3{margin:0 0 7px}.sg-v2-small{font-size:12px;color:#777}.sg-v2-btn{border:0;border-radius:10px;padding:10px 13px;background:#111;color:#fff;font-weight:700;cursor:pointer;margin:3px}.sg-v2-btn.light{background:#f2f2f2;color:#111}.sg-v2-btn.green{background:#16834d}.sg-v2-input{width:100%;box-sizing:border-box;padding:10px;border:1px solid #ddd;border-radius:10px;margin:4px 0 9px}.sg-v2-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:15px;z-index:100001}.sg-v2-modal.open{display:flex}.sg-v2-box{background:#fff;width:min(720px,100%);max-height:90vh;overflow:auto;border-radius:18px;padding:20px}.sg-v2-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #eee}.sg-v2-status{border-radius:999px;padding:5px 9px;background:#eee;font-size:12px;font-weight:700}@media(max-width:900px){.sg-v2-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.sg-v2-grid{grid-template-columns:1fr}}
+.sg-v2-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.sg-v2-card{background:#fff;border:1px solid #e7e7e7;border-radius:16px;padding:15px}.sg-v2-card h3{margin:0 0 7px}.sg-v2-small{font-size:12px;color:#777}.sg-v2-btn{border:0;border-radius:10px;padding:10px 13px;background:#111;color:#fff;font-weight:700;cursor:pointer;margin:3px}.sg-v2-btn.light{background:#f2f2f2;color:#111}.sg-v2-btn.green{background:#16834d}.sg-v2-input{width:100%;box-sizing:border-box;padding:10px;border:1px solid #ddd;border-radius:10px;margin:4px 0 9px}.sg-v2-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:15px;z-index:120002}.sg-v2-modal.open{display:flex}.sg-v2-box{background:#fff;width:min(720px,100%);max-height:90vh;overflow:auto;border-radius:18px;padding:20px}.sg-v2-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #eee}.sg-v2-status{border-radius:999px;padding:5px 9px;background:#eee;font-size:12px;font-weight:700}@media(max-width:900px){.sg-v2-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.sg-v2-grid{grid-template-columns:1fr}}
 </style>
 <style id="satugo-core-flow-css">
-.sg-core-modal{pointer-events:none;position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;z-index:120000;padding:16px}
+.sg-core-modal{pointer-events:none;position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;z-index:2147483000;padding:16px}
 .sg-core-modal.open{display:flex;pointer-events:auto}
 .sg-core-box{width:min(680px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:20px;padding:20px;box-shadow:0 20px 70px rgba(0,0,0,.22)}
 .sg-core-title{margin:0 0 14px}
@@ -868,7 +868,7 @@ footer{
 
 
 <style id="satugo-profile-v3-css">
-#sgProfileOverlay{position:fixed;inset:0;background:rgba(0,0,0,.28);display:none;z-index:120000;pointer-events:none}
+#sgProfileOverlay{position:fixed;inset:0;background:rgba(0,0,0,.28);display:none;z-index:2147483001;pointer-events:none}
 #sgProfileOverlay.open{display:block;pointer-events:auto}
 #sgProfilePanel{position:absolute;top:68px;right:16px;width:360px;max-width:calc(100vw - 32px);background:#fff;border:1px solid #e8e8e8;border-radius:18px;padding:16px;box-shadow:0 16px 50px rgba(0,0,0,.16)}
 .sg-p-head{display:flex;align-items:center;gap:12px;padding:4px 4px 14px;border-bottom:1px solid #eee}
@@ -1106,6 +1106,49 @@ footer{
 /* Seller utilities remain functional through Profile/Cabinet, but no longer clutter the page bottom. */
 </style>
 
+
+<style id="satugo-modal-layer-fix">
+body.sg-modal-active header,
+body.sg-modal-active .bottom-nav,
+body.sg-modal-active #sgSmartTop {
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+body.sg-modal-active .modal,
+body.sg-modal-active .sg-modal,
+body.sg-modal-active .sg-v2-modal,
+body.sg-modal-active .sg-core-modal {
+  visibility:visible !important;
+}
+</style>
+
+<style id="sg-instant-search-css">
+#sgInstantSearch{
+  display:none;
+  position:absolute;
+  left:0;
+  right:0;
+  top:100%;
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:0 0 14px 14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+  max-height:420px;
+  overflow:auto;
+  z-index:2147482000;
+}
+.sg-search-wrap{position:relative!important}
+.sg-search-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;border-bottom:1px solid #eee;
+  cursor:pointer;background:#fff;
+}
+.sg-search-item:hover{background:#f7f7f7}
+.sg-search-item img{width:52px;height:52px;border-radius:10px;object-fit:cover}
+.sg-search-item b{display:block;font-size:15px}
+.sg-search-item span{color:#e6a900;font-weight:700}
+.sg-search-empty{padding:18px;text-align:center;color:#777}
+</style>
 </head>
 
 <body>
@@ -6138,6 +6181,221 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 }
 </style>
 
+
+<script id="sg-instant-search-js">
+(function(){
+  function productsNow(){
+    try{return JSON.parse(localStorage.getItem('products')||'[]')}catch(e){return []}
+  }
+  function getName(p){return String(p.name||p.title||'').trim()}
+  function getImg(p){return p.image||p.imageUrl||p.img||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300'}
+  function money(v){return Number(v||0).toLocaleString('ru-RU')+' ₸'}
+
+  function findSearchInput(){
+    return document.querySelector('input[placeholder*="Тауар"],input[placeholder*="тауар"],input[type="search"]');
+  }
+
+  function ensurePanel(input){
+    if(!input) return null;
+    let wrap=input.closest('.search, .search-box, .searchbar, .header-search') || input.parentElement;
+    if(!wrap) return null;
+    wrap.classList.add('sg-search-wrap');
+    let panel=document.getElementById('sgInstantSearch');
+    if(!panel){
+      panel=document.createElement('div');
+      panel.id='sgInstantSearch';
+      wrap.appendChild(panel);
+    }
+    return panel;
+  }
+
+  function openProduct(p){
+    const id=p.id||p.productId;
+    if(typeof window.viewProduct==='function'){window.viewProduct(id);return}
+    if(typeof window.openProduct==='function'){window.openProduct(id);return}
+    // Fallback: click the matching product card.
+    const cards=[...document.querySelectorAll('[data-product-id],[data-id]')];
+    const card=cards.find(x=String(x.dataset.productId||x.dataset.id)===String(id));
+    if(card) card.click();
+  }
+
+  function render(q){
+    const input=findSearchInput();
+    const panel=ensurePanel(input);
+    if(!panel) return;
+    q=String(q||'').trim().toLowerCase();
+    if(!q){panel.style.display='none';panel.innerHTML='';return}
+
+    const all=productsNow();
+    const found=all.filter(p=>{
+      const text=(getName(p)+' '+String(p.category||'')+' '+String(p.description||'')).toLowerCase();
+      return text.includes(q);
+    }).slice(0,12);
+
+    if(!found.length){
+      panel.innerHTML='<div class="sg-search-empty">Тауар табылмады</div>';
+    }else{
+      panel.innerHTML=found.map((p,i)=>`
+        <div class="sg-search-item" data-sg-search-index="${i}">
+          <img src="${getImg(p)}" onerror="this.style.visibility='hidden'">
+          <div><b>${getName(p)}</b><span>${money(p.price)}</span></div>
+        </div>`).join('');
+      panel.querySelectorAll('.sg-search-item').forEach((el,i)=>el.addEventListener('click',()=>openProduct(found[i])));
+    }
+    panel.style.display='block';
+  }
+
+  document.addEventListener('input',function(e){
+    if(e.target.matches('input[placeholder*="Тауар"],input[placeholder*="тауар"],input[type="search"]')) render(e.target.value);
+  },true);
+
+  document.addEventListener('keydown',function(e){
+    if(e.target.matches('input[placeholder*="Тауар"],input[placeholder*="тауар"],input[type="search"]') && e.key==='Escape'){
+      const panel=document.getElementById('sgInstantSearch'); if(panel) panel.style.display='none';
+    }
+  },true);
+
+  document.addEventListener('click',function(e){
+    const panel=document.getElementById('sgInstantSearch');
+    const input=findSearchInput();
+    if(panel && !panel.contains(e.target) && e.target!==input) panel.style.display='none';
+  },true);
+
+  // Also filter/show the main product grid immediately when typing.
+  document.addEventListener('input',function(e){
+    if(!e.target.matches('input[placeholder*="Тауар"],input[placeholder*="тауар"],input[type="search"]')) return;
+    const q=String(e.target.value||'').trim().toLowerCase();
+    document.querySelectorAll('.product-card,[data-product-id]').forEach(card=>{
+      const text=String(card.innerText||'').toLowerCase();
+      card.style.display=!q || text.includes(q) ? '' : 'none';
+    });
+  },true);
+})();
+</script>
+
+<script id="satugo-chat-final-fix">
+(function(){
+  function currentUser(){
+    try{return window.auth && window.auth.currentUser ? window.auth.currentUser : null}catch(e){return null}
+  }
+  function profile(){
+    const u=currentUser(); if(!u) return {};
+    try{return JSON.parse(localStorage.getItem('satugo_core_profile_'+u.uid)||'{}')}catch(e){return {}}
+  }
+  function sellerFromProduct(p){
+    return {
+      id: p?.sellerId || p?.sellerUid || p?.ownerId || p?.uid || '',
+      email: p?.sellerEmail || p?.ownerEmail || '',
+      name: p?.sellerName || p?.storeName || 'Сатушы'
+    };
+  }
+
+  window.sgStartSellerChat = async function(product){
+    const u=currentUser();
+    if(!u){
+      if(typeof window.openAuth==='function') return window.openAuth();
+      if(typeof window.openAccount==='function') return window.openAccount();
+      alert('Чатқа кіру үшін алдымен аккаунтқа кіріңіз.');
+      return;
+    }
+
+    let p=product;
+    if(typeof p==='string'){
+      try{
+        const arr=JSON.parse(localStorage.getItem('products')||'[]');
+        p=arr.find(x=>String(x.id||x.productId)===String(product))||{};
+      }catch(e){p={}}
+    }
+
+    const seller=sellerFromProduct(p);
+    if(!seller.id && seller.email && window.db){
+      try{
+        const q=await db.collection('users').where('email','==',seller.email).limit(1).get();
+        if(!q.empty) seller.id=q.docs[0].id;
+      }catch(e){}
+    }
+
+    if(!seller.id){
+      alert('Бұл тауардың сатушысы анықталмады. Тауарды сатушы аккаунтымен қайта жариялау керек.');
+      return;
+    }
+    if(seller.id===u.uid){
+      alert('Бұл өз дүкеніңіздегі тауар.');
+      return;
+    }
+
+    // Use existing chat implementation when available.
+    if(typeof window.sgOpenChatWithSeller==='function'){
+      return window.sgOpenChatWithSeller(seller.id,seller.name,seller.email,p);
+    }
+    if(typeof window.sgOpenChat==='function'){
+      try{return window.sgOpenChat(seller.id,seller.name,seller.email)}catch(e){}
+    }
+
+    // Fallback: create/open a simple chat panel.
+    let box=document.getElementById('sgSellerChatFallback');
+    if(!box){
+      box=document.createElement('div');
+      box.id='sgSellerChatFallback';
+      box.style.cssText='position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;padding:12px';
+      box.innerHTML='<div style="background:#fff;width:min(520px,100%);height:min(650px,90vh);border-radius:18px;display:flex;flex-direction:column;overflow:hidden"><div style="padding:15px;font-weight:700;border-bottom:1px solid #eee"><span id="sgChatSellerName"></span><button id="sgChatClose" style="float:right;border:0;background:none;font-size:22px">×</button></div><div id="sgChatMessages" style="flex:1;overflow:auto;padding:15px"></div><div style="display:flex;gap:8px;padding:12px;border-top:1px solid #eee"><input id="sgChatText" style="flex:1;padding:12px;border:1px solid #ddd;border-radius:12px" placeholder="Хабарлама жазыңыз..."><button id="sgChatSend" style="padding:12px 16px;border:0;border-radius:12px">Жіберу</button></div></div>';
+      document.body.appendChild(box);
+      document.getElementById('sgChatClose').onclick=()=>box.remove();
+    }
+    document.getElementById('sgChatSellerName').textContent=seller.name;
+    box.dataset.sellerId=seller.id;
+    box.style.display='flex';
+
+    async function send(){
+      const input=document.getElementById('sgChatText');
+      const text=(input.value||'').trim(); if(!text)return;
+      input.value='';
+      const msg={senderId:u.uid,receiverId:seller.id,text,createdAt:firebase.firestore.FieldValue.serverTimestamp()};
+      if(window.db){
+        try{
+          await db.collection('chats').add(msg);
+        }catch(e){
+          // Keep the message visible locally if Firestore rules are not ready.
+        }
+      }
+      const m=document.getElementById('sgChatMessages');
+      const row=document.createElement('div');
+      row.style.cssText='margin:7px 0;text-align:right';
+      row.innerHTML='<span style="display:inline-block;padding:9px 12px;border-radius:14px;background:#f1f1f1;max-width:80%"></span>';
+      row.firstChild.textContent=text;
+      m.appendChild(row); m.scrollTop=m.scrollHeight;
+    }
+    document.getElementById('sgChatSend').onclick=send;
+    document.getElementById('sgChatText').onkeydown=e=>{if(e.key==='Enter')send()};
+  };
+
+  // Catch seller-chat buttons even if older inline handlers are broken.
+  document.addEventListener('click',function(e){
+    const b=e.target.closest('button,a,[data-action="seller-chat"],.seller-chat-btn');
+    if(!b)return;
+    const t=(b.innerText||b.textContent||'').trim().toLowerCase();
+    if(!t.includes('сатушымен чат') && !t.includes('сатушымен') && !t.includes('чат')) return;
+
+    let card=b.closest('[data-product-id],[data-id],.product-card,.product-item,.product');
+    let p={};
+    if(card){
+      const id=card.dataset.productId||card.dataset.id;
+      try{
+        const arr=JSON.parse(localStorage.getItem('products')||'[]');
+        p=arr.find(x=>String(x.id||x.productId)===String(id))||{};
+      }catch(e){}
+      p.sellerId=p.sellerId||card.dataset.sellerId||'';
+      p.sellerEmail=p.sellerEmail||card.dataset.sellerEmail||'';
+      p.sellerName=p.sellerName||card.dataset.sellerName||'';
+    }
+    const sid=b.dataset.sellerId||b.getAttribute('data-seller-id');
+    if(sid)p.sellerId=sid;
+    if(!p.sellerId && !p.sellerEmail)return;
+    e.preventDefault(); e.stopPropagation();
+    window.sgStartSellerChat(p);
+  },true);
+})();
+</script>
 </body>
 
 <!-- SatuGo feature package complete -->
