@@ -832,8 +832,8 @@ footer{
 .sg-v2-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.sg-v2-card{background:#fff;border:1px solid #e7e7e7;border-radius:16px;padding:15px}.sg-v2-card h3{margin:0 0 7px}.sg-v2-small{font-size:12px;color:#777}.sg-v2-btn{border:0;border-radius:10px;padding:10px 13px;background:#111;color:#fff;font-weight:700;cursor:pointer;margin:3px}.sg-v2-btn.light{background:#f2f2f2;color:#111}.sg-v2-btn.green{background:#16834d}.sg-v2-input{width:100%;box-sizing:border-box;padding:10px;border:1px solid #ddd;border-radius:10px;margin:4px 0 9px}.sg-v2-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:15px;z-index:100001}.sg-v2-modal.open{display:flex}.sg-v2-box{background:#fff;width:min(720px,100%);max-height:90vh;overflow:auto;border-radius:18px;padding:20px}.sg-v2-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #eee}.sg-v2-status{border-radius:999px;padding:5px 9px;background:#eee;font-size:12px;font-weight:700}@media(max-width:900px){.sg-v2-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.sg-v2-grid{grid-template-columns:1fr}}
 </style>
 <style id="satugo-core-flow-css">
-.sg-core-modal{position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;z-index:120000;padding:16px}
-.sg-core-modal.open{display:flex}
+.sg-core-modal{pointer-events:none;position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;z-index:120000;padding:16px}
+.sg-core-modal.open{display:flex;pointer-events:auto}
 .sg-core-box{width:min(680px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:20px;padding:20px;box-shadow:0 20px 70px rgba(0,0,0,.22)}
 .sg-core-title{margin:0 0 14px}
 .sg-core-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -868,8 +868,8 @@ footer{
 
 
 <style id="satugo-profile-v3-css">
-#sgProfileOverlay{position:fixed;inset:0;background:rgba(0,0,0,.28);display:none;z-index:120000}
-#sgProfileOverlay.open{display:block}
+#sgProfileOverlay{position:fixed;inset:0;background:rgba(0,0,0,.28);display:none;z-index:120000;pointer-events:none}
+#sgProfileOverlay.open{display:block;pointer-events:auto}
 #sgProfilePanel{position:absolute;top:68px;right:16px;width:360px;max-width:calc(100vw - 32px);background:#fff;border:1px solid #e8e8e8;border-radius:18px;padding:16px;box-shadow:0 16px 50px rgba(0,0,0,.16)}
 .sg-p-head{display:flex;align-items:center;gap:12px;padding:4px 4px 14px;border-bottom:1px solid #eee}
 .sg-p-avatar{width:46px;height:46px;border-radius:50%;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;font-size:21px}
@@ -5116,14 +5116,14 @@ init();
 <div class="sg-v2-grid">
 <div class="sg-v2-card"><div class="sg-v2-small">Тапсырыстар</div><h2 id="sgV2Orders">0</h2></div>
 <div class="sg-v2-card"><div class="sg-v2-small">Сатылым</div><h2 id="sgV2Revenue">0 ₸</h2></div>
-<div class="sg-v2-card"><div class="sg-v2-small">Қойма</div><h2 id="sgV2Stock">0</h2></div>
+<div class="sg-v2-card"><div class="sg-v2-small">Қойма</div><h2 id="sgV2StockStat">0</h2></div>
 <div class="sg-v2-card"><div class="sg-v2-small">Пікірлер</div><h2 id="sgV2Reviews">0</h2></div>
 </div>
 </section>
 
 <div id="sgV2ProductModal" class="sg-v2-modal" onclick="if(event.target===this)sgV2Close(this.id)"><div class="sg-v2-box">
 <h2>➕ Тауар қосу</h2><input id="sgV2Name" class="sg-v2-input" placeholder="Тауар атауы">
-<input id="sgV2Price" class="sg-v2-input" type="number" placeholder="Бағасы ₸"><input id="sgV2Stock" class="sg-v2-input" type="number" min="0" value="1" placeholder="Қойма саны">
+<input id="sgV2Price" class="sg-v2-input" type="number" placeholder="Бағасы ₸"><input id="sgV2StockInput" class="sg-v2-input" type="number" min="0" value="1" placeholder="Қойма саны">
 <input id="sgV2City" class="sg-v2-input" placeholder="Қала"><input id="sgV2Image" class="sg-v2-input" placeholder="Сурет URL">
 <input id="sgV2Brand" class="sg-v2-input" placeholder="Бренд"><input id="sgV2Sizes" class="sg-v2-input" placeholder="Өлшемдер: S,M,L,XL"><input id="sgV2Colors" class="sg-v2-input" placeholder="Түстер: Қара,Ақ">
 <textarea id="sgV2Desc" class="sg-v2-input" rows="4" placeholder="Сипаттама"></textarea>
@@ -5147,13 +5147,13 @@ window.sgV2Product=()=>document.getElementById('sgV2ProductModal').classList.add
 window.sgV2Promo=()=>document.getElementById('sgV2PromoModal').classList.add('open');
 window.sgV2SavePromo=()=>{let c=document.getElementById('sgV2PromoCode').value.trim().toUpperCase(),p=+document.getElementById('sgV2PromoPercent').value;if(!c||!p)return toast('Промокод пен пайызды толтырыңыз');D.promos[c]=p;save();sgV2Close('sgV2PromoModal');toast(c+' сақталды')};
 window.sgV2SaveProduct=()=>{
-let n=document.getElementById('sgV2Name').value.trim(),pr=+document.getElementById('sgV2Price').value,st=+document.getElementById('sgV2Stock').value;
+let n=document.getElementById('sgV2Name').value.trim(),pr=+document.getElementById('sgV2Price').value,st=+document.getElementById('sgV2StockInput').value;
 if(!n||!pr)return toast('Атауы мен бағасын толтырыңыз');
 let p={title:n,name:n,price:pr,stock:st,quantity:st,city:document.getElementById('sgV2City').value.trim(),image:document.getElementById('sgV2Image').value.trim(),brand:document.getElementById('sgV2Brand').value.trim(),sizes:document.getElementById('sgV2Sizes').value.split(',').map(x=>x.trim()).filter(Boolean),colors:document.getElementById('sgV2Colors').value.split(',').map(x=>x.trim()).filter(Boolean),description:document.getElementById('sgV2Desc').value.trim(),sellerId:window.currentUser?.uid||'',sellerEmail:window.currentUser?.email||'',sellerName:window.currentUser?.displayName||'SatuGo сатушысы'};
 try{if(window.db&&window.firebase?.firestore){db.collection('products').add({...p,createdAt:firebase.firestore.FieldValue.serverTimestamp()}).then(()=>{toast('Тауар қосылды');sgV2Close('sgV2ProductModal');window.loadProducts?.()}).catch(e=>toast(e.message))}else{window.products=window.products||[];p.id='v2_'+Date.now();window.products.push(p);window.renderProducts?.();sgV2Close('sgV2ProductModal');toast('Тауар қосылды')}}catch(e){toast(e.message)}};
 window.sgV2Store=()=>{let me=window.currentUser?.uid||window.currentUser?.email,ps=(window.products||[]).filter(p=>!me||p.sellerId===me||p.sellerEmail===me);document.getElementById('sgV2StoreContent').innerHTML='<p>Тауар саны: <b>'+ps.length+'</b></p>'+ps.map(p=>'<div class="sg-v2-row"><span><b>'+String(p.title||p.name||'Тауар').replace(/</g,'&lt;')+'</b><br><small>'+Number(p.price||0).toLocaleString('kk-KZ')+' ₸ · Қалдық '+(p.stock??p.quantity??'—')+'</small></span></div>').join('')||'<p>Тауар жоқ</p>';document.getElementById('sgV2StoreModal').classList.add('open')};
-window.sgV2SellerOrders=()=>{document.getElementById('sgV2SellerOrders').innerHTML=D.sellerOrders.length?D.sellerOrders.map((x,i)=>'<div class="sg-v2-row"><span><b>#'+(i+1)+'</b><br>'+String(x.customer||'Клиент')+' · '+String(x.phone||'')+'</span><span><b>'+Number(x.total||0).toLocaleString('kk-KZ')+' ₸</b><br><span class="sg-v2-status">'+(x.status||'Жаңа тапсырыс')+'</span></span></div>').join(''):'<p>Әзірге тапсырыс жоқ.</p>';document.getElementById('sgV2SellerOrdersModal').classList.add('open')};
-function update(){let d=document.getElementById('sgV2Dashboard');if(!d)return;d.style.display=window.currentUser?'block':'none';document.getElementById('sgV2Orders').textContent=D.sellerOrders.length;document.getElementById('sgV2Revenue').textContent=D.sellerOrders.reduce((s,x)=>s+(+x.total||0),0).toLocaleString('kk-KZ')+' ₸';document.getElementById('sgV2Stock').textContent=(window.products||[]).reduce((s,p)=>s+(+(p.stock??p.quantity??0)||0),0);document.getElementById('sgV2Reviews').textContent=D.reviews.length}
+window.sgV2SellerOrders=()=>{if(window.db){document.getElementById('sgV2SellerOrders').innerHTML='<p class="sg-v2-small">Нақты Firebase тапсырыстары «Менің тапсырыстарым» бөлімінде көрсетіледі.</p>';document.getElementById('sgV2SellerOrdersModal').classList.add('open');return}document.getElementById('sgV2SellerOrders').innerHTML=D.sellerOrders.length?D.sellerOrders.map((x,i)=>'<div class="sg-v2-row"><span><b>#'+(i+1)+'</b><br>'+String(x.customer||'Клиент')+' · '+String(x.phone||'')+'</span><span><b>'+Number(x.total||0).toLocaleString('kk-KZ')+' ₸</b><br><span class="sg-v2-status">'+(x.status||'Жаңа тапсырыс')+'</span></span></div>').join(''):'<p>Әзірге тапсырыс жоқ.</p>';document.getElementById('sgV2SellerOrdersModal').classList.add('open')};
+function update(){let d=document.getElementById('sgV2Dashboard');if(!d)return;d.style.display=window.currentUser?'block':'none';document.getElementById('sgV2Orders').textContent=D.sellerOrders.length;document.getElementById('sgV2Revenue').textContent=D.sellerOrders.reduce((s,x)=>s+(+x.total||0),0).toLocaleString('kk-KZ')+' ₸';document.getElementById('sgV2StockStat').textContent=(window.products||[]).reduce((s,p)=>s+(+(p.stock??p.quantity??0)||0),0);document.getElementById('sgV2Reviews').textContent=D.reviews.length}
 setTimeout(update,1200);setInterval(update,3000);
 window.sgV2UsePromo=(c,t)=>{let p=D.promos[String(c||'').toUpperCase()]||0;return{discount:p,total:Math.round(t*(1-p/100))}};
 window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсырыс',date:Date.now()});save();update();toast('Тапсырыс сатушыға жіберілді')};
@@ -5203,7 +5203,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 
 <script id="satugo-core-flow-js">
 (function(){
-  const PROFILE_KEY='satugo_core_profile';
+  const PROFILE_KEY=()=> 'satugo_core_profile_'+(current()?.uid||'guest');
   const LOCAL_ORDERS='satugo_core_orders';
   const statuses=['Жаңа тапсырыс','Қабылданды','Дайындалуда','Жолда','Жеткізілді','Бас тартылды'];
 
@@ -5216,16 +5216,32 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
     else alert(t);
   }
   function current(){return window.currentUser || (window.firebase?.auth ? firebase.auth().currentUser : null)}
-  function getProfile(){try{return JSON.parse(localStorage.getItem(PROFILE_KEY)||'{}')}catch(e){return {}}}
-  function setProfile(p){localStorage.setItem(PROFILE_KEY,JSON.stringify(p))}
+  function getProfile(){try{return JSON.parse(localStorage.getItem(PROFILE_KEY())||'{}')}catch(e){return {}}}
+  function setProfile(p){localStorage.setItem(PROFILE_KEY(),JSON.stringify(p))}
   function getCartItems(){
     if(Array.isArray(window.cart)) return window.cart;
-    try{return JSON.parse(localStorage.getItem('cart')||'[]')}catch(e){return []}
+    try{return JSON.parse(localStorage.getItem('satugo_cart')||'[]')}catch(e){return []}
   }
   function cartTotal(items){
     return items.reduce((s,x)=>s+(Number(x.price||0)*Number(x.qty||x.quantity||1)),0)
   }
-  function localOrders(){try{return JSON.parse(localStorage.getItem(LOCAL_ORDERS)||'[]')}catch(e){return []}}
+  function localOrders(){
+    try{
+      const u=current();
+      const all=JSON.parse(localStorage.getItem(LOCAL_ORDERS)||'[]');
+      if(!u) return [];
+      const p=getProfile();
+      if(p.role==='seller'){
+        return all.filter(o=>(o.sellerIds||[]).includes(u.uid)).map(o=>{
+          const x={...o};
+          x.items=(x.items||[]).filter(i=>i.sellerId===u.uid);
+          x.sellerTotal=x.items.reduce((s,i)=>s+Number(i.price||0)*Number(i.qty||1),0);
+          return x;
+        });
+      }
+      return all.filter(o=>o.buyerId===u.uid);
+    }catch(e){return []}
+  }
   function saveLocalOrders(a){localStorage.setItem(LOCAL_ORDERS,JSON.stringify(a))}
 
   window.sgCoreClose=id=>el(id)?.classList.remove('open');
@@ -5240,6 +5256,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
     el('sgCoreProfileModal').classList.add('open');
   };
 
+  window.openProfile=function(){ if(typeof window.sgCoreOpenProfile==='function') window.sgCoreOpenProfile(); };
   window.sgCoreSaveProfile=async function(){
     const u=current();
     const p={
@@ -5291,6 +5308,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
         id:x.id||'',title:x.title||x.name||'Тауар',price:Number(x.price||0),
         qty:Number(x.qty||x.quantity||1),sellerId:x.sellerId||'',sellerEmail:x.sellerEmail||''
       })),
+      sellerIds:[...new Set(items.map(x=>x.sellerId||'').filter(Boolean))],
       total:cartTotal(items),
       status:'Жаңа тапсырыс',
       createdAtLocal:Date.now()
@@ -5303,17 +5321,24 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
         });
         order.id=ref.id;
       }else{
-        const arr=localOrders();order.id='local_'+Date.now();arr.push(order);saveLocalOrders(arr);
+        const arr=JSON.parse(localStorage.getItem(LOCAL_ORDERS)||'[]');order.id='local_'+Date.now();arr.push(order);saveLocalOrders(arr);
       }
       if(Array.isArray(window.cart)){window.cart.length=0;window.updateCart?.()}
-      try{localStorage.removeItem('cart')}catch(e){}
+      try{localStorage.removeItem('satugo_cart')}catch(e){}
       sgCoreClose('sgCoreCheckoutModal');
       toast('Тапсырыс жіберілді');
       window.sgNotify?.('📦 Жаңа тапсырыс','Тапсырысыңыз сәтті қабылданды.');
       window.sgCoreOpenOrders();
     }catch(e){
-      const arr=localOrders();order.id='local_'+Date.now();arr.push(order);saveLocalOrders(arr);
-      toast('Firebase қатесі. Тапсырыс жергілікті сақталды.');
+      const arr=JSON.parse(localStorage.getItem(LOCAL_ORDERS)||'[]');
+      order.id='local_'+Date.now();
+      arr.push(order);
+      saveLocalOrders(arr);
+      if(Array.isArray(window.cart)){window.cart.length=0;window.updateCart?.()}
+      try{localStorage.removeItem('satugo_cart')}catch(_e){}
+      sgCoreClose('sgCoreCheckoutModal');
+      toast('Firebase қатесі. Тапсырыс уақытша жергілікті сақталды.');
+      window.sgCoreOpenOrders();
     }
   };
 
@@ -5324,10 +5349,14 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
     try{
       let docs=[];
       if(p.role==='seller'){
-        const snap=await db.collection('orders').get();
+        const snap=await db.collection('orders')
+          .where('sellerIds','array-contains',u.uid)
+          .get();
         snap.forEach(d=>{
           const x={id:d.id,...d.data()};
-          if((x.items||[]).some(i=>i.sellerId===u.uid || i.sellerEmail===u.email)) docs.push(x);
+          x.items=(x.items||[]).filter(i=>i.sellerId===u.uid);
+          x.sellerTotal=x.items.reduce((s,i)=>s+Number(i.price||0)*Number(i.qty||1),0);
+          docs.push(x);
         });
       }else{
         const snap=await db.collection('orders').where('buyerId','==',u.uid).get();
@@ -5343,7 +5372,12 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
     const box=el('sgCoreOrdersList'), p=getProfile(), u=current();
     box.innerHTML='<p>Жүктелуде...</p>'; el('sgCoreOrdersModal').classList.add('open');
     const orders=await fetchOrders();
-    if(!orders.length){box.innerHTML='<p class="sg-core-note">Тапсырыс жоқ.</p>';return}
+    if(!orders.length){
+      box.innerHTML=p.role==='seller'
+        ? '<p class="sg-core-note">Тапсырыс жоқ. Жаңа тапсырыс осы нұсқада сатушы UID арқылы сақталады.</p>'
+        : '<p class="sg-core-note">Тапсырыс жоқ.</p>';
+      return;
+    }
     box.innerHTML=orders.map(o=>{
       const lines=(o.items||[]).map(i=>`${esc(i.title)} × ${i.qty||1}`).join('<br>');
       let actions='';
@@ -5357,7 +5391,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
           <div><b>Тапсырыс ${esc(o.id||'')}</b><br><span class="sg-core-note">${lines}</span></div>
           <span class="sg-core-status">${esc(o.status||'Жаңа тапсырыс')}</span>
         </div>
-        <div style="margin-top:8px"><b>${Number(o.total||0).toLocaleString('kk-KZ')} ₸</b></div>
+        <div style="margin-top:8px"><b>${Number((p.role==='seller' ? (o.sellerTotal??o.total) : o.total)||0).toLocaleString('kk-KZ')} ₸</b></div>
         ${o.customer?`<div class="sg-core-note">${esc(o.customer.name)} · ${esc(o.customer.phone)} · ${esc(o.customer.city)} · ${esc(o.customer.address)}</div>`:''}
         ${actions}
       </div>`;
@@ -5369,7 +5403,14 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
       if(window.db && !String(id).startsWith('local_')){
         await db.collection('orders').doc(id).set({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
       }else{
-        const a=localOrders(), x=a.find(o=>o.id===id); if(x)x.status=status; saveLocalOrders(a);
+        const all=JSON.parse(localStorage.getItem(LOCAL_ORDERS)||'[]');
+        const u=current(), p=getProfile();
+        const x=all.find(o=>o.id===id && (
+          o.buyerId===u?.uid ||
+          (p.role==='seller' && (o.sellerIds||[]).includes(u?.uid))
+        ));
+        if(x)x.status=status;
+        saveLocalOrders(all);
       }
       toast('Статус өзгертілді');
       window.sgNotify?.('🔄 Тапсырыс статусы', 'Тапсырыс статусы: '+status);
@@ -5517,9 +5558,10 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
       const user=result.user;
       window.currentUser=user;
 
-      const old=JSON.parse(localStorage.getItem('satugo_core_profile')||'{}');
+      const profileKey='satugo_core_profile_'+user.uid;
+      const old=JSON.parse(localStorage.getItem(profileKey)||'{}');
       const profile={...old,uid:user.uid,phone:user.phoneNumber||normalize(document.getElementById('sgPhoneNumber').value),email:user.email||old.email||'',role:old.role||'buyer'};
-      localStorage.setItem('satugo_core_profile',JSON.stringify(profile));
+      localStorage.setItem(profileKey,JSON.stringify(profile));
 
       if(window.db){
         await db.collection('users').doc(user.uid).set({
@@ -5617,7 +5659,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
       localStorage.removeItem('satugo_phone_verified'); location.reload(); return;
     }
     const map={
-      profile:['openProfile','profileModal','sgProfileModal'],
+      profile:['sgCoreOpenProfile','openProfile','profileModal','sgProfileModal'],
       orders:['openOrders','ordersModal','sgOrdersModal'],
       seller:['openSeller','openSellerModal','openStore','sellerModal'],
       cart:['openCart','openCheckout','checkoutModal']
@@ -5995,6 +6037,14 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   function me(){return window.currentUser || window.user || (window.firebase?.auth ? firebase.auth().currentUser : null)}
   function toast(t){if(window.sgToast)sgToast(t);else alert(t)}
+  function getChatProfile(){
+    const u=me();
+    if(!u) return {};
+    try{
+      const key='satugo_core_profile_'+u.uid;
+      return JSON.parse(localStorage.getItem(key)||'{}');
+    }catch(e){return {}}
+  }
   function chatId(a,b){return [a,b].sort().join('_')}
   function panel(){return document.getElementById('sgChatPanel')}
   function renderShell(){
@@ -6009,7 +6059,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
     if(!sellerId || sellerId===u.uid){toast('Бұл тауардың сатушысы чатқа қолжетімсіз');return;}
     renderShell(); panel().classList.add('open');
     const id=chatId(u.uid,sellerId);
-    try{await db.collection('chats').doc(id).set({participants:[u.uid,sellerId],participantNames:{[u.uid]:profile?.name||u.email||'Қолданушы',[sellerId]:sellerName||'Сатушы'},updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}); openChat(id,sellerName||'Сатушы');}
+    try{await db.collection('chats').doc(id).set({participants:[u.uid,sellerId],participantNames:{[u.uid]:getChatProfile().name||u.displayName||u.email||'Қолданушы',[sellerId]:sellerName||'Сатушы'},updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}); openChat(id,sellerName||'Сатушы');}
     catch(e){toast('Чатты ашу мүмкін болмады: '+e.message)}
   };
   async function showChats(){
@@ -6023,10 +6073,10 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
     activeChat=id; const u=me(); document.getElementById('sgChatTitle').innerHTML=`<button class="sg-chat-back" onclick="sgBackChats()">←</button> 💬 ${esc(name)}`; const body=document.getElementById('sgChatBody'); body.className='sg-chat-messages'; body.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';
     if(unsubMsgs)unsubMsgs();
     unsubMsgs=db.collection('chats').doc(id).collection('messages').orderBy('createdAt','asc').limitToLast(100).onSnapshot(snap=>{body.innerHTML=snap.empty?'<div class="sg-chat-empty">Сәлемдесуден бастаңыз 👋</div>':snap.docs.map(d=>{const x=d.data();return `<div class="sg-msg ${x.senderId===u.uid?'me':'other'}">${esc(x.text)}<div style="font-size:10px;opacity:.6;margin-top:3px">${x.createdAt?.toDate?x.createdAt.toDate().toLocaleString('kk-KZ'):''}</div></div>`}).join('');body.scrollTop=body.scrollHeight;});
-    document.querySelector('.sg-chat-compose')?.remove(); const compose=document.createElement('div');compose.className='sg-chat-compose';compose.innerHTML='<input id="sgChatInput" placeholder="Хабарлама жазыңыз..." onkeydown="if(event.key==='Enter')sgSendMessage()"><button onclick="sgSendMessage()">Жіберу</button>'; panel().appendChild(compose);
+    document.querySelector('.sg-chat-compose')?.remove(); const compose=document.createElement('div');compose.className='sg-chat-compose';compose.innerHTML=`<input id="sgChatInput" placeholder="Хабарлама жазыңыз..." onkeydown="if(event.key==='Enter')sgSendMessage()"><button onclick="sgSendMessage()">Жіберу</button>`; panel().appendChild(compose);
   }
   window.sgBackChats=function(){const c=document.querySelector('.sg-chat-compose');if(c)c.remove(); if(unsubMsgs){unsubMsgs();unsubMsgs=null} showChats();};
-  window.sgSendMessage=async function(){const u=me(), inp=document.getElementById('sgChatInput');if(!u||!activeChat||!inp)return;const text=inp.value.trim();if(!text)return;inp.value='';try{await db.collection('chats').doc(activeChat).collection('messages').add({senderId:u.uid,senderName:profile?.name||u.email||'Қолданушы',text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await db.collection('chats').doc(activeChat).set({lastMessage:text,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});}catch(e){toast('Хабарлама жіберілмеді: '+e.message)}};
+  window.sgSendMessage=async function(){const u=me(), inp=document.getElementById('sgChatInput');if(!u||!activeChat||!inp)return;const text=inp.value.trim();if(!text)return;inp.value='';try{await db.collection('chats').doc(activeChat).collection('messages').add({senderId:u.uid,senderName:getChatProfile().name||u.displayName||u.email||'Қолданушы',text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await db.collection('chats').doc(activeChat).set({lastMessage:text,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});}catch(e){toast('Хабарлама жіберілмеді: '+e.message)}};
   function install(){renderShell();}
   window.sgChatInstall=install; setTimeout(install,400);
 })();
@@ -6116,3 +6166,5 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   display: none !important;
 }
 </style>
+</body>
+</html>
