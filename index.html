@@ -2696,7 +2696,7 @@ async function showProduct(id){
 
       <button
         class="btn btn-light"
-        onclick="sgStartChat('${p.sellerId||''}','${esc(p.seller||'Сатушы')}')"
+        onclick="sgStartChat('${p.sellerId||p.sellerUid||p.ownerId||''}','${esc(p.seller||p.sellerName||p.storeName||'Сатушы')}','${esc(p.sellerEmail||p.ownerEmail||'')}')"
       >
         💬 Сатушымен чат
       </button>
@@ -6215,6 +6215,92 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   .sg-mobile-nav small{font-size:10px;line-height:1.1}
 }
 </style>
+
+
+<script id="satugo-chat-final-fix">
+(function(){
+  function toast2(t){
+    if(typeof window.toast==='function') window.toast(t);
+    else if(typeof window.sgToast==='function') window.sgToast(t);
+    else alert(t);
+  }
+  function user(){
+    return window.currentUser || (window.firebase && firebase.auth && firebase.auth().currentUser) || null;
+  }
+  function profileName(u){
+    try{
+      const p=JSON.parse(localStorage.getItem('satugo_core_profile')||'{}');
+      return p.name || u?.displayName || u?.email || 'Қолданушы';
+    }catch(e){return u?.displayName || u?.email || 'Қолданушы'}
+  }
+  function chatId(a,b){ return [a,b].sort().join('_'); }
+
+  window.sgStartChat = async function(sellerId,sellerName,sellerEmail){
+    const u=user();
+    if(!u){
+      toast2('Алдымен аккаунтқа кіріңіз');
+      if(typeof window.openAccount==='function') window.openAccount();
+      return;
+    }
+
+    sellerName = sellerName || 'Сатушы';
+
+    // If the product has no seller UID, try to find the seller by email.
+    if(!sellerId && sellerEmail && window.db){
+      try{
+        const q=await db.collection('users').where('email','==',sellerEmail).limit(1).get();
+        if(!q.empty) sellerId=q.docs[0].id;
+      }catch(e){}
+    }
+
+    // Some older products may only have sellerName/storeName.
+    if(!sellerId && sellerName && sellerName!=='Сатушы' && window.db){
+      try{
+        const q=await db.collection('users').where('storeName','==',sellerName).limit(1).get();
+        if(!q.empty) sellerId=q.docs[0].id;
+      }catch(e){}
+    }
+
+    if(!sellerId){
+      toast2('Бұл тауарға сатушы аккаунты байланыстырылмаған. Тауарды сатушы қайта сақтауы керек.');
+      return;
+    }
+
+    if(sellerId===u.uid){
+      toast2('Өз тауарыңызға чат аша алмайсыз');
+      return;
+    }
+
+    if(typeof window.renderShell==='function') window.renderShell();
+    const panel=document.getElementById('sgChatPanel');
+    if(panel) panel.classList.add('open');
+
+    const id=chatId(u.uid,sellerId);
+    try{
+      await db.collection('chats').doc(id).set({
+        participants:[u.uid,sellerId],
+        participantNames:{
+          [u.uid]:profileName(u),
+          [sellerId]:sellerName
+        },
+        sellerId:sellerId,
+        sellerName:sellerName,
+        sellerEmail:sellerEmail||'',
+        updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+      },{merge:true});
+
+      if(typeof window.sgOpenExistingChat==='function'){
+        window.sgOpenExistingChat(id,sellerName);
+      }else{
+        toast2('Чат ашылды');
+      }
+    }catch(e){
+      console.error('SatuGo chat:',e);
+      toast2('Чат ашылмады: '+(e.message||'Firebase қатесі'));
+    }
+  };
+})();
+</script>
 
 </body>
 
