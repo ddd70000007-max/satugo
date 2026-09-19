@@ -6473,10 +6473,10 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   }
   function goAccount(){
     try{
-      if(typeof window.sgProfileOpenV3==='function'){window.sgProfileOpenV3();return}
+      if(typeof window.openAccount==='function'){window.openAccount();return}
       if(typeof window.sgCoreOpenProfile==='function'){window.sgCoreOpenProfile();return}
       if(typeof window.openProfile==='function'){window.openProfile();return}
-      if(typeof window.openAccount==='function'){window.openAccount();return}
+      if(typeof window.sgProfileOpenV3==='function'){window.sgProfileOpenV3();return}
     }catch(e){console.error(e)}
     var f=id('accountBtn')||id('profileBtn')||id('profileButton')||id('accountButton');
     if(f)try{f.click()}catch(e){}
@@ -6719,7 +6719,7 @@ body{padding-bottom:78px!important}
       },
       satugoFinalFav:function(){try{if(typeof window.sgMobileOpenFavorites==='function')return window.sgMobileOpenFavorites();if(typeof window.openFavorites==='function')return window.openFavorites();}catch(e){}},
       satugoFinalChat:function(){try{if(typeof window.sgOpenChat==='function')return window.sgOpenChat();if(typeof window.sgMobileOpenChat==='function')return window.sgMobileOpenChat();}catch(e){}},
-      satugoFinalAccount:function(){try{if(typeof window.sgMobileOpenAccount==='function')return window.sgMobileOpenAccount();if(typeof window.sgProfileOpenV3==='function')return window.sgProfileOpenV3();if(typeof window.openAccount==='function')return window.openAccount();}catch(e){}}
+      satugoFinalAccount:function(){try{if(typeof window.openAccount==='function')return window.openAccount();if(typeof window.sgCoreOpenProfile==='function')return window.sgCoreOpenProfile();if(typeof window.sgProfileOpenV3==='function')return window.sgProfileOpenV3();if(typeof window.sgMobileOpenAccount==='function')return window.sgMobileOpenAccount();}catch(e){}}
     };
     Object.keys(map).forEach(function(id){
       var b=document.getElementById(id);if(!b)return;
