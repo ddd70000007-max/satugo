@@ -7129,6 +7129,58 @@ body{padding-bottom:80px!important;}
   window.addEventListener('load',bind);
 })();
 </script>
+
+<!-- SATUGO MOBILE ACCOUNT FINAL CLICK CAPTURE FIX -->
+<style id="satugo-mobile-account-final-click-fix">
+@media(max-width:700px){
+  #satugoFinalNav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:76px!important;display:flex!important;visibility:visible!important;opacity:1!important;z-index:2147483647!important;pointer-events:auto!important;background:#fff!important;}
+  #satugoFinalAccount{position:relative!important;display:flex!important;visibility:visible!important;opacity:1!important;z-index:2147483648!important;pointer-events:auto!important;touch-action:manipulation!important;-webkit-user-select:none!important;user-select:none!important;}
+}
+</style>
+<script id="satugo-mobile-account-final-click-fix-js">
+(function(){
+  'use strict';
+  function openAccountNow(){
+    try{
+      if(typeof window.sgOpenAccountFinal==='function') return window.sgOpenAccountFinal();
+      if(typeof window.openAccount==='function') return window.openAccount();
+      if(typeof window.openAuth==='function') return window.openAuth();
+    }catch(err){console.error('SatuGo account:',err);}
+  }
+  function isAccountTarget(t){
+    if(!t) return false;
+    var b=t.closest ? t.closest('#satugoFinalAccount') : null;
+    return !!b;
+  }
+  function capture(e){
+    if(!isAccountTarget(e.target)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+    if(e.type==='pointerup' || e.type==='touchend' || e.type==='click') openAccountNow();
+  }
+  document.addEventListener('pointerup',capture,true);
+  document.addEventListener('touchend',capture,{capture:true,passive:false});
+  document.addEventListener('click',capture,true);
+  function fix(){
+    var n=document.getElementById('satugoFinalNav');
+    var b=document.getElementById('satugoFinalAccount');
+    if(!n||!b)return;
+    n.style.setProperty('display','flex','important');
+    n.style.setProperty('visibility','visible','important');
+    n.style.setProperty('pointer-events','auto','important');
+    n.style.setProperty('z-index','2147483647','important');
+    b.style.setProperty('display','flex','important');
+    b.style.setProperty('visibility','visible','important');
+    b.style.setProperty('pointer-events','auto','important');
+    b.style.setProperty('z-index','2147483648','important');
+    b.setAttribute('type','button');
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix);else fix();
+  window.addEventListener('load',fix);
+  setTimeout(fix,300);setTimeout(fix,1000);setTimeout(fix,2500);
+})();
+</script>
 </body>
 </html>
 
