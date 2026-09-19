@@ -1251,48 +1251,7 @@ body.sg-modal-active .sg-core-modal {
 }
 </style>
 
-<section id="sgSmartTop" aria-label="SatuGo ерекше мүмкіндіктер">
-  <div class="sg-smart-head">
-    <div class="sg-smart-title">
-      <div class="sg-smart-icon">✨</div>
-      <div>
-        <strong>SatuGo Smart</strong>
-        <span>Маркетплейстегі ерекше мүмкіндіктер</span>
-      </div>
-    </div>
-    <button class="sg-smart-toggle" type="button" onclick="sgToggleSmartTop()">Мүмкіндіктерді ашу ▾</button>
-  </div>
-
-  <div class="sg-smart-grid">
-    <button class="sg-smart-card" type="button" onclick="sgUniqueAI()">
-      <b>🤖</b><strong>AI Кеңесші</strong><small>Тауар таңдауға көмектеседі</small>
-    </button>
-    <button class="sg-smart-card" type="button" onclick="sgBudgetMode()">
-      <b>💰</b><strong>Бюджетпен жинау</strong><small>Бюджетке сай комплект</small>
-    </button>
-    <button class="sg-smart-card" type="button" onclick="sgBundleMode()">
-      <b>🧩</b><strong>Комплект құрастыр</strong><small>Қосымша тауарларды табу</small>
-    </button>
-    <button class="sg-smart-card" type="button" onclick="sgPriceWatch()">
-      <b>📉</b><strong>Баға бақылау</strong><small>Баға түскенде белгі береді</small>
-    </button>
-    <button class="sg-smart-card" type="button" onclick="sgEarnCoins()">
-      <b>🪙</b><strong>SatuGo Coins</strong><small>Сатып алып бонус жина</small>
-    </button>
-    <button class="sg-smart-card" type="button" onclick="sgGroupDeal()">
-      <b>👥</b><strong>Group Deal</strong><small>Бірге алсаң — жеңілдік</small>
-    </button>
-  </div>
-</section>
-<script>
-function sgToggleSmartTop(){
-  const el=document.getElementById('sgSmartTop');
-  const btn=el.querySelector('.sg-smart-toggle');
-  el.classList.toggle('open');
-  btn.textContent=el.classList.contains('open')?'Жабу ▴':'Мүмкіндіктерді ашу ▾';
-}
-</script>
-<!-- SATUGO UNIQUE TOP END -->
+<!-- removed extra smart feature section -->
 
 
 
@@ -4436,7 +4395,7 @@ async function renderSeller(){
       </div>
 
       <div class="stat"><div>Қойма</div><strong>${sellerStock}</strong></div>
-      <div class="stat"><div>Сатылым</div><strong>${sellerSales}</strong></div>
+      
 
     </div>
 
@@ -4453,12 +4412,7 @@ async function renderSeller(){
       placeholder="Дүкен сипаттамасы"
     >${esc(store.description||"")}</textarea>
 
-    <button
-      class="btn btn-blue"
-      onclick="saveStore()"
-    >
-      Дүкенді сақтау
-    </button>
+
 
     <hr>
 
@@ -6020,62 +5974,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 </script>
 
 
-<style id="satugo-unique-launcher-style">
-#sgUniqueLauncher{
- position:fixed;right:18px;bottom:82px;z-index:99999;
- border:0;border-radius:999px;padding:14px 18px;
- background:#111827;color:#fff;font-weight:900;font-size:15px;
- box-shadow:0 10px 30px #0004;cursor:pointer
-}
-#sgUniquePanel{
- position:fixed;right:18px;bottom:142px;width:min(380px,calc(100vw - 36px));
- max-height:70vh;overflow:auto;z-index:99998;background:#fff;
- border:1px solid #e5e7eb;border-radius:22px;padding:16px;
- box-shadow:0 20px 60px #0004;display:none
-}
-#sgUniquePanel.open{display:block}
-.sg-up{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
-.sg-up button{min-height:68px;border:1px solid #e5e7eb;border-radius:15px;background:#f9fafb;cursor:pointer;text-align:left;padding:10px}
-.sg-up b{display:block}.sg-up small{color:#6b7280}
-@media(max-width:520px){
- #sgUniqueLauncher{right:10px;bottom:72px}
- #sgUniquePanel{right:10px;bottom:130px}
-}
-</style>
-<button id="sgUniqueLauncher" type="button">🚀 Ерекше SatuGo</button>
-<div id="sgUniquePanel">
- <div style="display:flex;justify-content:space-between;align-items:center">
-  <div><b style="font-size:19px">SatuGo Exclusive 🚀</b><div style="color:#6b7280;font-size:12px">Жаңа функциялар</div></div>
-  <button type="button" onclick="document.getElementById('sgUniquePanel').classList.remove('open')" style="border:0;background:#f3f4f6;border-radius:50%;width:34px;height:34px">✕</button>
- </div>
- <div class="sg-up">
-  <button onclick="sgUniqueAI()"><b>🤖 AI Кеңесші</b><small>Тауар тауып береді</small></button>
-  <button onclick="sgBudgetMode()"><b>💰 Бюджет</b><small>Бюджетке жинау</small></button>
-  <button onclick="sgBundleMode()"><b>🧩 Комплект</b><small>Бірге керек заттар</small></button>
-  <button onclick="sgPriceWatch()"><b>📉 Баға бақылау</b><small>Бағаны есте сақтау</small></button>
-  <button onclick="sgEarnCoins()"><b>🪙 Coins</b><small>+25 ұпай алу</small></button>
-  <button onclick="sgGroupDeal()"><b>👥 Group Deal</b><small>Топтық қызығушылық</small></button>
- </div>
- <div style="margin-top:12px;padding:11px;border-radius:14px;background:#f3f4f6">
-  🪙 Coins: <b id="sgCoinBalanceLauncher">0</b>
- </div>
-</div>
-<script>
-(function(){
- const btn=document.getElementById('sgUniqueLauncher');
- const panel=document.getElementById('sgUniquePanel');
- if(btn&&panel){
-  btn.onclick=()=>panel.classList.toggle('open');
-  setInterval(()=>{
-   const a=document.getElementById('sgCoinBalance');
-   const b=document.getElementById('sgCoinBalanceLauncher');
-   if(a&&b)b.textContent=a.textContent;
-  },500);
- }
-})();
-</script>
-
-
+<!-- removed extra bottom feature launcher -->
 <!-- SatuGo Notifications -->
 <style id="sgNotifyStyle">
   .sg-notify-bell{position:fixed;right:18px;bottom:140px;z-index:9998;border:0;border-radius:999px;background:#fff;color:#111827;padding:12px 15px;font-weight:800;cursor:pointer;box-shadow:0 8px 25px #0002;border:1px solid #e5e7eb}
@@ -6650,5 +6549,44 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   setTimeout(bind,300);setTimeout(bind,1000);
 })();
 </script>
+
+<style id="satugo-bottom-clean-fix">
+/* Төменгі навигациядан тыс қалған ескі блоктарды экранға шығармау */
+@media (max-width:700px){
+  #sgAdvanced, #sgV2Dashboard { display:none !important; visibility:hidden !important; }
+  #sgPDiscount, #sgPCity, #sgPImage, #sgPDesc,
+  #sgChatInput, #sgPromoCode, #sgPromoPercent { display:none !important; }
+  button[onclick*="sgSaveProduct"],
+  button[onclick*="sgClose('sgProductModal')"] { display:none !important; }
+}
+/* Тек негізгі 5 төменгі батырма */
+#satugoFinalNav{z-index:100000 !important;}
+</style>
+<script id="satugo-bottom-clean-js">
+(function(){
+  function clean(){
+    var nav=document.getElementById('satugoFinalNav');
+    if(nav){
+      nav.style.display='flex';
+      nav.querySelectorAll('button').forEach(function(b){
+        b.style.display='flex';
+      });
+    }
+    var adv=document.getElementById('sgAdvanced');
+    if(adv) adv.style.setProperty('display','none','important');
+    var dash=document.getElementById('sgV2Dashboard');
+    if(dash) dash.style.setProperty('display','none','important');
+  }
+  clean();
+  document.addEventListener('DOMContentLoaded',clean);
+  setTimeout(clean,300);
+  setTimeout(clean,1200);
+})();
+</script>
+
+<style id="sg-clean-bottom-extra">
+/* SatuGo: remove unwanted extra bottom/feature controls */
+#sgUniqueLauncher,#sgUniquePanel,#sgSmartTop{display:none !important;}
+</style>
 </body>
 </html>
