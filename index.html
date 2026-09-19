@@ -6566,5 +6566,60 @@ setTimeout(ensurePanel,300);
 })();
 </script>
 
+
+<style id="satugo-final-layout-clean">
+/* FINAL CLEANUP: seller statistics/features must not leak into the main page */
+#sgAdvanced,
+#sgV2Dashboard,
+#sgUniqueLauncher,
+#sgUniquePanel,
+#sgSmartTop { display:none !important; visibility:hidden !important; }
+
+/* Product/promo/store UI is an overlay only when explicitly opened */
+.sg-modal:not(.open),
+.sg-v2-modal:not(.open),
+.sg-core-modal:not(.open),
+#sgProfileOverlay:not(.open) { display:none !important; visibility:hidden !important; }
+
+/* Only the bottom 5-nav is allowed as the mobile navigation */
+#satugoFinalNav { z-index:2147483646 !important; }
+
+/* Do not show the old floating chat launcher; Chat is opened from the 5-nav */
+#sgChatFab { display:none !important; }
+
+/* Keep the real chat panel available when opened */
+#sgChatPanel.sg-chat-panel.open {
+  display:flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  z-index:2147483645 !important;
+}
+#sgChatPanel.sg-chat-panel:not(.open) {
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+</style>
+<script id="satugo-final-clean-controller">
+(function(){
+  'use strict';
+  function clean(){
+    ['sgAdvanced','sgV2Dashboard','sgUniqueLauncher','sgUniquePanel','sgSmartTop'].forEach(function(id){
+      var el=document.getElementById(id);
+      if(el){el.style.setProperty('display','none','important');el.style.setProperty('visibility','hidden','important');}
+    });
+    var fab=document.getElementById('sgChatFab');
+    if(fab) fab.style.setProperty('display','none','important');
+    var nav=document.getElementById('satugoFinalNav');
+    if(nav){nav.style.setProperty('display','flex','important');nav.style.setProperty('z-index','2147483646','important');}
+  }
+  clean();
+  document.addEventListener('DOMContentLoaded',clean);
+  window.addEventListener('load',clean);
+  setTimeout(clean,300);setTimeout(clean,1000);setTimeout(clean,2500);
+  new MutationObserver(function(){clean();}).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html>
