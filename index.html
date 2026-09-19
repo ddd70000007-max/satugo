@@ -6931,20 +6931,38 @@ body{padding-bottom:80px!important;}
   function current(){ return (window.auth&&auth.currentUser)||window.currentUser||window.user||null; }
 
   /* Mobile Account button: never depend on an old/overridden handler. */
-  window.sgOpenAccountFinal=function(){
+  window.sgOpenAccountFinal=function(e){
     try{
+      if(e && e.preventDefault)e.preventDefault();
+      if(e && e.stopPropagation)e.stopPropagation();
       var u=current();
-      if(typeof window.renderAccount==='function') window.renderAccount();
-      if(u && typeof window.openModal==='function') window.openModal('accountModal');
-      else if(typeof window.openAuth==='function') window.openAuth();
+      // Keep every part of SatuGo on the same Firebase user reference.
+      window.currentUser=u||null;
+      if(typeof user !== 'undefined') user=u||null;
       var m=document.getElementById('accountModal');
-      if(m){m.classList.add('show');m.style.display='block';m.style.visibility='visible';m.style.pointerEvents='auto';}
-    }catch(e){ console.error(e); alert('Профильді ашу қатесі: '+(e.message||e)); }
+      if(!u){
+        if(typeof window.openAuth==='function') window.openAuth();
+        return false;
+      }
+      if(typeof window.renderAccount==='function') window.renderAccount();
+      if(typeof window.openModal==='function') window.openModal('accountModal');
+      if(m){
+        m.classList.add('show');
+        m.style.display='block';
+        m.style.visibility='visible';
+        m.style.opacity='1';
+        m.style.pointerEvents='auto';
+        m.style.zIndex='2147483646';
+      }
+      document.body.style.overflow='hidden';
+      return false;
+    }catch(e){ console.error(e); alert('Профильді ашу қатесі: '+(e.message||e)); return false; }
   };
   var nav=document.getElementById('satugoFinalAccount');
   if(nav){
-    nav.onclick=function(e){e.preventDefault();e.stopPropagation();window.sgOpenAccountFinal();return false;};
-    nav.ontouchend=function(e){e.preventDefault();e.stopPropagation();window.sgOpenAccountFinal();return false;};
+    nav.addEventListener('click',function(e){window.sgOpenAccountFinal(e);},{passive:false});
+    nav.addEventListener('touchend',function(e){window.sgOpenAccountFinal(e);},{passive:false});
+    nav.addEventListener('pointerup',function(e){window.sgOpenAccountFinal(e);},{passive:false});
   }
 
   /* Store save: use the currently signed-in Firebase user and show the exact error. */
@@ -6978,3 +6996,70 @@ body{padding-bottom:80px!important;}
 
 </body>
 </html>
+
+<!-- SATUGO MOBILE ACCOUNT HARD FIX -->
+<style id="satugo-mobile-account-hard-fix">
+#sgMobileAccountScreen{display:none;position:fixed;inset:0;z-index:2147483647;background:#f7f8fb;padding:14px 14px 100px;overflow:auto;-webkit-overflow-scrolling:touch}
+#sgMobileAccountScreen.sg-open{display:block}
+.sg-ma-card{max-width:620px;margin:0 auto;background:#fff;border-radius:22px;box-shadow:0 8px 30px rgba(0,0,0,.10);overflow:hidden}
+.sg-ma-top{display:flex;align-items:center;gap:13px;padding:18px;border-bottom:1px solid #eee}
+.sg-ma-avatar{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#eef2ff;font-size:29px}
+.sg-ma-info{min-width:0;flex:1}.sg-ma-info h2{margin:0 0 4px;font-size:20px}.sg-ma-info p{margin:0;color:#777;font-size:13px;word-break:break-word}
+.sg-ma-close{border:0;background:#eee;width:42px;height:42px;border-radius:50%;font-size:25px;cursor:pointer}
+.sg-ma-body{padding:16px}
+.sg-ma-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 4px;border-bottom:1px solid #eee}
+.sg-ma-row span{color:#666}.sg-ma-row b{font-size:14px;text-align:right;word-break:break-word}
+.sg-ma-btn{width:100%;border:0;border-radius:13px;padding:13px 14px;margin-top:10px;font-size:15px;font-weight:700;cursor:pointer;touch-action:manipulation}
+.sg-ma-primary{background:#111827;color:#fff}.sg-ma-light{background:#f0f2f5;color:#222}.sg-ma-danger{background:#fee2e2;color:#b91c1c}
+body.sg-account-open{overflow:hidden!important}
+</style>
+<script id="satugo-mobile-account-hard-fix-js">
+(function(){
+  'use strict';
+  function getUser(){return (window.auth&&auth.currentUser)||window.currentUser||window.user||null;}
+  function esc2(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function closeScreen(){var x=document.getElementById('sgMobileAccountScreen');if(x)x.classList.remove('sg-open');document.body.classList.remove('sg-account-open');}
+  function openScreen(){
+    var u=getUser();
+    if(!u){if(typeof window.openAuth==='function')window.openAuth();return;}
+    var x=document.getElementById('sgMobileAccountScreen');
+    if(!x){
+      x=document.createElement('div');x.id='sgMobileAccountScreen';
+      document.body.appendChild(x);
+    }
+    var p=window.profile||{};
+    var name=p.name||u.displayName||(u.email?u.email.split('@')[0]:'Қолданушы');
+    var email=u.email||'';
+    var phone=p.phone||u.phoneNumber||'Телефон енгізілмеген';
+    var city=p.city||'Қала енгізілмеген';
+    var address=p.address||'Мекенжай енгізілмеген';
+    x.innerHTML='<div class="sg-ma-card">'+
+      '<div class="sg-ma-top"><div class="sg-ma-avatar">👤</div><div class="sg-ma-info"><h2>'+esc2(name)+'</h2><p>'+esc2(phone)+'</p><p>'+esc2(email)+'</p></div><button class="sg-ma-close" type="button" id="sgMaClose">×</button></div>'+
+      '<div class="sg-ma-body">'+
+      '<div class="sg-ma-row"><span>📱 Телефон</span><b>'+esc2(phone)+'</b></div>'+
+      '<div class="sg-ma-row"><span>📍 Қала</span><b>'+esc2(city)+'</b></div>'+
+      '<div class="sg-ma-row"><span>🏠 Мекенжай</span><b>'+esc2(address)+'</b></div>'+
+      '<button class="sg-ma-btn sg-ma-primary" type="button" id="sgMaEdit">✏️ Профильді өзгерту</button>'+
+      '<button class="sg-ma-btn sg-ma-light" type="button" id="sgMaOrders">📦 Менің тапсырыстарым</button>'+
+      '<button class="sg-ma-btn sg-ma-light" type="button" id="sgMaFav">❤️ Таңдаулылар</button>'+
+      '<button class="sg-ma-btn sg-ma-light" type="button" id="sgMaStore">🏪 Менің дүкенім</button>'+
+      '<button class="sg-ma-btn sg-ma-danger" type="button" id="sgMaLogout">🚪 Шығу</button>'+
+      '</div></div>';
+    x.classList.add('sg-open');document.body.classList.add('sg-account-open');
+    document.getElementById('sgMaClose').onclick=closeScreen;
+    document.getElementById('sgMaEdit').onclick=function(){closeScreen();if(typeof window.sgCoreOpenProfile==='function')window.sgCoreOpenProfile();else if(typeof window.openAccount==='function')window.openAccount();};
+    document.getElementById('sgMaOrders').onclick=function(){closeScreen();if(typeof window.openModal==='function')window.openModal('ordersModal');if(typeof window.loadOrders==='function')window.loadOrders();};
+    document.getElementById('sgMaFav').onclick=function(){closeScreen();if(typeof window.goFav==='function')window.goFav();};
+    document.getElementById('sgMaStore').onclick=function(){closeScreen();if(typeof window.openSeller==='function')window.openSeller();else if(typeof window.renderSeller==='function'){var s=document.getElementById('seller');if(s)s.style.display='block';window.renderSeller();}};
+    document.getElementById('sgMaLogout').onclick=async function(){try{if(window.auth&&auth.signOut)await auth.signOut();}catch(e){console.error(e)}closeScreen();location.reload();};
+  }
+  window.sgOpenAccountFinal=openScreen;
+  function bind(){
+    var n=document.getElementById('satugoFinalAccount');if(!n||n.dataset.maBound)return;n.dataset.maBound='1';
+    n.onclick=function(e){e.preventDefault();e.stopImmediatePropagation();openScreen();return false;};
+    n.ontouchend=function(e){e.preventDefault();e.stopImmediatePropagation();openScreen();return false;};
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+  setTimeout(bind,500);setTimeout(bind,1500);
+})();
+</script>
