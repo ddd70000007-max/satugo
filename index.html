@@ -4392,7 +4392,7 @@ async function renderSeller(){
     const snap=
       await db
         .collection("stores")
-        .doc(user.uid)
+        .doc(u.uid)
         .get();
 
     if(snap.exists)
@@ -4623,7 +4623,7 @@ async function saveProduct(){
     const storeSnap=
       await db
         .collection("stores")
-        .doc(user.uid)
+        .doc(u.uid)
         .get();
 
     const store=
