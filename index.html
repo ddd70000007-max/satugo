@@ -5996,57 +5996,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   .sg-notify-time{font-size:11px;color:#6b7280;margin-top:4px}
 </style>
 
-<script id="sgChatJS">
-(function(){
-  const CHAT='satugo_chats_cache';
-  let activeChat=null, unsubList=null, unsubMsgs=null;
-  const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  function me(){return window.currentUser || window.user || (window.firebase?.auth ? firebase.auth().currentUser : null)}
-  function toast(t){if(window.sgToast)sgToast(t);else alert(t)}
-  function getChatProfile(){
-    const u=me();
-    if(!u) return {};
-    try{
-      const key='satugo_core_profile_'+u.uid;
-      return JSON.parse(localStorage.getItem(key)||'{}');
-    }catch(e){return {}}
-  }
-  function chatId(a,b){return [a,b].sort().join('_')}
-  function panel(){return document.getElementById('sgChatPanel')}
-  function renderShell(){
-    if(document.getElementById('sgChatFab'))return;
-    const fab=document.createElement('button');fab.id='sgChatFab';fab.className='sg-chat-fab';fab.innerHTML='💬 Чат <span id="sgChatBadge" class="sg-chat-badge" style="display:none">0</span>';fab.onclick=sgOpenChat;document.body.appendChild(fab);
-    const p=document.createElement('div');p.id='sgChatPanel';p.className='sg-chat-panel';p.innerHTML=`<div class="sg-chat-head"><b id="sgChatTitle">💬 Чаттар</b><button onclick="sgCloseChat()" style="border:0;background:#f3f4f6;border-radius:9px;padding:6px 10px;cursor:pointer">×</button></div><div id="sgChatBody" class="sg-chat-list"></div>`;document.body.appendChild(p);
-  }
-  window.sgOpenChat=function(){renderShell();const p=panel();p.classList.add('open');showChats();};
-  window.sgCloseChat=function(){panel()?.classList.remove('open'); if(unsubMsgs){unsubMsgs();unsubMsgs=null} activeChat=null;};
-  window.sgStartChat=async function(sellerId,sellerName){
-    const u=me(); if(!u){toast('Чатқа кіру үшін аккаунтқа кіріңіз');return;}
-    if(!sellerId || sellerId===u.uid){toast('Бұл тауардың сатушысы чатқа қолжетімсіз');return;}
-    renderShell(); panel().classList.add('open');
-    const id=chatId(u.uid,sellerId);
-    try{await db.collection('chats').doc(id).set({participants:[u.uid,sellerId],participantNames:{[u.uid]:getChatProfile().name||u.displayName||u.email||'Қолданушы',[sellerId]:sellerName||'Сатушы'},updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}); openChat(id,sellerName||'Сатушы');}
-    catch(e){toast('Чатты ашу мүмкін болмады: '+e.message)}
-  };
-  async function showChats(){
-    const u=me(), body=document.getElementById('sgChatBody'), title=document.getElementById('sgChatTitle'); if(!u){title.textContent='💬 Чаттар';body.innerHTML='<div class="sg-chat-empty">Чат үшін аккаунтқа кіріңіз.</div>';return;}
-    title.textContent='💬 Чаттар'; body.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';
-    try{const snap=await db.collection('chats').where('participants','array-contains',u.uid).limit(30).get(); if(snap.empty){body.innerHTML='<div class="sg-chat-empty">Әзірге чат жоқ.<br>Тауардан «💬 Сатушымен чат» батырмасын басыңыз.</div>';return;} body.innerHTML=snap.docs.map(d=>{const x=d.data(), other=(x.participants||[]).find(id=>id!==u.uid)||'', name=x.participantNames?.[other]||'Қолданушы';return `<div class="sg-chat-row" onclick="sgOpenExistingChat('${d.id}','${esc(name)}')"><b>👤 ${esc(name)}</b><small>Чатты ашу</small></div>`}).join('');}catch(e){body.innerHTML='<div class="sg-chat-empty">Чаттарды жүктеу қатесі.<br>'+esc(e.message)+'</div>'; }
-  }
-  window.sgOpenExistingChat=function(id,name){openChat(id,name)};
-  function openChat(id,name){
-    document.querySelectorAll('.sg-chat-compose').forEach(el=>el.remove());
-    activeChat=id; const u=me(); document.getElementById('sgChatTitle').innerHTML=`<button class="sg-chat-back" onclick="sgBackChats()">←</button> 💬 ${esc(name)}`; const body=document.getElementById('sgChatBody'); body.className='sg-chat-messages'; body.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';
-    if(unsubMsgs)unsubMsgs();
-    unsubMsgs=db.collection('chats').doc(id).collection('messages').orderBy('createdAt','asc').limitToLast(100).onSnapshot(snap=>{body.innerHTML=snap.empty?'<div class="sg-chat-empty">Сәлемдесуден бастаңыз 👋</div>':snap.docs.map(d=>{const x=d.data();return `<div class="sg-msg ${x.senderId===u.uid?'me':'other'}">${esc(x.text)}<div style="font-size:10px;opacity:.6;margin-top:3px">${x.createdAt?.toDate?x.createdAt.toDate().toLocaleString('kk-KZ'):''}</div></div>`}).join('');body.scrollTop=body.scrollHeight;});
-    document.querySelector('.sg-chat-compose')?.remove(); const compose=document.createElement('div');compose.className='sg-chat-compose';compose.innerHTML=`<input id="sgChatInput" placeholder="Хабарлама жазыңыз..." onkeydown="if(event.key==='Enter')sgSendMessage()"><button onclick="sgSendMessage()">Жіберу</button>`; panel().appendChild(compose);
-  }
-  window.sgBackChats=function(){const c=document.querySelector('.sg-chat-compose');if(c)c.remove(); if(unsubMsgs){unsubMsgs();unsubMsgs=null} showChats();};
-  window.sgSendMessage=async function(){const u=me(), inp=document.getElementById('sgChatInput');if(!u||!activeChat||!inp)return;const text=inp.value.trim();if(!text)return;inp.value='';try{await db.collection('chats').doc(activeChat).collection('messages').add({senderId:u.uid,senderName:getChatProfile().name||u.displayName||u.email||'Қолданушы',text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await db.collection('chats').doc(activeChat).set({lastMessage:text,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});}catch(e){toast('Хабарлама жіберілмеді: '+e.message)}};
-  function install(){renderShell();}
-  window.sgChatInstall=install; setTimeout(install,400);
-})();
-</script>
+
 <script id="sgNotifyJS">
 (function(){
   const KEY='satugo_notifications';
@@ -6413,58 +6363,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   #satugoFinalNav button{display:flex!important;pointer-events:auto!important;touch-action:manipulation!important;position:relative!important;z-index:2147483648!important;-webkit-tap-highlight-color:transparent!important}
 }
 </style>
-<script id="satugo-final-mobile-buttons-js">
-(function(){
-  'use strict';
-  function id(x){return document.getElementById(x)}
-  function stop(e){if(e){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation&&e.stopImmediatePropagation()}}
-  function goHome(){window.scrollTo({top:0,behavior:'smooth'});}
-  function goSearch(){
-    var e=id('search')||id('heroSearch')||document.querySelector('input[type="search"]');
-    if(e){try{e.scrollIntoView({behavior:'smooth',block:'center'})}catch(x){} setTimeout(function(){try{e.focus({preventScroll:true})}catch(x){try{e.focus()}catch(y){}}},250)}
-  }
-  function goFav(){
-    try{
-      if(typeof window.openFavorites==='function'){window.openFavorites();return}
-      if(typeof window.sgOpenFavorites==='function'){window.sgOpenFavorites();return}
-      if(typeof window.sgMobileOpenFavorites==='function'){window.sgMobileOpenFavorites();return}
-    }catch(e){console.error(e)}
-    var f=id('favoritesBtn')||id('favoriteBtn')||id('favBtn')||id('favoritesButton');
-    if(f)try{f.click()}catch(e){}
-  }
-  function goChat(){
-    try{
-      if(typeof window.sgOpenChat==='function'){window.sgOpenChat();return}
-      if(typeof window.sgMobileOpenChat==='function'){window.sgMobileOpenChat();return}
-    }catch(e){console.error(e)}
-    var f=id('sgChatFab'); if(f)try{f.click()}catch(e){}
-  }
-  function goAccount(){
-    try{
-      if(typeof window.openAccount==='function'){window.openAccount();return}
-      if(typeof window.sgCoreOpenProfile==='function'){window.sgCoreOpenProfile();return}
-      if(typeof window.openProfile==='function'){window.openProfile();return}
-      if(typeof window.sgProfileOpenV3==='function'){window.sgProfileOpenV3();return}
-    }catch(e){console.error(e)}
-    var f=id('accountBtn')||id('profileBtn')||id('profileButton')||id('accountButton');
-    if(f)try{f.click()}catch(e){}
-  }
-  var map={satugoFinalHome:goHome,satugoFinalSearch:goSearch,satugoFinalFav:goFav,satugoFinalChat:goChat,satugoFinalAccount:goAccount};
-  function bind(){
-    Object.keys(map).forEach(function(k){
-      var b=id(k); if(!b)return;
-      b.onclick=function(e){stop(e);map[k]();return false};
-      b.ontouchstart=null;
-      b.ontouchend=function(e){stop(e);map[k]();return false};
-      b.style.pointerEvents='auto'; b.style.touchAction='manipulation';
-    });
-    var n=id('satugoFinalNav'); if(n){n.style.pointerEvents='auto';n.style.zIndex='2147483647'}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
-  window.addEventListener('load',bind);
-  setTimeout(bind,300);setTimeout(bind,1000);
-})();
-</script>
+
 
 <style id="satugo-bottom-clean-fix">
 /* Төменгі навигациядан тыс қалған ескі блоктарды экранға шығармау */
@@ -6478,27 +6377,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 /* Тек негізгі 5 төменгі батырма */
 #satugoFinalNav{z-index:100000 !important;}
 </style>
-<script id="satugo-bottom-clean-js">
-(function(){
-  function clean(){
-    var nav=document.getElementById('satugoFinalNav');
-    if(nav){
-      nav.style.display='flex';
-      nav.querySelectorAll('button').forEach(function(b){
-        b.style.display='flex';
-      });
-    }
-    var adv=document.getElementById('sgAdvanced');
-    if(adv) adv.style.setProperty('display','none','important');
-    var dash=document.getElementById('sgV2Dashboard');
-    if(dash) dash.style.setProperty('display','none','important');
-  }
-  clean();
-  document.addEventListener('DOMContentLoaded',clean);
-  setTimeout(clean,300);
-  setTimeout(clean,1200);
-})();
-</script>
+
 
 <style id="sg-clean-bottom-extra">
 /* SatuGo: remove unwanted extra bottom/feature controls */
@@ -6604,26 +6483,7 @@ setTimeout(ensurePanel,300);
   pointer-events:none !important;
 }
 </style>
-<script id="satugo-final-clean-controller">
-(function(){
-  'use strict';
-  function clean(){
-    ['sgAdvanced','sgV2Dashboard','sgUniqueLauncher','sgUniquePanel','sgSmartTop'].forEach(function(id){
-      var el=document.getElementById(id);
-      if(el){el.style.setProperty('display','none','important');el.style.setProperty('visibility','hidden','important');}
-    });
-    var fab=document.getElementById('sgChatFab');
-    if(fab) fab.style.setProperty('display','none','important');
-    var nav=document.getElementById('satugoFinalNav');
-    if(nav){nav.style.setProperty('display','flex','important');nav.style.setProperty('z-index','2147483646','important');}
-  }
-  clean();
-  document.addEventListener('DOMContentLoaded',clean);
-  window.addEventListener('load',clean);
-  setTimeout(clean,300);setTimeout(clean,1000);setTimeout(clean,2500);
-  new MutationObserver(function(){clean();}).observe(document.body,{childList:true,subtree:true});
-})();
-</script>
+
 
 <!-- SATUGO FINAL 5 NAV VISIBILITY FIX -->
 <style id="satugo-final-5nav-visibility-fix">
@@ -6668,40 +6528,7 @@ setTimeout(ensurePanel,300);
 #satugoFinalNav button:active{background:#f3f4f6!important}
 body{padding-bottom:78px!important}
 </style>
-<script id="satugo-final-5nav-visibility-js">
-(function(){
-  'use strict';
-  function bind(){
-    var nav=document.getElementById('satugoFinalNav');
-    if(!nav)return;
-    nav.style.setProperty('display','flex','important');
-    nav.style.setProperty('visibility','visible','important');
-    nav.style.setProperty('opacity','1','important');
-    nav.style.setProperty('pointer-events','auto','important');
-    nav.style.setProperty('z-index','2147483647','important');
-    var map={
-      satugoFinalHome:function(){window.scrollTo({top:0,behavior:'smooth'});},
-      satugoFinalSearch:function(){
-        var e=document.getElementById('search')||document.querySelector('input[placeholder*="іздеу" i]');
-        if(e){try{e.scrollIntoView({behavior:'smooth',block:'center'});}catch(x){} setTimeout(function(){try{e.focus();}catch(x){}},250);}
-      },
-      satugoFinalFav:function(){try{if(typeof window.sgMobileOpenFavorites==='function')return window.sgMobileOpenFavorites();if(typeof window.openFavorites==='function')return window.openFavorites();}catch(e){}},
-      satugoFinalChat:function(){try{if(typeof window.sgOpenChat==='function')return window.sgOpenChat();if(typeof window.sgMobileOpenChat==='function')return window.sgMobileOpenChat();}catch(e){}},
-      satugoFinalAccount:function(){try{if(typeof window.openAccount==='function')return window.openAccount();if(typeof window.sgCoreOpenProfile==='function')return window.sgCoreOpenProfile();if(typeof window.sgProfileOpenV3==='function')return window.sgProfileOpenV3();if(typeof window.sgMobileOpenAccount==='function')return window.sgMobileOpenAccount();}catch(e){}}
-    };
-    Object.keys(map).forEach(function(id){
-      var b=document.getElementById(id);if(!b)return;
-      b.style.setProperty('display','flex','important');
-      b.style.setProperty('visibility','visible','important');
-      b.style.setProperty('pointer-events','auto','important');
-      b.onclick=function(e){e.preventDefault();e.stopPropagation();map[id]();return false;};
-    });
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
-  window.addEventListener('load',bind);
-  setTimeout(bind,300);setTimeout(bind,1000);setTimeout(bind,2500);
-})();
-</script>
+
 
 
 <style id="satugo-final-nav-always-visible">
@@ -6709,9 +6536,7 @@ body{padding-bottom:78px!important}
 #satugoFinalNav button{display:flex!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;flex:1 1 20%!important;width:20%!important;height:72px!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;}
 body{padding-bottom:80px!important;}
 </style>
-<script>
-(function(){function showNav(){var n=document.getElementById('satugoFinalNav');if(!n)return;n.style.setProperty('display','flex','important');n.style.setProperty('visibility','visible','important');n.style.setProperty('opacity','1','important');n.style.setProperty('pointer-events','auto','important');n.style.setProperty('z-index','2147483647','important');}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',showNav);else showNav();window.addEventListener('load',showNav);setTimeout(showNav,300);setTimeout(showNav,1000);}());
-</script>
+
 
 
 <!-- SATUGO FINAL MARKETPLACE PATCH -->
@@ -7137,50 +6962,7 @@ body{padding-bottom:80px!important;}
   #satugoFinalAccount{position:relative!important;display:flex!important;visibility:visible!important;opacity:1!important;z-index:2147483648!important;pointer-events:auto!important;touch-action:manipulation!important;-webkit-user-select:none!important;user-select:none!important;}
 }
 </style>
-<script id="satugo-mobile-account-final-click-fix-js">
-(function(){
-  'use strict';
-  function openAccountNow(){
-    try{
-      if(typeof window.sgOpenAccountFinal==='function') return window.sgOpenAccountFinal();
-      if(typeof window.openAccount==='function') return window.openAccount();
-      if(typeof window.openAuth==='function') return window.openAuth();
-    }catch(err){console.error('SatuGo account:',err);}
-  }
-  function isAccountTarget(t){
-    if(!t) return false;
-    var b=t.closest ? t.closest('#satugoFinalAccount') : null;
-    return !!b;
-  }
-  function capture(e){
-    if(!isAccountTarget(e.target)) return;
-    e.preventDefault();
-    e.stopPropagation();
-    if(e.stopImmediatePropagation) e.stopImmediatePropagation();
-    if(e.type==='pointerup' || e.type==='touchend' || e.type==='click') openAccountNow();
-  }
-  document.addEventListener('pointerup',capture,true);
-  document.addEventListener('touchend',capture,{capture:true,passive:false});
-  document.addEventListener('click',capture,true);
-  function fix(){
-    var n=document.getElementById('satugoFinalNav');
-    var b=document.getElementById('satugoFinalAccount');
-    if(!n||!b)return;
-    n.style.setProperty('display','flex','important');
-    n.style.setProperty('visibility','visible','important');
-    n.style.setProperty('pointer-events','auto','important');
-    n.style.setProperty('z-index','2147483647','important');
-    b.style.setProperty('display','flex','important');
-    b.style.setProperty('visibility','visible','important');
-    b.style.setProperty('pointer-events','auto','important');
-    b.style.setProperty('z-index','2147483648','important');
-    b.setAttribute('type','button');
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix);else fix();
-  window.addEventListener('load',fix);
-  setTimeout(fix,300);setTimeout(fix,1000);setTimeout(fix,2500);
-})();
-</script>
+
 
 <!-- SATUGO MOBILE ACCOUNT DEFINITIVE FIX -->
 <style id="satugo-mobile-account-definitive-style">
@@ -7384,6 +7166,38 @@ body{padding-bottom:80px!important;}
 })();
 </script>
 
+<script>
+/* SatuGo CLEAN MOBILE NAV — single controller */
+(function(){
+  function current(){ return (window.auth&&auth.currentUser)||window.currentUser||null; }
+  function navAction(name){
+    try{
+      if(name==='home' && typeof window.goHome==='function'){window.goHome();return;}
+      if(name==='search' && typeof window.openSearch==='function'){window.openSearch();return;}
+      if(name==='favorites' && typeof window.openFavorites==='function'){window.openFavorites();return;}
+      if(name==='chats'){
+        if(typeof window.openChats==='function'){window.openChats();return;}
+        if(typeof window.sgOpenChats==='function'){window.sgOpenChats();return;}
+        if(typeof window.sgStartChat==='function'){window.sgStartChat();return;}
+      }
+      if(name==='account'){
+        if(typeof window.sgOpenAccountFinal==='function'){window.sgOpenAccountFinal();return;}
+        if(typeof window.openAccount==='function'){window.openAccount();return;}
+        if(!current() && typeof window.openAuth==='function'){window.openAuth();return;}
+      }
+    }catch(e){console.error('SatuGo nav:',e);}
+  }
+  function bind(){
+    var nav=document.getElementById('satugoFinalNav'); if(!nav)return;
+    nav.querySelectorAll('button').forEach(function(btn){
+      btn.onclick=null; btn.ontouchend=null; btn.onpointerup=null;
+      btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();navAction(({satugoFinalHome:'home',satugoFinalSearch:'search',satugoFinalFav:'favorites',satugoFinalChat:'chats',satugoFinalAccount:'account'})[btn.id]||btn.dataset.nav||btn.getAttribute('data-target')||'');},{passive:false});
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind); else bind();
+  window.addEventListener('load',bind);
+})();
+</script>
 </body>
 </html>
 
@@ -7578,5 +7392,81 @@ window.addEventListener('load',bind);setTimeout(bind,300);setTimeout(bind,1000);
   if(el.hasAttribute('data-sg-seller-orders'))window.sgOpenSellerOrdersMarket();
   if(el.hasAttribute('data-sg-reviews'))window.sgOpenProductReviewsMarket(el.getAttribute('data-sg-reviews'));
  },true);
+})();
+</script>
+
+<!-- SatuGo PLUS: order status + notifications + quick tools -->
+<style>
+#sgPlusOverlay{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:2147483646;display:none;align-items:flex-end;justify-content:center}
+#sgPlusSheet{width:min(760px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:22px 22px 0 0;padding:18px;box-sizing:border-box}
+.sg-plus-card{border:1px solid #e8e8e8;border-radius:16px;padding:14px;margin:10px 0;background:#fff}
+.sg-plus-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.sg-plus-btn{border:0;border-radius:11px;padding:9px 12px;min-height:40px;font-weight:600;cursor:pointer}
+.sg-plus-step{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:14px}
+.sg-plus-dot{width:12px;height:12px;border-radius:50%;background:#ddd;flex:none}
+.sg-plus-step.active .sg-plus-dot{background:#111}
+.sg-plus-step.active{font-weight:700}
+#sgPlusBell{position:fixed;right:14px;top:14px;z-index:2147483645;border:0;border-radius:50%;width:46px;height:46px;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.18);font-size:21px;cursor:pointer}
+#sgPlusBadge{position:absolute;right:-2px;top:-2px;background:#e53935;color:#fff;border-radius:99px;min-width:18px;height:18px;font-size:11px;display:none;align-items:center;justify-content:center}
+@media(max-width:600px){#sgPlusBell{bottom:78px;top:auto;right:12px}.sg-plus-btn{flex:1;min-width:130px}}
+</style>
+<button id="sgPlusBell" aria-label="Хабарламалар">🔔<span id="sgPlusBadge">0</span></button>
+<div id="sgPlusOverlay" aria-hidden="true"><div id="sgPlusSheet">
+ <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 id="sgPlusTitle" style="margin:0">Хабарламалар</h2><button class="sg-plus-btn" id="sgPlusClose">✕</button></div>
+ <div id="sgPlusBody" style="margin-top:12px"></div>
+</div></div>
+<script>
+(function(){
+'use strict';
+var statuses=['Жаңа тапсырыс','Қабылданды','Дайындалуда','Жолда','Жеткізілді','Аяқталды'];
+function U(){return (window.auth&&window.auth.currentUser)||window.currentUser||(typeof user!=='undefined'?user:null)}
+function D(){return window.db||(typeof db!=='undefined'?db:null)}
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function openPlus(t,h){var o=document.getElementById('sgPlusOverlay');document.getElementById('sgPlusTitle').textContent=t;document.getElementById('sgPlusBody').innerHTML=h;o.style.display='flex';o.setAttribute('aria-hidden','false')}
+function closePlus(){var o=document.getElementById('sgPlusOverlay');o.style.display='none';o.setAttribute('aria-hidden','true')}
+document.getElementById('sgPlusClose').onclick=closePlus;
+document.getElementById('sgPlusOverlay').addEventListener('click',function(e){if(e.target.id==='sgPlusOverlay')closePlus()});
+async function orderList(){var u=U(),d=D();if(!u||!d){if(typeof openAuth==='function')openAuth();return []}var a=[];try{var b=await d.collection('orders').where('buyerId','==',u.uid).get();b.forEach(x=>a.push(Object.assign({id:x.id},x.data()||{})));}catch(e){}try{var s=await d.collection('orders').where('sellerIds','array-contains',u.uid).get();s.forEach(x=>{if(!a.some(y=>y.id===x.id))a.push(Object.assign({id:x.id},x.data()||{}))})}catch(e){}return a}
+function timeline(status){var i=statuses.indexOf(status);if(i<0)i=0;return '<div>'+statuses.map((s,n)=>'<div class="sg-plus-step '+(n<=i?'active':'')+'"><span class="sg-plus-dot"></span><span>'+esc(s)+'</span></div>').join('')+'</div>'}
+window.sgPlusOpenOrders=async function(){var a=await orderList();openPlus('📦 Тапсырыс статустары','Жүктелуде...');var b=document.getElementById('sgPlusBody');if(!a.length){b.innerHTML='<p>Тапсырыс жоқ.</p>';return}b.innerHTML=a.sort((x,y)=>(y.createdAtLocal||0)-(x.createdAtLocal||0)).map(o=>'<div class="sg-plus-card"><b>№'+esc(o.id.slice(0,8))+'</b><div style="margin-top:5px">'+esc(o.items?.map(i=>i.title+' × '+i.qty).join(', ')||'Тауар')+'</div><div style="margin-top:5px"><b>'+Number(o.total||0).toLocaleString('kk-KZ')+' ₸</b></div><div style="margin-top:10px">'+timeline(o.status||'Жаңа тапсырыс')+'</div><div class="sg-plus-actions">'+(U()&&o.sellerIds&&o.sellerIds.includes(U().uid)?statuses.map(s=>'<button class="sg-plus-btn" data-sg-status="'+esc(s)+'" data-sg-order="'+esc(o.id)+'">'+esc(s)+'</button>').join(''):'')+'</div></div>').join('');b.querySelectorAll('[data-sg-status]').forEach(btn=>btn.onclick=async function(){var d=D();try{await d.collection('orders').doc(btn.dataset.sgOrder).update({status:btn.dataset.sgStatus,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});btn.closest('.sg-plus-card').querySelectorAll('.sg-plus-step').forEach((x,n)=>x.classList.toggle('active',n<=statuses.indexOf(btn.dataset.sgStatus)));}catch(e){alert('Статус өзгермеді: '+e.message)}})};
+window.sgPlusOpenNotifications=async function(){var a=await orderList();a.sort((x,y)=>(y.updatedAt?.seconds||y.createdAtLocal||0)-(x.updatedAt?.seconds||x.createdAtLocal||0));openPlus('🔔 Хабарламалар',a.length?a.slice(0,20).map(o=>'<div class="sg-plus-card"><b>Тапсырыс №'+esc(o.id.slice(0,8))+'</b><div>'+esc(o.status||'Жаңа тапсырыс')+'</div><div style="font-size:13px;margin-top:4px">'+esc(o.customerName||'Тапсырыс')+'</div></div>').join(''):'<p>Әзірге хабарлама жоқ.</p>')}
+async function badge(){var a=await orderList();var b=document.getElementById('sgPlusBadge');if(!b)return;b.textContent=Math.min(99,a.length);b.style.display=a.length?'flex':'none'}
+document.getElementById('sgPlusBell').addEventListener('click',function(){window.sgPlusOpenNotifications()});
+window.addEventListener('load',function(){setTimeout(badge,1200)});
+setInterval(function(){if(document.visibilityState==='visible')badge()},30000);
+// Add a status button to the existing orders entry when possible.
+document.addEventListener('click',function(e){var el=e.target.closest&&e.target.closest('[data-sg-plus-orders]');if(!el)return;e.preventDefault();e.stopPropagation();window.sgPlusOpenOrders()},true);
+})();
+</script>
+<script>
+/* SatuGo next market layer: checkout address, notifications, reviews */
+(function(){
+  function qs(s){return document.querySelector(s)}
+  function getUser(){return (window.auth&&auth.currentUser)||window.currentUser||null}
+  function dbx(){return window.db||null}
+  function esc(v){return String(v??'').replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]})}
+  window.sgOpenDelivery=async function(){
+    var u=getUser(); if(!u){ if(window.openAuth)openAuth(); else alert('Алдымен аккаунтқа кіріңіз'); return; }
+    var old=qs('#sgDeliveryPlus'); if(old)old.remove();
+    var d=document.createElement('div'); d.id='sgDeliveryPlus'; d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:16px';
+    d.innerHTML='<div style="background:#fff;border-radius:20px;max-width:480px;width:100%;padding:20px;max-height:90vh;overflow:auto"><h2>📍 Жеткізу мекенжайы</h2><input id="sgCity" placeholder="Қала" style="width:100%;padding:12px;margin:6px 0"><input id="sgAddress" placeholder="Көше, үй, пәтер" style="width:100%;padding:12px;margin:6px 0"><input id="sgPhone" placeholder="+7 7XX XXX XX XX" style="width:100%;padding:12px;margin:6px 0"><button id="sgSaveDelivery" style="width:100%;padding:13px;margin-top:10px">Сақтау және жалғастыру</button><button id="sgCloseDelivery" style="width:100%;padding:11px;margin-top:6px;background:#eee;border:0">Жабу</button></div>';
+    document.body.appendChild(d);
+    var snap=null; try{ if(dbx())snap=await dbx().collection('users').doc(u.uid).get() }catch(e){}
+    var p=snap&&snap.exists?snap.data():{}; qs('#sgCity').value=p.city||''; qs('#sgAddress').value=p.address||''; qs('#sgPhone').value=p.phone||u.phoneNumber||'';
+    qs('#sgCloseDelivery').onclick=function(){d.remove()};
+    qs('#sgSaveDelivery').onclick=async function(){
+      var data={city:qs('#sgCity').value.trim(),address:qs('#sgAddress').value.trim(),phone:qs('#sgPhone').value.trim(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+      if(!data.city||!data.address||!data.phone){alert('Қала, мекенжай және телефонды толтырыңыз');return}
+      try{await dbx().collection('users').doc(u.uid).set(data,{merge:true});d.remove(); if(window.checkout)checkout(); else alert('Мекенжай сақталды');}catch(e){alert('Сақталмады: '+e.message)}
+    };
+  };
+  window.sgShowReviews=async function(productId){
+    var old=qs('#sgReviewsPlus');if(old)old.remove(); var d=document.createElement('div');d.id='sgReviewsPlus';d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2147483001;display:flex;align-items:center;justify-content:center;padding:16px';
+    d.innerHTML='<div style="background:#fff;border-radius:20px;max-width:520px;width:100%;padding:20px;max-height:90vh;overflow:auto"><h2>⭐ Пікірлер</h2><div id="sgReviewList">Жүктелуде...</div><div style="margin-top:14px"><textarea id="sgReviewText" maxlength="2000" placeholder="Пікіріңіз" style="width:100%;min-height:90px;padding:10px"></textarea><select id="sgReviewRating" style="width:100%;padding:10px;margin-top:7px"><option value="5">5 ⭐</option><option value="4">4 ⭐</option><option value="3">3 ⭐</option><option value="2">2 ⭐</option><option value="1">1 ⭐</option></select><button id="sgReviewSend" style="width:100%;padding:12px;margin-top:8px">Пікір қалдыру</button></div><button id="sgReviewClose" style="width:100%;padding:10px;margin-top:8px;background:#eee;border:0">Жабу</button></div>';
+    document.body.appendChild(d);qs('#sgReviewClose').onclick=function(){d.remove()};
+    try{var snap=await dbx().collection('products').doc(productId).collection('reviews').orderBy('createdAt','desc').limit(30).get();qs('#sgReviewList').innerHTML=snap.empty?'<p>Пікір әзірге жоқ.</p>':snap.docs.map(function(x){var v=x.data();return '<div style="border-bottom:1px solid #eee;padding:10px 0"><b>'+esc(v.rating)+' ⭐</b><div>'+esc(v.text)+'</div></div>'}).join('');}catch(e){qs('#sgReviewList').textContent='Пікірлерді жүктеу мүмкін болмады';}
+    qs('#sgReviewSend').onclick=async function(){var u=getUser();if(!u){alert('Пікір жазу үшін аккаунтқа кіріңіз');return}var text=qs('#sgReviewText').value.trim();if(!text){alert('Пікір жазыңыз');return}try{await dbx().collection('products').doc(productId).collection('reviews').add({userId:u.uid,rating:Number(qs('#sgReviewRating').value),text:text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});alert('Пікір сақталды');d.remove();window.sgShowReviews(productId)}catch(e){alert('Пікір сақталмады: '+e.message)}};
+  };
+  window.sgOpenNotifications=async function(){var u=getUser();if(!u){if(window.openAuth)openAuth();return}var old=qs('#sgNotifPlus');if(old)old.remove();var d=document.createElement('div');d.id='sgNotifPlus';d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2147483002;display:flex;align-items:center;justify-content:center;padding:16px';d.innerHTML='<div style="background:#fff;border-radius:20px;max-width:480px;width:100%;padding:20px"><h2>🔔 Хабарламалар</h2><div id="sgNotifList">Жүктелуде...</div><button id="sgNotifClose" style="width:100%;padding:11px;margin-top:10px;background:#eee;border:0">Жабу</button></div>';document.body.appendChild(d);qs('#sgNotifClose').onclick=function(){d.remove()};try{var s=await dbx().collection('notifications').where('userId','==',u.uid).orderBy('createdAt','desc').limit(30).get();qs('#sgNotifList').innerHTML=s.empty?'<p>Хабарлама жоқ.</p>':s.docs.map(function(x){var v=x.data();return '<div style="padding:10px;border-bottom:1px solid #eee"><b>'+esc(v.title||'SatuGo')+'</b><div>'+esc(v.text||v.message||'')+'</div></div>'}).join('')}catch(e){qs('#sgNotifList').textContent='Хабарламалар әзірге қолжетімсіз';}}
 })();
 </script>
