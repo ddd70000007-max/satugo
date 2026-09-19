@@ -1724,7 +1724,7 @@ apiKey: "AIzaSyCj7VBpb0u5YgFqz2Mm8NhvbytX_Fs5tJE",
 firebase.initializeApp(firebaseConfig);
 
 const auth=firebase.auth();
-const db=firebase.firestore();
+const db=firebase.firestore(); window.db=db; window.auth=auth;
 
 
 /* =========================================================
@@ -6177,93 +6177,6 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 </style>
 
 
-<script id="satugo-chat-final-fix">
-(function(){
-  function toast2(t){
-    if(typeof window.toast==='function') window.toast(t);
-    else if(typeof window.sgToast==='function') window.sgToast(t);
-    else alert(t);
-  }
-  function user(){
-    return window.currentUser || (window.firebase && firebase.auth && firebase.auth().currentUser) || null;
-  }
-  function profileName(u){
-    try{
-      const p=JSON.parse(localStorage.getItem('satugo_core_profile')||'{}');
-      return p.name || u?.displayName || u?.email || 'Қолданушы';
-    }catch(e){return u?.displayName || u?.email || 'Қолданушы'}
-  }
-  function chatId(a,b){ return [a,b].sort().join('_'); }
-
-  window.sgStartChat = async function(sellerId,sellerName,sellerEmail){
-    const u=user();
-    if(!u){
-      toast2('Алдымен аккаунтқа кіріңіз');
-      if(typeof window.openAccount==='function') window.openAccount();
-      return;
-    }
-
-    sellerName = sellerName || 'Сатушы';
-
-    // If the product has no seller UID, try to find the seller by email.
-    if(!sellerId && sellerEmail && window.db){
-      try{
-        const q=await db.collection('users').where('email','==',sellerEmail).limit(1).get();
-        if(!q.empty) sellerId=q.docs[0].id;
-      }catch(e){}
-    }
-
-    // Some older products may only have sellerName/storeName.
-    if(!sellerId && sellerName && sellerName!=='Сатушы' && window.db){
-      try{
-        const q=await db.collection('users').where('storeName','==',sellerName).limit(1).get();
-        if(!q.empty) sellerId=q.docs[0].id;
-      }catch(e){}
-    }
-
-    if(!sellerId){
-      toast2('Бұл тауарға сатушы аккаунты байланыстырылмаған. Тауарды сатушы қайта сақтауы керек.');
-      return;
-    }
-
-    if(sellerId===u.uid){
-      toast2('Өз тауарыңызға чат аша алмайсыз');
-      return;
-    }
-
-    if(typeof window.renderShell==='function') window.renderShell();
-    const panel=document.getElementById('sgChatPanel');
-    if(panel) panel.classList.add('open');
-
-    const id=chatId(u.uid,sellerId);
-    try{
-      await db.collection('chats').doc(id).set({
-        participants:[u.uid,sellerId],
-        participantNames:{
-          [u.uid]:profileName(u),
-          [sellerId]:sellerName
-        },
-        sellerId:sellerId,
-        sellerName:sellerName,
-        sellerEmail:sellerEmail||'',
-        updatedAt:firebase.firestore.FieldValue.serverTimestamp()
-      },{merge:true});
-
-      if(typeof window.sgOpenExistingChat==='function'){
-        window.sgOpenExistingChat(id,sellerName);
-      }else{
-        toast2('Чат ашылды');
-      }
-    }catch(e){
-      console.error('SatuGo chat:',e);
-      toast2('Чат ашылмады: '+(e.message||'Firebase қатесі'));
-    }
-  };
-})();
-</script>
-
-
-
 <!-- SATUGO PHONE BUTTONS CLEAN FIX -->
 <style id="satugo-phone-buttons-clean-fix">
 @media (max-width:700px){
@@ -6588,5 +6501,70 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 /* SatuGo: remove unwanted extra bottom/feature controls */
 #sgUniqueLauncher,#sgUniquePanel,#sgSmartTop{display:none !important;}
 </style>
+
+<script id="satugo-chat-fixed-final">
+(function(){
+'use strict';
+var activeChat=null, unsubMsgs=null;
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
+function user(){return window.currentUser || (window.auth&&window.auth.currentUser) || (window.firebase&&firebase.auth&&firebase.auth().currentUser) || null}
+function toast(t){if(typeof window.sgToast==='function')window.sgToast(t);else alert(t)}
+function chatId(a,b){return [a,b].sort().join('_')}
+function profileName(u){try{var p=JSON.parse(localStorage.getItem('satugo_core_profile_'+u.uid)||localStorage.getItem('satugo_core_profile')||'{}');return p.name||u.displayName||u.email||'Қолданушы'}catch(e){return u.displayName||u.email||'Қолданушы'}}
+function ensurePanel(){
+ var p=document.getElementById('sgChatPanel');
+ if(!p){p=document.createElement('div');p.id='sgChatPanel';p.className='sg-chat-panel';p.innerHTML='<div class="sg-chat-head"><b id="sgChatTitle">💬 Чаттар</b><button id="sgChatCloseBtn" type="button">×</button></div><div id="sgChatBody" class="sg-chat-list"></div>';document.body.appendChild(p);}
+ var c=document.getElementById('sgChatCloseBtn');if(c)c.onclick=window.sgCloseChat;
+ return p;
+}
+function openPanel(){var p=ensurePanel();p.classList.add('open');p.style.setProperty('display','flex','important');p.style.visibility='visible';p.style.opacity='1';p.style.pointerEvents='auto';return p}
+function closePanel(){var p=document.getElementById('sgChatPanel');if(p){p.classList.remove('open');p.style.setProperty('display','none','important')}if(unsubMsgs){unsubMsgs();unsubMsgs=null}activeChat=null}
+window.sgCloseChat=closePanel;
+window.sgOpenChat=async function(){
+ var u=user();var p=openPanel();var body=document.getElementById('sgChatBody');
+ if(!u){body.innerHTML='<div class="sg-chat-empty">Чатқа кіру үшін аккаунтқа кіріңіз.</div>';return;}
+ body.className='sg-chat-list';body.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';
+ try{
+  if(!window.db)throw new Error('Firebase Firestore қосылмаған');
+  var snap=await db.collection('chats').where('participants','array-contains',u.uid).get();
+  var docs=snap.docs.sort(function(a,b){var at=a.data().updatedAt?.toMillis?a.data().updatedAt.toMillis():0;var bt=b.data().updatedAt?.toMillis?b.data().updatedAt.toMillis():0;return bt-at}).slice(0,50);
+  if(!docs.length){body.innerHTML='<div class="sg-chat-empty">Әзірге чат жоқ.<br>Тауардан «Сатушымен чат» батырмасын басыңыз.</div>';return;}
+  body.innerHTML=docs.map(function(d){var x=d.data(),other=(x.participants||[]).find(function(id){return id!==u.uid})||'',name=(x.participantNames&&x.participantNames[other])||x.sellerName||'Қолданушы';return '<button type="button" class="sg-chat-row" data-chat-id="'+esc(d.id)+'" data-chat-name="'+esc(name)+'"><b>👤 '+esc(name)+'</b><small>'+(x.lastMessage?esc(x.lastMessage):'Чатты ашу')+'</small></button>'}).join('');
+  body.querySelectorAll('[data-chat-id]').forEach(function(b){b.onclick=function(){window.sgOpenExistingChat(b.getAttribute('data-chat-id'),b.getAttribute('data-chat-name'))}});
+ }catch(e){body.innerHTML='<div class="sg-chat-empty">Чаттарды жүктеу қатесі.<br>'+esc(e.message)+'</div>'}
+};
+window.sgStartChat=async function(sellerId,sellerName,sellerEmail){
+ var u=user();if(!u){toast('Чатқа кіру үшін аккаунтқа кіріңіз');return}
+ sellerName=sellerName||'Сатушы';
+ try{
+  if(!window.db)throw new Error('Firebase Firestore қосылмаған');
+  if(!sellerId&&sellerEmail){var q=await db.collection('users').where('email','==',sellerEmail).limit(1).get();if(!q.empty)sellerId=q.docs[0].id}
+  if(!sellerId){toast('Бұл тауарға сатушы аккаунты байланыстырылмаған');return}
+  if(sellerId===u.uid){toast('Өз тауарыңызға чат аша алмайсыз');return}
+  openPanel();var id=chatId(u.uid,sellerId);
+  await db.collection('chats').doc(id).set({participants:[u.uid,sellerId],participantNames:(function(){var o={};o[u.uid]=profileName(u);o[sellerId]=sellerName;return o})(),sellerId:sellerId,sellerName:sellerName,sellerEmail:sellerEmail||'',updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+  window.sgOpenExistingChat(id,sellerName);
+ }catch(e){console.error(e);toast('Чат ашылмады: '+(e.message||'Firebase қатесі'))}
+};
+window.sgOpenExistingChat=function(id,name){
+ var u=user();if(!u)return;openPanel();activeChat=id;
+ var body=document.getElementById('sgChatBody'),title=document.getElementById('sgChatTitle');
+ title.innerHTML='<button type="button" id="sgChatBack">←</button> 💬 '+esc(name||'Чат');
+ document.getElementById('sgChatBack').onclick=function(){window.sgOpenChat()};
+ body.className='sg-chat-messages';body.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';
+ if(unsubMsgs)unsubMsgs();
+ unsubMsgs=db.collection('chats').doc(id).collection('messages').orderBy('createdAt','asc').limitToLast(100).onSnapshot(function(snap){
+  var html=snap.empty?'<div class="sg-chat-empty">Сәлемдесуден бастаңыз 👋</div>':snap.docs.map(function(d){var x=d.data();return '<div class="sg-msg '+(x.senderId===u.uid?'me':'other')+'">'+esc(x.text)+'<div class="sg-msg-time">'+(x.createdAt&&x.createdAt.toDate?x.createdAt.toDate().toLocaleString('kk-KZ'):'')+'</div></div>'}).join('');body.innerHTML=html;body.scrollTop=body.scrollHeight;
+ },function(e){body.innerHTML='<div class="sg-chat-empty">Хабарламаларды жүктеу қатесі.<br>'+esc(e.message)+'</div>'});
+ var old=document.getElementById('sgChatCompose');if(old)old.remove();
+ var compose=document.createElement('div');compose.id='sgChatCompose';compose.className='sg-chat-compose';compose.innerHTML='<input id="sgChatInput" type="text" autocomplete="off" placeholder="Хабарлама жазыңыз..."><button id="sgChatSend" type="button">Жіберу</button>';document.getElementById('sgChatPanel').appendChild(compose);
+ document.getElementById('sgChatSend').onclick=window.sgSendMessage;document.getElementById('sgChatInput').onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();window.sgSendMessage()}};
+};
+window.sgSendMessage=async function(){var u=user(),inp=document.getElementById('sgChatInput');if(!u||!activeChat||!inp)return;var text=inp.value.trim();if(!text)return;inp.value='';try{await db.collection('chats').doc(activeChat).collection('messages').add({senderId:u.uid,senderName:profileName(u),text:text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await db.collection('chats').doc(activeChat).set({lastMessage:text,lastSenderId:u.uid,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})}catch(e){inp.value=text;toast('Хабарлама жіберілмеді: '+(e.message||'Firebase қатесі'))}};
+var st=document.createElement('style');st.textContent='@media(max-width:700px){#sgChatPanel{z-index:2147483000!important;position:fixed!important;left:8px!important;right:8px!important;bottom:78px!important;max-height:calc(100vh - 95px)!important;background:#fff!important;border-radius:18px!important;overflow:hidden!important;box-shadow:0 10px 40px rgba(0,0,0,.2)!important}#sgChatPanel.open{display:flex!important;flex-direction:column!important}#sgChatPanel #sgChatBody{min-height:180px;overflow:auto}#sgChatPanel .sg-chat-row{width:100%;text-align:left;border:0;background:#fff;padding:14px;border-bottom:1px solid #eee;display:flex;flex-direction:column;gap:4px}#sgChatPanel .sg-chat-compose{display:flex!important;padding:8px;border-top:1px solid #eee;gap:6px;background:#fff}#sgChatPanel .sg-chat-compose input{flex:1;min-width:0;padding:11px;border:1px solid #ddd;border-radius:10px}#sgChatPanel .sg-chat-compose button{padding:10px 14px;border:0;border-radius:10px;background:#111;color:#fff}#sgChatPanel #sgChatCloseBtn,#sgChatPanel #sgChatBack{cursor:pointer;border:0;background:#f3f4f6;border-radius:8px;padding:6px 10px}.sg-msg{max-width:82%;padding:9px 11px;margin:6px 10px;border-radius:12px;word-break:break-word}.sg-msg.me{margin-left:auto;background:#111;color:#fff}.sg-msg.other{margin-right:auto;background:#f1f3f5}.sg-msg-time{font-size:9px;opacity:.6;margin-top:3px}}';document.head.appendChild(st);
+setTimeout(ensurePanel,300);
+})();
+</script>
+
 </body>
 </html>
