@@ -7055,6 +7055,80 @@ body{padding-bottom:80px!important;}
   setTimeout(bind,300);setTimeout(bind,1000);setTimeout(bind,2000);
 })();
 </script>
+
+<style id="satugo-phone-account-hotspot">
+@media (max-width:700px){
+  #sgPhoneAccountHotspot{
+    position:fixed!important;
+    right:0!important;
+    bottom:0!important;
+    width:22vw!important;
+    min-width:78px!important;
+    max-width:110px!important;
+    height:82px!important;
+    z-index:2147483647!important;
+    display:block!important;
+    background:transparent!important;
+    border:0!important;
+    padding:0!important;
+    margin:0!important;
+    opacity:.01!important;
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+    -webkit-tap-highlight-color:transparent!important;
+  }
+}
+</style>
+<script id="satugo-phone-account-hotspot-js">
+(function(){
+  'use strict';
+  function currentUser(){
+    try{
+      if(window.auth && window.auth.currentUser) return window.auth.currentUser;
+      if(window.currentUser) return window.currentUser;
+      if(window.user) return window.user;
+    }catch(e){}
+    return null;
+  }
+  function openProfile(){
+    try{
+      if(typeof window.sgOpenAccountFinal==='function') return window.sgOpenAccountFinal();
+      if(typeof window.sgCoreOpenProfile==='function') return window.sgCoreOpenProfile();
+      if(typeof window.openAccount==='function') return window.openAccount();
+      if(typeof window.openAuth==='function' && !currentUser()) return window.openAuth();
+    }catch(e){console.error('SatuGo profile:',e);}
+  }
+  function bind(){
+    var old=document.getElementById('sgPhoneAccountHotspot');
+    if(old) old.remove();
+    var b=document.createElement('button');
+    b.id='sgPhoneAccountHotspot';
+    b.type='button';
+    b.setAttribute('aria-label','Аккаунт');
+    b.setAttribute('title','Аккаунт');
+    function fire(e){
+      if(e && e.cancelable) e.preventDefault();
+      if(e){e.stopPropagation(); if(e.stopImmediatePropagation)e.stopImmediatePropagation();}
+      openProfile();
+      return false;
+    }
+    b.addEventListener('pointerdown',fire,true);
+    b.addEventListener('pointerup',function(e){e.preventDefault();},true);
+    b.addEventListener('touchstart',fire,{capture:true,passive:false});
+    b.addEventListener('touchend',function(e){e.preventDefault();}, {capture:true,passive:false});
+    b.addEventListener('click',fire,true);
+    document.body.appendChild(b);
+  }
+  function ready(){
+    bind();
+    setTimeout(bind,500);
+    setTimeout(bind,1500);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',ready);
+  else ready();
+  window.addEventListener('load',bind);
+})();
+</script>
 </body>
 </html>
 
