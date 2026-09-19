@@ -6907,5 +6907,74 @@ body{padding-bottom:80px!important;}
 })();
 </script>
 
+<!-- SatuGo FINAL MOBILE PROFILE + STORE FIX -->
+<style id="satugo-profile-store-final-fix">
+  /* Always place account/profile modal above the fixed mobile navigation */
+  #accountModal.modal{z-index:2147483646!important;padding:8px!important;}
+  #accountModal .modal-box{
+    width:calc(100vw - 16px)!important;
+    max-width:650px!important;
+    margin:10px auto 90px!important;
+    max-height:calc(100dvh - 110px)!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+  @media(max-width:700px){
+    #accountModal.modal{display:none!important;}
+    #accountModal.modal.show{display:block!important;visibility:visible!important;pointer-events:auto!important;}
+    #accountModal.modal.show .modal-box{pointer-events:auto!important;}
+  }
+</style>
+<script id="satugo-profile-store-final-fix-js">
+(function(){
+  'use strict';
+  function current(){ return (window.auth&&auth.currentUser)||window.currentUser||window.user||null; }
+
+  /* Mobile Account button: never depend on an old/overridden handler. */
+  window.sgOpenAccountFinal=function(){
+    try{
+      var u=current();
+      if(typeof window.renderAccount==='function') window.renderAccount();
+      if(u && typeof window.openModal==='function') window.openModal('accountModal');
+      else if(typeof window.openAuth==='function') window.openAuth();
+      var m=document.getElementById('accountModal');
+      if(m){m.classList.add('show');m.style.display='block';m.style.visibility='visible';m.style.pointerEvents='auto';}
+    }catch(e){ console.error(e); alert('Профильді ашу қатесі: '+(e.message||e)); }
+  };
+  var nav=document.getElementById('satugoFinalAccount');
+  if(nav){
+    nav.onclick=function(e){e.preventDefault();e.stopPropagation();window.sgOpenAccountFinal();return false;};
+    nav.ontouchend=function(e){e.preventDefault();e.stopPropagation();window.sgOpenAccountFinal();return false;};
+  }
+
+  /* Store save: use the currently signed-in Firebase user and show the exact error. */
+  window.sgSaveStoreFinal=async function(){
+    var u=current();
+    if(!u){alert('Алдымен аккаунтқа кіріңіз.');if(typeof openAuth==='function')openAuth();return;}
+    var name=(document.getElementById('storeName')?.value||'').trim();
+    var description=(document.getElementById('storeDescription')?.value||'').trim();
+    if(!name){alert('Дүкен атауын енгізіңіз.');return;}
+    if(!window.db){alert('Firebase Firestore қосылмаған.');return;}
+    try{
+      var ref=db.collection('stores').doc(u.uid);
+      await ref.set({ownerId:u.uid,name:name,description:description,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+      alert('✅ Дүкен сақталды!');
+      if(typeof window.renderSeller==='function') await window.renderSeller();
+    }catch(e){
+      console.error(e);
+      var msg=e&&e.code==='permission-denied'
+        ?'Firebase Rules дүкенді сақтауға рұқсат бермей тұр. Rules-ті түзету керек.'
+        :(e.message||String(e));
+      alert('❌ Дүкен сақталмады.\n'+msg);
+    }
+  };
+  /* Replace the visible store button action without changing the rest of the cabinet. */
+  document.addEventListener('click',function(e){
+    var b=e.target.closest && e.target.closest('button[onclick*="saveStore()"]');
+    if(b){e.preventDefault();e.stopImmediatePropagation();window.sgSaveStoreFinal();}
+  },true);
+})();
+</script>
+
 </body>
 </html>
