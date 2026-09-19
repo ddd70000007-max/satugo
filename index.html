@@ -2500,7 +2500,7 @@ async function checkout(){
 
         customerName:
           profile?.name||
-          user.email||
+          u.email||
           user.phoneNumber||
           "SatuGo қолданушысы",
 
@@ -2877,7 +2877,7 @@ async function addReview(id){
 
         userName:
           profile?.name||
-          user.email||
+          u.email||
           "Қолданушы",
 
         stars,
@@ -4548,71 +4548,34 @@ async function renderSeller(){
 
 
 async function saveStore(){
-
-  const name=
-    document.getElementById(
-      "storeName"
-    ).value.trim();
-
-  const description=
-    document.getElementById(
-      "storeDescription"
-    ).value.trim();
-
-
-  if(!name){
-
-    alert(
-      "Дүкен атауын енгізіңіз."
-    );
-
-    return;
-
-  }
-
-
+  const u=(window.auth&&auth.currentUser)||window.currentUser||user;
+  if(!u){ alert("Алдымен аккаунтқа кіріңіз."); openAuth(); return; }
+  const name=(document.getElementById("storeName")?.value||"").trim();
+  const description=(document.getElementById("storeDescription")?.value||"").trim();
+  if(!name){ alert("Дүкен атауын енгізіңіз."); return; }
   try{
-
-    await db
-      .collection("stores")
-      .doc(user.uid)
-      .set({
-
-        ownerId:user.uid,
-
-        name,
-
-        description,
-
-        updatedAt:
-          firebase.firestore
-            .FieldValue
-            .serverTimestamp()
-
-      },{
-        merge:true
-      });
-
-
-    alert(
-      "✅ Дүкен сақталды!"
-    );
-
-    renderSeller();
-
+    const ref=db.collection("stores").doc(u.uid);
+    const oldSnap=await ref.get();
+    const old=oldSnap.exists?(oldSnap.data()||{}):{};
+    await ref.set({
+      ownerId:u.uid,
+      name:name,
+      description:description,
+      verified:old.verified===true,
+      updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+    },{merge:true});
+    alert("✅ Дүкен сақталды!");
+    await renderSeller();
   }catch(error){
-
-    alert(
-      "❌ "+
-      error.message
-    );
-
+    console.error("saveStore",error);
+    alert("❌ Дүкен сақталмады.\n"+(error.code||"")+" "+(error.message||error));
   }
-
 }
 
 
 async function saveProduct(){
+  const u=(window.auth&&auth.currentUser)||window.currentUser||user;
+  if(!u){ alert("Алдымен аккаунтқа кіріңіз."); openAuth(); return; }
 
   const title=
     document.getElementById(
@@ -4668,6 +4631,11 @@ async function saveProduct(){
       ?storeSnap.data()
       :{};
 
+    if(!storeSnap.exists || store.ownerId!==u.uid){
+      alert("Алдымен дүкенді сақтаңыз.");
+      return;
+    }
+
 
     await db
       .collection("products")
@@ -4689,18 +4657,18 @@ async function saveProduct(){
 
         description,
 
-        sellerId:user.uid,
+        sellerId:u.uid,
 
         seller:
           store.name||
           profile?.name||
-          user.email||
+          u.email||
           "Сатушы",
 
         sellerName:
           store.name||
           profile?.name||
-          user.email||
+          u.email||
           "Сатушы",
 
         rating:0,
