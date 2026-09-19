@@ -7181,6 +7181,62 @@ body{padding-bottom:80px!important;}
   setTimeout(fix,300);setTimeout(fix,1000);setTimeout(fix,2500);
 })();
 </script>
+
+<!-- SATUGO MOBILE ACCOUNT DEFINITIVE FIX -->
+<style id="satugo-mobile-account-definitive-style">
+@media (max-width:700px){
+  #satugoFinalNav{z-index:2147483000!important;pointer-events:auto!important;}
+  #satugoFinalAccount{position:relative!important;z-index:2147483646!important;pointer-events:auto!important;touch-action:manipulation!important;}
+  #sgDirectAccountBtn{position:fixed!important;right:0!important;bottom:0!important;width:22vw!important;min-width:80px!important;height:82px!important;z-index:2147483647!important;opacity:.001!important;border:0!important;background:transparent!important;padding:0!important;margin:0!important;display:block!important;pointer-events:auto!important;touch-action:manipulation!important;}
+  #sgDirectAccountScreen{position:fixed!important;inset:0!important;z-index:2147483647!important;background:#f6f7fb!important;overflow:auto!important;padding:14px 14px 100px!important;display:none!important;}
+  #sgDirectAccountScreen.open{display:block!important;}
+  #sgDirectAccountScreen .card{max-width:620px;margin:0 auto;background:#fff;border-radius:22px;box-shadow:0 8px 30px rgba(0,0,0,.12);overflow:hidden;}
+  #sgDirectAccountScreen .top{display:flex;align-items:center;gap:12px;padding:18px;border-bottom:1px solid #eee;}
+  #sgDirectAccountScreen .avatar{width:56px;height:56px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:28px;}
+  #sgDirectAccountScreen .info{flex:1;min-width:0;} #sgDirectAccountScreen h2{margin:0 0 4px;font-size:20px;} #sgDirectAccountScreen p{margin:2px 0;color:#777;font-size:13px;word-break:break-word;}
+  #sgDirectAccountScreen .close{width:42px;height:42px;border:0;border-radius:50%;background:#eee;font-size:25px;}
+  #sgDirectAccountScreen .body{padding:16px;} #sgDirectAccountScreen .row{display:flex;justify-content:space-between;gap:10px;padding:14px 2px;border-bottom:1px solid #eee;} #sgDirectAccountScreen .row span{color:#666;} #sgDirectAccountScreen .row b{text-align:right;word-break:break-word;}
+  #sgDirectAccountScreen .btn{width:100%;border:0;border-radius:13px;padding:14px;margin-top:10px;font-size:15px;font-weight:700;touch-action:manipulation;}
+</style>
+<script id="satugo-mobile-account-definitive-js">
+(function(){
+  'use strict';
+  function getUser(){try{return (window.auth&&window.auth.currentUser)||window.currentUser||window.user||null}catch(e){return null}}
+  function esc(v){return String(v==null?'':v).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]})}
+  function closeIt(){var x=document.getElementById('sgDirectAccountScreen');if(x)x.classList.remove('open');document.body.style.overflow='';}
+  window.sgDirectAccount=function(){
+    var u=getUser();
+    if(!u){ if(typeof window.openAuth==='function'){window.openAuth();return false;} alert('Алдымен аккаунтқа кіріңіз.'); return false; }
+    var x=document.getElementById('sgDirectAccountScreen');
+    if(!x){x=document.createElement('div');x.id='sgDirectAccountScreen';document.body.appendChild(x);}
+    var prof=window.profile||{};
+    var name=prof.name||u.displayName||'Қолданушы';
+    var phone=prof.phone||u.phoneNumber||'Көрсетілмеген';
+    var email=u.email||prof.email||'Көрсетілмеген';
+    var city=prof.city||'Көрсетілмеген';
+    var address=prof.address||'Көрсетілмеген';
+    x.innerHTML='<div class="card"><div class="top"><div class="avatar">👤</div><div class="info"><h2>'+esc(name)+'</h2><p>'+esc(phone)+'</p><p>'+esc(email)+'</p></div><button class="close" type="button" id="sgDirectClose">×</button></div><div class="body"><div class="row"><span>📱 Телефон</span><b>'+esc(phone)+'</b></div><div class="row"><span>📍 Қала</span><b>'+esc(city)+'</b></div><div class="row"><span>🏠 Мекенжай</span><b>'+esc(address)+'</b></div><button class="btn" style="background:#111827;color:#fff" id="sgDirectEdit" type="button">✏️ Профильді өзгерту</button><button class="btn" style="background:#f0f2f5;color:#222" id="sgDirectOrders" type="button">📦 Менің тапсырыстарым</button><button class="btn" style="background:#f0f2f5;color:#222" id="sgDirectFav" type="button">❤️ Таңдаулылар</button><button class="btn" style="background:#f0f2f5;color:#222" id="sgDirectStore" type="button">🏪 Менің дүкенім</button><button class="btn" style="background:#fee2e2;color:#b91c1c" id="sgDirectLogout" type="button">🚪 Шығу</button></div></div>';
+    x.classList.add('open'); document.body.style.overflow='hidden';
+    document.getElementById('sgDirectClose').onclick=closeIt;
+    document.getElementById('sgDirectEdit').onclick=function(){closeIt(); if(typeof window.sgCoreOpenProfile==='function')window.sgCoreOpenProfile(); else if(typeof window.openAccount==='function')window.openAccount();};
+    document.getElementById('sgDirectOrders').onclick=function(){closeIt(); if(typeof window.openModal==='function')window.openModal('ordersModal'); if(typeof window.loadOrders==='function')window.loadOrders();};
+    document.getElementById('sgDirectFav').onclick=function(){closeIt(); if(typeof window.goFav==='function')window.goFav();};
+    document.getElementById('sgDirectStore').onclick=function(){closeIt(); if(typeof window.openSeller==='function')window.openSeller(); else if(typeof window.renderSeller==='function')window.renderSeller();};
+    document.getElementById('sgDirectLogout').onclick=async function(){try{if(window.auth&&auth.signOut)await auth.signOut();}catch(e){} closeIt(); location.reload();};
+    return false;
+  };
+  function bind(){
+    var b=document.getElementById('satugoFinalAccount'); if(!b||b.dataset.directBound==='1')return; b.dataset.directBound='1';
+    b.onclick=function(e){e.preventDefault();e.stopImmediatePropagation();window.sgDirectAccount();return false;};
+    b.ontouchstart=function(e){e.preventDefault();e.stopImmediatePropagation();window.sgDirectAccount();return false;};
+    b.ontouchend=function(e){e.preventDefault();e.stopImmediatePropagation();return false;};
+  }
+  function ready(){bind();setTimeout(bind,300);setTimeout(bind,1000);setTimeout(bind,2500);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready);else ready();
+  window.addEventListener('load',ready);
+})();
+</script>
+
 </body>
 </html>
 
