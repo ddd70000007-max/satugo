@@ -1090,80 +1090,10 @@ footer{
 <style id="satugo-v2-bottom-cleanup">
 /* Seller utilities remain functional through Profile/Cabinet, but no longer clutter the page bottom. */
 </style>
-<style id="satugo-modal-layer-fix">
-body.sg-modal-active header,
-body.sg-modal-active .bottom-nav,
-body.sg-modal-active #sgSmartTop {
-  visibility:hidden !important;
-  pointer-events:none !important;
-}
-body.sg-modal-active .modal,
-body.sg-modal-active .sg-modal,
-body.sg-modal-active .sg-v2-modal,
-body.sg-modal-active .sg-core-modal {
-  visibility:visible !important;
-}
-</style>
+
 <!-- SatuGo FIX: search/header must disappear while any modal or section is open -->
-<style id="satugo-search-modal-final-fix">
-  body.sg-modal-active .search-wrap,
-  body.sg-modal-active .search-icon,
-  body.sg-modal-active #search {
-    visibility: hidden !important;
-    pointer-events: none !important;
-  }
 
-  body.sg-modal-active header {
-    visibility: hidden !important;
-    pointer-events: none !important;
-  }
 
-  body.sg-modal-active .modal,
-  body.sg-modal-active .sg-modal,
-  body.sg-modal-active .sg-v2-modal,
-  body.sg-modal-active .sg-core-modal,
-  body.sg-modal-active #sgProfileOverlay {
-    visibility: visible !important;
-  }
-</style>
-<script id="satugo-search-modal-final-fix-js">
-(function(){
-  function modalIsOpen(){
-    const selectors = [
-      '.modal.show',
-      '.modal.open',
-      '.sg-modal.open',
-      '.sg-v2-modal.open',
-      '.sg-core-modal.open',
-      '#sgProfileOverlay.open'
-    ];
-    return selectors.some(s => document.querySelector(s));
-  }
-
-  function syncModalState(){
-    document.body.classList.toggle('sg-modal-active', modalIsOpen());
-  }
-
-  // Existing functions in this file use different classes (.show / .open),
-  // so observe all changes instead of relying on one function.
-  const obs = new MutationObserver(syncModalState);
-  obs.observe(document.documentElement, {
-    subtree: true,
-    attributes: true,
-    attributeFilter: ['class', 'style']
-  });
-
-  document.addEventListener('click', function(){
-    setTimeout(syncModalState, 20);
-  }, true);
-
-  window.addEventListener('popstate', syncModalState);
-  window.addEventListener('hashchange', syncModalState);
-
-  setInterval(syncModalState, 300);
-  setTimeout(syncModalState, 100);
-})();
-</script>
 <!-- SatuGo MOBILE BUTTON SAFETY FIX -->
 <style id="satugo-mobile-buttons-final-fix">
 @media (max-width: 768px){
@@ -6280,149 +6210,58 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 
 
 
-<style id="satugo-full-functions-nav-style">
-#satugoMobileNavClean{display:none}
+
+
+
+
+
+
+
+<style id="satugo-final-nav-style">
 @media(max-width:700px){
-#satugoMobileNavClean{
-display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;
-width:100%!important;height:70px!important;z-index:2147483647!important;
-background:#fff!important;border-top:1px solid #ddd!important;box-shadow:0 -3px 16px rgba(0,0,0,.12)!important;
-padding:4px 2px!important;box-sizing:border-box!important;pointer-events:auto!important;touch-action:manipulation!important;
+#satugoMobileNavClean{display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:72px!important;z-index:2147483647!important;background:#fff!important;border-top:1px solid #ddd!important;box-shadow:0 -4px 18px rgba(0,0,0,.12)!important;padding:3px 2px!important;box-sizing:border-box!important;pointer-events:auto!important;touch-action:manipulation!important}
+#satugoMobileNavClean button{display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;z-index:2147483647!important;pointer-events:auto!important;touch-action:manipulation!important;flex:1!important;border:0!important;background:#fff!important;margin:0!important;padding:4px 1px!important;font:600 11px Arial,sans-serif!important;color:#222!important;-webkit-tap-highlight-color:transparent!important}
+#satugoMobileNavClean button .sg-final-icon{display:block!important;font-size:23px!important;line-height:30px!important}
+body{padding-bottom:80px!important}
 }
-#satugoMobileNavClean button{
-appearance:none!important;-webkit-appearance:none!important;flex:1 1 20%!important;min-width:0!important;
-height:62px!important;margin:0!important;padding:4px 1px!important;border:0!important;background:transparent!important;
-color:#333!important;font:600 11px Arial,sans-serif!important;cursor:pointer!important;
-pointer-events:auto!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important;
-}
-#satugoMobileNavClean .sgn-icon{display:block!important;font-size:23px!important;line-height:29px!important}
-#satugoMobileNavClean button.sg-active{color:#f5a400!important}
-body{padding-bottom:78px!important}
-}
+@media(min-width:701px){#satugoMobileNavClean{display:none!important}}
 </style>
-
-<nav id="satugoMobileNavClean" aria-label="SatuGo негізгі мәзір">
-<button type="button" id="sgCleanNavHome"><span class="sgn-icon">⌂</span>Басты бет</button>
-<button type="button" id="sgCleanNavSearch"><span class="sgn-icon">⌕</span>Іздеу</button>
-<button type="button" id="sgCleanNavFav"><span class="sgn-icon">♡</span>Таңдаулы</button>
-<button type="button" id="sgCleanNavChat"><span class="sgn-icon">💬</span>Чаттар</button>
-<button type="button" id="sgCleanNavAccount"><span class="sgn-icon">👤</span>Аккаунт</button>
+<nav id="satugoMobileNavClean" aria-label="SatuGo">
+<button type="button" id="sgFinalHome"><span class="sg-final-icon">⌂</span>Басты бет</button>
+<button type="button" id="sgFinalSearch"><span class="sg-final-icon">⌕</span>Іздеу</button>
+<button type="button" id="sgFinalFav"><span class="sg-final-icon">♡</span>Таңдаулы</button>
+<button type="button" id="sgFinalChat"><span class="sg-final-icon">💬</span>Чаттар</button>
+<button type="button" id="sgFinalAccount"><span class="sg-final-icon">👤</span>Аккаунт</button>
 </nav>
-
-<script id="satugo-full-functions-nav-js">
+<script id="satugo-final-nav-js">
 (function(){
-"use strict";
-var bound=false;
-
-function el(id){return document.getElementById(id)}
-function call(names,args){
-  for(var i=0;i<names.length;i++){
-    try{if(typeof window[names[i]]==="function"){return window[names[i]].apply(window,args||[]),true}}catch(e){}
-  }
-  return false;
+function get(id){return document.getElementById(id)}
+function run(list){
+ for(var i=0;i<list.length;i++){try{if(typeof window[list[i]]==='function'){window[list[i]]();return true}}catch(e){}}
+ return false
 }
-function click(ids){
-  for(var i=0;i<ids.length;i++){
-    var x=el(ids[i]);
-    if(x){try{x.click();return true}catch(e){}}
-  }
-  return false;
+function clk(list){
+ for(var i=0;i<list.length;i++){var x=get(list[i]);if(x){try{x.click();return true}catch(e){}}}
+ return false
 }
-function visible(x){
-  if(!x)return false;
-  var s=getComputedStyle(x);
-  return s.display!=="none" && s.visibility!=="hidden";
+function home(){if(run(['goHome','openHome','showHome','sgGoHome','sgOpenHome']))return;window.scrollTo({top:0,behavior:'smooth'})}
+function search(){
+ if(run(['openSearch','showSearch','sgOpenSearch','goSearch']))return;
+ if(clk(['searchBtn','openSearchBtn','searchTab','searchButton']))return;
+ var x=get('search')||get('heroSearch')||document.querySelector('input[type="search"]')||document.querySelector('input[placeholder*="Тауар"]');
+ if(x){x.scrollIntoView({behavior:'smooth',block:'center'});try{x.focus()}catch(e){}}
 }
-function first(ids){
-  for(var i=0;i<ids.length;i++){var x=el(ids[i]);if(x&&visible(x))return x}
-  return null;
+function fav(){if(run(['openFavorites','sgOpenFavorites','showFavorites','goFavorites']))return;clk(['favoritesBtn','favoriteBtn','favBtn','favoritesButton'])}
+function chat(){if(run(['sgOpenChat','openChat','showChats','openChats','goChats']))return;if(clk(['sgChatFab','sgMobileChatBtn','chatBtn','openChatBtn','chatsBtn']))return;var x=get('sgChatPanel');if(x){x.style.display='block';x.classList.add('open','active','show')}}
+function account(){if(run(['openAccount','sgCoreOpenProfile','openProfile','showAccount','goAccount']))return;clk(['accountBtn','profileBtn','loginBtn','openAccountBtn','profileButton','accountButton'])}
+function bind(id,fn){
+ var x=get(id);if(!x||x.dataset.sgFinalBound)return;x.dataset.sgFinalBound='1';
+ ['click','touchend'].forEach(function(ev){x.addEventListener(ev,function(e){e.preventDefault();e.stopImmediatePropagation();fn()}, {passive:false,capture:true})})
 }
-
-function HOME(){
-  if(call(["goHome","openHome","showHome","sgGoHome","sgOpenHome","showMainPage"]))return;
-  var x=first(["homePage","mainPage","productsSection","popularProducts","hero"]);
-  if(x){x.scrollIntoView({behavior:"smooth",block:"start"});return}
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-function SEARCH(){
-  if(call(["openSearch","showSearch","sgOpenSearch","goSearch"]))return;
-  if(click(["searchBtn","openSearchBtn","searchTab","searchButton"]))return;
-  var x=first(["search","heroSearch"]);
-  if(!x)x=document.querySelector('input[type="search"]');
-  if(!x)x=document.querySelector('input[placeholder*="Тауар"],input[placeholder*="дүкен"],input[placeholder*="іздеу"]');
-  if(x){
-    x.scrollIntoView({behavior:"smooth",block:"center"});
-    try{x.focus()}catch(e){}
-    return;
-  }
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-function FAVORITES(){
-  if(call(["openFavorites","sgOpenFavorites","showFavorites","goFavorites"]))return;
-  if(click(["favoritesBtn","favoriteBtn","favBtn","favoritesButton"]))return;
-  var x=document.querySelector('[data-action="favorites"],[data-page="favorites"]');
-  if(x){try{x.click();return}catch(e){}}
-  // Fallback: open the first existing favorites section.
-  x=first(["favoritesPage","favoritesSection","favoriteProducts"]);
-  if(x){x.scrollIntoView({behavior:"smooth",block:"start"});return}
-}
-
-function CHATS(){
-  if(call(["sgOpenChat","openChat","showChats","openChats","goChats"]))return;
-  if(click(["sgChatFab","sgMobileChatBtn","chatBtn","openChatBtn","chatsBtn","chatButton"]))return;
-  var panel=el("sgChatPanel");
-  if(panel){
-    panel.style.display="block";
-    panel.classList.add("open","active","show");
-    panel.scrollIntoView({behavior:"smooth",block:"start"});
-    return;
-  }
-  // If there is a chat list, open it.
-  var x=first(["chatsPage","chatPage","chatList","messagesPage"]);
-  if(x){x.scrollIntoView({behavior:"smooth",block:"start"});return}
-}
-
-function ACCOUNT(){
-  if(call(["openAccount","sgCoreOpenProfile","openProfile","showAccount","goAccount"]))return;
-  if(click(["accountBtn","profileBtn","loginBtn","openAccountBtn","profileButton","accountButton"]))return;
-  var x=document.querySelector('[data-action="account"],[data-page="account"],[data-action="profile"]');
-  if(x){try{x.click();return}catch(e){}}
-  x=first(["accountPage","profilePage","profileSection"]);
-  if(x){x.scrollIntoView({behavior:"smooth",block:"start"});return}
-}
-
-function bindOne(id,fn){
-  var x=el(id); if(!x)return;
-  if(x.dataset.sgReady==="1")return;
-  x.dataset.sgReady="1";
-  var go=function(e){
-    if(e){e.preventDefault();e.stopPropagation()}
-    fn();
-  };
-  x.addEventListener("click",go,true);
-  x.addEventListener("touchend",go,{passive:false});
-}
-
-function bind(){
-  if(bound)return;
-  bound=true;
-  bindOne("sgCleanNavHome",HOME);
-  bindOne("sgCleanNavSearch",SEARCH);
-  bindOne("sgCleanNavFav",FAVORITES);
-  bindOne("sgCleanNavChat",CHATS);
-  bindOne("sgCleanNavAccount",ACCOUNT);
-}
-
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);
-else bind();
-window.addEventListener("load",bind);
-setTimeout(bind,300);
-setTimeout(bind,1000);
+function B(){bind('sgFinalHome',home);bind('sgFinalSearch',search);bind('sgFinalFav',fav);bind('sgFinalChat',chat);bind('sgFinalAccount',account)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',B);else B();window.addEventListener('load',B);setTimeout(B,500)
 })();
 </script>
-
 </body>
 <!-- SatuGo feature package complete -->
 </html>
