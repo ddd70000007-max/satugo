@@ -6527,19 +6527,20 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 </script>
 
 
-<!-- SatuGo MOBILE BACK BUTTON FIX -->
-<script id="satugo-mobile-back-fix">
+<!-- SatuGo MOBILE BACK BUTTON FIX — FINAL -->
+<script id="satugo-mobile-back-fix-final">
 (function(){
   "use strict";
 
-  function visible(el){
+  function isVisible(el){
     if(!el) return false;
-    var cs=getComputedStyle(el), r=el.getBoundingClientRect();
+    var cs=getComputedStyle(el);
+    var r=el.getBoundingClientRect();
     return cs.display!=="none" && cs.visibility!=="hidden" &&
-           r.width>0 && r.height>0;
+           cs.opacity!=="0" && r.width>0 && r.height>0;
   }
 
-  function closeOne(){
+  function getOpenWindow(){
     var selectors=[
       "#sgProfileOverlay.open",
       "#sgChatPanel.open",
@@ -6547,75 +6548,200 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
       ".sg-v2-modal.open",
       ".sg-modal.open",
       ".modal.show",
-      ".modal.open"
+      ".modal.open",
+      ".sg-phone-auth.open"
     ];
     for(var i=0;i<selectors.length;i++){
       var el=document.querySelector(selectors[i]);
-      if(!visible(el)) continue;
+      if(isVisible(el)) return el;
+    }
+    return null;
+  }
 
-      var close=el.querySelector(
-        ".close,[data-close],.modal-close,.sg-close,.sg-p-close,"+
-        "button[aria-label*='close' i],button[aria-label*='жаб' i]"
-      );
-      if(close){ close.click(); return true; }
+  function closeWindow(){
+    var el=getOpenWindow();
+    if(!el) return false;
 
+    var close=el.querySelector(
+      ".close,[data-close],.modal-close,.sg-close,.sg-p-close,"+
+      "button[aria-label*='close' i],button[aria-label*='жаб' i],"+
+      "button[onclick*='closeModal']"
+    );
+
+    if(close){
+      try{ close.click(); }catch(_){}
+    }else{
       el.classList.remove("open","show");
       el.style.display="none";
       el.style.pointerEvents="none";
-      document.body.classList.remove("sg-modal-active");
-      return true;
     }
 
-    return false;
+    document.body.classList.remove("sg-modal-active");
+    return true;
   }
 
-  /* Android/browser Back: first close an open SatuGo window,
-     otherwise return to the previous browser page. */
-  window.addEventListener("popstate", function(){
-    /* Android/browser Back must actually close the currently open SatuGo window. */
+  function hasAppHistory(){
+    return !!(history.state && history.state.satugoApp);
+  }
+
+  /* Create one safe history point for the SatuGo app. */
+  try{
+    if(!hasAppHistory()){
+      history.replaceState({satugoApp:true,satugoBase:true},"",location.href);
+    }
+  }catch(_){}
+
+  /*
+   * When an in-app window opens, create exactly one extra history point.
+   * Phone/Android Back then returns to the base SatuGo state and closes it.
+   */
+  function markWindowHistory(){
     setTimeout(function(){
-      closeOne();
+      var open=getOpenWindow();
+      if(!open) return;
+      if(history.state && history.state.satugoWindow) return;
+
+      try{
+        history.pushState({satugoApp:true,satugoWindow:true},"",location.href);
+      }catch(_){}
+    },60);
+  }
+
+  document.addEventListener("click",function(e){
+    var target=e.target;
+    if(!target || !target.closest) return;
+    var button=target.closest("button,a");
+    if(!button) return;
+
+    /* Do not create history for the Back button itself. */
+    if(button.matches("[data-satugo-back],.satugo-back-btn")) return;
+
+    markWindowHistory();
+  },true);
+
+  /* Android/browser Back. */
+  window.addEventListener("popstate",function(){
+    setTimeout(function(){
+      if(getOpenWindow()){
+        closeWindow();
+      }
       document.body.classList.remove("sg-modal-active");
     },20);
   });
 
-  /* If the app opens a modal, add a history state.
-     Pressing phone Back then closes that modal instead of leaving the site. */
-  document.addEventListener("click", function(e){
-    var t=e.target && e.target.closest ? e.target.closest("button,a") : null;
-    if(!t) return;
-
-    setTimeout(function(){
-      var open=
-        document.querySelector(".modal.show,.modal.open,.sg-modal.open,"+
-        ".sg-v2-modal.open,.sg-core-modal.open,#sgProfileOverlay.open");
-
-      if(open && visible(open) && !history.state?.satugoOverlay){
-        try{ history.pushState({satugoOverlay:true},"","#satugo-window"); }catch(_){}
-      }
-    },40);
-  },true);
-
-  /* Make an in-app back event available to other SatuGo code. */
+  /* In-app Back buttons can call either function. */
   window.satugoBack=function(){
-    if(closeOne()) return;
-    if(history.length>1) history.back();
-    else window.location.href="/satugo/";
-  };
+    if(getOpenWindow()){
+      if(history.state && history.state.satugoWindow){
+        history.back();
+      }else{
+        closeWindow();
+      }
+      return;
+    }
 
-  /* Support buttons that use onclick="satugoBack()" */
+    /* If there is a real previous browser page, go there. */
+    if(history.length>1){
+      history.back();
+    }
+  };
   window.sgGoBack=window.satugoBack;
 
-  /* If a page has an element marked as an app-back button, make it work on phones. */
-  document.addEventListener("click", function(e){
-    var b=e.target && e.target.closest ? e.target.closest("[data-satugo-back],.satugo-back-btn") : null;
-    if(!b) return;
+  document.addEventListener("click",function(e){
+    var target=e.target;
+    if(!target || !target.closest) return;
+    var back=target.closest("[data-satugo-back],.satugo-back-btn");
+    if(!back) return;
+
     e.preventDefault();
-    e.stopPropagation();
+    e.stopImmediatePropagation();
     window.satugoBack();
-  }, true);
+  },true);
+
+  /*
+   * Prevent accidental page scroll/zoom gestures from making mobile
+   * controls feel unresponsive.
+   */
+  document.addEventListener("touchend",function(e){
+    var target=e.target;
+    if(!target || !target.closest) return;
+    var button=target.closest("button,[role='button'],a");
+    if(!button) return;
+    if(button.disabled) return;
+    button.style.touchAction="manipulation";
+  },{passive:true});
+
 })();
 </script>
 
 </body>
-</html>
+</html><!-- SATUGO EMERGENCY MOBILE BUTTON FIX -->
+<style id="satugo-emergency-buttons-css">
+@media(max-width:700px){
+  #satugoFinalNav{
+    display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;
+    height:72px!important;z-index:2147483647!important;pointer-events:auto!important;
+    background:#fff!important;border-top:1px solid #ddd!important;
+  }
+  #satugoFinalNav button{pointer-events:auto!important;touch-action:manipulation!important;position:relative!important;z-index:2147483647!important;}
+  #satugoBottomNav{display:none!important;pointer-events:none!important;}
+  #satugoFinalNav *{pointer-events:none!important;}
+  #satugoFinalNav button{pointer-events:auto!important;}
+}
+</style>
+<script id="satugo-emergency-buttons-js">
+(function(){
+  'use strict';
+  function byId(id){return document.getElementById(id)}
+  function visible(el){
+    if(!el)return false;
+    var s=getComputedStyle(el),r=el.getBoundingClientRect();
+    return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0;
+  }
+  function closeOpen(){
+    var sels=['#sgProfileOverlay.open','#sgChatPanel.open','.sg-core-modal.open','.sg-v2-modal.open','.sg-modal.open','.modal.show','.modal.open'];
+    for(var i=0;i<sels.length;i++){
+      var el=document.querySelector(sels[i]);
+      if(el&&visible(el)){
+        el.classList.remove('open','show');
+        el.style.display='none';
+        el.style.pointerEvents='none';
+        return true;
+      }
+    }
+    return false;
+  }
+  function safe(fn){try{if(typeof fn==='function'){fn();return true}}catch(e){console.error('SatuGo button:',e)}return false}
+  function home(){window.scrollTo({top:0,behavior:'smooth'});}
+  function search(){
+    var e=byId('search')||byId('heroSearch')||document.querySelector('input[type="search"]');
+    if(e){try{e.scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}setTimeout(function(){try{e.focus({preventScroll:true})}catch(x){try{e.focus()}catch(y){}}},150)}
+  }
+  function fav(){if(safe(window.openFavorites)||safe(window.sgOpenFavorites)||safe(window.showFavorites))return;}
+  function chat(){
+    if(safe(window.sgOpenChat))return;
+    var p=byId('sgChatPanel');
+    if(p){p.classList.add('open');p.style.display='flex';p.style.pointerEvents='auto';return}
+    var f=byId('sgChatFab');if(f)try{f.click()}catch(e){}
+  }
+  function account(){if(safe(window.openAccount)||safe(window.sgCoreOpenProfile)||safe(window.sgProfileOpenV3))return;}
+  function bind(){
+    var map={satugoFinalHome:home,satugoFinalSearch:search,satugoFinalFav:fav,satugoFinalChat:chat,satugoFinalAccount:account};
+    Object.keys(map).forEach(function(id){
+      var b=byId(id);if(!b)return;
+      b.onclick=function(e){if(e){e.preventDefault();e.stopPropagation()}map[id]();return false};
+      b.ontouchend=function(e){if(e){e.preventDefault();e.stopPropagation()}map[id]();return false};
+      b.style.pointerEvents='auto';b.style.touchAction='manipulation';
+    });
+    var old=byId('satugoBottomNav');if(old){old.style.display='none';old.style.pointerEvents='none'}
+  }
+  function repair(){
+    var nav=byId('satugoFinalNav');
+    if(nav){nav.style.pointerEvents='auto';nav.style.zIndex='2147483647';nav.querySelectorAll('button').forEach(function(b){b.style.pointerEvents='auto';b.style.zIndex='2147483647';})}
+    document.querySelectorAll('.modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),.sg-core-modal:not(.open),#sgProfileOverlay:not(.open)').forEach(function(e){e.style.pointerEvents='none'});
+  }
+  document.addEventListener('DOMContentLoaded',function(){bind();repair()});
+  window.addEventListener('load',function(){bind();repair()});
+  setTimeout(bind,300);setTimeout(repair,500);setTimeout(bind,1500);setInterval(repair,1200);
+})();
+</script>
