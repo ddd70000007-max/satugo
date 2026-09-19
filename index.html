@@ -5057,43 +5057,114 @@ init();
 </script>
 
 
-<!-- BOTTOM NAV -->
-
-<div class="bottom-nav">
-
+<!-- SATUGO MOBILE BOTTOM NAV 5 -->
+<div class="bottom-nav" id="satugoBottomNav">
   <div class="bottom-nav-inner">
-
-    <button
-      onclick="
-        window.scrollTo({
-          top:0,
-          behavior:'smooth'
-        })
-      "
-    >
-      <span>🏠</span>
-      Басты бет
+    <button type="button" onclick="sgBottomHome(event)">
+      <span>⌂</span>Басты бет
     </button>
-
-    <button onclick="openFavorites()">
-      <span>❤️</span>
-      Таңдаулы
+    <button type="button" onclick="sgBottomSearch(event)">
+      <span>⌕</span>Іздеу
     </button>
-
-    <button onclick="openCart()">
-      <span>🛒</span>
-      Себет
+    <button type="button" onclick="sgBottomFavorites(event)">
+      <span>♡</span>Таңдаулы
     </button>
-
-    <button onclick="openAccount()">
-      <span>👤</span>
-      Аккаунт
+    <button type="button" onclick="sgBottomChat(event)">
+      <span>💬</span>Чаттар
     </button>
-
+    <button type="button" onclick="sgBottomAccount(event)">
+      <span>👤</span>Аккаунт
+    </button>
   </div>
-
 </div>
 
+<style id="satugo-bottom-5-final">
+#satugoBottomNav{
+  position:fixed!important;left:0!important;right:0!important;bottom:0!important;
+  width:100%!important;height:68px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  background:#fff!important;border-top:1px solid #e5e7eb!important;
+  box-shadow:0 -4px 18px rgba(0,0,0,.10)!important;
+  z-index:2147483646!important;pointer-events:auto!important;
+}
+#satugoBottomNav .bottom-nav-inner{
+  width:100%!important;max-width:620px!important;height:100%!important;
+  display:flex!important;align-items:center!important;justify-content:space-around!important;
+}
+#satugoBottomNav button{
+  flex:1 1 20%!important;width:20%!important;height:64px!important;
+  min-width:0!important;margin:0!important;padding:4px 1px!important;
+  border:0!important;background:transparent!important;color:#4b5563!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+  gap:2px!important;font-size:10px!important;font-weight:600!important;
+  cursor:pointer!important;pointer-events:auto!important;touch-action:manipulation!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+#satugoBottomNav button span{display:block!important;font-size:22px!important;line-height:24px!important}
+#satugoBottomNav button:active{transform:scale(.94)!important;background:#f3f4f6!important;border-radius:12px!important}
+@media(max-width:700px){
+ body{padding-bottom:calc(78px + env(safe-area-inset-bottom))!important}
+}
+@media(min-width:701px){
+ #satugoBottomNav{height:65px!important}
+}
+/* Old duplicate 5-button nav is hidden so only ONE bottom menu remains. */
+#sgMobileNav{display:none!important;pointer-events:none!important}
+</style>
+
+<script id="satugo-bottom-5-js">
+(function(){
+  function stop(e){if(e){e.preventDefault();e.stopPropagation();}}
+  window.sgBottomHome=function(e){
+    stop(e);
+    window.scrollTo({top:0,behavior:'smooth'});
+    return false;
+  };
+  window.sgBottomSearch=function(e){
+    stop(e);
+    var el=document.getElementById('search')||document.getElementById('heroSearch');
+    if(el){
+      try{el.scrollIntoView({behavior:'smooth',block:'center'});}catch(x){}
+      setTimeout(function(){try{el.focus({preventScroll:true});}catch(x){try{el.focus();}catch(y){}}},300);
+    }else{window.scrollTo({top:0,behavior:'smooth'});}
+    return false;
+  };
+  window.sgBottomFavorites=function(e){
+    stop(e);
+    try{
+      if(typeof window.openFavorites==='function'){window.openFavorites();return false;}
+      if(typeof window.sgOpenFavorites==='function'){window.sgOpenFavorites();return false;}
+    }catch(x){}
+    return false;
+  };
+  window.sgBottomChat=function(e){
+    stop(e);
+    try{
+      if(typeof window.sgOpenChat==='function'){window.sgOpenChat();return false;}
+      var fab=document.getElementById('sgChatFab');
+      if(fab){fab.click();return false;}
+    }catch(x){}
+    return false;
+  };
+  window.sgBottomAccount=function(e){
+    stop(e);
+    try{
+      if(typeof window.openAccount==='function'){window.openAccount();return false;}
+      if(typeof window.sgCoreOpenProfile==='function'){window.sgCoreOpenProfile();return false;}
+    }catch(x){}
+    return false;
+  };
+  function repair(){
+    var n=document.getElementById('satugoBottomNav');
+    if(!n)return;
+    n.style.pointerEvents='auto';
+    n.querySelectorAll('button').forEach(function(b){b.style.pointerEvents='auto';});
+  }
+  document.addEventListener('DOMContentLoaded',repair);
+  window.addEventListener('load',repair);
+  setTimeout(repair,500);setTimeout(repair,1500);
+})();
+</script>
 
 <!-- SatuGo Advanced Features -->
 <section id="sgAdvanced" class="sg-admin" style="display:none">
@@ -6285,23 +6356,147 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   setInterval(install,1000); setTimeout(install,300);
 })();
 </script>
-<nav id="sgMobileNav" class="sg-mobile-nav">
-  <button type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    <span>⌂</span><small>Басты бет</small>
+<nav id="sgMobileNav" class="sg-mobile-nav" aria-label="SatuGo мобильді мәзір">
+  <button type="button" id="sgNavHome" class="sg-mobile-nav-btn active" onclick="sgMobileGoHome(event)">
+    <span class="sg-nav-icon">⌂</span>
+    <small>Басты бет</small>
   </button>
 
-  <button type="button" onclick="typeof openFavorites==='function' ? openFavorites() : (typeof sgOpenFavorites==='function' && sgOpenFavorites())">
-    <span>♡</span><small>Таңдаулы</small>
+  <button type="button" id="sgNavSearch" class="sg-mobile-nav-btn" onclick="sgMobileOpenSearch(event)">
+    <span class="sg-nav-icon">⌕</span>
+    <small>Іздеу</small>
   </button>
 
-  <button type="button" id="sgMobileChatBtn" onclick="typeof sgOpenChat==='function' ? sgOpenChat() : (document.getElementById('sgChatFab')?.click())">
-    <span>💬</span><small>Чаттар</small><b id="sgMobileChatBadge" style="display:none"></b>
+  <button type="button" id="sgNavFavorites" class="sg-mobile-nav-btn" onclick="sgMobileOpenFavorites(event)">
+    <span class="sg-nav-icon">♡</span>
+    <small>Таңдаулы</small>
   </button>
 
-  <button type="button" onclick="typeof openAccount==='function' ? openAccount() : (typeof sgCoreOpenProfile==='function' && sgCoreOpenProfile())">
-    <span>👤</span><small>Аккаунт</small>
+  <button type="button" id="sgMobileChatBtn" class="sg-mobile-nav-btn" onclick="sgMobileOpenChat(event)">
+    <span class="sg-nav-icon">💬</span>
+    <small>Чаттар</small>
+    <b id="sgMobileChatBadge" class="sg-mobile-chat-badge" style="display:none"></b>
+  </button>
+
+  <button type="button" id="sgNavAccount" class="sg-mobile-nav-btn" onclick="sgMobileOpenAccount(event)">
+    <span class="sg-nav-icon">👤</span>
+    <small>Аккаунт</small>
   </button>
 </nav>
+
+<style id="satugo-mobile-nav-5-final">
+.sg-mobile-nav{display:none}
+@media(max-width:700px){
+  body{padding-bottom:calc(78px + env(safe-area-inset-bottom))!important}
+  #sgMobileNav.sg-mobile-nav{
+    position:fixed!important;left:0!important;right:0!important;bottom:0!important;
+    width:100%!important;height:calc(66px + env(safe-area-inset-bottom))!important;
+    display:flex!important;align-items:flex-start!important;justify-content:space-around!important;
+    gap:0!important;margin:0!important;padding:5px 3px calc(5px + env(safe-area-inset-bottom)) 3px!important;
+    background:#fff!important;border-top:1px solid #e5e7eb!important;
+    box-shadow:0 -4px 20px rgba(0,0,0,.08)!important;
+    z-index:2147483646!important;pointer-events:auto!important;overflow:visible!important;
+  }
+  #sgMobileNav .sg-mobile-nav-btn{
+    position:relative!important;flex:1 1 20%!important;width:20%!important;min-width:0!important;
+    height:56px!important;min-height:56px!important;margin:0!important;padding:3px 1px!important;
+    border:0!important;outline:0!important;background:transparent!important;color:#6b7280!important;
+    display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+    gap:2px!important;cursor:pointer!important;pointer-events:auto!important;touch-action:manipulation!important;
+    -webkit-tap-highlight-color:transparent!important;z-index:2147483647!important;border-radius:12px!important;
+  }
+  #sgMobileNav .sg-mobile-nav-btn:active{transform:scale(.94);background:#f3f4f6!important}
+  #sgMobileNav .sg-mobile-nav-btn.active{color:#16a34a!important}
+  #sgMobileNav .sg-nav-icon{display:block!important;font-size:21px!important;line-height:23px!important;height:23px!important;margin:0!important}
+  #sgMobileNav small{display:block!important;font-size:9.5px!important;line-height:12px!important;font-weight:600!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:100%!important;margin:0!important}
+  #sgMobileChatBadge{position:absolute!important;top:3px!important;left:calc(50% + 9px)!important;width:9px!important;min-width:9px!important;height:9px!important;padding:0!important;border-radius:50%!important;background:#ef4444!important;border:2px solid #fff!important;z-index:3!important}
+}
+</style>
+
+<script id="satugo-mobile-nav-5-final-js">
+(function(){
+  function active(id){
+    document.querySelectorAll('#sgMobileNav .sg-mobile-nav-btn').forEach(function(b){b.classList.remove('active')});
+    var b=document.getElementById(id); if(b)b.classList.add('active');
+  }
+
+  window.sgMobileGoHome=function(e){
+    if(e){e.preventDefault();e.stopPropagation()}
+    active('sgNavHome');
+    try{
+      var s=document.getElementById('search');
+      var h=document.getElementById('heroSearch');
+      if(s)s.value='';
+      if(h)h.value='';
+    }catch(x){}
+    try{
+      if(typeof window.renderProducts==='function')window.renderProducts();
+    }catch(x){}
+    window.scrollTo({top:0,behavior:'smooth'});
+    return false;
+  };
+
+  window.sgMobileOpenSearch=function(e){
+    if(e){e.preventDefault();e.stopPropagation()}
+    active('sgNavSearch');
+    var el=document.getElementById('search')||document.getElementById('heroSearch');
+    if(!el){
+      window.scrollTo({top:0,behavior:'smooth'});
+      return false;
+    }
+    try{el.scrollIntoView({behavior:'smooth',block:'center'})}catch(x){window.scrollTo({top:0,behavior:'smooth'})}
+    setTimeout(function(){try{el.focus({preventScroll:true})}catch(x){try{el.focus()}catch(y){}}},350);
+    return false;
+  };
+
+  window.sgMobileOpenFavorites=function(e){
+    if(e){e.preventDefault();e.stopPropagation()}
+    active('sgNavFavorites');
+    try{
+      if(typeof window.openFavorites==='function'){window.openFavorites();return false}
+      if(typeof window.sgOpenFavorites==='function'){window.sgOpenFavorites();return false}
+    }catch(x){}
+    return false;
+  };
+
+  window.sgMobileOpenChat=function(e){
+    if(e){e.preventDefault();e.stopPropagation()}
+    active('sgMobileChatBtn');
+    try{
+      if(typeof window.sgOpenChat==='function'){window.sgOpenChat();return false}
+      var fab=document.getElementById('sgChatFab');
+      if(fab){fab.click();return false}
+    }catch(x){}
+    setTimeout(function(){
+      try{
+        if(typeof window.sgOpenChat==='function')window.sgOpenChat();
+        else {var f=document.getElementById('sgChatFab');if(f)f.click()}
+      }catch(x){}
+    },500);
+    return false;
+  };
+
+  window.sgMobileOpenAccount=function(e){
+    if(e){e.preventDefault();e.stopPropagation()}
+    active('sgNavAccount');
+    try{
+      if(typeof window.openAccount==='function'){window.openAccount();return false}
+      if(typeof window.sgCoreOpenProfile==='function'){window.sgCoreOpenProfile();return false}
+    }catch(x){}
+    return false;
+  };
+
+  function repair(){
+    var n=document.getElementById('sgMobileNav');
+    if(!n)return;
+    n.style.pointerEvents='auto';
+    n.querySelectorAll('button').forEach(function(b){b.style.pointerEvents='auto'});
+  }
+  document.addEventListener('DOMContentLoaded',function(){repair();active('sgNavHome')});
+  window.addEventListener('load',repair);
+  setTimeout(repair,500);setTimeout(repair,1500);setInterval(repair,2000);
+})();
+</script>
 <style>
 .sg-mobile-nav{
   display:none
