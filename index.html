@@ -6540,87 +6540,219 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 </nav>
 <script id="satugo-phone-final-nav-js">
 (function(){
-"use strict";
-function stop(e){if(e){e.preventDefault();e.stopPropagation();}}
-function run(names){
-  for(var i=0;i<names.length;i++){
-    try{if(typeof window[names[i]]==="function"){window[names[i]]();return true;}}catch(x){}
+  "use strict";
+  function stop(e){
+    if(e){ e.preventDefault(); e.stopPropagation(); }
   }
-  return false;
-}
-function byId(ids){
-  for(var i=0;i<ids.length;i++){var x=document.getElementById(ids[i]);if(x){try{x.click();return true;}catch(e){}}}
-  return false;
-}
-function home(e){stop(e);window.scrollTo(0,0);}
-function search(e){
-  stop(e);
-  var x=document.getElementById("search")||document.getElementById("heroSearch")||document.querySelector('input[type="search"]')||document.querySelector('input[placeholder*="Тауар"]');
-  if(x){try{x.scrollIntoView({behavior:"smooth",block:"center"});}catch(z){x.scrollIntoView();}setTimeout(function(){try{x.focus();}catch(z){}},150);}
-}
-function fav(e){
-  stop(e);
-  if(run(["openFavorites","sgOpenFavorites","showFavorites"]))return;
-  byId(["favoritesBtn","favoriteBtn","favBtn","favoritesButton"]);
-}
-function chat(e){
-  stop(e);
-  if(run(["sgOpenChat","openChat","showChats","openChats"]))return;
-  var p=document.getElementById("sgChatPanel");
-  if(p){p.style.display="flex";p.classList.add("open");}
-}
-function account(e){
-  stop(e);
-  if(run(["openAccount","sgCoreOpenProfile","openProfile","showAccount"]))return;
-  byId(["accountBtn","profileBtn","loginBtn","openAccountBtn","profileButton","accountButton"]);
-}
-function bind(id,fn){
-  var b=document.getElementById(id);if(!b)return;
-  b.addEventListener("click",fn,false);
-  b.addEventListener("touchend",fn,{passive:false});
-}
-function cleanChatLaunchers(){
-  document.querySelectorAll("#sgChatFab,#sgUniqueLauncher,.sg-chat-float,.sg-chat-fab").forEach(function(x){
-    if(x && !x.closest("#sgChatPanel")) x.remove();
+  function call(names){
+    for(var i=0;i<names.length;i++){
+      try{
+        if(typeof window[names[i]]==="function"){
+          window[names[i]]();
+          return true;
+        }
+      }catch(err){}
+    }
+    return false;
+  }
+  function clickIds(ids){
+    for(var i=0;i<ids.length;i++){
+      var el=document.getElementById(ids[i]);
+      if(el){ try{el.click(); return true;}catch(err){} }
+    }
+    return false;
+  }
+
+  function home(e){
+    stop(e);
+    try{ window.scrollTo({top:0,behavior:"smooth"}); }
+    catch(err){ window.scrollTo(0,0); }
+  }
+
+  function search(e){
+    stop(e);
+    var el=document.getElementById("search") ||
+            document.getElementById("heroSearch") ||
+            document.querySelector('input[type="search"]') ||
+            document.querySelector('input[placeholder*="Тауар"]');
+    if(!el){ return; }
+    try{ el.scrollIntoView({behavior:"smooth",block:"center"}); }
+    catch(err){ el.scrollIntoView(); }
+    setTimeout(function(){ try{el.focus();}catch(err){} },180);
+  }
+
+  function favorites(e){
+    stop(e);
+    if(call(["openFavorites","sgOpenFavorites","showFavorites"])) return;
+    clickIds(["favoritesBtn","favoriteBtn","favBtn","favoritesButton"]);
+  }
+
+  function chats(e){
+    stop(e);
+    if(call(["sgOpenChat","openChat","showChats","openChats"])) return;
+    var p=document.getElementById("sgChatPanel");
+    if(p){
+      p.style.display="flex";
+      p.classList.add("open");
+    }
+  }
+
+  function account(e){
+    stop(e);
+    if(call(["sgProfileOpenV3","sgCoreOpenProfile","openAccount","openProfile","showAccount"])) return;
+    clickIds(["accountBtn","profileBtn","loginBtn","openAccountBtn","profileButton","accountButton"]);
+  }
+
+  function cleanOldMobileUI(){
+    // Old mobile navigation was superseded by #satugoFinalNav.
+    var old=document.getElementById("sgMobileNav");
+    if(old) old.remove();
+
+    // Only the bottom Chat button should launch chat on phones.
+    document.querySelectorAll(
+      "#sgChatFab,#sgMobileChatBtn,#sgUniqueLauncher,.sg-chat-float,.sg-chat-fab,.sg-core-floating"
+    ).forEach(function(el){
+      if(el && !el.closest("#sgChatPanel")) el.remove();
+    });
+
+    // Closed overlays must never block phone taps.
+    document.querySelectorAll(
+      ".modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),"+
+      ".sg-core-modal:not(.open),#sgProfileOverlay:not(.open),#sgNotifyPanel:not(.open),#sgChatPanel:not(.open)"
+    ).forEach(function(el){
+      el.style.pointerEvents="none";
+    });
+  }
+
+  function bind(){
+    var map={
+      satugoFinalHome:home,
+      satugoFinalSearch:search,
+      satugoFinalFav:favorites,
+      satugoFinalChat:chats,
+      satugoFinalAccount:account
+    };
+    Object.keys(map).forEach(function(id){
+      var b=document.getElementById(id);
+      if(!b || b.dataset.sgBound==="1") return;
+      b.dataset.sgBound="1";
+      b.addEventListener("click",map[id],false);
+    });
+    cleanOldMobileUI();
+  }
+
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",bind);
+  }else{
+    bind();
+  }
+  window.addEventListener("load",bind);
+  setTimeout(bind,400);
+  setTimeout(bind,1200);
+
+  var observer=new MutationObserver(function(){
+    cleanOldMobileUI();
+    bind();
   });
-}
-function init(){
-  bind("satugoFinalHome",home);bind("satugoFinalSearch",search);bind("satugoFinalFav",fav);bind("satugoFinalChat",chat);bind("satugoFinalAccount",account);
-  cleanChatLaunchers();
-}
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
-window.addEventListener("load",init);
-setTimeout(init,500);setTimeout(init,1500);
-new MutationObserver(function(){cleanChatLaunchers();}).observe(document.documentElement,{childList:true,subtree:true});
+  observer.observe(document.documentElement,{childList:true,subtree:true});
 })();
 </script>
-</body>
 
-<!-- SatuGo feature package complete -->
-</html>
-<style id="satugo-v3-final-cleanup">
-/* V3: page layout is compact; functionality remains in modals/menus. */
-#sgCleanActions, .sg-clean-actions,
-#sgGoodSection, .sg-good-section,
-.sg-chat-float { display:none !important; }
+<style id="satugo-final-clean-mobile">
+/* One mobile navigation only */
+@media(max-width:700px){
+  html,body{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden!important;
+  }
 
-/* Old standalone exclusive block is removed; compact "Қосымша" menu is the entry point. */
-#sgUniqueFeatures { display:none !important; }
+  /* Hide legacy/duplicate mobile controls */
+  #sgMobileNav,
+  #sgChatFab,
+  #sgMobileChatBtn,
+  #sgUniqueLauncher,
+  .sg-chat-float,
+  .sg-chat-fab,
+  .sg-core-floating,
+  #sgCoreQuickBar{
+    display:none!important;
+  }
 
-/* Keep the main page focused on marketplace content. */
-@media (min-width: 701px){
-  body{padding-bottom:24px;}
+  /* The only phone navigation */
+  #satugoFinalNav{
+    position:fixed!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    width:100%!important;
+    height:72px!important;
+    display:flex!important;
+    z-index:2147483647!important;
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+    padding-bottom:env(safe-area-inset-bottom)!important;
+  }
+  #satugoFinalNav button{
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+    -webkit-user-select:none!important;
+    user-select:none!important;
+  }
+
+  /* Do not let hidden overlays intercept taps */
+  .modal:not(.show),
+  .sg-modal:not(.open),
+  .sg-v2-modal:not(.open),
+  .sg-core-modal:not(.open),
+  #sgProfileOverlay:not(.open),
+  #sgNotifyPanel:not(.open),
+  #sgChatPanel:not(.open){
+    pointer-events:none!important;
+  }
+
+  body{padding-bottom:82px!important}
 }
 </style>
+<script id="satugo-final-integrity-fix">
+(function(){
+  "use strict";
 
-<style id="satugo-v4-hide-dashboard">
-/* Төменде көрінетін ескі статистика карточкаларын жасыру.
-   Сатылым/тапсырыс функцияларының JS коды сақталады және
-   Сатушы кабинеті арқылы ашыла береді. */
-#sgAdvanced,
-#sgV2Dashboard {
-  display: none !important;
-}
-</style>
+  function fix(){
+    // Keep only the final navigation if an old block is recreated.
+    var old=document.getElementById("sgMobileNav");
+    if(old) old.remove();
+
+    // Remove duplicate floating chat launchers on mobile.
+    if(window.matchMedia && window.matchMedia("(max-width:700px)").matches){
+      document.querySelectorAll("#sgChatFab,#sgMobileChatBtn,#sgUniqueLauncher,.sg-chat-float,.sg-chat-fab,.sg-core-floating")
+        .forEach(function(el){ if(el && !el.closest("#sgChatPanel")) el.remove(); });
+    }
+
+    // Make closed overlays non-blocking.
+    document.querySelectorAll(
+      ".modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),"+
+      ".sg-core-modal:not(.open),#sgProfileOverlay:not(.open),#sgNotifyPanel:not(.open),#sgChatPanel:not(.open)"
+    ).forEach(function(el){el.style.pointerEvents="none";});
+
+    var nav=document.getElementById("satugoFinalNav");
+    if(nav){
+      nav.style.pointerEvents="auto";
+      nav.querySelectorAll("button").forEach(function(b){
+        b.style.pointerEvents="auto";
+        b.style.touchAction="manipulation";
+      });
+    }
+  }
+
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",fix);
+  else fix();
+  window.addEventListener("load",fix);
+  setTimeout(fix,300);
+  setTimeout(fix,1000);
+  setInterval(fix,2000);
+})();
+</script>
+
 </body>
 </html>
