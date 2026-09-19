@@ -6621,5 +6621,84 @@ setTimeout(ensurePanel,300);
   new MutationObserver(function(){clean();}).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
+
+<!-- SATUGO FINAL 5 NAV VISIBILITY FIX -->
+<style id="satugo-final-5nav-visibility-fix">
+#satugoFinalNav{
+  position:fixed!important;
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  width:100%!important;
+  height:72px!important;
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  z-index:2147483647!important;
+  background:#fff!important;
+  border-top:1px solid #e5e7eb!important;
+  box-shadow:0 -4px 18px rgba(0,0,0,.10)!important;
+}
+#satugoFinalNav button{
+  flex:1 1 20%!important;
+  width:20%!important;
+  min-width:0!important;
+  height:72px!important;
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  position:relative!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-direction:column!important;
+  gap:2px!important;
+  border:0!important;
+  background:#fff!important;
+  color:#374151!important;
+  font:600 11px Arial,sans-serif!important;
+  touch-action:manipulation!important;
+  cursor:pointer!important;
+}
+#satugoFinalNav button .i{font-size:22px!important;line-height:25px!important}
+#satugoFinalNav button:active{background:#f3f4f6!important}
+body{padding-bottom:78px!important}
+</style>
+<script id="satugo-final-5nav-visibility-js">
+(function(){
+  'use strict';
+  function bind(){
+    var nav=document.getElementById('satugoFinalNav');
+    if(!nav)return;
+    nav.style.setProperty('display','flex','important');
+    nav.style.setProperty('visibility','visible','important');
+    nav.style.setProperty('opacity','1','important');
+    nav.style.setProperty('pointer-events','auto','important');
+    nav.style.setProperty('z-index','2147483647','important');
+    var map={
+      satugoFinalHome:function(){window.scrollTo({top:0,behavior:'smooth'});},
+      satugoFinalSearch:function(){
+        var e=document.getElementById('search')||document.querySelector('input[placeholder*="іздеу" i]');
+        if(e){try{e.scrollIntoView({behavior:'smooth',block:'center'});}catch(x){} setTimeout(function(){try{e.focus();}catch(x){}},250);}
+      },
+      satugoFinalFav:function(){try{if(typeof window.sgMobileOpenFavorites==='function')return window.sgMobileOpenFavorites();if(typeof window.openFavorites==='function')return window.openFavorites();}catch(e){}},
+      satugoFinalChat:function(){try{if(typeof window.sgOpenChat==='function')return window.sgOpenChat();if(typeof window.sgMobileOpenChat==='function')return window.sgMobileOpenChat();}catch(e){}},
+      satugoFinalAccount:function(){try{if(typeof window.sgMobileOpenAccount==='function')return window.sgMobileOpenAccount();if(typeof window.sgProfileOpenV3==='function')return window.sgProfileOpenV3();if(typeof window.openAccount==='function')return window.openAccount();}catch(e){}}
+    };
+    Object.keys(map).forEach(function(id){
+      var b=document.getElementById(id);if(!b)return;
+      b.style.setProperty('display','flex','important');
+      b.style.setProperty('visibility','visible','important');
+      b.style.setProperty('pointer-events','auto','important');
+      b.onclick=function(e){e.preventDefault();e.stopPropagation();map[id]();return false;};
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+  window.addEventListener('load',bind);
+  setTimeout(bind,300);setTimeout(bind,1000);setTimeout(bind,2500);
+})();
+</script>
+
 </body>
 </html>
