@@ -1186,6 +1186,14 @@ body.sg-modal-active .sg-core-modal {
 
 
 <!-- SatuGo MOBILE BUTTON SAFETY FIX -->
+
+<style id="satugo-clean-bottom-ui">
+@media(max-width:700px){
+  #satugoBottomNav,#sgMobileNav,#sgCoreQuickBar,#sgUniqueLauncher{display:none!important;pointer-events:none!important;}
+  #satugoFinalNav{display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:72px!important;z-index:2147483647!important;}
+  #satugoFinalNav button{pointer-events:auto!important;touch-action:manipulation!important;}
+}
+</style>
 </head>
 
 <body>
@@ -6432,99 +6440,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   <button type="button" id="satugoFinalAccount"><span class="i">👤</span><span>Аккаунт</span></button>
 </nav>
 
-<script id="satugo-phone-buttons-clean-fix-js">
-(function(){
-  'use strict';
 
-  function runFirst(names){
-    for(var i=0;i<names.length;i++){
-      if(typeof window[names[i]]==='function'){
-        try{ window[names[i]](); return true; }catch(e){ console.error(e); }
-      }
-    }
-    return false;
-  }
-
-  function clickFirst(ids){
-    for(var i=0;i<ids.length;i++){
-      var el=document.getElementById(ids[i]);
-      if(el){ el.click(); return true; }
-    }
-    return false;
-  }
-
-  function clean(){
-    if(!window.matchMedia || !window.matchMedia('(max-width:700px)').matches) return;
-
-    document.querySelectorAll('#sgMobileNav,#sgMobileChatBtn,#sgChatFab,#sgUniqueLauncher,.sg-chat-float,.sg-chat-fab,.sg-core-floating,#sgCoreQuickBar')
-      .forEach(function(el){ if(el && !el.closest('#sgChatPanel')) el.style.display='none'; });
-
-    document.querySelectorAll('.modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),.sg-core-modal:not(.open),#sgProfileOverlay:not(.open),#sgNotifyPanel:not(.open),#sgChatPanel:not(.open)')
-      .forEach(function(el){ el.style.pointerEvents='none'; });
-
-    var nav=document.getElementById('satugoFinalNav');
-    if(nav){
-      nav.style.pointerEvents='auto';
-      nav.querySelectorAll('button').forEach(function(b){b.style.pointerEvents='auto';});
-    }
-  }
-
-  function home(){
-    window.scrollTo({top:0,behavior:'smooth'});
-  }
-  function search(){
-    var el=document.getElementById('search')||document.getElementById('heroSearch')||document.querySelector('input[type="search"]');
-    if(el){
-      try{ el.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){}
-      setTimeout(function(){el.focus();},200);
-    }
-  }
-  function favorites(){
-    if(runFirst(['openFavorites','sgOpenFavorites','showFavorites'])) return;
-    clickFirst(['favoritesBtn','favoriteBtn','favBtn','favoritesButton']);
-  }
-  function chats(){
-    if(runFirst(['sgOpenChat','openChat','showChats','openChats'])) return;
-    var p=document.getElementById('sgChatPanel');
-    if(p){ p.style.display='flex'; p.classList.add('open'); p.style.pointerEvents='auto'; }
-  }
-  function account(){
-    if(runFirst(['sgProfileOpenV3','sgCoreOpenProfile','openAccount','openProfile','showAccount'])) return;
-    clickFirst(['accountBtn','profileBtn','loginBtn','openAccountBtn','profileButton','accountButton']);
-  }
-
-  var actions={
-    satugoFinalHome:home,
-    satugoFinalSearch:search,
-    satugoFinalFav:favorites,
-    satugoFinalChat:chats,
-    satugoFinalAccount:account
-  };
-
-  function bind(){
-    Object.keys(actions).forEach(function(id){
-      var b=document.getElementById(id);
-      if(!b || b.dataset.phoneFixed==='1') return;
-      b.dataset.phoneFixed='1';
-      b.addEventListener('click',function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        actions[id]();
-        setTimeout(clean,30);
-      },false);
-    });
-    clean();
-  }
-
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind);
-  else bind();
-  window.addEventListener('load',bind);
-  window.addEventListener('resize',clean);
-  setTimeout(bind,250);
-  setTimeout(bind,1000);
-  setInterval(clean,1500);
-})();
-</script>
 
 
 <!-- SatuGo MOBILE BACK BUTTON FIX — FINAL -->
@@ -6674,74 +6590,65 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 })();
 </script>
 
-</body>
-</html><!-- SATUGO EMERGENCY MOBILE BUTTON FIX -->
-<style id="satugo-emergency-buttons-css">
+
+<!-- SATUGO FINAL MOBILE BUTTON CONTROLLER -->
+<style id="satugo-final-mobile-buttons-css">
 @media(max-width:700px){
-  #satugoFinalNav{
-    display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;
-    height:72px!important;z-index:2147483647!important;pointer-events:auto!important;
-    background:#fff!important;border-top:1px solid #ddd!important;
-  }
-  #satugoFinalNav button{pointer-events:auto!important;touch-action:manipulation!important;position:relative!important;z-index:2147483647!important;}
-  #satugoBottomNav{display:none!important;pointer-events:none!important;}
-  #satugoFinalNav *{pointer-events:none!important;}
-  #satugoFinalNav button{pointer-events:auto!important;}
+  #satugoFinalNav{display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:72px!important;z-index:2147483647!important;pointer-events:auto!important;touch-action:manipulation!important;background:#fff!important}
+  #satugoFinalNav button{display:flex!important;pointer-events:auto!important;touch-action:manipulation!important;position:relative!important;z-index:2147483648!important;-webkit-tap-highlight-color:transparent!important}
 }
 </style>
-<script id="satugo-emergency-buttons-js">
+<script id="satugo-final-mobile-buttons-js">
 (function(){
   'use strict';
-  function byId(id){return document.getElementById(id)}
-  function visible(el){
-    if(!el)return false;
-    var s=getComputedStyle(el),r=el.getBoundingClientRect();
-    return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0;
+  function id(x){return document.getElementById(x)}
+  function stop(e){if(e){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation&&e.stopImmediatePropagation()}}
+  function goHome(){window.scrollTo({top:0,behavior:'smooth'});}
+  function goSearch(){
+    var e=id('search')||id('heroSearch')||document.querySelector('input[type="search"]');
+    if(e){try{e.scrollIntoView({behavior:'smooth',block:'center'})}catch(x){} setTimeout(function(){try{e.focus({preventScroll:true})}catch(x){try{e.focus()}catch(y){}}},250)}
   }
-  function closeOpen(){
-    var sels=['#sgProfileOverlay.open','#sgChatPanel.open','.sg-core-modal.open','.sg-v2-modal.open','.sg-modal.open','.modal.show','.modal.open'];
-    for(var i=0;i<sels.length;i++){
-      var el=document.querySelector(sels[i]);
-      if(el&&visible(el)){
-        el.classList.remove('open','show');
-        el.style.display='none';
-        el.style.pointerEvents='none';
-        return true;
-      }
-    }
-    return false;
+  function goFav(){
+    try{
+      if(typeof window.openFavorites==='function'){window.openFavorites();return}
+      if(typeof window.sgOpenFavorites==='function'){window.sgOpenFavorites();return}
+      if(typeof window.sgMobileOpenFavorites==='function'){window.sgMobileOpenFavorites();return}
+    }catch(e){console.error(e)}
+    var f=id('favoritesBtn')||id('favoriteBtn')||id('favBtn')||id('favoritesButton');
+    if(f)try{f.click()}catch(e){}
   }
-  function safe(fn){try{if(typeof fn==='function'){fn();return true}}catch(e){console.error('SatuGo button:',e)}return false}
-  function home(){window.scrollTo({top:0,behavior:'smooth'});}
-  function search(){
-    var e=byId('search')||byId('heroSearch')||document.querySelector('input[type="search"]');
-    if(e){try{e.scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}setTimeout(function(){try{e.focus({preventScroll:true})}catch(x){try{e.focus()}catch(y){}}},150)}
+  function goChat(){
+    try{
+      if(typeof window.sgOpenChat==='function'){window.sgOpenChat();return}
+      if(typeof window.sgMobileOpenChat==='function'){window.sgMobileOpenChat();return}
+    }catch(e){console.error(e)}
+    var f=id('sgChatFab'); if(f)try{f.click()}catch(e){}
   }
-  function fav(){if(safe(window.openFavorites)||safe(window.sgOpenFavorites)||safe(window.showFavorites))return;}
-  function chat(){
-    if(safe(window.sgOpenChat))return;
-    var p=byId('sgChatPanel');
-    if(p){p.classList.add('open');p.style.display='flex';p.style.pointerEvents='auto';return}
-    var f=byId('sgChatFab');if(f)try{f.click()}catch(e){}
+  function goAccount(){
+    try{
+      if(typeof window.sgProfileOpenV3==='function'){window.sgProfileOpenV3();return}
+      if(typeof window.sgCoreOpenProfile==='function'){window.sgCoreOpenProfile();return}
+      if(typeof window.openProfile==='function'){window.openProfile();return}
+      if(typeof window.openAccount==='function'){window.openAccount();return}
+    }catch(e){console.error(e)}
+    var f=id('accountBtn')||id('profileBtn')||id('profileButton')||id('accountButton');
+    if(f)try{f.click()}catch(e){}
   }
-  function account(){if(safe(window.openAccount)||safe(window.sgCoreOpenProfile)||safe(window.sgProfileOpenV3))return;}
+  var map={satugoFinalHome:goHome,satugoFinalSearch:goSearch,satugoFinalFav:goFav,satugoFinalChat:goChat,satugoFinalAccount:goAccount};
   function bind(){
-    var map={satugoFinalHome:home,satugoFinalSearch:search,satugoFinalFav:fav,satugoFinalChat:chat,satugoFinalAccount:account};
-    Object.keys(map).forEach(function(id){
-      var b=byId(id);if(!b)return;
-      b.onclick=function(e){if(e){e.preventDefault();e.stopPropagation()}map[id]();return false};
-      b.ontouchend=function(e){if(e){e.preventDefault();e.stopPropagation()}map[id]();return false};
-      b.style.pointerEvents='auto';b.style.touchAction='manipulation';
+    Object.keys(map).forEach(function(k){
+      var b=id(k); if(!b)return;
+      b.onclick=function(e){stop(e);map[k]();return false};
+      b.ontouchstart=null;
+      b.ontouchend=function(e){stop(e);map[k]();return false};
+      b.style.pointerEvents='auto'; b.style.touchAction='manipulation';
     });
-    var old=byId('satugoBottomNav');if(old){old.style.display='none';old.style.pointerEvents='none'}
+    var n=id('satugoFinalNav'); if(n){n.style.pointerEvents='auto';n.style.zIndex='2147483647'}
   }
-  function repair(){
-    var nav=byId('satugoFinalNav');
-    if(nav){nav.style.pointerEvents='auto';nav.style.zIndex='2147483647';nav.querySelectorAll('button').forEach(function(b){b.style.pointerEvents='auto';b.style.zIndex='2147483647';})}
-    document.querySelectorAll('.modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),.sg-core-modal:not(.open),#sgProfileOverlay:not(.open)').forEach(function(e){e.style.pointerEvents='none'});
-  }
-  document.addEventListener('DOMContentLoaded',function(){bind();repair()});
-  window.addEventListener('load',function(){bind();repair()});
-  setTimeout(bind,300);setTimeout(repair,500);setTimeout(bind,1500);setInterval(repair,1200);
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+  window.addEventListener('load',bind);
+  setTimeout(bind,300);setTimeout(bind,1000);
 })();
 </script>
+</body>
+</html>
