@@ -6572,7 +6572,9 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   /* Android/browser Back: first close an open SatuGo window,
      otherwise return to the previous browser page. */
   window.addEventListener("popstate", function(){
+    /* Android/browser Back must actually close the currently open SatuGo window. */
     setTimeout(function(){
+      closeOne();
       document.body.classList.remove("sg-modal-active");
     },20);
   });
@@ -6603,6 +6605,15 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 
   /* Support buttons that use onclick="satugoBack()" */
   window.sgGoBack=window.satugoBack;
+
+  /* If a page has an element marked as an app-back button, make it work on phones. */
+  document.addEventListener("click", function(e){
+    var b=e.target && e.target.closest ? e.target.closest("[data-satugo-back],.satugo-back-btn") : null;
+    if(!b) return;
+    e.preventDefault();
+    e.stopPropagation();
+    window.satugoBack();
+  }, true);
 })();
 </script>
 
