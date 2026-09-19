@@ -7314,6 +7314,76 @@ body{padding-bottom:80px!important;}
   },true);
 })();
 </script>
+
+<style id="satugo-next-features">
+.sg-feat-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2147483000;display:none;align-items:flex-end;justify-content:center}
+.sg-feat-sheet{width:min(720px,100%);max-height:88vh;overflow:auto;background:#fff;border-radius:22px 22px 0 0;padding:18px;box-sizing:border-box}
+.sg-feat-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.sg-feat-head h3{margin:0;font-size:20px}.sg-x{border:0;background:#eee;border-radius:50%;width:38px;height:38px;font-size:20px}
+.sg-feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.sg-feat-card{border:1px solid #e5e7eb;border-radius:16px;padding:14px;background:#fff}.sg-feat-card b{display:block;margin-bottom:5px}.sg-feat-card small{color:#666}.sg-feat-btn{width:100%;border:0;border-radius:12px;padding:12px;margin-top:10px;font-weight:700;background:#111;color:#fff}.sg-feat-input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #ddd;border-radius:12px;margin:6px 0}.sg-empty{padding:24px;text-align:center;color:#777}
+@media(max-width:600px){.sg-feat-grid{grid-template-columns:1fr}.sg-feat-sheet{padding-bottom:calc(18px + env(safe-area-inset-bottom))}}
+</style>
+<div id="sgNextOverlay" class="sg-feat-overlay" role="dialog" aria-modal="true">
+  <div class="sg-feat-sheet">
+    <div class="sg-feat-head"><h3 id="sgNextTitle">SatuGo</h3><button class="sg-x" id="sgNextClose">×</button></div>
+    <div id="sgNextBody"></div>
+  </div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var ov=document.getElementById('sgNextOverlay'), title=document.getElementById('sgNextTitle'), body=document.getElementById('sgNextBody');
+  function openSheet(t,html){title.textContent=t;body.innerHTML=html;ov.style.display='flex';document.body.style.overflow='hidden';}
+  function closeSheet(){ov.style.display='none';document.body.style.overflow='';}
+  document.getElementById('sgNextClose').addEventListener('click',closeSheet);
+  ov.addEventListener('click',function(e){if(e.target===ov)closeSheet()});
+  window.sgNextClose=closeSheet;
+
+  function currentUser(){try{return window.auth&&window.auth.currentUser?window.auth.currentUser:(window.firebase&&window.firebase.auth?window.firebase.auth().currentUser:null)}catch(e){return null}}
+  function storeGet(k,def){try{var x=localStorage.getItem(k);return x?JSON.parse(x):def}catch(e){return def}}
+  function favs(){return storeGet('satugo_favorites',[])}
+  function setFavs(a){localStorage.setItem('satugo_favorites',JSON.stringify(a))}
+
+  window.sgNextFavorites=function(){
+    var a=favs(), products=window.products||[];
+    var html='';
+    if(!a.length) html='<div class="sg-empty">❤️ Таңдаулылар әзірге бос</div>';
+    else html='<div class="sg-feat-grid">'+a.map(function(id){var p=products.find(function(x){return String(x.id)===String(id)});return p?'<div class="sg-feat-card"><b>'+String(p.title||p.name||'Тауар').replace(/</g,'&lt;')+'</b><small>'+Number(p.price||0).toLocaleString('kk-KZ')+' ₸</small><button class="sg-feat-btn" onclick="window.sgNextOpenProduct(\''+String(p.id).replace(/'/g,"\\'")+'\')">Көру</button></div>':''}).join('')+'</div>';
+    openSheet('Таңдаулы',html);
+  };
+  window.sgNextOpenProduct=function(id){
+    var p=(window.products||[]).find(function(x){return String(x.id)===String(id)}); if(!p)return;
+    openSheet(p.title||p.name||'Тауар','<div class="sg-feat-card"><b>'+String(p.title||p.name||'Тауар').replace(/</g,'&lt;')+'</b><p>'+Number(p.price||0).toLocaleString('kk-KZ')+' ₸</p><p>'+String(p.description||'Сипаттама жоқ').replace(/</g,'&lt;')+'</p><button class="sg-feat-btn" onclick="window.sgNextAddFav(\''+String(p.id).replace(/'/g,"\\'")+'\')">❤️ Таңдаулыға қосу</button></div>');
+  };
+  window.sgNextAddFav=function(id){var a=favs();if(a.indexOf(id)<0)a.push(id);setFavs(a);if(window.sgNextFavorites)window.sgNextFavorites()};
+
+  window.sgNextOrders=function(){
+    var u=currentUser();
+    if(!u){openSheet('Кіру керек','<div class="sg-empty">Тапсырыстарды көру үшін аккаунтқа кіріңіз.</div>');return}
+    var html='<div class="sg-empty">Тапсырыстар Firebase-тен жүктеледі.</div>';
+    if(window.db){window.db.collection('orders').where('buyerId','==',u.uid).orderBy('createdAt','desc').limit(30).get().then(function(q){if(!q.empty){body.innerHTML=q.docs.map(function(d){var x=d.data();return '<div class="sg-feat-card"><b>Тапсырыс #'+d.id.slice(0,8)+'</b><div>'+Number(x.total||0).toLocaleString('kk-KZ')+' ₸</div><small>'+String(x.status||'Жаңа тапсырыс')+'</small></div>'}).join('')}else body.innerHTML='<div class="sg-empty">Тапсырыс жоқ.</div>'}).catch(function(e){body.innerHTML='<div class="sg-empty">Тапсырыстарды жүктеу мүмкін болмады.</div>';console.error(e)})}
+    openSheet('Менің тапсырыстарым',html);
+  };
+
+  // One delegated handler for the five bottom nav buttons. It runs in capture phase.
+  document.addEventListener('click',function(e){
+    var el=e.target.closest&&e.target.closest('[data-sg-next-nav]'); if(!el)return;
+    e.preventDefault(); e.stopPropagation();
+    var n=el.getAttribute('data-sg-next-nav');
+    if(n==='home'){closeSheet();window.scrollTo({top:0,behavior:'smooth'});return}
+    if(n==='search'){var s=document.querySelector('input[type="search"],#searchInput,#search');if(s){s.focus();s.scrollIntoView({behavior:'smooth',block:'center'});}else openSheet('Іздеу','<input class="sg-feat-input" placeholder="Тауар немесе дүкен іздеу">');return}
+    if(n==='fav'){window.sgNextFavorites();return}
+    if(n==='chat'){if(typeof window.sgOpenChat==='function')window.sgOpenChat();else if(typeof window.sgOpenChats==='function')window.sgOpenChats();else openSheet('Чаттар','<div class="sg-empty">Чаттарды ашу үшін аккаунтқа кіріңіз.</div>');return}
+    if(n==='account'){if(typeof window.sgOpenAccountFinal==='function')window.sgOpenAccountFinal();else if(typeof window.openAuth==='function'&&!currentUser())window.openAuth();else openSheet('Аккаунт','<div class="sg-empty">Профиль дайын.</div>');return}
+  },true);
+
+  // Expose a simple seller/order action layer without changing existing checkout.
+  window.sgNextSellerTools=function(){
+    if(typeof window.renderSeller==='function')window.renderSeller();
+    else openSheet('Менің дүкенім','<div class="sg-empty">Дүкен бөлімі дайын.</div>');
+  };
+})();
+</script>
+
 </body>
 </html>
 
@@ -7439,5 +7509,74 @@ document.addEventListener('click',handle,{capture:true,passive:false});
 document.addEventListener('pointerup',handle,{capture:true,passive:false});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
 window.addEventListener('load',bind);setTimeout(bind,300);setTimeout(bind,1000);
+})();
+</script>
+
+
+<!-- SatuGo market flow patch -->
+<style id="satugoMarketPatchStyle">
+.sg-market-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2147483000;display:none;align-items:flex-end;justify-content:center}
+.sg-market-sheet{width:min(720px,100%);max-height:88vh;overflow:auto;background:#fff;border-radius:22px 22px 0 0;padding:18px;box-sizing:border-box}
+.sg-market-row{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #eee}
+.sg-market-btn{border:0;border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:600}
+.sg-market-status{display:inline-block;padding:5px 9px;border-radius:999px;background:#f1f3f5;font-size:12px}
+@media(max-width:600px){.sg-market-sheet{max-height:92vh}.sg-market-btn{min-height:42px}}
+</style>
+<div id="sgMarketOverlay" class="sg-market-overlay" aria-hidden="true">
+ <div class="sg-market-sheet" role="dialog" aria-modal="true">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+   <h2 id="sgMarketTitle" style="margin:0;font-size:20px">Тапсырыстар</h2>
+   <button class="sg-market-btn" id="sgMarketClose">✕</button>
+  </div>
+  <div id="sgMarketBody" style="margin-top:12px"></div>
+ </div>
+</div>
+<script>
+(function(){
+ 'use strict';
+ function getUser(){return (window.auth&&window.auth.currentUser)||window.currentUser||(typeof user!=='undefined'?user:null)}
+ function getDb(){return window.db||(typeof db!=='undefined'?db:null)}
+ function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+ function openSheet(title,html){var o=document.getElementById('sgMarketOverlay');document.getElementById('sgMarketTitle').textContent=title;document.getElementById('sgMarketBody').innerHTML=html;o.style.display='flex';o.setAttribute('aria-hidden','false')}
+ function closeSheet(){var o=document.getElementById('sgMarketOverlay');o.style.display='none';o.setAttribute('aria-hidden','true')}
+ document.getElementById('sgMarketClose').onclick=closeSheet;
+ document.getElementById('sgMarketOverlay').addEventListener('click',e=>{if(e.target.id==='sgMarketOverlay')closeSheet()});
+ window.sgOpenOrdersMarket=async function(){
+  var u=getUser(); if(!u){ if(typeof openAuth==='function')openAuth(); else alert('Алдымен аккаунтқа кіріңіз.'); return; }
+  var d=getDb(); if(!d){alert('Firebase қосылмаған.');return;}
+  openSheet('📦 Менің тапсырыстарым','Жүктелуде...');
+  try{
+   var snap=await d.collection('orders').where('buyerId','==',u.uid).get();
+   var arr=snap.docs.map(x=>Object.assign({id:x.id},x.data()||{}));
+   arr.sort((a,b)=>(b.createdAtLocal||0)-(a.createdAtLocal||0));
+   if(!arr.length){document.getElementById('sgMarketBody').innerHTML='<p>Әзірге тапсырыс жоқ.</p>';return}
+   document.getElementById('sgMarketBody').innerHTML=arr.map(o=>`<div class="sg-market-row"><div style="flex:1"><b>№${esc(o.id.slice(0,8))}</b><div>${esc(o.items?.map(i=>i.title+' × '+i.qty).join(', ')||'Тауар')}</div><div>${Number(o.total||0).toLocaleString('kk-KZ')} ₸</div><span class="sg-market-status">${esc(o.status||'Жаңа тапсырыс')}</span></div></div>`).join('');
+  }catch(e){document.getElementById('sgMarketBody').innerHTML='<p>Тапсырыстарды жүктеу қатесі: '+esc(e.message)+'</p>'}
+ };
+ window.sgOpenSellerOrdersMarket=async function(){
+  var u=getUser(); if(!u){if(typeof openAuth==='function')openAuth();return}
+  var d=getDb(); if(!d){alert('Firebase қосылмаған.');return}
+  openSheet('🏪 Сатушы тапсырыстары','Жүктелуде...');
+  try{
+   var snap=await d.collection('orders').where('sellerIds','array-contains',u.uid).get();
+   var arr=snap.docs.map(x=>Object.assign({id:x.id},x.data()||{}));arr.sort((a,b)=>(b.createdAtLocal||0)-(a.createdAtLocal||0));
+   if(!arr.length){document.getElementById('sgMarketBody').innerHTML='<p>Жаңа тапсырыс жоқ.</p>';return}
+   document.getElementById('sgMarketBody').innerHTML=arr.map(o=>`<div class="sg-market-row"><div style="flex:1"><b>№${esc(o.id.slice(0,8))}</b><div>${esc(o.customerName||'Клиент')}</div><div>${Number(o.total||0).toLocaleString('kk-KZ')} ₸</div><span class="sg-market-status">${esc(o.status||'Жаңа тапсырыс')}</span></div><button class="sg-market-btn" data-sg-order="${esc(o.id)}">Қабылдау</button></div>`).join('');
+   document.querySelectorAll('[data-sg-order]').forEach(b=>b.onclick=async()=>{try{await d.collection('orders').doc(b.dataset.sgOrder).update({status:'Қабылданды',updatedAt:firebase.firestore.FieldValue.serverTimestamp()});b.parentElement.querySelector('.sg-market-status').textContent='Қабылданды';}catch(e){alert('Тапсырысты жаңарту мүмкін болмады: '+e.message)}})
+  }catch(e){document.getElementById('sgMarketBody').innerHTML='<p>Тапсырыстарды жүктеу қатесі: '+esc(e.message)+'</p>'}
+ };
+ window.sgOpenProductReviewsMarket=async function(productId){
+  var d=getDb(); if(!d){alert('Firebase қосылмаған.');return}
+  openSheet('⭐ Пікірлер','Жүктелуде...');
+  try{var s=await d.collection('products').doc(productId).collection('reviews').get();var a=s.docs.map(x=>x.data()||{});document.getElementById('sgMarketBody').innerHTML=a.length?a.map(r=>`<div class="sg-market-row"><div><b>${'★'.repeat(Math.max(1,Math.min(5,Number(r.rating||5))))}</b><div>${esc(r.text||'')}</div></div></div>`).join(''):'<p>Пікір әзірге жоқ.</p>'}catch(e){document.getElementById('sgMarketBody').innerHTML='<p>Пікірлер ашылмады.</p>'}
+ };
+ // Safe hooks for existing buttons without replacing existing UI.
+ document.addEventListener('click',function(e){
+  var el=e.target.closest&&e.target.closest('[data-sg-orders],[data-sg-seller-orders],[data-sg-reviews]'); if(!el)return;
+  e.preventDefault();e.stopPropagation();
+  if(el.hasAttribute('data-sg-orders'))window.sgOpenOrdersMarket();
+  if(el.hasAttribute('data-sg-seller-orders'))window.sgOpenSellerOrdersMarket();
+  if(el.hasAttribute('data-sg-reviews'))window.sgOpenProductReviewsMarket(el.getAttribute('data-sg-reviews'));
+ },true);
 })();
 </script>
