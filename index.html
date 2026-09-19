@@ -1186,101 +1186,6 @@ body.sg-modal-active .sg-core-modal {
 
 
 <!-- SatuGo MOBILE BUTTON SAFETY FIX -->
-<style id="satugo-mobile-buttons-final-fix">
-@media (max-width: 768px){
-  button,
-  a,
-  input,
-  select,
-  textarea{
-    touch-action:manipulation;
-  }
-
-  button,
-  .btn,
-  [role="button"]{
-    pointer-events:auto !important;
-  }
-
-  #sgMobileNav{
-    pointer-events:auto !important;
-    z-index:2147483646 !important;
-  }
-
-  #sgMobileNav button{
-    pointer-events:auto !important;
-    position:relative;
-    z-index:2147483647;
-  }
-
-  /* A closed modal must never block touches on the page. */
-  .modal:not(.show),
-  .sg-modal:not(.open),
-  .sg-v2-modal:not(.open),
-  .sg-core-modal:not(.open),
-  #sgProfileOverlay:not(.open){
-    pointer-events:none !important;
-  }
-}
-</style>
-
-<script id="satugo-mobile-buttons-final-fix-js">
-(function(){
-  function isVisible(el){
-    if(!el) return false;
-    const cs = getComputedStyle(el);
-    const r = el.getBoundingClientRect();
-    return cs.display !== 'none' &&
-           cs.visibility !== 'hidden' &&
-           cs.pointerEvents !== 'none' &&
-           r.width > 0 && r.height > 0;
-  }
-
-  function repair(){
-    const modalSelectors = [
-      '.modal.show',
-      '.sg-modal.open',
-      '.sg-v2-modal.open',
-      '.sg-core-modal.open',
-      '#sgProfileOverlay.open'
-    ];
-
-    const hasOpenModal = modalSelectors.some(sel =>
-      Array.from(document.querySelectorAll(sel)).some(isVisible)
-    );
-
-    /* If no modal is actually visible, remove the global modal lock. */
-    if(!hasOpenModal){
-      document.body.classList.remove('sg-modal-active');
-
-      document.querySelectorAll(
-        '.modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),.sg-core-modal:not(.open),#sgProfileOverlay:not(.open)'
-      ).forEach(el => {
-        el.style.pointerEvents = 'none';
-      });
-    }
-
-    /* Keep the mobile navigation clickable above page content. */
-    const nav = document.getElementById('sgMobileNav');
-    if(nav){
-      nav.style.pointerEvents = 'auto';
-      nav.style.zIndex = '2147483646';
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', repair);
-  window.addEventListener('load', repair);
-
-  /* Repair after opening/closing any SatuGo section. */
-  document.addEventListener('click', function(){
-    setTimeout(repair, 30);
-    setTimeout(repair, 250);
-  }, true);
-
-  setInterval(repair, 1000);
-})();
-</script>
-
 </head>
 
 <body>
@@ -6451,256 +6356,55 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 </script>
 
 
-<style id="satugo-mobile-chat-nav-final">
-@media(max-width:700px){
-  #sgMobileNav{
-    display:flex!important;
-    height:66px!important;
-    padding:5px 6px!important;
-    padding-bottom:calc(5px + env(safe-area-inset-bottom))!important;
-    background:#fff!important;
-    border-top:1px solid #e5e7eb!important;
-    box-shadow:0 -3px 14px rgba(0,0,0,.08)!important;
-  }
-  #sgMobileNav button{
-    flex:1!important;
-    min-width:0!important;
-    min-height:0!important;
-    border:0!important;
-    background:transparent!important;
-    color:#374151!important;
-    cursor:pointer!important;
-    pointer-events:auto!important;
-    position:relative!important;
-    z-index:2147483647!important;
-    display:flex!important;
-    align-items:center!important;
-    justify-content:center!important;
-    flex-direction:column!important;
-    gap:2px!important;
-    padding:3px 2px!important;
-    -webkit-tap-highlight-color:transparent!important;
-  }
-  #sgMobileNav button span{
-    font-size:21px!important;
-    line-height:22px!important;
-  }
-  #sgMobileNav button small{
-    font-size:10px!important;
-    line-height:12px!important;
-    white-space:nowrap!important;
-  }
-  #sgMobileChatBtn{
-    font-weight:700!important;
-  }
-  #sgMobileChatBadge{
-    position:absolute!important;
-    top:3px!important;
-    right:calc(50% - 19px)!important;
-    min-width:8px!important;
-    height:8px!important;
-    border-radius:50%!important;
-    background:#ef4444!important;
-    border:2px solid #fff!important;
-  }
-}
-</style>
 
+<!-- SATUGO PHONE BUTTONS CLEAN FIX -->
+<style id="satugo-phone-buttons-clean-fix">
+@media (max-width:700px){
+  html,body{max-width:100%!important;overflow-x:hidden!important}
+  body{padding-bottom:84px!important}
 
-
-<style id="satugo-phone-final-nav-style">
-@media(max-width:700px){
-  body{padding-bottom:82px!important}
-  #satugoFinalNav{
-    position:fixed!important;left:0!important;right:0!important;bottom:0!important;
-    width:100%!important;height:72px!important;display:flex!important;
-    z-index:2147483647!important;background:#fff!important;
-    border-top:1px solid #ddd!important;box-shadow:0 -3px 16px rgba(0,0,0,.12)!important;
-    pointer-events:auto!important;touch-action:manipulation!important;
-  }
-  #satugoFinalNav button{
-    flex:1 1 20%!important;width:20%!important;height:68px!important;
-    border:0!important;background:#fff!important;padding:3px 0!important;margin:0!important;
-    display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
-    color:#222!important;font:600 10px Arial,sans-serif!important;
-    pointer-events:auto!important;touch-action:manipulation!important;
-    -webkit-tap-highlight-color:transparent!important;
-  }
-  #satugoFinalNav button .i{font-size:23px!important;line-height:29px!important}
-  #satugoFinalNav button:active{background:#f2f2f2!important;border-radius:10px!important}
-}
-@media(min-width:701px){#satugoFinalNav{display:none!important}}
-</style>
-<nav id="satugoFinalNav">
-  <button type="button" id="satugoFinalHome"><span class="i">⌂</span><span>Басты бет</span></button>
-  <button type="button" id="satugoFinalSearch"><span class="i">⌕</span><span>Іздеу</span></button>
-  <button type="button" id="satugoFinalFav"><span class="i">♡</span><span>Таңдаулы</span></button>
-  <button type="button" id="satugoFinalChat"><span class="i">💬</span><span>Чаттар</span></button>
-  <button type="button" id="satugoFinalAccount"><span class="i">👤</span><span>Аккаунт</span></button>
-</nav>
-<script id="satugo-phone-final-nav-js">
-(function(){
-  "use strict";
-  function stop(e){
-    if(e){ e.preventDefault(); e.stopPropagation(); }
-  }
-  function call(names){
-    for(var i=0;i<names.length;i++){
-      try{
-        if(typeof window[names[i]]==="function"){
-          window[names[i]]();
-          return true;
-        }
-      }catch(err){}
-    }
-    return false;
-  }
-  function clickIds(ids){
-    for(var i=0;i<ids.length;i++){
-      var el=document.getElementById(ids[i]);
-      if(el){ try{el.click(); return true;}catch(err){} }
-    }
-    return false;
-  }
-
-  function home(e){
-    stop(e);
-    try{ window.scrollTo({top:0,behavior:"smooth"}); }
-    catch(err){ window.scrollTo(0,0); }
-  }
-
-  function search(e){
-    stop(e);
-    var el=document.getElementById("search") ||
-            document.getElementById("heroSearch") ||
-            document.querySelector('input[type="search"]') ||
-            document.querySelector('input[placeholder*="Тауар"]');
-    if(!el){ return; }
-    try{ el.scrollIntoView({behavior:"smooth",block:"center"}); }
-    catch(err){ el.scrollIntoView(); }
-    setTimeout(function(){ try{el.focus();}catch(err){} },180);
-  }
-
-  function favorites(e){
-    stop(e);
-    if(call(["openFavorites","sgOpenFavorites","showFavorites"])) return;
-    clickIds(["favoritesBtn","favoriteBtn","favBtn","favoritesButton"]);
-  }
-
-  function chats(e){
-    stop(e);
-    if(call(["sgOpenChat","openChat","showChats","openChats"])) return;
-    var p=document.getElementById("sgChatPanel");
-    if(p){
-      p.style.display="flex";
-      p.classList.add("open");
-    }
-  }
-
-  function account(e){
-    stop(e);
-    if(call(["sgProfileOpenV3","sgCoreOpenProfile","openAccount","openProfile","showAccount"])) return;
-    clickIds(["accountBtn","profileBtn","loginBtn","openAccountBtn","profileButton","accountButton"]);
-  }
-
-  function cleanOldMobileUI(){
-    // Old mobile navigation was superseded by #satugoFinalNav.
-    var old=document.getElementById("sgMobileNav");
-    if(old) old.remove();
-
-    // Only the bottom Chat button should launch chat on phones.
-    document.querySelectorAll(
-      "#sgChatFab,#sgMobileChatBtn,#sgUniqueLauncher,.sg-chat-float,.sg-chat-fab,.sg-core-floating"
-    ).forEach(function(el){
-      if(el && !el.closest("#sgChatPanel")) el.remove();
-    });
-
-    // Closed overlays must never block phone taps.
-    document.querySelectorAll(
-      ".modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),"+
-      ".sg-core-modal:not(.open),#sgProfileOverlay:not(.open),#sgNotifyPanel:not(.open),#sgChatPanel:not(.open)"
-    ).forEach(function(el){
-      el.style.pointerEvents="none";
-    });
-  }
-
-  function bind(){
-    var map={
-      satugoFinalHome:home,
-      satugoFinalSearch:search,
-      satugoFinalFav:favorites,
-      satugoFinalChat:chats,
-      satugoFinalAccount:account
-    };
-    Object.keys(map).forEach(function(id){
-      var b=document.getElementById(id);
-      if(!b || b.dataset.sgBound==="1") return;
-      b.dataset.sgBound="1";
-      b.addEventListener("click",map[id],false);
-    });
-    cleanOldMobileUI();
-  }
-
-  if(document.readyState==="loading"){
-    document.addEventListener("DOMContentLoaded",bind);
-  }else{
-    bind();
-  }
-  window.addEventListener("load",bind);
-  setTimeout(bind,400);
-  setTimeout(bind,1200);
-
-  var observer=new MutationObserver(function(){
-    cleanOldMobileUI();
-    bind();
-  });
-  observer.observe(document.documentElement,{childList:true,subtree:true});
-})();
-</script>
-
-<style id="satugo-final-clean-mobile">
-/* One mobile navigation only */
-@media(max-width:700px){
-  html,body{
-    width:100%;
-    max-width:100%;
-    overflow-x:hidden!important;
-  }
-
-  /* Hide legacy/duplicate mobile controls */
-  #sgMobileNav,
-  #sgChatFab,
-  #sgMobileChatBtn,
-  #sgUniqueLauncher,
-  .sg-chat-float,
-  .sg-chat-fab,
-  .sg-core-floating,
-  #sgCoreQuickBar{
+  /* Only one phone bottom navigation */
+  #sgMobileNav,#sgMobileChatBtn,#sgChatFab,#sgUniqueLauncher,
+  .sg-chat-float,.sg-chat-fab,.sg-core-floating,#sgCoreQuickBar{
     display:none!important;
+    pointer-events:none!important;
   }
 
-  /* The only phone navigation */
   #satugoFinalNav{
     position:fixed!important;
-    left:0!important;
-    right:0!important;
-    bottom:0!important;
-    width:100%!important;
-    height:72px!important;
+    left:0!important;right:0!important;bottom:0!important;
+    width:100%!important;height:72px!important;
     display:flex!important;
+    background:#fff!important;
+    border-top:1px solid #e5e7eb!important;
+    box-shadow:0 -4px 18px rgba(0,0,0,.10)!important;
     z-index:2147483647!important;
     pointer-events:auto!important;
     touch-action:manipulation!important;
     padding-bottom:env(safe-area-inset-bottom)!important;
   }
   #satugoFinalNav button{
+    flex:1 1 20%!important;
+    width:20%!important;
+    min-width:0!important;
+    height:68px!important;
+    margin:0!important;padding:4px 1px!important;
+    border:0!important;background:#fff!important;
+    color:#374151!important;
+    display:flex!important;flex-direction:column!important;
+    align-items:center!important;justify-content:center!important;
+    gap:2px!important;
+    font:600 10px Arial,sans-serif!important;
+    cursor:pointer!important;
     pointer-events:auto!important;
     touch-action:manipulation!important;
-    -webkit-user-select:none!important;
+    -webkit-tap-highlight-color:transparent!important;
     user-select:none!important;
   }
+  #satugoFinalNav button .i{font-size:22px!important;line-height:25px!important}
+  #satugoFinalNav button:active{background:#f3f4f6!important}
 
-  /* Do not let hidden overlays intercept taps */
+  /* Hidden/closed layers can never steal taps */
   .modal:not(.show),
   .sg-modal:not(.open),
   .sg-v2-modal:not(.open),
@@ -6708,49 +6412,117 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   #sgProfileOverlay:not(.open),
   #sgNotifyPanel:not(.open),
   #sgChatPanel:not(.open){
+    display:none!important;
     pointer-events:none!important;
+    visibility:hidden!important;
   }
 
-  body{padding-bottom:82px!important}
+  button,a,input,select,textarea,[role="button"]{
+    touch-action:manipulation!important;
+  }
 }
+@media (min-width:701px){#satugoFinalNav{display:none!important}}
 </style>
-<script id="satugo-final-integrity-fix">
+
+<nav id="satugoFinalNav" aria-label="Телефон навигациясы">
+  <button type="button" id="satugoFinalHome"><span class="i">⌂</span><span>Басты бет</span></button>
+  <button type="button" id="satugoFinalSearch"><span class="i">⌕</span><span>Іздеу</span></button>
+  <button type="button" id="satugoFinalFav"><span class="i">♡</span><span>Таңдаулы</span></button>
+  <button type="button" id="satugoFinalChat"><span class="i">💬</span><span>Чаттар</span></button>
+  <button type="button" id="satugoFinalAccount"><span class="i">👤</span><span>Аккаунт</span></button>
+</nav>
+
+<script id="satugo-phone-buttons-clean-fix-js">
 (function(){
-  "use strict";
+  'use strict';
 
-  function fix(){
-    // Keep only the final navigation if an old block is recreated.
-    var old=document.getElementById("sgMobileNav");
-    if(old) old.remove();
-
-    // Remove duplicate floating chat launchers on mobile.
-    if(window.matchMedia && window.matchMedia("(max-width:700px)").matches){
-      document.querySelectorAll("#sgChatFab,#sgMobileChatBtn,#sgUniqueLauncher,.sg-chat-float,.sg-chat-fab,.sg-core-floating")
-        .forEach(function(el){ if(el && !el.closest("#sgChatPanel")) el.remove(); });
+  function runFirst(names){
+    for(var i=0;i<names.length;i++){
+      if(typeof window[names[i]]==='function'){
+        try{ window[names[i]](); return true; }catch(e){ console.error(e); }
+      }
     }
+    return false;
+  }
 
-    // Make closed overlays non-blocking.
-    document.querySelectorAll(
-      ".modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),"+
-      ".sg-core-modal:not(.open),#sgProfileOverlay:not(.open),#sgNotifyPanel:not(.open),#sgChatPanel:not(.open)"
-    ).forEach(function(el){el.style.pointerEvents="none";});
+  function clickFirst(ids){
+    for(var i=0;i<ids.length;i++){
+      var el=document.getElementById(ids[i]);
+      if(el){ el.click(); return true; }
+    }
+    return false;
+  }
 
-    var nav=document.getElementById("satugoFinalNav");
+  function clean(){
+    if(!window.matchMedia || !window.matchMedia('(max-width:700px)').matches) return;
+
+    document.querySelectorAll('#sgMobileNav,#sgMobileChatBtn,#sgChatFab,#sgUniqueLauncher,.sg-chat-float,.sg-chat-fab,.sg-core-floating,#sgCoreQuickBar')
+      .forEach(function(el){ if(el && !el.closest('#sgChatPanel')) el.style.display='none'; });
+
+    document.querySelectorAll('.modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),.sg-core-modal:not(.open),#sgProfileOverlay:not(.open),#sgNotifyPanel:not(.open),#sgChatPanel:not(.open)')
+      .forEach(function(el){ el.style.pointerEvents='none'; });
+
+    var nav=document.getElementById('satugoFinalNav');
     if(nav){
-      nav.style.pointerEvents="auto";
-      nav.querySelectorAll("button").forEach(function(b){
-        b.style.pointerEvents="auto";
-        b.style.touchAction="manipulation";
-      });
+      nav.style.pointerEvents='auto';
+      nav.querySelectorAll('button').forEach(function(b){b.style.pointerEvents='auto';});
     }
   }
 
-  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",fix);
-  else fix();
-  window.addEventListener("load",fix);
-  setTimeout(fix,300);
-  setTimeout(fix,1000);
-  setInterval(fix,2000);
+  function home(){
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function search(){
+    var el=document.getElementById('search')||document.getElementById('heroSearch')||document.querySelector('input[type="search"]');
+    if(el){
+      try{ el.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){}
+      setTimeout(function(){el.focus();},200);
+    }
+  }
+  function favorites(){
+    if(runFirst(['openFavorites','sgOpenFavorites','showFavorites'])) return;
+    clickFirst(['favoritesBtn','favoriteBtn','favBtn','favoritesButton']);
+  }
+  function chats(){
+    if(runFirst(['sgOpenChat','openChat','showChats','openChats'])) return;
+    var p=document.getElementById('sgChatPanel');
+    if(p){ p.style.display='flex'; p.classList.add('open'); p.style.pointerEvents='auto'; }
+  }
+  function account(){
+    if(runFirst(['sgProfileOpenV3','sgCoreOpenProfile','openAccount','openProfile','showAccount'])) return;
+    clickFirst(['accountBtn','profileBtn','loginBtn','openAccountBtn','profileButton','accountButton']);
+  }
+
+  var actions={
+    satugoFinalHome:home,
+    satugoFinalSearch:search,
+    satugoFinalFav:favorites,
+    satugoFinalChat:chats,
+    satugoFinalAccount:account
+  };
+
+  function bind(){
+    Object.keys(actions).forEach(function(id){
+      var b=document.getElementById(id);
+      if(!b || b.dataset.phoneFixed==='1') return;
+      b.dataset.phoneFixed='1';
+      b.addEventListener('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        actions[id]();
+        setTimeout(clean,30);
+      },false);
+    });
+    clean();
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind);
+  else bind();
+  window.addEventListener('load',bind);
+  window.addEventListener('resize',clean);
+  setTimeout(bind,250);
+  setTimeout(bind,1000);
+  setInterval(clean,1500);
 })();
 </script>
 
