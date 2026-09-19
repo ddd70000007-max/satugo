@@ -7237,6 +7237,83 @@ body{padding-bottom:80px!important;}
 })();
 </script>
 
+
+<style id="satugo-clean-mobile-nav-style">
+#sgCleanNav{position:fixed;left:0;right:0;bottom:0;height:68px;z-index:2147483647;background:#fff;border-top:1px solid #ddd;display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom);box-sizing:content-box;touch-action:manipulation;}
+#sgCleanNav button{flex:1;border:0;background:#fff;color:#555;font:600 12px/1.1 Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0;padding:6px 2px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;position:relative;z-index:2147483647;}
+#sgCleanNav button:active{background:#f1f1f1;}
+#sgCleanNav .sgnIcon{font-size:22px;line-height:22px;}
+#sgCleanNav .sgnLabel{font-size:11px;}
+body{padding-bottom:80px!important;}
+</style>
+<nav id="sgCleanNav" aria-label="SatuGo navigation">
+<button type="button" data-sgn="home"><span class="sgnIcon">⌂</span><span class="sgnLabel">Басты бет</span></button>
+<button type="button" data-sgn="search"><span class="sgnIcon">⌕</span><span class="sgnLabel">Іздеу</span></button>
+<button type="button" data-sgn="fav"><span class="sgnIcon">♡</span><span class="sgnLabel">Таңдаулы</span></button>
+<button type="button" data-sgn="chat"><span class="sgnIcon">💬</span><span class="sgnLabel">Чаттар</span></button>
+<button type="button" data-sgn="account"><span class="sgnIcon">👤</span><span class="sgnLabel">Аккаунт</span></button>
+</nav>
+<script id="satugo-clean-mobile-nav-script">
+(function(){
+  'use strict';
+  function el(id){return document.getElementById(id)}
+  function callFirst(names,args){
+    for(var i=0;i<names.length;i++){
+      try{var fn=window[names[i]];if(typeof fn==='function'){fn.apply(window,args||[]);return true}}catch(e){console.error(e)}
+    }
+    return false;
+  }
+  function openHome(){
+    if(callFirst(['goHome','showHome','openHome','renderHome'])) return;
+    location.hash='';
+    window.scrollTo(0,0);
+  }
+  function openSearch(){
+    if(callFirst(['openSearch','showSearch','goSearch','sgOpenSearch'])) return;
+    var ids=['searchPanel','searchModal','searchPage','searchSection'];
+    for(var i=0;i<ids.length;i++){var x=el(ids[i]);if(x){x.style.display='block';x.classList.add('active');x.scrollIntoView({behavior:'smooth',block:'start'});return}}
+    var inp=document.querySelector('input[placeholder*="Тауар"],input[placeholder*="тауар"],input[type="search"]');
+    if(inp){inp.focus();inp.scrollIntoView({behavior:'smooth',block:'center'})}
+  }
+  function openFav(){
+    if(callFirst(['openFavorites','showFavorites','goFavorites','sgOpenFavorites','renderFavorites'])) return;
+    var ids=['favoritesPanel','favoritesModal','favoritesPage','favoritesSection'];
+    for(var i=0;i<ids.length;i++){var x=el(ids[i]);if(x){x.style.display='block';x.classList.add('active');x.scrollIntoView({behavior:'smooth',block:'start'});return}}
+  }
+  function openChat(){
+    if(callFirst(['openChats','showChats','goChats','sgOpenChats','openChatList','showChatList'])) return;
+    var ids=['chatPanel','chatModal','chatsPanel','chatPage','chatsPage'];
+    for(var i=0;i<ids.length;i++){var x=el(ids[i]);if(x){x.style.display='block';x.classList.add('active');x.scrollIntoView({behavior:'smooth',block:'start'});return}}
+    alert('Алдымен чаттар бөліміне кіріңіз немесе сатушымен чат ашыңыз.');
+  }
+  function openAccount(){
+    if(callFirst(['sgOpenAccountFinal','openAccount','showAccount','goAccount','openProfile','showProfile','openProfilePage'])) return;
+    var ids=['sgAccountPage','accountPage','accountModal','profileModal','profilePage'];
+    for(var i=0;i<ids.length;i++){var x=el(ids[i]);if(x){x.style.display='block';x.classList.add('active');x.style.zIndex='2147483646';x.scrollIntoView({behavior:'smooth',block:'start'});return}}
+    var auth=window.auth&&window.auth.currentUser;
+    if(!auth && typeof window.openAuth==='function'){window.openAuth();return}
+    alert('Профиль бөлімі табылмады.');
+  }
+  function run(action){
+    if(action==='home')openHome();
+    else if(action==='search')openSearch();
+    else if(action==='fav')openFav();
+    else if(action==='chat')openChat();
+    else if(action==='account')openAccount();
+  }
+  document.addEventListener('pointerup',function(e){
+    var b=e.target.closest&&e.target.closest('#sgCleanNav button');
+    if(!b)return;
+    e.preventDefault();e.stopPropagation();
+    run(b.getAttribute('data-sgn'));
+  },true);
+  document.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('#sgCleanNav button');
+    if(!b)return;
+    e.preventDefault();e.stopPropagation();
+  },true);
+})();
+</script>
 </body>
 </html>
 
@@ -7304,5 +7381,63 @@ body.sg-account-open{overflow:hidden!important}
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
   setTimeout(bind,500);setTimeout(bind,1500);
+})();
+</script>
+
+<style id="satugo-phone-nav-final-fix">
+@media (max-width:700px){
+  #satugoFinalNav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;height:76px!important;display:flex!important;z-index:2147483647!important;pointer-events:auto!important;touch-action:none!important}
+  #satugoFinalNav button{flex:1 1 20%!important;height:76px!important;min-width:0!important;display:flex!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;position:relative!important;z-index:2147483648!important;pointer-events:auto!important;touch-action:manipulation!important}
+}
+</style>
+<script id="satugo-phone-nav-final-fix-js">
+(function(){
+'use strict';
+var last=0;
+function btn(id){return document.getElementById(id)}
+function openAccount(){
+ try{
+  if(typeof window.sgDirectAccount==='function'){window.sgDirectAccount();return true;}
+  if(typeof window.sgOpenAccountFinal==='function'){window.sgOpenAccountFinal();return true;}
+  if(typeof window.openAccount==='function'){window.openAccount();return true;}
+ }catch(e){console.error(e)}
+ return false;
+}
+function openChats(){
+ try{
+  if(typeof window.sgOpenChat==='function'){window.sgOpenChat();return true;}
+  var p=btn('sgChatPanel'); if(p){p.style.display='flex';p.style.visibility='visible';p.classList.add('open');return true;}
+ }catch(e){console.error(e)}
+ return false;
+}
+function route(id){
+ if(Date.now()-last<350)return;
+ last=Date.now();
+ if(id==='satugoFinalAccount')openAccount();
+ else if(id==='satugoFinalChat')openChats();
+}
+function targetId(t){
+ if(!t)return null;
+ var el=t.closest?t.closest('#satugoFinalAccount,#satugoFinalChat'):null;
+ return el?el.id:null;
+}
+function handle(e){
+ var id=targetId(e.target);
+ if(id){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();route(id);return;}
+ if(e.touches&&e.touches[0]){
+  var q=e.touches[0],el=document.elementFromPoint(q.clientX,q.clientY);
+  id=targetId(el);if(id){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();route(id);}
+ }
+}
+function bind(){
+ var a=btn('satugoFinalAccount'),c=btn('satugoFinalChat');
+ [a,c].forEach(function(b){if(b){b.style.pointerEvents='auto';b.style.touchAction='manipulation';b.onclick=null;}});
+}
+// Capture phase: works even if an old overlay/event handler is sitting above the button.
+document.addEventListener('touchend',handle,{capture:true,passive:false});
+document.addEventListener('click',handle,{capture:true,passive:false});
+document.addEventListener('pointerup',handle,{capture:true,passive:false});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+window.addEventListener('load',bind);setTimeout(bind,300);setTimeout(bind,1000);
 })();
 </script>
