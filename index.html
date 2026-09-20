@@ -6189,5 +6189,50 @@ setTimeout(ensurePanel,300);
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
  window.addEventListener('load',bind);
 })();
-</script></body>
+</script>
+<!-- SATUGO ACCOUNT PHONE HARD FIX -->
+<style>
+@media(max-width:700px){
+  #sgAuthModal{position:fixed!important;inset:0!important;display:none!important;align-items:center!important;justify-content:center!important;z-index:2147483647!important;pointer-events:none!important;visibility:hidden!important;opacity:0!important}
+  #sgAuthModal.open{display:flex!important;pointer-events:auto!important;visibility:visible!important;opacity:1!important}
+  #sgAuthModal .sg-auth-card{pointer-events:auto!important;position:relative!important;z-index:2147483647!important;width:calc(100vw - 20px)!important;max-height:90vh!important;overflow:auto!important}
+  #satugoFinalAccount{position:relative!important;z-index:2147483647!important;pointer-events:auto!important;touch-action:manipulation!important}
+}
+</style>
+<script id="satugo-account-phone-hard-fix">
+(function(){
+  'use strict';
+  function openAccountPhone(e){
+    if(e){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();}
+    try{
+      var u=(window.auth&&window.auth.currentUser)||window.currentUser||window.user||null;
+      if(u && typeof window.renderAccount==='function'){
+        try{window.renderAccount();}catch(x){}
+        var am=document.getElementById('accountModal');
+        if(am){am.classList.add('show');am.style.display='block';am.style.visibility='visible';am.style.pointerEvents='auto';}
+        return false;
+      }
+      var m=document.getElementById('sgAuthModal');
+      if(!m){alert('Кіру терезесі табылмады.');return false;}
+      m.classList.add('open');
+      m.setAttribute('aria-hidden','false');
+      m.style.display='flex';m.style.visibility='visible';m.style.opacity='1';m.style.pointerEvents='auto';m.style.zIndex='2147483647';
+      if(typeof window.sgAuthTab==='function') window.sgAuthTab('phone');
+      return false;
+    }catch(err){console.error(err);alert('Аккаунт ашылмады: '+(err.message||err));return false;}
+  }
+  window.sgOpenAccountPhoneHard=openAccountPhone;
+  function bind(){
+    var b=document.getElementById('satugoFinalAccount');
+    if(!b||b.__accountHardBound)return;
+    b.__accountHardBound=true;
+    b.addEventListener('click',openAccountPhone,{capture:true,passive:false});
+    b.addEventListener('touchend',openAccountPhone,{capture:true,passive:false});
+    b.addEventListener('pointerup',openAccountPhone,{capture:true,passive:false});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+  window.addEventListener('load',bind);
+})();
+</script>
+</body>
 </html>
