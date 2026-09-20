@@ -7352,5 +7352,88 @@ window.sgStartChat=start;window.sgOpenExistingChat=openExisting;window.sgOpenCha
 var oldPanel=document.getElementById('sgChatPanel');if(oldPanel){oldPanel.style.display='none';oldPanel.style.pointerEvents='none';}
 })();
 </script>
+
+<!-- SATUGO CLEAN ACCOUNT SYSTEM V4 -->
+<style id="satugo-clean-account-css">
+#sgCleanAuth{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:100000;display:none;align-items:center;justify-content:center;padding:14px;box-sizing:border-box}
+#sgCleanAuth.open{display:flex}
+#sgCleanAuth .ca-card{width:min(440px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:24px;box-shadow:0 25px 80px rgba(0,0,0,.25);padding:20px;box-sizing:border-box}
+.ca-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.ca-head h2{margin:0;font-size:22px}.ca-close{border:0;background:#f3f4f6;border-radius:50%;width:38px;height:38px;font-size:22px;cursor:pointer}
+.ca-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#f3f4f6;padding:4px;border-radius:12px;margin-bottom:14px}.ca-tab{border:0;background:transparent;padding:11px;border-radius:9px;font-weight:800;cursor:pointer}.ca-tab.active{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.ca-label{display:block;font-size:12px;font-weight:700;margin:10px 0 5px}.ca-input{width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:12px;padding:13px;font-size:16px;outline:none}.ca-input:focus{border-color:#111}
+.ca-btn{width:100%;border:0;border-radius:12px;padding:13px;margin-top:9px;font-size:15px;font-weight:800;cursor:pointer}.ca-primary{background:#111;color:#fff}.ca-green{background:#16834d;color:#fff}.ca-light{background:#f3f4f6;color:#111}.ca-danger{background:#fee2e2;color:#991b1b}
+.ca-note{font-size:12px;color:#6b7280;line-height:1.45;margin:9px 0}.ca-status{min-height:20px;font-size:13px;margin:8px 0;font-weight:700}.ca-error{color:#dc2626}.ca-ok{color:#15803d}
+.ca-code{display:none}.ca-code.show{display:block}.ca-phone-step2{display:none}.ca-phone-step2.show{display:block}.ca-divider{display:flex;align-items:center;gap:8px;color:#999;font-size:12px;margin:15px 0}.ca-divider:before,.ca-divider:after{content:"";height:1px;background:#eee;flex:1}
+#sgCleanProfile{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:100001;display:none;align-items:center;justify-content:center;padding:14px;box-sizing:border-box}.ca-profile{width:min(500px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:24px;padding:20px;box-sizing:border-box}.ca-profile-head{display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid #eee}.ca-avatar{width:58px;height:58px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:28px}.ca-profile-name{font-size:19px;font-weight:900}.ca-profile-phone{font-size:12px;color:#6b7280;margin-top:3px}.ca-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.ca-info div{background:#f8fafc;border:1px solid #eee;border-radius:12px;padding:10px}.ca-info small{display:block;color:#777;margin-bottom:3px}.ca-menu{display:grid;gap:8px}.ca-menu button{border:1px solid #eee;background:#fff;border-radius:13px;padding:13px;text-align:left;font-weight:800;cursor:pointer}.ca-menu button:hover{background:#f8fafc}
+@media(max-width:600px){#sgCleanAuth .ca-card,.ca-profile{border-radius:20px;padding:16px;max-height:95vh}.ca-info{grid-template-columns:1fr}.ca-head h2{font-size:19px}}
+</style>
+<div id="sgCleanAuth" aria-hidden="true">
+ <div class="ca-card" onclick="event.stopPropagation()">
+  <div class="ca-head"><h2>👤 SatuGo аккаунты</h2><button class="ca-close" onclick="sgCA.close()">×</button></div>
+  <div class="ca-tabs"><button id="caTabLogin" class="ca-tab active" onclick="sgCA.mode('login')">Кіру</button><button id="caTabReg" class="ca-tab" onclick="sgCA.mode('register')">Тіркелу</button></div>
+  <div id="caLogin">
+   <label class="ca-label">Телефон нөмірі</label><input id="caPhone" class="ca-input" inputmode="tel" autocomplete="tel" placeholder="+7 700 123 45 67" maxlength="17">
+   <div id="caRecaptcha"></div><button id="caSend" class="ca-btn ca-green" onclick="sgCA.sendSms()">📨 SMS код жіберу</button>
+   <div id="caLoginCode" class="ca-phone-step2"><label class="ca-label">SMS код</label><input id="caCode" class="ca-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456"><button id="caVerify" class="ca-btn ca-primary" onclick="sgCA.verifySms()">✅ Кіру</button><button class="ca-btn ca-light" onclick="sgCA.resend()">🔄 Қайта жіберу</button></div>
+   <div class="ca-divider">немесе</div>
+   <label class="ca-label">Email</label><input id="caEmailLogin" class="ca-input" type="email" autocomplete="email" placeholder="name@example.com"><label class="ca-label">Құпиясөз</label><input id="caPassLogin" class="ca-input" type="password" autocomplete="current-password" placeholder="Кемінде 6 таңба"><button class="ca-btn ca-primary" onclick="sgCA.emailLogin()">🔐 Email арқылы кіру</button>
+  </div>
+  <div id="caRegister" style="display:none">
+   <label class="ca-label">Атыңыз</label><input id="caName" class="ca-input" autocomplete="name" placeholder="Атыңыз">
+   <label class="ca-label">Телефон</label><input id="caRegPhone" class="ca-input" inputmode="tel" autocomplete="tel" placeholder="+7 700 123 45 67" maxlength="17">
+   <div class="ca-note">Телефонды SMS арқылы растағаннан кейін аккаунт автоматты түрде құрылады.</div>
+   <button class="ca-btn ca-green" onclick="sgCA.registerPhone()">📱 SMS арқылы тіркелу</button>
+   <div class="ca-divider">немесе email</div>
+   <label class="ca-label">Email</label><input id="caEmailReg" class="ca-input" type="email" autocomplete="email" placeholder="name@example.com"><label class="ca-label">Құпиясөз</label><input id="caPassReg" class="ca-input" type="password" autocomplete="new-password" placeholder="Кемінде 6 таңба"><button class="ca-btn ca-primary" onclick="sgCA.emailRegister()">✨ Email арқылы тіркелу</button>
+  </div>
+  <div id="caStatus" class="ca-status"></div>
+ </div>
+</div>
+<div id="sgCleanProfile">
+ <div class="ca-profile" onclick="event.stopPropagation()">
+  <div class="ca-head"><h2>👤 Менің аккаунтым</h2><button class="ca-close" onclick="sgCA.closeProfile()">×</button></div>
+  <div class="ca-profile-head"><div class="ca-avatar">👤</div><div><div id="caPName" class="ca-profile-name">Қолданушы</div><div id="caPPhone" class="ca-profile-phone"></div></div></div>
+  <div class="ca-info"><div><small>📱 Телефон</small><b id="caPIPhone">—</b></div><div><small>📧 Email</small><b id="caPIEmail">—</b></div><div><small>📍 Қала</small><b id="caPICity">—</b></div><div><small>🏠 Мекенжай</small><b id="caPIAddress">—</b></div></div>
+  <div class="ca-menu"><button onclick="sgCA.editProfile()">✏️ Профильді өзгерту</button><button onclick="openOrders();sgCA.closeProfile()">📦 Менің тапсырыстарым</button><button onclick="openFavorites();sgCA.closeProfile()">❤️ Таңдаулылар</button><button onclick="openSeller();sgCA.closeProfile()">🏪 Сатушы кабинеті</button><button class="ca-danger" onclick="sgCA.logout()">🚪 Аккаунттан шығу</button></div>
+ </div>
+</div>
+<script id="satugo-clean-account-js">
+(function(){
+ 'use strict';
+ var confirmResult=null, verifier=null, pendingName='';
+ function A(){return window.auth||firebase.auth()}
+ function D(){return window.db||firebase.firestore()}
+ function escv(v){return String(v||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+ function norm(v){var s=String(v||'').replace(/[^\d+]/g,'');if(s[0]==='8')s='+7'+s.slice(1);if(s[0]==='7'&&s[1]!=='+')s='+'+s;return s}
+ function valid(v){return /^\+7\d{10}$/.test(v)}
+ function status(t,ok){var e=document.getElementById('caStatus');if(!e)return;e.textContent=t||'';e.className='ca-status '+(ok?'ca-ok':'ca-error')}
+ function profileKey(u){return 'satugo_core_profile_'+u.uid}
+ function localProfile(u){try{return JSON.parse(localStorage.getItem(profileKey(u))||'{}')}catch(e){return {}}}
+ async function load(u){var p=localProfile(u);try{var s=await D().collection('users').doc(u.uid).get();if(s.exists)p=Object.assign(p,s.data()||{})}catch(e){};p.uid=u.uid;p.email=u.email||p.email||'';p.phone=u.phoneNumber||p.phone||'';p.name=p.name||u.displayName||'Қолданушы';p.role=p.role||'buyer';try{localStorage.setItem(profileKey(u),JSON.stringify(p))}catch(e){};return p}
+ async function save(u,p){try{localStorage.setItem(profileKey(u),JSON.stringify(p))}catch(e){};try{await D().collection('users').doc(u.uid).set(Object.assign({},p,{uid:u.uid,updatedAt:firebase.firestore.FieldValue.serverTimestamp()}),{merge:true})}catch(e){console.warn('profile save',e)}}
+ function open(){document.getElementById('sgCleanAuth').classList.add('open');document.getElementById('sgCleanAuth').setAttribute('aria-hidden','false');status('');mode('login')}
+ function close(){document.getElementById('sgCleanAuth').classList.remove('open');document.getElementById('sgCleanAuth').setAttribute('aria-hidden','true');status('')}
+ function mode(m){var l=m==='login';document.getElementById('caLogin').style.display=l?'block':'none';document.getElementById('caRegister').style.display=l?'none':'block';document.getElementById('caTabLogin').classList.toggle('active',l);document.getElementById('caTabReg').classList.toggle('active',!l);status('')}
+ function makeVerifier(){if(verifier)return verifier;verifier=new firebase.auth.RecaptchaVerifier('caRecaptcha',{size:'normal'});return verifier}
+ async function send(phone,name){phone=norm(phone);if(!valid(phone)){status('Нөмірді +7 және 10 цифрмен енгізіңіз.');return false}try{status('⏳ SMS жіберілуде...',true);var v=makeVerifier();confirmResult=await A().signInWithPhoneNumber(phone,v);pendingName=name||'';document.getElementById('caLoginCode').classList.add('show');document.getElementById('caCode').focus();status('✅ SMS код жіберілді. Кодты енгізіңіз.',true);return true}catch(e){console.error(e);status('❌ SMS жіберілмеді: '+(e.message||e));try{verifier&&verifier.clear()}catch(x){}verifier=null;document.getElementById('caRecaptcha').innerHTML='';return false}}
+ window.sgCA={
+  open:open,close:close,mode:mode,
+  sendSms:function(){send(document.getElementById('caPhone').value,'')},
+  registerPhone:function(){var n=document.getElementById('caName').value.trim(),p=document.getElementById('caRegPhone').value;if(!n){status('Атыңызды енгізіңіз.');return}send(p,n)},
+  verifySms:async function(){if(!confirmResult){status('Алдымен SMS код сұраңыз.');return}var code=document.getElementById('caCode').value.trim();if(!/^\d{6}$/.test(code)){status('6 таңбалы код енгізіңіз.');return}var b=document.getElementById('caVerify');b.disabled=true;b.textContent='⏳ Кіріп жатыр...';try{var r=await confirmResult.confirm(code),u=r.user,p=await load(u);if(pendingName){p.name=pendingName;await save(u,p);try{await u.updateProfile({displayName:pendingName})}catch(e){}};window.currentUser=u;window.user=u;window.profile=p;close();renderCleanProfile(u,p);status('');if(typeof window.renderAccount==='function')window.renderAccount();if(typeof window.updateCounts==='function')window.updateCounts();}catch(e){console.error(e);status('❌ Код қате немесе мерзімі өткен: '+(e.message||e))}finally{b.disabled=false;b.textContent='✅ Кіру'}},
+  resend:function(){confirmResult=null;document.getElementById('caLoginCode').classList.remove('show');try{verifier&&verifier.clear()}catch(e){}verifier=null;document.getElementById('caRecaptcha').innerHTML='';var p=document.getElementById('caPhone').value;setTimeout(function(){send(p,'')},150)},
+  emailLogin:async function(){var e=document.getElementById('caEmailLogin').value.trim().toLowerCase(),p=document.getElementById('caPassLogin').value;if(!e||!p){status('Email мен құпиясөзді толтырыңыз.');return}try{status('⏳ Кіріп жатыр...',true);await A().signInWithEmailAndPassword(e,p);close()}catch(x){status('❌ '+(x.code==='auth/invalid-credential'?'Email немесе құпиясөз қате.':(x.message||'Кіру қатесі.')))}},
+  emailRegister:async function(){var n=document.getElementById('caName').value.trim(),e=document.getElementById('caEmailReg').value.trim().toLowerCase(),p=document.getElementById('caPassReg').value;if(!n||!e||p.length<6){status('Аты, email және кемінде 6 таңбалы құпиясөз қажет.');return}try{status('⏳ Аккаунт құрылып жатыр...',true);var r=await A().createUserWithEmailAndPassword(e,p),u=r.user;try{await u.updateProfile({displayName:n})}catch(x){}var pr={uid:u.uid,name:n,email:e,phone:u.phoneNumber||'',role:'buyer',createdAt:Date.now()};await save(u,pr);try{await u.sendEmailVerification()}catch(x){}close()}catch(x){var m=x.code==='auth/email-already-in-use'?'Бұл email бұрын тіркелген.':x.code==='auth/weak-password'?'Құпиясөз кемінде 6 таңба болуы керек.':(x.message||'Тіркелу қатесі.');status('❌ '+m)}},
+  closeProfile:function(){document.getElementById('sgCleanProfile').style.display='none'},
+  logout:async function(){try{await A().signOut()}catch(e){};window.currentUser=null;window.user=null;window.profile=null;localStorage.removeItem('satugo_phone_verified');sgCA.closeProfile();if(typeof window.renderAccount==='function')window.renderAccount();if(typeof window.updateCounts==='function')window.updateCounts()},
+  editProfile:function(){sgCA.closeProfile();if(typeof window.sgCoreOpenProfile==='function')window.sgCoreOpenProfile();else if(typeof window.openProfile==='function')window.openProfile()}
+ };
+ function renderCleanProfile(u,p){document.getElementById('caPName').textContent=p.name||u.displayName||'Қолданушы';document.getElementById('caPPhone').textContent=u.phoneNumber||p.phone||'Телефон расталмаған';document.getElementById('caPIPhone').textContent=u.phoneNumber||p.phone||'—';document.getElementById('caPIEmail').textContent=u.email||p.email||'—';document.getElementById('caPICity').textContent=p.city||'—';document.getElementById('caPIAddress').textContent=p.address||'—';document.getElementById('sgCleanProfile').style.display='flex'}
+ window.sgOpenCleanAccount=function(){var u=A().currentUser||window.currentUser;if(u){load(u).then(function(p){renderCleanProfile(u,p)})}else open()}
+ window.openAccount=function(){window.sgOpenCleanAccount()}
+ document.getElementById('sgCleanAuth').addEventListener('click',function(e){if(e.target===this)close()});document.getElementById('sgCleanProfile').addEventListener('click',function(e){if(e.target===this)sgCA.closeProfile()});
+ A().onAuthStateChanged(async function(u){window.currentUser=u||null;window.user=u||null;if(u){window.profile=await load(u)}else window.profile=null;if(typeof window.renderAccount==='function')window.renderAccount();if(typeof window.updateCounts==='function')window.updateCounts()});
+})();
+</script>
 </body>
 </html>
