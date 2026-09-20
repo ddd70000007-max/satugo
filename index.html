@@ -1511,6 +1511,7 @@ body{padding-bottom:86px!important}
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
 <script>
 
 /* =========================================================
@@ -6429,128 +6430,165 @@ body{padding-bottom:80px!important;}
 })();
 </script>
 
-<!-- SATUGO CLEAN STABLE INTERACTION LAYER -->
-<style id="satugo-clean-stable-style">
-  #sgStableAccountOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2147483000;padding:12px;overflow:auto;box-sizing:border-box}
-  #sgStableAccountOverlay.open{display:block}
-  #sgStableAccountBox{max-width:680px;width:100%;margin:20px auto 90px;background:#fff;border-radius:22px;min-height:200px;box-shadow:0 20px 70px rgba(0,0,0,.25);position:relative;padding:18px;box-sizing:border-box}
-  #sgStableAccountClose{position:absolute;right:10px;top:10px;width:42px;height:42px;border:0;border-radius:50%;background:#f3f4f6;font-size:25px;cursor:pointer;z-index:3}
-  @media(max-width:700px){
-    #sgStableAccountOverlay{padding:8px;padding-bottom:88px;touch-action:auto;overscroll-behavior:contain}
-    #sgStableAccountBox{margin:8px auto 0;min-height:calc(100dvh - 94px);border-radius:18px;padding:14px}
-    #satugoFinalNav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:2147482000!important;display:flex!important;pointer-events:auto!important}
-    #satugoFinalNav button{pointer-events:auto!important;touch-action:manipulation!important}
-  }
+
+<!-- SATUGO ACCOUNT LOGIN — FINAL HARD FIX -->
+<style id="satugo-account-hardfix-css">
+#sgHardAccount{display:none;position:fixed;inset:0;z-index:2147483645;background:rgba(0,0,0,.62);padding:10px;box-sizing:border-box;align-items:flex-start;justify-content:center;overflow:auto;touch-action:auto}
+#sgHardAccount.open{display:flex!important;pointer-events:auto!important}
+#sgHardAccountBox{width:min(680px,100%);min-height:220px;margin:8px auto 90px;background:#fff;border-radius:22px;padding:18px;box-sizing:border-box;position:relative;box-shadow:0 20px 70px rgba(0,0,0,.3);pointer-events:auto}
+#sgHardAccountClose{position:absolute;right:10px;top:10px;width:44px;height:44px;border:0;border-radius:50%;background:#eef2f7;font-size:26px;cursor:pointer;z-index:20;touch-action:manipulation}
+#sgHardLogin{display:block;width:100%;max-width:440px;margin:20px auto 0;padding:15px 18px;border:0;border-radius:14px;background:#15803d;color:#fff;font-size:17px;font-weight:800;cursor:pointer;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#sgAuthModal{z-index:2147483646!important}
+#sgAuthModal.open{display:flex!important;pointer-events:auto!important}
+#sgAuthModal .sg-auth-card{pointer-events:auto!important;touch-action:auto}
+#sgPhoneAuth{z-index:2147483647!important}
+@media(max-width:700px){#sgHardAccount{padding:7px 7px 86px}#sgHardAccountBox{margin:4px auto 0;min-height:calc(100dvh - 97px);border-radius:18px;padding:15px}#sgAuthModal{padding:8px!important}#sgAuthModal .sg-auth-card{max-height:calc(100dvh - 16px)!important;border-radius:18px!important}}
 </style>
-<script id="satugo-clean-stable-js">
+<script id="satugo-account-hardfix-js">
 (function(){
- 'use strict';
- var accountOpen=false;
- var overlayIds=['sellerModal','ordersModal','favoritesModal','accountModal','sgAuthModal','sgPhoneAuth','sgNextOverlay','sgProfileOverlay','sgMarketOverlay','sgPlusOverlay'];
- function byId(id){return document.getElementById(id)}
- function closeOldOverlays(except){
-   overlayIds.forEach(function(id){
-     if(id===except)return;
-     var e=byId(id); if(!e)return;
-     e.classList.remove('show','open','active');
-     if(e.id!=='accountModal') e.style.removeProperty('display');
-   });
+'use strict';
+var ACCOUNT='sgHardAccount', AUTH='sgAuthModal', PHONE='sgPhoneAuth';
+function el(id){return document.getElementById(id)}
+function hardHide(id){var x=el(id);if(!x)return;x.classList.remove('open','show','active');x.setAttribute('aria-hidden','true');x.style.setProperty('display','none','important');x.style.setProperty('pointer-events','none','important')}
+function hideLegacy(){['accountModal','sgStableAccountOverlay','sgFinalAccountOverlay','sellerModal','ordersModal','favoritesModal','sgNextOverlay','sgProfileOverlay','sgMarketOverlay','sgPlusOverlay'].forEach(hardHide)}
+function install(){
+ if(el(ACCOUNT))return;
+ var o=document.createElement('div');o.id=ACCOUNT;o.setAttribute('aria-hidden','true');
+ o.innerHTML='<div id="sgHardAccountBox"><button id="sgHardAccountClose" type="button" aria-label="Жабу">×</button><div id="sgHardAccountContent"></div></div>';
+ document.body.appendChild(o);
+ el('sgHardAccountClose').addEventListener('pointerup',function(e){e.preventDefault();e.stopImmediatePropagation();closeAccount()},{capture:true});
+ o.addEventListener('pointerup',function(e){if(e.target===o){e.preventDefault();closeAccount()}},{capture:true});
+}
+function closeAccount(){var o=el(ACCOUNT);if(!o)return;o.classList.remove('open');o.setAttribute('aria-hidden','true');o.style.setProperty('display','none','important');o.style.setProperty('pointer-events','none','important')}
+function closeAuth(){var a=el(AUTH);if(!a)return;a.classList.remove('open');a.setAttribute('aria-hidden','true');a.style.setProperty('display','none','important');a.style.setProperty('pointer-events','none','important')}
+function closePhone(){var p=el(PHONE);if(!p)return;p.classList.remove('open');p.setAttribute('aria-hidden','true');p.style.setProperty('display','none','important');p.style.setProperty('pointer-events','none','important')}
+function showAuth(){
+ install(); closeAccount(); closePhone(); hideLegacy();
+ var a=el(AUTH); if(!a){alert('Кіру терезесі табылмады.');return false}
+ a.classList.remove('show','active');
+ a.style.setProperty('display','flex','important');a.style.setProperty('position','fixed','important');a.style.setProperty('inset','0','important');a.style.setProperty('z-index','2147483646','important');a.style.setProperty('pointer-events','auto','important');
+ a.classList.add('open');a.setAttribute('aria-hidden','false');
+ try{if(typeof window.sgAuthTab==='function')window.sgAuthTab('phone')}catch(e){}
+ return false;
+}
+function showPhone(){
+ closeAuth(); closeAccount();
+ var p=el(PHONE);if(!p){alert('SMS терезесі табылмады.');return false}
+ p.style.setProperty('display','block','important');p.style.setProperty('position','fixed','important');p.style.setProperty('inset','0','important');p.style.setProperty('z-index','2147483647','important');p.style.setProperty('pointer-events','auto','important');p.classList.add('open');p.setAttribute('aria-hidden','false');
+ setTimeout(function(){var i=el('sgPhoneNumber');if(i)try{i.focus()}catch(e){}},60);return false;
+}
+function showAccount(){
+ install(); closeAuth(); closePhone(); hideLegacy();
+ var box=el('sgHardAccountContent');if(!box)return false;
+ var logged=!!((window.auth&&window.auth.currentUser)||window.user);
+ if(!logged){
+  box.innerHTML='<div style="padding:42px 18px;text-align:center">'+
+   '<div style="font-size:58px;margin-bottom:12px">👤</div>'+
+   '<h2 style="margin:0 0 8px;font-size:25px">Жеке кабинет</h2>'+
+   '<p style="color:#64748b;line-height:1.5;margin:0 auto;max-width:450px">Тапсырыстарды, таңдаулыларды және профиліңізді басқару үшін аккаунтқа кіріңіз.</p>'+
+   '<button id="sgHardLogin" type="button">🔐 Аккаунтқа кіру</button></div>';
+  var b=el('sgHardLogin');
+  if(b){
+   var go=function(e){e.preventDefault();e.stopImmediatePropagation();showAuth();return false};
+   b.onclick=go;b.onpointerup=go;b.ontouchend=go;
+  }
+ }else{
+  try{if(typeof window.renderAccount==='function')window.renderAccount()}catch(e){}
+  var source=el('account');box.innerHTML=source?source.innerHTML:'<div style="padding:30px;text-align:center">Аккаунт жүктелуде...</div>';
  }
- function stableAccount(){
-   closeOldOverlays('accountModal');
-   var old=byId('accountModal');
-   if(old) old.classList.remove('show');
-   var ov=byId('sgStableAccountOverlay');
-   var box=byId('sgStableAccountContent');
-   if(!ov||!box)return;
-   try{
-     if(typeof window.renderAccount==='function') window.renderAccount();
-     var source=byId('account');
-     box.innerHTML=source ? source.innerHTML : '<div style="padding:30px;text-align:center">Аккаунт жүктелуде...</div>';
-   var loginBtn=box.querySelector('button[onclick*="openAuth"]');
-   if(loginBtn){
-     loginBtn.removeAttribute('onclick');
-     loginBtn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();stableLogin();});
-   }
-   }catch(e){box.innerHTML='<div style="padding:30px;text-align:center">Аккаунтты ашу қатесі.<br>'+String(e.message||e)+'</div>';}
-   ov.classList.add('open'); accountOpen=true;
-   document.body.classList.add('sg-stable-account-open');
- }
- function closeStable(){var ov=byId('sgStableAccountOverlay');if(ov)ov.classList.remove('open');accountOpen=false;document.body.classList.remove('sg-stable-account-open')}
- function installOverlay(){
-   if(byId('sgStableAccountOverlay'))return;
-   var ov=document.createElement('div');ov.id='sgStableAccountOverlay';
-   ov.innerHTML='<div id="sgStableAccountBox"><button id="sgStableAccountClose" type="button" aria-label="Жабу">×</button><div id="sgStableAccountContent"></div></div>';
-   document.body.appendChild(ov);
-   byId('sgStableAccountClose').addEventListener('click',function(e){e.preventDefault();e.stopPropagation();closeStable()});
-   ov.addEventListener('click',function(e){
-     if(e.target===ov){closeStable();return}
-     var el=e.target.closest && e.target.closest('[onclick]');
-     if(!el)return;
-     var code=el.getAttribute('onclick')||'';
-     var actions=['openOrders','openFavorites','openOffers','openRequest','openSeller','openCart','sgCoreOpenProfile','resendVerification','logout'];
-     var hit=null;
-     for(var i=0;i<actions.length;i++){if(code.indexOf(actions[i]+'(')>=0){hit=actions[i];break}}
-     if(!hit)return;
-     e.preventDefault();e.stopPropagation();
-     closeStable();
-     setTimeout(function(){try{if(typeof window[hit]==='function')window[hit]();}catch(err){alert('Бөлімді ашу қатесі: '+(err.message||err));}},30);
-   });
- }
- function account(){stableAccount()}
- function stableLogin(){
-   closeStable();
-   var old=byId('accountModal');
-   if(old){old.classList.remove('show');old.style.removeProperty('display');}
-   setTimeout(function(){
-     try{
-       if(typeof window.openAuth==='function'){ window.openAuth(); }
-     }catch(err){ alert('Кіру терезесін ашу қатесі: '+(err.message||err)); }
-   },80);
- }
- window.sgStableLogin=stableLogin;
- function chats(){
-   closeStable(); closeOldOverlays('sgChatPanel');
-   try{
-     if(typeof window.sgOpenChats==='function'){window.sgOpenChats();return}
-     if(typeof window.sgOpenChat==='function'){window.sgOpenChat();return}
-     if(typeof window.openChats==='function'){window.openChats();return}
-   }catch(e){alert('Чатты ашу қатесі: '+(e.message||e))}
- }
- function home(){closeStable();try{if(typeof window.goHome==='function')window.goHome();else window.scrollTo({top:0,behavior:'smooth'})}catch(e){}}
- function search(){closeStable();try{if(typeof window.openSearch==='function'){window.openSearch();}else{var x=document.querySelector('.search-wrap input,.hero-search input,input[placeholder*="Тауар"]');if(x){x.focus();x.scrollIntoView({behavior:'smooth',block:'center'});}}}catch(e){}}
- function fav(){closeStable();try{if(typeof window.openFavorites==='function')window.openFavorites();else if(typeof window.openModal==='function')window.openModal('favoritesModal')}catch(e){}}
- function navAction(id){
-   if(id==='satugoFinalAccount')return account();
-   if(id==='satugoFinalChat')return chats();
-   if(id==='satugoFinalHome')return home();
-   if(id==='satugoFinalSearch')return search();
-   if(id==='satugoFinalFav')return fav();
- }
- function bindNav(){
-   var nav=byId('satugoFinalNav');if(!nav)return;
-   if(nav.dataset.stableBound==='1')return;nav.dataset.stableBound='1';
-   nav.addEventListener('click',function(e){
-     var b=e.target.closest('button');if(!b||!nav.contains(b))return;
-     var id=b.id;if(!id)return;
-     e.preventDefault();e.stopPropagation();
-     navAction(id);
-   },true);
- }
- function bindGlobal(){
-   document.addEventListener('click',function(e){
-     var el=e.target.closest && e.target.closest('[onclick*="openAccount"], [onclick*="sgProfileOpenV3"]');
-     if(el && !el.closest('#sgStableAccountOverlay')){
-       e.preventDefault();e.stopPropagation();account();
-     }
-   },true);
-   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&accountOpen){e.preventDefault();closeStable()}});
- }
- function ready(){installOverlay();bindNav();bindGlobal()}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
- window.addEventListener('load',ready,{once:true});
- window.sgStableOpenAccount=account;
- window.sgStableCloseAccount=closeStable;
+ var o=el(ACCOUNT);o.style.setProperty('display','flex','important');o.style.setProperty('pointer-events','auto','important');o.style.setProperty('z-index','2147483645','important');o.classList.add('open');o.setAttribute('aria-hidden','false');
+ return false;
+}
+window.sgFinalShowAccount=showAccount;window.sgFinalShowAuth=showAuth;window.sgFinalShowPhone=showPhone;
+window.openAccount=showAccount;window.openAuth=showAuth;window.sgCloseAuth=closeAuth;window.sgPhoneOpen=showPhone;window.sgPhoneClose=closePhone;
+function isLoginButton(t){if(!t||!t.closest)return false;var b=t.closest('#sgHardLogin');if(b)return true;b=t.closest('#sgHardAccountContent button');if(b&&String(b.textContent||'').indexOf('Аккаунтқа кіру')>=0)return true;return false}
+function bind(){
+ install();
+ if(window.__sgHardBound)return;window.__sgHardBound=true;
+ // Window capture runs before all old document handlers in this file.
+ window.addEventListener('pointerup',function(e){
+  var t=e.target;if(!t||!t.closest)return;
+  var acc=t.closest('#satugoFinalAccount');
+  if(acc){e.preventDefault();e.stopImmediatePropagation();showAccount();return}
+  if(isLoginButton(t)){e.preventDefault();e.stopImmediatePropagation();showAuth();return}
+  var oldLogin=t.closest('#accountModal button[onclick*="openAuth"], #sgFinalAccountOverlay button[onclick*="openAuth"]');
+  if(oldLogin && !t.closest('#sgAuthModal')){e.preventDefault();e.stopImmediatePropagation();showAuth();return}
+  var close=t.closest('#sgAuthModal .sg-auth-close');
+  if(close){e.preventDefault();e.stopImmediatePropagation();closeAuth();return}
+  var phone=t.closest('#sgAuthModal button[onclick*="sgPhoneOpen"]');
+  if(phone){e.preventDefault();e.stopImmediatePropagation();showPhone();return}
+ },true);
+ window.addEventListener('click',function(e){
+  var t=e.target;if(!t||!t.closest)return;
+  var acc=t.closest('#satugoFinalAccount');
+  if(acc){e.preventDefault();e.stopImmediatePropagation();showAccount();return}
+  if(isLoginButton(t)){e.preventDefault();e.stopImmediatePropagation();showAuth();return}
+ },true);
+ window.addEventListener('keydown',function(e){if(e.key!=='Escape')return;if(el(PHONE)?.classList.contains('open')){closePhone();return}if(el(AUTH)?.classList.contains('open')){closeAuth();return}if(el(ACCOUNT)?.classList.contains('open')){closeAccount();return}},true);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
+window.addEventListener('load',bind,{once:true});
+})();
+</script>
+
+<style id="satugo-chat-plus-style">
+#sgChatPanel .sg-chat-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;border-bottom:1px solid #eee;background:#fff}
+#sgChatPanel .sg-chat-head b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#sgChatPanel .sg-chat-status{font-size:11px;font-weight:500;opacity:.75;margin-left:5px}
+#sgChatPanel .sg-chat-compose{align-items:center}
+#sgChatPanel .sg-chat-photo{width:42px;height:42px;border:0;background:#f2f3f5;border-radius:10px;font-size:20px;cursor:pointer;flex:0 0 auto}
+#sgChatPanel .sg-chat-send{min-width:64px}
+#sgChatPanel #sgChatInput{min-height:40px}
+#sgChatPanel .sg-chat-typing{font-size:11px;opacity:.65;padding:4px 12px;min-height:16px}
+#sgChatPanel .sg-msg-photo{display:block;max-width:220px;max-height:260px;border-radius:12px;margin-bottom:5px;object-fit:cover;cursor:pointer}
+#sgChatPanel .sg-msg-file{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;border-radius:10px;background:rgba(127,127,127,.12);margin-bottom:4px}
+#sgChatPanel .sg-msg-meta{display:flex;align-items:center;justify-content:flex-end;gap:4px;font-size:10px;opacity:.65;margin-top:3px}
+#sgChatPanel .sg-read{font-weight:700}
+#sgChatPanel .sg-unread-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#111;color:#fff;font-size:10px;margin-left:6px}
+#sgChatPanel .sg-chat-row{position:relative}
+#sgChatPanel .sg-chat-row .sg-row-meta{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:3px;font-size:10px;opacity:.65}
+#sgChatPanel .sg-chat-row .sg-row-status{font-size:10px}
+#sgChatPanel .sg-chat-row .sg-online-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;background:#aaa}
+#sgChatPanel .sg-chat-row .sg-online-dot.on{background:#20a44a}
+#sgChatPhotoInput{display:none}
+@media(max-width:700px){#sgChatPanel .sg-msg-photo{max-width:68vw;max-height:42vh}#sgChatPanel .sg-chat-compose{padding:8px 7px;gap:5px}}
+</style>
+<script id="satugo-chat-plus-final">
+(function(){
+'use strict';
+var activeChatPlus=null,unsubPlus=null,unsubChatListPlus=null,typingTimer=null,presenceTimer=null,typingUnsub=null;
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
+function U(){return window.currentUser||(window.auth&&window.auth.currentUser)||null}
+function db(){return window.db}
+function now(){return Date.now()}
+function toast(t){if(typeof window.sgToast==='function')window.sgToast(t);else alert(t)}
+function cid(a,b){return [a,b].sort().join('_')}
+function pname(u){try{var p=JSON.parse(localStorage.getItem('satugo_core_profile_'+u.uid)||localStorage.getItem('satugo_core_profile')||'{}');return p.name||u.displayName||u.email||'Қолданушы'}catch(e){return u.displayName||u.email||'Қолданушы'}}
+function ensure(){var p=document.getElementById('sgChatPanel');if(!p){p=document.createElement('div');p.id='sgChatPanel';p.className='sg-chat-panel';p.innerHTML='<div class="sg-chat-head"><b id="sgChatTitle">💬 Чаттар</b><button id="sgChatCloseBtn" type="button">×</button></div><div id="sgChatBody" class="sg-chat-list"></div>';document.body.appendChild(p)}return p}
+function close(){var p=document.getElementById('sgChatPanel');if(p){p.classList.remove('open');p.style.setProperty('display','none','important')}if(unsubPlus){unsubPlus();unsubPlus=null}if(unsubChatListPlus){unsubChatListPlus();unsubChatListPlus=null}if(typingUnsub){typingUnsub();typingUnsub=null}if(presenceTimer){clearInterval(presenceTimer);presenceTimer=null}activeChatPlus=null}
+window.sgCloseChat=close;
+function open(){var p=ensure();p.classList.add('open');p.style.setProperty('display','flex','important');p.style.visibility='visible';p.style.opacity='1';p.style.pointerEvents='auto';return p}
+function dt(v){try{return v&&v.toDate?v.toDate().toLocaleTimeString('kk-KZ',{hour:'2-digit',minute:'2-digit'}):''}catch(e){return ''}}
+function dte(v){try{return v&&v.toDate?v.toDate().toLocaleDateString('kk-KZ',{day:'2-digit',month:'2-digit'}):''}catch(e){return ''}}
+function isOnline(v){var n=v&&v.toMillis?v.toMillis():0;return n && (Date.now()-n<70000)}
+function otherId(x,u){return (x.participants||[]).find(function(id){return id!==u.uid})||''}
+async function markRead(id,u){try{await db().collection('chats').doc(id).set({readAt:{[u.uid]:firebase.firestore.FieldValue.serverTimestamp()},unreadCount:{[u.uid]:0}},{merge:true})}catch(e){}}
+async function presence(id,u,on){try{var o={};o['presence.'+u.uid]={online:on,lastSeen:firebase.firestore.FieldValue.serverTimestamp()};await db().collection('chats').doc(id).set(o,{merge:true})}catch(e){}}
+function renderMessage(d,u){var x=d.data()||{}, me=x.senderId===u.uid, time=dt(x.createdAt), read=x.readAt&&x.readAt[u.uid];var content='';if(x.type==='image'&&x.url){content='<img class="sg-msg-photo" src="'+esc(x.url)+'" alt="Фото" onclick="window.open('+JSON.stringify(x.url)+','_blank')">'}else if(x.type==='file'&&x.url){content='<a class="sg-msg-file" href="'+esc(x.url)+'" target="_blank" rel="noopener">📎 '+esc(x.fileName||'Файл')+'</a>'}else{content=esc(x.text||'')}return '<div class="sg-msg '+(me?'me':'other')+'">'+content+'<div class="sg-msg-meta"><span>'+esc(time)+'</span>'+(me?'<span class="sg-read">'+(read?'✓✓':'✓')+'</span>':'')+'</div></div>'}
+function compose(){var old=document.getElementById('sgChatCompose');if(old)old.remove();var p=document.getElementById('sgChatPanel');var c=document.createElement('div');c.id='sgChatCompose';c.className='sg-chat-compose';c.innerHTML='<input id="sgChatPhotoInput" type="file" accept="image/*" capture="environment"><button id="sgChatPhoto" class="sg-chat-photo" type="button" title="Фото">📷</button><input id="sgChatInput" type="text" autocomplete="off" placeholder="Хабарлама жазыңыз..."><button id="sgChatSend" class="sg-chat-send" type="button">Жіберу</button>';p.appendChild(c);
+ document.getElementById('sgChatSend').onclick=window.sgSendMessagePlus;document.getElementById('sgChatInput').oninput=function(){setTyping(true)};document.getElementById('sgChatInput').onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();window.sgSendMessagePlus()}};document.getElementById('sgChatPhoto').onclick=function(){document.getElementById('sgChatPhotoInput').click()};document.getElementById('sgChatPhotoInput').onchange=function(){if(this.files&&this.files[0])window.sgSendPhotoPlus(this.files[0]);this.value=''}
+}
+function subscribeTyping(id,u){if(typingUnsub)typingUnsub();var ref=db().collection('chats').doc(id);typingUnsub=ref.onSnapshot(function(s){var x=s.data()||{},o=otherId(x,u),t=x.typing&&x.typing[o];var el=document.getElementById('sgChatTyping');if(el)el.textContent=t?'Жазып жатыр...':''})}
+async function setTyping(on){var u=U();if(!u||!activeChatPlus)return;clearTimeout(typingTimer);try{var o={};o['typing.'+u.uid]=on;await db().collection('chats').doc(activeChatPlus).set(o,{merge:true})}catch(e){}if(on)typingTimer=setTimeout(function(){setTyping(false)},1500)}
+function startPresence(id,u){presence(id,u,true);if(presenceTimer)clearInterval(presenceTimer);presenceTimer=setInterval(function(){presence(id,u,true)},30000)}
+window.sgOpenChatPlus=async function(){var u=U(),p=open(),b=document.getElementById('sgChatBody');if(!u){b.innerHTML='<div class="sg-chat-empty">Чатқа кіру үшін аккаунтқа кіріңіз.</div>';return}b.className='sg-chat-list';b.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';if(unsubChatListPlus)unsubChatListPlus();try{var snap=await db().collection('chats').where('participants','array-contains',u.uid).get();var docs=snap.docs.sort(function(a,b){var at=a.data().updatedAt?.toMillis?a.data().updatedAt.toMillis():0,bt=b.data().updatedAt?.toMillis?b.data().updatedAt.toMillis():0;return bt-at});if(!docs.length){b.innerHTML='<div class="sg-chat-empty">Әзірге чат жоқ.<br>Тауардан «Сатушымен чат» батырмасын басыңыз.</div>';return}b.innerHTML=docs.map(function(d){var x=d.data()||{},o=otherId(x,u),name=(x.participantNames&&x.participantNames[o])||x.sellerName||'Қолданушы',uc=x.unreadCount&&x.unreadCount[u.uid]||0,p=x.presence&&x.presence[o],last=x.lastMessage||'';return '<button type="button" class="sg-chat-row" data-chat-id="'+esc(d.id)+'" data-chat-name="'+esc(name)+'"><b>👤 '+esc(name)+(p&&isOnline(p)?'<span class="sg-online-dot on"></span><span class="sg-chat-status">онлайн</span>':'')+'</b><small>'+esc(last||'Чатты ашу')+'</small><span class="sg-row-meta"><span>'+esc(dte(x.updatedAt)||'')+'</span>'+(uc?'<span class="sg-unread-badge">'+uc+'</span>':'')+'</span></button>'}).join('');b.querySelectorAll('[data-chat-id]').forEach(function(el){el.onclick=function(){window.sgOpenExistingChatPlus(el.dataset.chatId,el.dataset.chatName)}})}catch(e){b.innerHTML='<div class="sg-chat-empty">Чаттарды жүктеу қатесі.<br>'+esc(e.message)+'</div>'}};
+window.sgStartChatPlus=async function(sellerId,sellerName,sellerEmail){var u=U();if(!u){toast('Чатқа кіру үшін аккаунтқа кіріңіз');return}try{if(!sellerId&&sellerEmail){var q=await db().collection('users').where('email','==',sellerEmail).limit(1).get();if(!q.empty)sellerId=q.docs[0].id}if(!sellerId||sellerId===u.uid){toast(!sellerId?'Сатушы аккаунты табылмады':'Өз тауарыңызға чат аша алмайсыз');return}var id=cid(u.uid,sellerId),names={};names[u.uid]=pname(u);names[sellerId]=sellerName||'Сатушы';await db().collection('chats').doc(id).set({participants:[u.uid,sellerId],members:[u.uid,sellerId],participantNames:names,sellerId:sellerId,sellerName:sellerName||'Сатушы',sellerEmail:sellerEmail||'',updatedAt:firebase.firestore.FieldValue.serverTimestamp(),unreadCount:{[u.uid]:0,[sellerId]:0},readAt:{},typing:{},presence:{}},{merge:true});window.sgOpenExistingChatPlus(id,sellerName||'Сатушы')}catch(e){toast('Чат ашылмады: '+e.message)}};
+window.sgOpenExistingChatPlus=function(id,name){var u=U();if(!u)return;open();activeChatPlus=id;var b=document.getElementById('sgChatBody'),t=document.getElementById('sgChatTitle');if(unsubPlus)unsubPlus();if(typingUnsub)typingUnsub();t.innerHTML='<button type="button" id="sgChatBack">←</button> 💬 '+esc(name||'Чат')+'<span id="sgChatOnline" class="sg-chat-status"></span>';document.getElementById('sgChatBack').onclick=function(){window.sgOpenChatPlus()};b.className='sg-chat-messages';b.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';compose();subscribeTyping(id,u);markRead(id,u);startPresence(id,u);unsubPlus=db().collection('chats').doc(id).onSnapshot(function(cs){var x=cs.data()||{},o=otherId(x,u),po=x.presence&&x.presence[o],os=document.getElementById('sgChatOnline');if(os)os.textContent=po&&isOnline(po)?'● онлайн':'соңғы рет: '+(dt(po&&po.lastSeen)||'—');});var msgUnsub=db().collection('chats').doc(id).collection('messages').orderBy('createdAt','asc').limitToLast(100).onSnapshot(function(s){var html=s.empty?'<div class="sg-chat-empty">Сәлемдесуден бастаңыз 👋</div>':s.docs.map(function(d){return renderMessage(d,u)}).join('');b.innerHTML=html+'<div id="sgChatTyping" class="sg-chat-typing"></div>';b.scrollTop=b.scrollHeight;markRead(id,u);var ids=s.docs.map(function(d){return d.id});if(ids.length)Promise.all(s.docs.filter(function(d){return d.data().senderId!==u.uid&&!d.data().readAt}).map(function(d){return d.ref.set({readAt:{[u.uid]:firebase.firestore.FieldValue.serverTimestamp()}},{merge:true}).catch(function(){})}));},function(e){b.innerHTML='<div class="sg-chat-empty">Хабарламаларды жүктеу қатесі.<br>'+esc(e.message)+'</div>'});var oldMsgUnsub=unsubPlus;unsubPlus=function(){if(oldMsgUnsub)oldMsgUnsub();msgUnsub()}};
+window.sgSendMessagePlus=async function(){var u=U(),inp=document.getElementById('sgChatInput');if(!u||!activeChatPlus||!inp)return;var text=inp.value.trim();if(!text)return;inp.value='';setTyping(false);try{var ref=db().collection('chats').doc(activeChatPlus),snap=await ref.get(),x=snap.data()||{},parts=x.participants||[];if(parts.indexOf(u.uid)<0)throw new Error('Бұл чатқа рұқсат жоқ');var other=otherId(x,u),counts=x.unreadCount||{};counts[other]=(counts[other]||0)+1;await ref.collection('messages').add({senderId:u.uid,senderName:pname(u),text:text,type:'text',createdAt:firebase.firestore.FieldValue.serverTimestamp(),readAt:{}});await ref.set({lastMessage:text,lastSenderId:u.uid,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),unreadCount:counts},{merge:true})}catch(e){inp.value=text;toast('Хабарлама жіберілмеді: '+e.message)}};
+window.sgSendPhotoPlus=async function(file){var u=U();if(!u||!activeChatPlus||!file)return;if(!firebase.storage){toast('Фото сақтау модулі қосылмаған');return}if(file.size>8*1024*1024){toast('Фото 8 МБ-тан үлкен болмауы керек');return}try{toast('Фото жүктелуде...');var path='chatPhotos/'+activeChatPlus+'/'+Date.now()+'_'+String(file.name||'photo.jpg').replace(/[^a-zA-Z0-9._-]/g,'_');var snap=await firebase.storage().ref(path).put(file);var url=await snap.ref.getDownloadURL(),ref=db().collection('chats').doc(activeChatPlus),chat=await ref.get(),x=chat.data()||{},other=otherId(x,u),counts=x.unreadCount||{};counts[other]=(counts[other]||0)+1;await ref.collection('messages').add({senderId:u.uid,senderName:pname(u),text:'📷 Фото',type:'image',url:url,fileName:file.name||'photo.jpg',createdAt:firebase.firestore.FieldValue.serverTimestamp(),readAt:{}});await ref.set({lastMessage:'📷 Фото',lastSenderId:u.uid,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),unreadCount:counts},{merge:true})}catch(e){toast('Фото жіберілмеді: '+e.message)}};
+// Keep old entry points working
+window.sgOpenChat=window.sgOpenChatPlus;window.sgStartChat=window.sgStartChatPlus;window.sgOpenExistingChat=window.sgOpenExistingChatPlus;window.sgSendMessage=window.sgSendMessagePlus;
+setTimeout(ensure,400);
 })();
 </script>
 </body>
