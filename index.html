@@ -7495,5 +7495,47 @@ var oldPanel=document.getElementById('sgChatPanel');if(oldPanel){oldPanel.style.
 })();
 </script>
 
+
+<style id="satugo-account-final-clean-css">
+#sgCleanAuth,#sgCleanProfile{position:fixed!important;inset:0!important;z-index:2147483647!important;pointer-events:auto!important;}
+#sgCleanAuth:not(.open){display:none!important;}
+#sgCleanProfile:not(.open){display:none!important;}
+#sgCleanAuth.open,#sgCleanProfile.open{display:flex!important;visibility:visible!important;opacity:1!important;}
+#satugoFinalNav,#satugoFinalNav *{pointer-events:auto!important;}
+</style>
+<script id="satugo-account-final-clean-js">
+(function(){
+ 'use strict';
+ function hideOld(){
+   var ids=['accountModal','accountPanel','profileModal','loginModal','authModal','sgPhoneAuth','sgProfileOverlay','sgNotifyPanel'];
+   ids.forEach(function(id){var e=document.getElementById(id);if(e){e.classList.remove('show','open');e.style.setProperty('display','none','important');e.style.setProperty('pointer-events','none','important');}});
+   document.querySelectorAll('.modal,.sg-modal,.sg-v2-modal,.sg-core-modal').forEach(function(e){e.classList.remove('show','open');e.style.setProperty('display','none','important');e.style.setProperty('pointer-events','none','important');});
+ }
+ function openAccountClean(e){
+   if(e){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();}
+   hideOld();
+   var auth=(window.auth&&window.auth.currentUser)||(window.firebase&&firebase.auth&&firebase.auth().currentUser)||window.currentUser||null;
+   var a=document.getElementById('sgCleanAuth'),p=document.getElementById('sgCleanProfile');
+   if(!auth){
+     if(p){p.classList.remove('open');p.style.setProperty('display','none','important');}
+     if(a){a.classList.add('open');a.style.setProperty('display','flex','important');a.style.setProperty('pointer-events','auto','important');a.setAttribute('aria-hidden','false');}
+     if(window.sgCA&&typeof window.sgCA.mode==='function')window.sgCA.mode('login');
+   }else{
+     if(a){a.classList.remove('open');a.style.setProperty('display','none','important');}
+     if(p){p.classList.add('open');p.style.setProperty('display','flex','important');p.style.setProperty('pointer-events','auto','important');}
+     if(typeof window.sgOpenCleanAccount==='function')window.sgOpenCleanAccount();
+   }
+ }
+ window.openAccount=openAccountClean; window.sgMobileOpenAccount=openAccountClean;
+ function bind(){
+   var b=document.getElementById('satugoFinalAccount');
+   if(b){b.onclick=openAccountClean;b.ontouchend=openAccountClean;}
+   var a=document.getElementById('sgCleanAuth'),p=document.getElementById('sgCleanProfile');
+   if(a)a.onclick=function(e){if(e.target===a){e.preventDefault();e.stopPropagation();if(window.sgCA)window.sgCA.close();}};
+   if(p)p.onclick=function(e){if(e.target===p){e.preventDefault();e.stopPropagation();if(window.sgCA)window.sgCA.closeProfile();}};
+ }
+ document.addEventListener('DOMContentLoaded',bind); setTimeout(bind,100);setTimeout(bind,500);setTimeout(bind,1500);
+})();
+</script>
 </body>
 </html>
