@@ -7209,5 +7209,97 @@ body{padding-bottom:80px!important;}
 })();
 </script>
 <style>#sgChatPanel.sg-chat-panel.open{display:flex!important;position:fixed!important;left:8px!important;right:8px!important;bottom:78px!important;z-index:2147483647!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;max-height:calc(100vh - 95px)!important;background:#fff!important;border-radius:18px!important;overflow:hidden!important}#sgChatPanel #sgChatBody{overflow:auto;max-height:55vh}#sgChatPanel .sg-chat-compose{display:flex!important;gap:6px;padding:8px;border-top:1px solid #eee;background:#fff}#sgChatPanel .sg-chat-compose input{flex:1;min-width:0}</style>
+<!-- SATUGO FINAL SEND BUTTON FIX -->
+<style id="satugo-final-send-fix-css">
+#sgChatPanel #sgChatCompose,
+#sgChatPanel #sgChatSend,
+#sgChatPanel #sgChatInput{
+  pointer-events:auto!important;
+  position:relative!important;
+}
+#sgChatPanel #sgChatSend{
+  z-index:2147483647!important;
+  cursor:pointer!important;
+  touch-action:manipulation!important;
+  user-select:none!important;
+  -webkit-tap-highlight-color:transparent!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+</style>
+<script id="satugo-final-send-fix-js">
+(function(){
+  'use strict';
+  function U(){return window.currentUser||(window.auth&&window.auth.currentUser)||(window.firebase&&firebase.auth&&firebase.auth().currentUser)||null}
+  function T(x){if(typeof window.sgToast==='function')window.sgToast(x);else alert(x)}
+  function N(u){try{var x=JSON.parse(localStorage.getItem('satugo_core_profile_'+u.uid)||'{}');return x.name||u.displayName||u.email||'Қолданушы'}catch(e){return u.displayName||u.email||'Қолданушы'}}
+  var sending=false;
+  window.sgSendMessage=async function(){
+    var u=U(), i=document.getElementById('sgChatInput'), id=window.__sgFinalActiveChat;
+    if(!u){T('Аккаунтқа қайта кіріңіз.');return}
+    if(!window.db){T('Firebase Firestore қосылмаған.');return}
+    if(!id){T('Чат таңдалмаған.');return}
+    if(!i){T('Хабарлама жолағы табылмады.');return}
+    var text=String(i.value||'').trim();
+    if(!text)return;
+    if(sending)return;
+    sending=true;
+    var btn=document.getElementById('sgChatSend');
+    if(btn){btn.disabled=true;btn.textContent='...';}
+    try{
+      var ref=db.collection('chats').doc(id);
+      var snap=await ref.get();
+      if(!snap.exists){throw new Error('Чат табылмады.');}
+      var data=snap.data()||{};
+      var participants=Array.isArray(data.participants)?data.participants:[];
+      var members=Array.isArray(data.members)?data.members:participants;
+      if(participants.indexOf(u.uid)<0 && members.indexOf(u.uid)<0)throw new Error('Бұл чатқа рұқсатыңыз жоқ.');
+      await ref.collection('messages').add({
+        senderId:u.uid,
+        senderName:N(u),
+        text:text,
+        createdAt:firebase.firestore.FieldValue.serverTimestamp()
+      });
+      await ref.set({
+        participants:participants.length?participants:members,
+        members:members.length?members:participants,
+        lastMessage:text,
+        lastSenderId:u.uid,
+        updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+      },{merge:true});
+      i.value='';
+    }catch(e){
+      console.error('SatuGo send message:',e);
+      T('Хабарлама жіберілмеді: '+(e.message||'Firebase қатесі'));
+    }finally{
+      sending=false;
+      var b=document.getElementById('sgChatSend');
+      if(b){b.disabled=false;b.textContent='Жіберу';}
+    }
+  };
+  function bind(){
+    var b=document.getElementById('sgChatSend');
+    if(!b||b.dataset.sgSendBound==='1')return;
+    b.dataset.sgSendBound='1';
+    b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();window.sgSendMessage();},true);
+    b.addEventListener('touchend',function(e){e.preventDefault();e.stopPropagation();window.sgSendMessage();},{passive:false});
+  }
+  var oldOpen=window.sgOpenExistingChat;
+  if(typeof oldOpen==='function' && !oldOpen.__sgWrapped){
+    var wrapped=async function(){var r=await oldOpen.apply(this,arguments);setTimeout(bind,0);setTimeout(bind,100);return r};
+    wrapped.__sgWrapped=true;
+    window.sgOpenExistingChat=wrapped;
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target&&e.target.closest?e.target.closest('#sgChatSend'):null;
+    if(b && b.dataset.sgSendBound!=='1'){
+      e.preventDefault();e.stopImmediatePropagation();bind();window.sgSendMessage();
+    }
+  },true);
+  document.addEventListener('DOMContentLoaded',function(){setTimeout(bind,100);setTimeout(bind,500);});
+  setTimeout(bind,300);setTimeout(bind,1000);
+})();
+</script>
+
 </body>
 </html>
