@@ -2497,6 +2497,10 @@ async function checkout(){
 
         customerId:user.uid,
 
+        buyerId:user.uid,
+
+        sellerIds:[...new Set(items.map(item=>item.sellerId||"").filter(Boolean))],
+
         customerName:
           profile?.name||
           user.email||
@@ -2513,7 +2517,7 @@ async function checkout(){
 
         total:subtotal,
 
-        status:"Қабылданды",
+        status:"Жаңа тапсырыс",
 
         paymentMethod:"Кейін таңдау",
 
@@ -2555,7 +2559,7 @@ async function openOrders(){
   openModal("ordersModal");
   const box=document.getElementById("ordersList"); box.innerHTML="⏳ Жүктелуде...";
   try{
-    const snap=await db.collection("orders").where("customerId","==",user.uid).get();
+    const snap=await db.collection("orders").where("buyerId","==",user.uid).get();
     const orders=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0));
     if(!orders.length){box.innerHTML='<div class="empty">📦 Әзірге тапсырыс жоқ.</div>';return;}
     box.innerHTML=orders.map(o=>{
@@ -4612,6 +4616,14 @@ async function saveStore(){
 
 async function saveProduct(){
 
+  const activeUser=(window.auth&&window.auth.currentUser)||window.currentUser||user||null;
+  if(!activeUser){
+    alert("Алдымен аккаунтқа кіріңіз.");
+    if(typeof openAccount==="function") openAccount();
+    return;
+  }
+  user=activeUser;
+
   const title=
     document.getElementById(
       "newProductTitle"
@@ -5354,7 +5366,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
     };
     if(!customer.name||!customer.phone||!customer.address){toast('Аты, телефон және мекенжайды толтырыңыз');return}
     const order={
-      buyerId:u.uid,buyerEmail:u.email||'',customer,
+      buyerId:u.uid,customerId:u.uid,buyerEmail:u.email||'',customer,
       items:items.map(x=>({
         id:x.id||'',title:x.title||x.name||'Тауар',price:Number(x.price||0),
         qty:Number(x.qty||x.quantity||1),sellerId:x.sellerId||'',sellerEmail:x.sellerEmail||''
