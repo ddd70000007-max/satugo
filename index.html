@@ -6467,6 +6467,11 @@ body{padding-bottom:80px!important;}
      if(typeof window.renderAccount==='function') window.renderAccount();
      var source=byId('account');
      box.innerHTML=source ? source.innerHTML : '<div style="padding:30px;text-align:center">Аккаунт жүктелуде...</div>';
+   var loginBtn=box.querySelector('button[onclick*="openAuth"]');
+   if(loginBtn){
+     loginBtn.removeAttribute('onclick');
+     loginBtn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();stableLogin();});
+   }
    }catch(e){box.innerHTML='<div style="padding:30px;text-align:center">Аккаунтты ашу қатесі.<br>'+String(e.message||e)+'</div>';}
    ov.classList.add('open'); accountOpen=true;
    document.body.classList.add('sg-stable-account-open');
@@ -6483,7 +6488,7 @@ body{padding-bottom:80px!important;}
      var el=e.target.closest && e.target.closest('[onclick]');
      if(!el)return;
      var code=el.getAttribute('onclick')||'';
-     var actions=['openAuth','openOrders','openFavorites','openOffers','openRequest','openSeller','openCart','sgCoreOpenProfile','resendVerification','logout'];
+     var actions=['openOrders','openFavorites','openOffers','openRequest','openSeller','openCart','sgCoreOpenProfile','resendVerification','logout'];
      var hit=null;
      for(var i=0;i<actions.length;i++){if(code.indexOf(actions[i]+'(')>=0){hit=actions[i];break}}
      if(!hit)return;
@@ -6493,6 +6498,17 @@ body{padding-bottom:80px!important;}
    });
  }
  function account(){stableAccount()}
+ function stableLogin(){
+   closeStable();
+   var old=byId('accountModal');
+   if(old){old.classList.remove('show');old.style.removeProperty('display');}
+   setTimeout(function(){
+     try{
+       if(typeof window.openAuth==='function'){ window.openAuth(); }
+     }catch(err){ alert('Кіру терезесін ашу қатесі: '+(err.message||err)); }
+   },80);
+ }
+ window.sgStableLogin=stableLogin;
  function chats(){
    closeStable(); closeOldOverlays('sgChatPanel');
    try{
