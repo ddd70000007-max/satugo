@@ -6754,8 +6754,7 @@ body{padding-bottom:80px!important;}
 <script>
 (function(){function showNav(){var n=document.getElementById('satugoFinalNav');if(!n)return;n.style.setProperty('display','flex','important');n.style.setProperty('visibility','visible','important');n.style.setProperty('opacity','1','important');n.style.setProperty('pointer-events','auto','important');n.style.setProperty('z-index','2147483647','important');}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',showNav);else showNav();window.addEventListener('load',showNav);setTimeout(showNav,300);setTimeout(showNav,1000);}());
 </script>
-</body>
-</html>
+
 <!-- =========================================================
      SATUGO FINAL STABILITY PATCH
      Бұл блок сайттың ең соңында тұруы керек.
@@ -6883,3 +6882,215 @@ body{padding-bottom:80px!important;}
   setInterval(function(){bindAuth();bindNav();},2500);
 })();
 </script>
+
+
+<!-- SATUGO FINAL CLEAN STABILITY PATCH -->
+<style id="satugoFinalCleanStyle">
+  #satugoFinalNav{
+    position:fixed !important;
+    left:0 !important; right:0 !important; bottom:0 !important;
+    z-index:2147483000 !important;
+    display:grid !important;
+    grid-template-columns:repeat(5,1fr) !important;
+    height:64px !important;
+    padding:6px 6px calc(6px + env(safe-area-inset-bottom)) !important;
+    background:rgba(255,255,255,.98) !important;
+    border-top:1px solid #e5e7eb !important;
+    box-shadow:0 -4px 18px rgba(0,0,0,.08) !important;
+    pointer-events:auto !important;
+  }
+  #satugoFinalNav button{
+    min-width:0 !important;
+    border:0 !important;
+    background:transparent !important;
+    color:#374151 !important;
+    border-radius:12px !important;
+    font:600 12px/1.15 system-ui,sans-serif !important;
+    cursor:pointer !important;
+    touch-action:manipulation !important;
+    pointer-events:auto !important;
+    position:relative !important;
+    z-index:2 !important;
+  }
+  #satugoFinalNav button:active{transform:scale(.96)}
+  #satugoFinalNav button.active{background:#f3f4f6 !important;color:#111827 !important}
+  body{padding-bottom:82px !important}
+  @media(min-width:801px){
+    #satugoFinalNav{height:58px !important}
+  }
+  #sgChatPanel{
+    z-index:2147482000 !important;
+  }
+</style>
+
+<script id="satugoFinalCleanScript">
+(function(){
+  "use strict";
+
+  function byId(id){ return document.getElementById(id); }
+
+  function showOnly(id){
+    var el = byId(id);
+    if(!el) return false;
+    el.style.display = "";
+    el.hidden = false;
+    try{ el.scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){}
+    return true;
+  }
+
+  function setActive(id){
+    var nav=byId("satugoFinalNav");
+    if(!nav) return;
+    nav.querySelectorAll("button").forEach(function(b){b.classList.remove("active");});
+    var b=byId(id);
+    if(b) b.classList.add("active");
+  }
+
+  function openAccount(){
+    setActive("satugoFinalAccount");
+    var ids=["accountModal","accountPanel","profileModal","loginModal","authModal"];
+    for(var i=0;i<ids.length;i++){
+      var el=byId(ids[i]);
+      if(el){
+        el.style.display="flex";
+        el.hidden=false;
+        return true;
+      }
+    }
+    if(typeof window.openAccount==="function" && window.openAccount!==openAccount){
+      try{window.openAccount();return true;}catch(e){}
+    }
+    return false;
+  }
+
+  function openSearch(){
+    setActive("satugoFinalSearch");
+    var input=document.querySelector(
+      '#searchInput, #search, input[placeholder*="Тауар"], input[placeholder*="тауар"]'
+    );
+    if(input){
+      try{input.focus();input.scrollIntoView({behavior:"smooth",block:"center"});}catch(e){}
+      return true;
+    }
+    var searchSection=document.querySelector(
+      '#searchSection,.search-section,.search-page,[data-page="search"]'
+    );
+    if(searchSection) return showOnly(searchSection.id);
+    window.scrollTo({top:0,behavior:"smooth"});
+    return true;
+  }
+
+  function openHome(){
+    setActive("satugoFinalHome");
+    var home=byId("home") || byId("homeSection") || document.querySelector("main");
+    if(home) try{home.scrollIntoView({behavior:"smooth",block:"start"});}catch(e){}
+    else window.scrollTo({top:0,behavior:"smooth"});
+    return true;
+  }
+
+  function openFavorites(){
+    setActive("satugoFinalFav");
+    var ids=["favoritesPanel","favoritesModal","favoritesSection","favSection"];
+    for(var i=0;i<ids.length;i++){
+      if(byId(ids[i])) return showOnly(ids[i]);
+    }
+    if(typeof window.showFavorites==="function"){
+      try{window.showFavorites();return true;}catch(e){}
+    }
+    alert("Таңдаулы тауарлар осы жерде көрсетіледі.");
+    return true;
+  }
+
+  function openChat(){
+    setActive("satugoFinalChat");
+
+    var panel=byId("sgChatPanel");
+    if(panel){
+      panel.style.display="flex";
+      panel.hidden=false;
+      panel.style.pointerEvents="auto";
+      try{panel.scrollIntoView({behavior:"smooth",block:"center"});}catch(e){}
+      var input=panel.querySelector("textarea,input[type='text']");
+      if(input) setTimeout(function(){try{input.focus();}catch(e){}},150);
+      return true;
+    }
+
+    var funcs=["sgOpenChat","sgMobileOpenChat","openChatPanel","showChat"];
+    for(var i=0;i<funcs.length;i++){
+      if(typeof window[funcs[i]]==="function"){
+        try{window[funcs[i]]();return true;}catch(e){}
+      }
+    }
+
+    if(!window.currentUser && !window.user){
+      openAccount();
+      return true;
+    }
+    alert("Чат модулі табылмады. Бетті жаңартып көріңіз.");
+    return false;
+  }
+
+  function bind(){
+    var map={
+      satugoFinalHome:openHome,
+      satugoFinalSearch:openSearch,
+      satugoFinalFav:openFavorites,
+      satugoFinalChat:openChat,
+      satugoFinalAccount:openAccount
+    };
+    Object.keys(map).forEach(function(id){
+      var b=byId(id);
+      if(!b || b.dataset.finalBound==="1") return;
+      b.dataset.finalBound="1";
+      b.addEventListener("click",function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        map[id]();
+      },true);
+      b.addEventListener("touchend",function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        map[id]();
+      },{passive:false,capture:true});
+    });
+  }
+
+  function fixHiddenLayers(){
+    document.querySelectorAll(
+      ".modal[hidden],.modal[style*='display: none'],[aria-hidden='true']"
+    ).forEach(function(el){
+      if(el.id==="satugoFinalNav") return;
+      var r=el.getBoundingClientRect();
+      var s=getComputedStyle(el);
+      if((s.position==="fixed"||s.position==="absolute") && r.width>0 && r.height>0){
+        el.style.pointerEvents="none";
+      }
+    });
+  }
+
+  function init(){
+    bind();
+    fixHiddenLayers();
+    var nav=byId("satugoFinalNav");
+    if(nav) nav.style.pointerEvents="auto";
+  }
+
+  window.satugoFinalOpenChat=openChat;
+  window.satugoFinalOpenAccount=openAccount;
+  window.satugoFinalOpenSearch=openSearch;
+  window.satugoFinalOpenHome=openHome;
+  window.satugoFinalOpenFavorites=openFavorites;
+
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",init);
+  }else init();
+
+  window.addEventListener("load",function(){
+    bind();
+    fixHiddenLayers();
+  });
+})();
+</script>
+
+</body>
+</html>
