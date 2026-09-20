@@ -6234,5 +6234,68 @@ setTimeout(ensurePanel,300);
   window.addEventListener('load',bind);
 })();
 </script>
+
+<!-- SATUGO ACCOUNT ONE-BUTTON FINAL FIX -->
+<style id="satugo-account-one-button-fix">
+@media(max-width:700px){
+  #satugoFinalNav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;height:76px!important;z-index:2147483647!important;pointer-events:auto!important;display:flex!important;}
+  #satugoFinalAccount{display:flex!important;position:relative!important;z-index:2147483647!important;pointer-events:auto!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important;}
+  #sgAuthModal.open{display:flex!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;z-index:2147483647!important;}
+</style>
+<script id="satugo-account-one-button-fix-js">
+(function(){
+  'use strict';
+  function getUser(){
+    try{return (window.auth && window.auth.currentUser) || window.currentUser || window.user || null;}catch(e){return null;}
+  }
+  function openAccount(){
+    try{
+      var u=getUser();
+      if(u){
+        if(typeof window.renderAccount==='function'){try{window.renderAccount();}catch(e){console.error(e);}}
+        var a=document.getElementById('accountModal');
+        if(a){
+          a.classList.add('show');
+          a.style.display='block';
+          a.style.visibility='visible';
+          a.style.opacity='1';
+          a.style.pointerEvents='auto';
+          a.style.zIndex='2147483646';
+        }
+        return;
+      }
+      var m=document.getElementById('sgAuthModal');
+      if(!m){alert('Кіру терезесі табылмады.');return;}
+      m.classList.add('open');
+      m.setAttribute('aria-hidden','false');
+      m.style.display='flex';
+      m.style.visibility='visible';
+      m.style.opacity='1';
+      m.style.pointerEvents='auto';
+      m.style.zIndex='2147483647';
+      if(typeof window.sgAuthTab==='function') window.sgAuthTab('phone');
+    }catch(e){console.error('ACCOUNT FIX',e);alert('Аккаунт ашылмады: '+(e.message||e));}
+  }
+  window.SG_ACCOUNT_OPEN_DIRECT=openAccount;
+  function install(){
+    var old=document.getElementById('satugoFinalAccount');
+    if(!old)return;
+    /* Clone removes every old click/touch listener attached to this button. */
+    var b=old.cloneNode(true);
+    old.replaceWith(b);
+    b.id='satugoFinalAccount';
+    b.type='button';
+    b.onclick=function(e){e.preventDefault();e.stopPropagation();openAccount();return false;};
+    b.onpointerdown=function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      openAccount();
+    };
+    b.ontouchstart=function(e){e.preventDefault();e.stopPropagation();};
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install);else install();
+  window.addEventListener('load',install);
+})();
+</script>
 </body>
 </html>
