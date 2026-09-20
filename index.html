@@ -2471,8 +2471,11 @@ async function showProduct(id){
       </button>
 
       <button
-        class="btn btn-light"
-        onclick="sgStartChat('${p.sellerId||p.sellerUid||p.ownerId||''}','${esc(p.seller||p.sellerName||p.storeName||'Сатушы')}','${esc(p.sellerEmail||p.ownerEmail||'')}')"
+        type="button"
+        class="btn btn-light sg-seller-chat-btn"
+        data-seller-id="${esc(p.sellerId||p.sellerUid||p.ownerId||'')}"
+        data-seller-name="${esc(p.seller||p.sellerName||p.storeName||'Сатушы')}"
+        data-seller-email="${esc(p.sellerEmail||p.ownerEmail||'')}"
       >
         💬 Сатушымен чат
       </button>
@@ -7026,6 +7029,9 @@ setTimeout(function(){bind();closeInactive();},500);
 #sellerModal.show,#ordersModal.show,#accountModal.show,#favoritesModal.show,#sgAuthModal.open,#sgPhoneAuth.open{pointer-events:auto!important}
 #sgChatPanel{z-index:2147483647!important}
 </style>
+<style id="satugo-chat-button-fix">
+.sg-seller-chat-btn{cursor:pointer!important;pointer-events:auto!important;position:relative!important;z-index:5!important}
+</style>
 <script>
 (function(){
  'use strict';
@@ -7041,11 +7047,12 @@ setTimeout(function(){bind();closeInactive();},500);
    if(typeof window.renderSeller==='function')Promise.resolve(window.renderSeller()).catch(function(e){var b=document.getElementById('seller');if(b)b.innerHTML='<div class="empty">❌ '+String(e.message||e)+'</div>';});
    return false;
  }
+ var realOpenOrders = window.openOrders;
  function openOrdersClean(){
    var u=(window.auth&&window.auth.currentUser)||window.currentUser||window.user;
    if(!u){if(typeof window.sgUniversalAuth==='function')window.sgUniversalAuth();else if(typeof window.openAuth==='function')window.openAuth();return false;}
    hideMain();
-   if(typeof window.openOrders==='function')return window.openOrders();
+   if(typeof realOpenOrders==='function')return realOpenOrders.apply(window,arguments);
    return false;
  }
  function openChatClean(){
@@ -7065,6 +7072,20 @@ setTimeout(function(){bind();closeInactive();},500);
  document.addEventListener('click',function(e){
    var t=e.target&&e.target.closest?e.target.closest('button,a'):null;if(!t)return;
    var id=t.id||'',txt=(t.textContent||'').replace(/\s+/g,' ').trim();
+   if(t.classList.contains('sg-seller-chat-btn') || txt.indexOf('Сатушымен чат')>=0){
+     e.preventDefault();e.stopImmediatePropagation();
+     var sid=t.getAttribute('data-seller-id')||t.getAttribute('data-selleruid')||'';
+     var sname=t.getAttribute('data-seller-name')||'Сатушы';
+     var semail=t.getAttribute('data-seller-email')||'';
+     if(!sid){
+       var oc=t.getAttribute('onclick')||'';
+       var m=oc.match(/sgStartChat\(\s*['\"]([^'\"]*)['\"]/);
+       if(m)sid=m[1];
+     }
+     if(typeof window.sgStartChat==='function') window.sgStartChat(sid,sname,semail);
+     else if(typeof window.sgOpenChat==='function') window.sgOpenChat();
+     return;
+   }
    if(id==='satugoFinalChat'||txt==='Чаттар'){
      e.preventDefault();e.stopImmediatePropagation();openChatClean();return;
    }
