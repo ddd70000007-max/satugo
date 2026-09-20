@@ -183,39 +183,52 @@ header{
 /* HERO */
 
 .hero{
-  margin:24px 0;
-  padding:36px;
-  border-radius:26px;
+  margin:18px 0;
+  padding:24px 26px;
+  border-radius:22px;
   color:#fff;
-  background:
-    radial-gradient(circle at 85% 20%,#60a5fa 0,transparent 30%),
-    linear-gradient(135deg,#15803d,#2563eb);
+  background:linear-gradient(135deg,#f5b400,#ffcc3d);
+  box-shadow:0 10px 28px rgba(245,180,0,.18);
 }
 
 .hero h1{
   margin:0;
-  max-width:650px;
-  font-size:42px;
-  line-height:1.05;
-  letter-spacing:-1.5px;
+  max-width:560px;
+  font-size:30px;
+  line-height:1.1;
+  letter-spacing:-.7px;
+  color:#171717;
 }
 
 .hero p{
-  max-width:620px;
-  color:#dcfce7;
-  font-size:17px;
+  margin:8px 0 14px;
+  max-width:560px;
+  color:#4a3b00;
+  font-size:14px;
 }
 
 .hero-search{
   display:flex;
   gap:8px;
-  max-width:700px;
-  margin-top:22px;
+  max-width:620px;
+  margin-top:12px;
 }
 
 .hero-search input{
   margin:0;
   flex:1;
+  min-height:48px;
+  border:0;
+  border-radius:14px;
+  padding:0 16px;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+}
+
+.hero-search .btn{
+  border-radius:14px;
+  min-width:100px;
+  background:#171717;
+  color:#fff;
 }
 
 /* SECTIONS */
@@ -1165,16 +1178,67 @@ body.sg-modal-active .sg-core-modal {
 })();
 </script>
 <!-- SatuGo MOBILE BUTTON SAFETY FIX -->
-<style id="satugo-mobile-single-style">
-@media (max-width:700px){
-  body{padding-bottom:78px!important;overflow-x:hidden!important;}
-  #satugoFinalNav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:72px!important;display:flex!important;visibility:visible!important;opacity:1!important;background:#fff!important;border-top:1px solid #ddd!important;z-index:2147483647!important;pointer-events:auto!important;}
-  #satugoFinalNav button{flex:1 1 20%!important;width:20%!important;height:72px!important;border:0!important;background:#fff!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important;padding:4px 1px!important;pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important;}
-  #satugoFinalNav .i{font-size:22px!important;line-height:25px!important;}
-  .modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),.sg-core-modal:not(.open),.sg-feat-overlay:not(.open){display:none!important;pointer-events:none!important;visibility:hidden!important;}
-}
-</style></head>
+
+<style id="satugo-modern-market-v1">
+/* SatuGo modern marketplace redesign */
+:root{--sg-yellow:#ffd43b;--sg-ink:#171717;--sg-muted:#747474;--sg-bg:#f6f7f9;--sg-card:#fff;--sg-radius:18px}
+body{background:var(--sg-bg)!important;color:var(--sg-ink)!important}
+header{background:#fff!important;border-bottom:1px solid #eee!important}
+#sgSmartTop{background:transparent!important}
+.sg-smart-head{padding:4px 0 8px!important}
+.sg-smart-head strong,.logo,.brand{font-weight:900!important;letter-spacing:-.5px}
+#search,.search-input,.search-wrap input{border:0!important;background:#f0f1f3!important;border-radius:16px!important;height:52px!important;box-shadow:none!important;font-size:16px!important}
+button,.btn{border-radius:14px!important}
+.product-card,.product,.card{border:0!important;border-radius:20px!important;background:#fff!important;box-shadow:0 2px 12px rgba(0,0,0,.06)!important;overflow:hidden}
+.product-grid{gap:14px!important}
+.product-card img,.product img{border-radius:18px!important}
+.category,.category-card,.cat-item{border:0!important;border-radius:16px!important;background:#fff!important;box-shadow:0 1px 8px rgba(0,0,0,.04)!important}
+.section-title,h2{font-weight:850!important;letter-spacing:-.4px}
+#satugoFinalNav{background:#fff!important;border-top:1px solid #ececec!important;box-shadow:0 -4px 18px rgba(0,0,0,.07)!important}
+#satugoFinalNav button{color:#777!important;font-weight:700!important}
+#satugoFinalNav button:hover,#satugoFinalNav button:active{color:#111!important}
+#satugoFinalNav button .i{font-size:22px!important}
+@media(max-width:768px){body{padding-bottom:82px!important}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.product-card,.product,.card{border-radius:16px!important}.product-card img,.product img{border-radius:14px!important}.sg-smart-head{gap:8px!important}}
+</style>
+</head>
 <body>
+<style id="satugo-nav-definitive">
+#satugoFinalNav{
+  display:flex!important;
+  position:fixed!important;
+  left:0!important;right:0!important;bottom:0!important;
+  width:100%!important;height:76px!important;
+  margin:0!important;padding:0!important;
+  visibility:visible!important;opacity:1!important;
+  pointer-events:auto!important;
+  z-index:2147483647!important;
+  background:#fff!important;
+  border-top:1px solid #ddd!important;
+  box-shadow:0 -3px 15px rgba(0,0,0,.15)!important;
+  isolation:isolate!important;
+}
+#satugoFinalNav button{
+  display:flex!important;visibility:visible!important;opacity:1!important;
+  pointer-events:auto!important;position:relative!important;
+  flex:1 1 20%!important;width:20%!important;height:76px!important;
+  min-width:0!important;margin:0!important;padding:5px 2px!important;
+  border:0!important;background:#fff!important;color:#222!important;
+  align-items:center!important;justify-content:center!important;
+  flex-direction:column!important;gap:2px!important;
+  font:600 11px Arial,sans-serif!important;
+  cursor:pointer!important;touch-action:manipulation!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+#satugoFinalNav button .i{font-size:23px!important;line-height:27px!important;display:block!important}
+body{padding-bottom:86px!important}
+</style>
+<nav aria-label="Телефон навигациясы" id="satugoFinalNav">
+<button id="satugoFinalHome" type="button"><span class="i">⌂</span><span>Басты бет</span></button>
+<button id="satugoFinalSearch" type="button"><span class="i">⌕</span><span>Іздеу</span></button>
+<button id="satugoFinalFav" type="button"><span class="i">♡</span><span>Таңдаулы</span></button>
+<button id="satugoFinalChat" type="button"><span class="i">💬</span><span>Чаттар</span></button>
+<button id="satugoFinalAccount" type="button"><span class="i">👤</span><span>Аккаунт</span></button>
+</nav>
 <!-- SATUGO UNIQUE TOP START -->
 <style>
 #sgSmartTop{
@@ -1299,12 +1363,10 @@ body.sg-modal-active .sg-core-modal {
 </div>
 <section class="hero">
 <h1>
-      Қажет нәрсеңді тез тап.
-      Қазақстан бойынша сатып ал.
+      Іздегеніңді бірден тап.
     </h1>
 <p>
-      SatuGo — сатып алушылар мен сатушыларды
-      бір жерге жинайтын заманауи маркетплейс.
+      Ізде. Таңда. Сатып ал.
     </p>
 <div class="hero-search">
 <input id="heroSearch" onkeydown="
@@ -1313,7 +1375,7 @@ body.sg-modal-active .sg-core-modal {
             renderProducts();
             document.getElementById('products').scrollIntoView();
           }
-        " placeholder="Мысалы: iPhone 15, Nike, ноутбук..."/>
+        " placeholder="🔎 Не іздеп жүрсіз?"/>
 <button class="btn btn-primary" onclick="
           document.getElementById('search').value=
             document.getElementById('heroSearch').value;
@@ -5705,6 +5767,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   setInterval(install,1000); setTimeout(install,300);
 })();
 </script>
+
 <style>
 .sg-mobile-nav{
   display:none
@@ -5726,8 +5789,28 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 }
 </style>
 <!-- SATUGO PHONE BUTTONS CLEAN FIX -->
+
 <!-- SatuGo MOBILE BACK BUTTON FIX — FINAL -->
+
 <!-- SATUGO FINAL MOBILE BUTTON CONTROLLER -->
+<style id="satugo-final-mobile-buttons-css">
+@media(max-width:700px){
+  #satugoFinalNav{display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:72px!important;z-index:2147483647!important;pointer-events:auto!important;touch-action:manipulation!important;background:#fff!important}
+  #satugoFinalNav button{display:flex!important;pointer-events:auto!important;touch-action:manipulation!important;position:relative!important;z-index:2147483648!important;-webkit-tap-highlight-color:transparent!important}
+}
+</style>
+<style id="satugo-bottom-clean-fix">
+/* Төменгі навигациядан тыс қалған ескі блоктарды экранға шығармау */
+@media (max-width:700px){
+  #sgAdvanced, #sgV2Dashboard { display:none !important; visibility:hidden !important; }
+  #sgPDiscount, #sgPCity, #sgPImage, #sgPDesc,
+  #sgChatInput, #sgPromoCode, #sgPromoPercent { display:none !important; }
+  button[onclick*="sgSaveProduct"],
+  button[onclick*="sgClose('sgProductModal')"] { display:none !important; }
+}
+/* Тек негізгі 5 төменгі батырма */
+#satugoFinalNav{z-index:100000 !important;}
+</style>
 <style id="sg-clean-bottom-extra">
 /* SatuGo: remove unwanted extra bottom/feature controls */
 #sgUniqueLauncher,#sgUniquePanel,#sgSmartTop{display:none !important;}
@@ -5795,7 +5878,88 @@ var st=document.createElement('style');st.textContent='@media(max-width:700px){#
 setTimeout(ensurePanel,300);
 })();
 </script>
+<style id="satugo-final-layout-clean">
+/* FINAL CLEANUP: seller statistics/features must not leak into the main page */
+#sgAdvanced,
+#sgV2Dashboard,
+#sgUniqueLauncher,
+#sgUniquePanel,
+#sgSmartTop { display:none !important; visibility:hidden !important; }
+
+/* Product/promo/store UI is an overlay only when explicitly opened */
+.sg-modal:not(.open),
+.sg-v2-modal:not(.open),
+.sg-core-modal:not(.open),
+#sgProfileOverlay:not(.open) { display:none !important; visibility:hidden !important; }
+
+/* Only the bottom 5-nav is allowed as the mobile navigation */
+#satugoFinalNav { z-index:2147483646 !important; }
+
+/* Do not show the old floating chat launcher; Chat is opened from the 5-nav */
+#sgChatFab { display:none !important; }
+
+/* Keep the real chat panel available when opened */
+#sgChatPanel.sg-chat-panel.open {
+  display:flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  z-index:2147483645 !important;
+}
+#sgChatPanel.sg-chat-panel:not(.open) {
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+</style>
 <!-- SATUGO FINAL 5 NAV VISIBILITY FIX -->
+<style id="satugo-final-5nav-visibility-fix">
+#satugoFinalNav{
+  position:fixed!important;
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  width:100%!important;
+  height:72px!important;
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  z-index:2147483647!important;
+  background:#fff!important;
+  border-top:1px solid #e5e7eb!important;
+  box-shadow:0 -4px 18px rgba(0,0,0,.10)!important;
+}
+#satugoFinalNav button{
+  flex:1 1 20%!important;
+  width:20%!important;
+  min-width:0!important;
+  height:72px!important;
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  position:relative!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-direction:column!important;
+  gap:2px!important;
+  border:0!important;
+  background:#fff!important;
+  color:#374151!important;
+  font:600 11px Arial,sans-serif!important;
+  touch-action:manipulation!important;
+  cursor:pointer!important;
+}
+#satugoFinalNav button .i{font-size:22px!important;line-height:25px!important}
+#satugoFinalNav button:active{background:#f3f4f6!important}
+body{padding-bottom:78px!important}
+</style>
+<style id="satugo-final-nav-always-visible">
+#satugoFinalNav{display:flex!important;visibility:visible!important;opacity:1!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:72px!important;z-index:2147483647!important;pointer-events:auto!important;background:#fff!important;}
+#satugoFinalNav button{display:flex!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;flex:1 1 20%!important;width:20%!important;height:72px!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;}
+body{padding-bottom:80px!important;}
+</style>
 <!-- SATUGO FINAL MARKETPLACE PATCH -->
 <style id="satugo-final-marketplace-css">
 #sgAuthModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:2147483646;padding:14px;align-items:center;justify-content:center}
@@ -6004,9 +6168,121 @@ setTimeout(ensurePanel,300);
     #accountModal.modal.show .modal-box{pointer-events:auto!important;}
   }
 </style>
+<script id="satugo-profile-store-final-fix-js">
+(function(){
+  'use strict';
+  function current(){ return (window.auth&&auth.currentUser)||window.currentUser||window.user||null; }
+
+  /* Mobile Account button: never depend on an old/overridden handler. */
+  window.sgOpenAccountFinal=function(e){
+    try{
+      if(e && e.preventDefault)e.preventDefault();
+      if(e && e.stopPropagation)e.stopPropagation();
+      var u=current();
+      // Keep every part of SatuGo on the same Firebase user reference.
+      window.currentUser=u||null;
+      if(typeof user !== 'undefined') user=u||null;
+      var m=document.getElementById('accountModal');
+      if(!u){
+        if(typeof window.openAuth==='function') window.openAuth();
+        return false;
+      }
+      if(typeof window.renderAccount==='function') window.renderAccount();
+      if(typeof window.openModal==='function') window.openModal('accountModal');
+      if(m){
+        m.classList.add('show');
+        m.style.display='block';
+        m.style.visibility='visible';
+        m.style.opacity='1';
+        m.style.pointerEvents='auto';
+        m.style.zIndex='2147483646';
+      }
+      document.body.style.overflow='hidden';
+      return false;
+    }catch(e){ console.error(e); alert('Профильді ашу қатесі: '+(e.message||e)); return false; }
+  };
+  var nav=document.getElementById('satugoFinalAccount');
+  if(nav){
+    nav.addEventListener('click',function(e){window.sgOpenAccountFinal(e);},{passive:false});
+    nav.addEventListener('touchend',function(e){window.sgOpenAccountFinal(e);},{passive:false});
+    nav.addEventListener('pointerup',function(e){window.sgOpenAccountFinal(e);},{passive:false});
+  }
+
+  /* Store save: use the currently signed-in Firebase user and show the exact error. */
+  window.sgSaveStoreFinal=async function(){
+    var u=current();
+    if(!u){alert('Алдымен аккаунтқа кіріңіз.');if(typeof openAuth==='function')openAuth();return;}
+    var name=(document.getElementById('storeName')?.value||'').trim();
+    var description=(document.getElementById('storeDescription')?.value||'').trim();
+    if(!name){alert('Дүкен атауын енгізіңіз.');return;}
+    if(!window.db){alert('Firebase Firestore қосылмаған.');return;}
+    try{
+      var ref=db.collection('stores').doc(u.uid);
+      await ref.set({ownerId:u.uid,name:name,description:description,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+      alert('✅ Дүкен сақталды!');
+      if(typeof window.renderSeller==='function') await window.renderSeller();
+    }catch(e){
+      console.error(e);
+      var msg=e&&e.code==='permission-denied'
+        ?'Firebase Rules дүкенді сақтауға рұқсат бермей тұр. Rules-ті түзету керек.'
+        :(e.message||String(e));
+      alert('❌ Дүкен сақталмады.\n'+msg);
+    }
+  };
+  /* Replace the visible store button action without changing the rest of the cabinet. */
+  document.addEventListener('click',function(e){
+    var b=e.target.closest && e.target.closest('button[onclick*="saveStore()"]');
+    if(b){e.preventDefault();e.stopImmediatePropagation();window.sgSaveStoreFinal();}
+  },true);
+})();
+</script>
+<style id="satugo-phone-account-ultimate-fix">
+@media (max-width:700px){
+  #satugoFinalNav{
+    position:fixed!important;left:0!important;right:0!important;bottom:0!important;
+    display:flex!important;visibility:visible!important;opacity:1!important;
+    pointer-events:auto!important;touch-action:manipulation!important;
+    z-index:2147483647!important;
+    transform:translateZ(0)!important;
+  }
+  #satugoFinalAccount{
+    display:flex!important;visibility:visible!important;opacity:1!important;
+    pointer-events:auto!important;touch-action:manipulation!important;
+    position:relative!important;z-index:2147483648!important;
+  }
+  body.sg-modal-active #satugoFinalNav,
+  body.sg-modal-active #satugoFinalAccount{
+    visibility:visible!important;pointer-events:auto!important;
+  }
+}
+</style>
+
+
 
 <!-- SATUGO MOBILE ACCOUNT FINAL CLICK CAPTURE FIX -->
+<style id="satugo-mobile-account-final-click-fix">
+@media(max-width:700px){
+  #satugoFinalNav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:76px!important;display:flex!important;visibility:visible!important;opacity:1!important;z-index:2147483647!important;pointer-events:auto!important;background:#fff!important;}
+  #satugoFinalAccount{position:relative!important;display:flex!important;visibility:visible!important;opacity:1!important;z-index:2147483648!important;pointer-events:auto!important;touch-action:manipulation!important;-webkit-user-select:none!important;user-select:none!important;}
+}
+</style>
 <!-- SATUGO MOBILE ACCOUNT DEFINITIVE FIX -->
+<style id="satugo-mobile-account-definitive-style">
+@media (max-width:700px){
+  #satugoFinalNav{z-index:2147483000!important;pointer-events:auto!important;}
+  #satugoFinalAccount{position:relative!important;z-index:2147483646!important;pointer-events:auto!important;touch-action:manipulation!important;}
+  #sgDirectAccountBtn{position:fixed!important;right:0!important;bottom:0!important;width:22vw!important;min-width:80px!important;height:82px!important;z-index:2147483647!important;opacity:.001!important;border:0!important;background:transparent!important;padding:0!important;margin:0!important;display:block!important;pointer-events:auto!important;touch-action:manipulation!important;}
+  #sgDirectAccountScreen{position:fixed!important;inset:0!important;z-index:2147483647!important;background:#f6f7fb!important;overflow:auto!important;padding:14px 14px 100px!important;display:none!important;}
+  #sgDirectAccountScreen.open{display:block!important;}
+  #sgDirectAccountScreen .card{max-width:620px;margin:0 auto;background:#fff;border-radius:22px;box-shadow:0 8px 30px rgba(0,0,0,.12);overflow:hidden;}
+  #sgDirectAccountScreen .top{display:flex;align-items:center;gap:12px;padding:18px;border-bottom:1px solid #eee;}
+  #sgDirectAccountScreen .avatar{width:56px;height:56px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:28px;}
+  #sgDirectAccountScreen .info{flex:1;min-width:0;} #sgDirectAccountScreen h2{margin:0 0 4px;font-size:20px;} #sgDirectAccountScreen p{margin:2px 0;color:#777;font-size:13px;word-break:break-word;}
+  #sgDirectAccountScreen .close{width:42px;height:42px;border:0;border-radius:50%;background:#eee;font-size:25px;}
+  #sgDirectAccountScreen .body{padding:16px;} #sgDirectAccountScreen .row{display:flex;justify-content:space-between;gap:10px;padding:14px 2px;border-bottom:1px solid #eee;} #sgDirectAccountScreen .row span{color:#666;} #sgDirectAccountScreen .row b{text-align:right;word-break:break-word;}
+  #sgDirectAccountScreen .btn{width:100%;border:0;border-radius:13px;padding:14px;margin-top:10px;font-size:15px;font-weight:700;touch-action:manipulation;}
+</style>
+
 <style id="satugo-next-features">
 .sg-feat-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2147483000;display:none;align-items:flex-end;justify-content:center}
 .sg-feat-sheet{width:min(720px,100%);max-height:88vh;overflow:auto;background:#fff;border-radius:22px 22px 0 0;padding:18px;box-sizing:border-box}
@@ -6075,54 +6351,59 @@ setTimeout(ensurePanel,300);
   };
 })();
 </script>
-</section>
-
-<!-- SATUGO ACCOUNT PHONE HARD FIX -->
-<style>
-@media(max-width:700px){
-  #sgAuthModal{position:fixed!important;inset:0!important;display:none!important;align-items:center!important;justify-content:center!important;z-index:2147483647!important;pointer-events:none!important;visibility:hidden!important;opacity:0!important}
-  #sgAuthModal.open{display:flex!important;pointer-events:auto!important;visibility:visible!important;opacity:1!important}
-  #sgAuthModal .sg-auth-card{pointer-events:auto!important;position:relative!important;z-index:2147483647!important;width:calc(100vw - 20px)!important;max-height:90vh!important;overflow:auto!important}
-  #satugoFinalAccount{position:relative!important;z-index:2147483647!important;pointer-events:auto!important;touch-action:manipulation!important}
-}
-</style>
-
-<!-- SATUGO ACCOUNT ONE-BUTTON FINAL FIX -->
-
-
-<style id="satugo-clean-mobile-nav-style">#satugoCleanNav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;height:74px!important;background:#fff!important;border-top:1px solid #ddd!important;display:flex!important;z-index:2147483647!important;pointer-events:auto!important;touch-action:manipulation!important;}#satugoCleanNav button{appearance:none!important;-webkit-appearance:none!important;flex:1!important;height:74px!important;border:0!important;background:#fff!important;color:#111!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;font:600 12px Arial,sans-serif!important;pointer-events:auto!important;touch-action:manipulation!important;position:relative!important;z-index:2147483647!important;}#satugoCleanNav button:active{background:#f1f1f1!important}#satugoCleanNav .ico{font-size:23px!important;line-height:24px!important}</style><nav aria-label="SatuGo телефон навигациясы" id="satugoCleanNav"><button id="sgClean_home" type="button"><span class="ico">⌂</span><span>Басты бет</span></button><button id="sgClean_search" type="button"><span class="ico">⌕</span><span>Іздеу</span></button><button id="sgClean_fav" type="button"><span class="ico">♡</span><span>Таңдаулы</span></button><button id="sgClean_chat" type="button"><span class="ico">💬</span><span>Чаттар</span></button><button id="sgClean_account" type="button"><span class="ico">👤</span><span>Аккаунт</span></button></nav><script id="satugo-clean-mobile-nav-js">(function(){'use strict';function U(){try{return (window.auth&&window.auth.currentUser)||window.currentUser||window.user||null}catch(e){return null}}function account(e){if(e){e.preventDefault();e.stopPropagation()}try{var u=U();if(u){if(typeof window.renderAccount==='function')window.renderAccount();var a=document.getElementById('accountModal');if(a){a.classList.add('show');a.style.display='block';a.style.visibility='visible';a.style.opacity='1';a.style.pointerEvents='auto';a.style.zIndex='2147483646'}return}var m=document.getElementById('sgAuthModal');if(!m){alert('Кіру терезесі табылмады');return}m.classList.add('open');m.style.display='flex';m.style.visibility='visible';m.style.opacity='1';m.style.pointerEvents='auto';m.style.zIndex='2147483647';if(typeof window.sgAuthTab==='function')window.sgAuthTab('phone')}catch(x){console.error(x);alert('Аккаунт ашылмады: '+(x.message||x))}}function bind(){var n=document.getElementById('satugoCleanNav');if(!n)return;n.querySelector('#sgClean_account').onclick=account;n.querySelector('#sgClean_home').onclick=function(){window.scrollTo(0,0)};n.querySelector('#sgClean_search').onclick=function(){var x=document.querySelector('#searchInput,input[type=search],#search');if(x){x.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){try{x.focus()}catch(e){}},300)}};n.querySelector('#sgClean_fav').onclick=function(){if(typeof window.openFavorites==='function')window.openFavorites();else if(typeof window.sgNextFavorites==='function')window.sgNextFavorites();else alert('Таңдаулылар бөлімі ашылмады')};n.querySelector('#sgClean_chat').onclick=function(){if(typeof window.sgOpenChat==='function')window.sgOpenChat();else if(typeof window.sgOpenChats==='function')window.sgOpenChats();else alert('Чат бөлімі ашылмады')}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();window.addEventListener('load',bind)})();</script>
-<style id="satugo-appstore-style">
-:root{
- --sg-yellow:#ffd400;--sg-yellow2:#ffca05;--sg-ink:#111318;--sg-muted:#747984;
- --sg-bg:#f6f7f9;--sg-card:#fff;--sg-line:#e8e9ed;
-}
-html{background:var(--sg-bg)}body{margin:0;background:var(--sg-bg);color:var(--sg-ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:88px}
-header{position:sticky!important;top:0;z-index:900;background:rgba(246,247,249,.94)!important;backdrop-filter:blur(18px);border:0!important;box-shadow:none!important}
-header>.wrap{padding-top:12px!important;padding-bottom:10px!important}
-.header-main{display:grid!important;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
-.logo{font-size:25px!important;font-weight:900!important;letter-spacing:-1.2px;color:#111!important}.logo::first-letter{color:#111}
-.search-wrap{height:46px!important;border:0!important;background:#fff!important;border-radius:16px!important;box-shadow:0 2px 12px rgba(20,25,35,.07)!important}
-.search-wrap input{font-size:15px!important;background:transparent!important}
-.header-actions{gap:7px!important}.icon-btn{width:42px!important;height:42px!important;border:0!important;border-radius:14px!important;background:#fff!important;box-shadow:0 2px 10px rgba(20,25,35,.06)!important}
-.categories{display:flex!important;gap:8px!important;overflow:auto!important;padding:10px 0 2px!important;scrollbar-width:none}.categories::-webkit-scrollbar{display:none}.categories button{white-space:nowrap;border:0!important;background:#fff!important;border-radius:999px!important;padding:9px 14px!important;font-weight:700!important;color:#34373d!important}.categories button.active{background:var(--sg-yellow)!important;color:#111!important}
-main.wrap{padding-top:10px!important}
-.sg-compact-tools{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:9px!important;margin:6px 0 12px!important}.sg-tool{background:#fff!important;border:0!important;border-radius:18px!important;padding:12px 10px!important;box-shadow:0 2px 12px rgba(20,25,35,.05)!important;color:#111!important;text-decoration:none!important}.sg-tool>span{font-size:22px!important;display:block;margin-bottom:5px}.sg-tool b{font-size:12px!important}.sg-tool small{color:var(--sg-muted)!important;font-size:9px!important;display:block;margin-top:2px}
-.sg-extra-wrap{display:none!important}
-.hero{border:0!important;border-radius:26px!important;padding:24px 18px!important;background:linear-gradient(135deg,#fff 0%,#fff9d9 100%)!important;box-shadow:0 5px 24px rgba(20,25,35,.07)!important;margin-bottom:18px!important}.hero h1{font-size:27px!important;line-height:1.08!important;letter-spacing:-1px!important;margin:0 0 9px!important}.hero p{font-size:13px!important;color:#6f737b!important;line-height:1.45!important}.hero-search{display:flex!important;gap:8px!important;background:#fff!important;padding:6px!important;border-radius:17px!important;box-shadow:0 3px 15px rgba(20,25,35,.08)!important}.hero-search input{border:0!important;outline:0!important;min-width:0!important;padding:10px!important;font-size:14px!important}.hero-search .btn{border:0!important;border-radius:13px!important;background:var(--sg-yellow)!important;color:#111!important;font-weight:800!important;padding:0 16px!important}
-.section{margin:20px 0!important}.section-head{align-items:end!important}.section-head h2{font-size:19px!important;letter-spacing:-.4px!important}.filters{display:flex!important;gap:8px!important;overflow:auto!important;padding-bottom:9px}.filters>*{border:1px solid var(--sg-line)!important;background:#fff!important;border-radius:13px!important;padding:9px 11px!important;min-width:110px}
-.grid{gap:11px!important}.product-card{background:#fff!important;border:0!important;border-radius:19px!important;overflow:hidden!important;box-shadow:0 3px 15px rgba(20,25,35,.06)!important;transition:transform .15s ease!important}.product-card:active{transform:scale(.985)}.product-card img{border-radius:0!important}.product-card .btn,.product-card button{border-radius:12px!important;font-weight:800!important}.btn-primary{background:var(--sg-yellow)!important;color:#111!important;border:0!important}
-#satugoCleanNav{position:fixed!important;left:10px!important;right:10px!important;bottom:10px!important;z-index:999999!important;height:66px!important;padding:5px!important;display:grid!important;grid-template-columns:repeat(5,1fr)!important;gap:2px!important;background:rgba(255,255,255,.96)!important;border:1px solid rgba(20,25,35,.08)!important;border-radius:22px!important;box-shadow:0 8px 30px rgba(20,25,35,.16)!important;backdrop-filter:blur(18px)!important}
-#satugoCleanNav button{border:0!important;background:transparent!important;border-radius:17px!important;color:#777b83!important;font-size:10px!important;font-weight:700!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important;touch-action:manipulation!important}.ico{font-size:21px!important;line-height:20px!important}.sgClean_active,.sgClean_active .ico{color:#111!important}#sgClean_home:active,#sgClean_search:active,#sgClean_fav:active,#sgClean_chat:active,#sgClean_account:active{background:#fff7c7!important}
-.modal,.sg-modal,.sg-v2-modal,.sg-core-modal{border-radius:24px!important}
-@media(max-width:700px){header>.wrap{padding-left:12px!important;padding-right:12px!important}.header-main{grid-template-columns:auto 1fr auto!important;gap:7px!important}.logo{font-size:22px!important}.search-wrap{height:42px!important}.header-actions .icon-btn{display:none!important}.categories button{font-size:12px!important;padding:8px 12px!important}.sg-compact-tools{grid-template-columns:repeat(4,1fr)!important}.sg-tool{padding:10px 7px!important;text-align:center}.sg-tool>span{font-size:20px!important}.sg-tool b{font-size:10px!important}.sg-tool small{display:none!important}.hero{padding:21px 15px!important;border-radius:22px!important}.hero h1{font-size:24px!important}.hero-search .btn{padding:0 12px!important}.grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.product-card{min-width:0!important}.product-card h3,.product-card .title{font-size:14px!important}}
-@media(min-width:701px){#satugoCleanNav{left:50%;right:auto;transform:translateX(-50%);width:min(620px,calc(100% - 40px))!important}.grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
-</style>
-<script id="satugo-appstore-style-js">
+<script>
+/* SatuGo CLEAN MOBILE NAV — single controller */
 (function(){
- function active(id){document.querySelectorAll('#satugoCleanNav button').forEach(function(b){b.classList.remove('sgClean_active')});var b=document.getElementById(id);if(b)b.classList.add('sgClean_active')}
- function bind(){['home','search','fav','chat','account'].forEach(function(x){var b=document.getElementById('sgClean_'+x);if(b)b.addEventListener('click',function(){active('sgClean_'+x)},{passive:true})});active('sgClean_home')}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+  function current(){ return (window.auth&&auth.currentUser)||window.currentUser||null; }
+  function navAction(name){
+    try{
+      if(name==='home' && typeof window.goHome==='function'){window.goHome();return;}
+      if(name==='search' && typeof window.openSearch==='function'){window.openSearch();return;}
+      if(name==='favorites' && typeof window.openFavorites==='function'){window.openFavorites();return;}
+      if(name==='chats'){
+        if(typeof window.openChats==='function'){window.openChats();return;}
+        if(typeof window.sgOpenChats==='function'){window.sgOpenChats();return;}
+        if(typeof window.sgStartChat==='function'){window.sgStartChat();return;}
+      }
+      if(name==='account'){
+        if(typeof window.sgOpenAccountFinal==='function'){window.sgOpenAccountFinal();return;}
+        if(typeof window.openAccount==='function'){window.openAccount();return;}
+        if(!current() && typeof window.openAuth==='function'){window.openAuth();return;}
+      }
+    }catch(e){console.error('SatuGo nav:',e);}
+  }
+  function bind(){
+    var nav=document.getElementById('satugoFinalNav'); if(!nav)return;
+    nav.querySelectorAll('button').forEach(function(btn){
+      btn.onclick=null; btn.ontouchend=null; btn.onpointerup=null;
+      btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();navAction(({satugoFinalHome:'home',satugoFinalSearch:'search',satugoFinalFav:'favorites',satugoFinalChat:'chats',satugoFinalAccount:'account'})[btn.id]||btn.dataset.nav||btn.getAttribute('data-target')||'');},{passive:false});
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind); else bind();
+  window.addEventListener('load',bind);
 })();
 </script>
-</body>
-</html>ы
+<style id="satugo-click-rescue">
+#sgDirectAccountBtn{display:none!important;pointer-events:none!important}
+#sgDirectAccountScreen{display:none!important;pointer-events:none!important}
+#satugoFinalNav{pointer-events:auto!important}
+#satugoFinalNav button{pointer-events:auto!important;touch-action:manipulation!important}
+</style>
+
+</section><style id="satugo-mobile-touch-repair-style">@media (max-width:700px){
+  /* One and only one mobile navigation */
+  #satugoFinalNav{display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:72px!important;z-index:2147483647!important;pointer-events:auto!important;touch-action:manipulation!important;background:#fff!important;}
+  #satugoFinalNav button{display:flex!important;pointer-events:auto!important;touch-action:manipulation!important;position:relative!important;z-index:2147483648!important;-webkit-tap-highlight-color:transparent!important;}
+  /* Closed overlays must never block the page */
+  #sgAuthModal:not(.open),#sgNextOverlay:not(.open),#sgProfileOverlay:not(.open),#sgMarketOverlay:not(.open),#sgPlusOverlay:not(.open),#sgDirectAccountScreen:not(.open),#accountModal:not(.show){display:none!important;pointer-events:none!important;}
+  .sg-modal:not(.open),.sg-v2-modal:not(.open),.sg-core-modal:not(.open){display:none!important;pointer-events:none!important;}
+  body{padding-bottom:82px!important;overflow-x:hidden!important;}
+}
+</style><style id="satugo-mobile-one-controller-style">@media (max-width:700px){#satugoFinalNav{display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:72px!important;z-index:99999!important;pointer-events:auto!important;touch-action:manipulation!important}#satugoFinalNav button{pointer-events:auto!important;touch-action:manipulation!important;z-index:100000!important;min-height:56px!important}body{padding-bottom:82px!important;overflow-x:hidden!important}.modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),.sg-core-modal:not(.open){pointer-events:none!important}}</style><script id="satugo-mobile-one-controller-js">(function(){'use strict';
+function run(fn){try{if(typeof window[fn]==='function'){window[fn]();return true}}catch(e){console.error(e)}return false}
+function account(){if(run('sgOpenAccountFinal'))return;if(run('openAccount'))return;if(run('sgCoreOpenProfile'))return;run('openAuth')}
+function action(id){if(id==='satugoFinalHome')return run('goHome');if(id==='satugoFinalSearch')return run('openSearch');if(id==='satugoFinalFav')return run('openFavorites')||run('sgOpenFavorites');if(id==='satugoFinalChat')return run('openChats')||run('sgOpenChats');if(id==='satugoFinalAccount'){account();return true}return false}
+function bind(){var n=document.getElementById('satugoFinalNav');if(!n)return;n.style.pointerEvents='auto';n.querySelectorAll('button').forEach(function(b){b.onclick=null;b.ontouchstart=null;b.ontouchend=null;b.style.pointerEvents='auto';b.style.touchAction='manipulation';if(b.dataset.oneBound)return;b.dataset.oneBound='1';b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();action(b.id)},false)});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();window.addEventListener('load',bind);setTimeout(bind,500);setTimeout(bind,1500);
+})();</script></body>
+</html>
