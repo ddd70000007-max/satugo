@@ -6663,7 +6663,9 @@ setTimeout(ensurePanel,300);
   document.addEventListener('DOMContentLoaded',clean);
   window.addEventListener('load',clean);
   setTimeout(clean,300);setTimeout(clean,1000);setTimeout(clean,2500);
-  new MutationObserver(function(){clean();}).observe(document.body,{childList:true,subtree:true});
+  // IMPORTANT: do not observe the whole document here.
+  // A MutationObserver that changes the same DOM it observes can create a
+  // continuous mutation loop and make the page appear frozen.
 })();
 </script>
 
@@ -7089,6 +7091,86 @@ body{padding-bottom:80px!important;}
     bind();
     fixHiddenLayers();
   });
+})();
+</script>
+
+
+
+<!-- SATUGO PRODUCT MODAL / FREEZE FIX -->
+<style id="satugo-product-freeze-fix">
+#productModal.modal{
+  position:fixed!important;
+  inset:0!important;
+  z-index:2147483001!important;
+  background:rgba(0,0,0,.55)!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  padding:12px!important;
+  pointer-events:none!important;
+}
+#productModal.modal.show{
+  display:block!important;
+  pointer-events:auto!important;
+  visibility:visible!important;
+}
+#productModal .modal-box{
+  position:relative!important;
+  width:min(650px,100%)!important;
+  max-width:100%!important;
+  margin:30px auto!important;
+  max-height:calc(100vh - 60px)!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  background:#fff!important;
+  pointer-events:auto!important;
+}
+#productModal .close{
+  z-index:20!important;
+  pointer-events:auto!important;
+  cursor:pointer!important;
+}
+@media(max-width:700px){
+  #productModal.modal{padding:8px!important}
+  #productModal .modal-box{
+    width:100%!important;
+    margin:8px auto!important;
+    max-height:calc(100vh - 16px)!important;
+    border-radius:18px!important;
+  }
+}
+</style>
+<script id="satugo-product-freeze-fix-js">
+(function(){
+  'use strict';
+  function closeProduct(){
+    var m=document.getElementById('productModal');
+    if(!m)return;
+    m.classList.remove('show');
+    m.style.removeProperty('display');
+    document.body.classList.remove('sg-modal-active');
+    document.body.style.overflow='';
+  }
+  function openProduct(){
+    var m=document.getElementById('productModal');
+    if(!m)return false;
+    m.classList.add('show');
+    m.style.setProperty('display','block','important');
+    m.style.setProperty('pointer-events','auto','important');
+    m.style.setProperty('visibility','visible','important');
+    document.body.classList.add('sg-modal-active');
+    document.body.style.overflow='hidden';
+    return true;
+  }
+  window.sgOpenProductModal=openProduct;
+  window.sgCloseProductModal=closeProduct;
+  document.addEventListener('click',function(e){
+    var t=e.target;
+    if(t && t.closest){
+      var c=t.closest('#productModal .close');
+      if(c){e.preventDefault();e.stopPropagation();closeProduct();return;}
+    }
+    if(t && t.id==='productModal'){closeProduct();}
+  },true);
 })();
 </script>
 
