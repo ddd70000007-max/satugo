@@ -7020,5 +7020,76 @@ setTimeout(function(){bind();closeInactive();},500);
 })();
 </script>
 <!-- END SATUGO UNIVERSAL DEVICE REPAIR -->
+
+<!-- SATUGO SINGLE WINDOW / NAVIGATION REPAIR -->
+<style>
+#sellerModal.show,#ordersModal.show,#accountModal.show,#favoritesModal.show,#sgAuthModal.open,#sgPhoneAuth.open{pointer-events:auto!important}
+#sgChatPanel{z-index:2147483647!important}
+</style>
+<script>
+(function(){
+ 'use strict';
+ function hideId(id){var e=document.getElementById(id);if(!e)return;e.classList.remove('show','open');e.style.display='none';e.style.visibility='hidden';e.style.pointerEvents='none';}
+ function hideMain(){['sellerModal','ordersModal','accountModal','favoritesModal','requestModal'].forEach(hideId);}
+ function closeSeller(){hideId('sellerModal');}
+ function openSellerClean(){
+   var u=(window.auth&&window.auth.currentUser)||window.currentUser||window.user;
+   if(!u){if(typeof window.sgUniversalAuth==='function')window.sgUniversalAuth();else if(typeof window.openAuth==='function')window.openAuth();return false;}
+   hideMain();
+   var m=document.getElementById('sellerModal');if(!m)return false;
+   m.classList.add('show');m.style.display='flex';m.style.visibility='visible';m.style.opacity='1';m.style.pointerEvents='auto';m.style.zIndex='2147483646';
+   if(typeof window.renderSeller==='function')Promise.resolve(window.renderSeller()).catch(function(e){var b=document.getElementById('seller');if(b)b.innerHTML='<div class="empty">❌ '+String(e.message||e)+'</div>';});
+   return false;
+ }
+ function openOrdersClean(){
+   var u=(window.auth&&window.auth.currentUser)||window.currentUser||window.user;
+   if(!u){if(typeof window.sgUniversalAuth==='function')window.sgUniversalAuth();else if(typeof window.openAuth==='function')window.openAuth();return false;}
+   hideMain();
+   if(typeof window.openOrders==='function')return window.openOrders();
+   return false;
+ }
+ function openChatClean(){
+   var u=(window.auth&&window.auth.currentUser)||window.currentUser||window.user;
+   hideMain();
+   if(typeof window.sgOpenChat==='function')return window.sgOpenChat();
+   return false;
+ }
+ window.sgUniversalSeller=openSellerClean;
+ window.openSeller=openSellerClean;
+ window.sgUniversalOrders=openOrdersClean;
+ window.openOrders=openOrdersClean;
+ window.sgUniversalChats=openChatClean;
+ window.sgOpenChats=openChatClean;
+ window.sgCloseSeller=closeSeller;
+
+ document.addEventListener('click',function(e){
+   var t=e.target&&e.target.closest?e.target.closest('button,a'):null;if(!t)return;
+   var id=t.id||'',txt=(t.textContent||'').replace(/\s+/g,' ').trim();
+   if(id==='satugoFinalChat'||txt==='Чаттар'){
+     e.preventDefault();e.stopImmediatePropagation();openChatClean();return;
+   }
+   if(/^(Менің дүкенім|Дүкен ашу|Сатушы кабинеті)$/.test(txt)){
+     if(t.closest('#sellerModal'))return;
+     e.preventDefault();e.stopImmediatePropagation();openSellerClean();return;
+   }
+   if(txt==='Менің тапсырыстарым' && !t.closest('#sgAuthModal')){
+     e.preventDefault();e.stopImmediatePropagation();openOrdersClean();return;
+   }
+   if(t.classList.contains('close') && t.closest('#sellerModal')){
+     e.preventDefault();e.stopImmediatePropagation();closeSeller();return;
+   }
+   if(id==='sgChatCloseBtn'){
+     e.preventDefault();e.stopImmediatePropagation();if(typeof window.sgCloseChat==='function')window.sgCloseChat();return;
+   }
+ },true);
+
+ document.addEventListener('click',function(e){
+   var m=document.getElementById('sellerModal');
+   if(m && m.classList.contains('show') && e.target===m){closeSeller();}
+ },false);
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')hideMain();});
+})();
+</script>
+<!-- END SATUGO SINGLE WINDOW / NAVIGATION REPAIR -->
 </body>
 </html>
