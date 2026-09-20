@@ -7198,275 +7198,50 @@ body{padding-bottom:80px!important;}
   window.addEventListener('load',bind);
 })();
 </script>
-</body>
-</html>
 
-<!-- SATUGO MOBILE ACCOUNT HARD FIX -->
-<style id="satugo-mobile-account-hard-fix">
-#sgMobileAccountScreen{display:none;position:fixed;inset:0;z-index:2147483647;background:#f7f8fb;padding:14px 14px 100px;overflow:auto;-webkit-overflow-scrolling:touch}
-#sgMobileAccountScreen.sg-open{display:block}
-.sg-ma-card{max-width:620px;margin:0 auto;background:#fff;border-radius:22px;box-shadow:0 8px 30px rgba(0,0,0,.10);overflow:hidden}
-.sg-ma-top{display:flex;align-items:center;gap:13px;padding:18px;border-bottom:1px solid #eee}
-.sg-ma-avatar{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#eef2ff;font-size:29px}
-.sg-ma-info{min-width:0;flex:1}.sg-ma-info h2{margin:0 0 4px;font-size:20px}.sg-ma-info p{margin:0;color:#777;font-size:13px;word-break:break-word}
-.sg-ma-close{border:0;background:#eee;width:42px;height:42px;border-radius:50%;font-size:25px;cursor:pointer}
-.sg-ma-body{padding:16px}
-.sg-ma-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 4px;border-bottom:1px solid #eee}
-.sg-ma-row span{color:#666}.sg-ma-row b{font-size:14px;text-align:right;word-break:break-word}
-.sg-ma-btn{width:100%;border:0;border-radius:13px;padding:13px 14px;margin-top:10px;font-size:15px;font-weight:700;cursor:pointer;touch-action:manipulation}
-.sg-ma-primary{background:#111827;color:#fff}.sg-ma-light{background:#f0f2f5;color:#222}.sg-ma-danger{background:#fee2e2;color:#b91c1c}
-body.sg-account-open{overflow:hidden!important}
+
+<style id="satugo-click-rescue">
+#sgDirectAccountBtn{display:none!important;pointer-events:none!important}
+#sgDirectAccountScreen{display:none!important;pointer-events:none!important}
+#satugoFinalNav{pointer-events:auto!important}
+#satugoFinalNav button{pointer-events:auto!important;touch-action:manipulation!important}
 </style>
-<script id="satugo-mobile-account-hard-fix-js">
+<script id="satugo-click-rescue-js">
 (function(){
   'use strict';
-  function getUser(){return (window.auth&&auth.currentUser)||window.currentUser||window.user||null;}
-  function esc2(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function closeScreen(){var x=document.getElementById('sgMobileAccountScreen');if(x)x.classList.remove('sg-open');document.body.classList.remove('sg-account-open');}
-  function openScreen(){
-    var u=getUser();
-    if(!u){if(typeof window.openAuth==='function')window.openAuth();return;}
-    var x=document.getElementById('sgMobileAccountScreen');
-    if(!x){
-      x=document.createElement('div');x.id='sgMobileAccountScreen';
-      document.body.appendChild(x);
-    }
-    var p=window.profile||{};
-    var name=p.name||u.displayName||(u.email?u.email.split('@')[0]:'Қолданушы');
-    var email=u.email||'';
-    var phone=p.phone||u.phoneNumber||'Телефон енгізілмеген';
-    var city=p.city||'Қала енгізілмеген';
-    var address=p.address||'Мекенжай енгізілмеген';
-    x.innerHTML='<div class="sg-ma-card">'+
-      '<div class="sg-ma-top"><div class="sg-ma-avatar">👤</div><div class="sg-ma-info"><h2>'+esc2(name)+'</h2><p>'+esc2(phone)+'</p><p>'+esc2(email)+'</p></div><button class="sg-ma-close" type="button" id="sgMaClose">×</button></div>'+
-      '<div class="sg-ma-body">'+
-      '<div class="sg-ma-row"><span>📱 Телефон</span><b>'+esc2(phone)+'</b></div>'+
-      '<div class="sg-ma-row"><span>📍 Қала</span><b>'+esc2(city)+'</b></div>'+
-      '<div class="sg-ma-row"><span>🏠 Мекенжай</span><b>'+esc2(address)+'</b></div>'+
-      '<button class="sg-ma-btn sg-ma-primary" type="button" id="sgMaEdit">✏️ Профильді өзгерту</button>'+
-      '<button class="sg-ma-btn sg-ma-light" type="button" id="sgMaOrders">📦 Менің тапсырыстарым</button>'+
-      '<button class="sg-ma-btn sg-ma-light" type="button" id="sgMaFav">❤️ Таңдаулылар</button>'+
-      '<button class="sg-ma-btn sg-ma-light" type="button" id="sgMaStore">🏪 Менің дүкенім</button>'+
-      '<button class="sg-ma-btn sg-ma-danger" type="button" id="sgMaLogout">🚪 Шығу</button>'+
-      '</div></div>';
-    x.classList.add('sg-open');document.body.classList.add('sg-account-open');
-    document.getElementById('sgMaClose').onclick=closeScreen;
-    document.getElementById('sgMaEdit').onclick=function(){closeScreen();if(typeof window.sgCoreOpenProfile==='function')window.sgCoreOpenProfile();else if(typeof window.openAccount==='function')window.openAccount();};
-    document.getElementById('sgMaOrders').onclick=function(){closeScreen();if(typeof window.openModal==='function')window.openModal('ordersModal');if(typeof window.loadOrders==='function')window.loadOrders();};
-    document.getElementById('sgMaFav').onclick=function(){closeScreen();if(typeof window.goFav==='function')window.goFav();};
-    document.getElementById('sgMaStore').onclick=function(){closeScreen();if(typeof window.openSeller==='function')window.openSeller();else if(typeof window.renderSeller==='function'){var s=document.getElementById('seller');if(s)s.style.display='block';window.renderSeller();}};
-    document.getElementById('sgMaLogout').onclick=async function(){try{if(window.auth&&auth.signOut)await auth.signOut();}catch(e){console.error(e)}closeScreen();location.reload();};
-  }
-  window.sgOpenAccountFinal=openScreen;
+  function hideIfClosed(id){var x=document.getElementById(id);if(x && !x.classList.contains('open') && !x.classList.contains('show') && x.getAttribute('aria-hidden')!=='false') x.style.pointerEvents='none';}
   function bind(){
-    var n=document.getElementById('satugoFinalAccount');if(!n||n.dataset.maBound)return;n.dataset.maBound='1';
-    n.onclick=function(e){e.preventDefault();e.stopImmediatePropagation();openScreen();return false;};
-    n.ontouchend=function(e){e.preventDefault();e.stopImmediatePropagation();openScreen();return false;};
+    ['sgProfileOverlay','sgNextOverlay','sgMarketOverlay','sgPlusOverlay'].forEach(hideIfClosed);
+    var nav=document.getElementById('satugoFinalNav');
+    if(!nav)return;
+    nav.querySelectorAll('button').forEach(function(b){
+      b.style.pointerEvents='auto';
+      b.style.touchAction='manipulation';
+      if(b.dataset.clickRescue)return;
+      b.dataset.clickRescue='1';
+      b.addEventListener('click',function(e){
+        e.preventDefault();
+        var id=b.id;
+        try{
+          if(id==='satugoFinalHome' && typeof window.goHome==='function') window.goHome();
+          else if(id==='satugoFinalSearch' && typeof window.openSearch==='function') window.openSearch();
+          else if(id==='satugoFinalFav' && typeof window.openFavorites==='function') window.openFavorites();
+          else if(id==='satugoFinalChat'){
+            if(typeof window.openChats==='function') window.openChats();
+            else if(typeof window.sgOpenChats==='function') window.sgOpenChats();
+          } else if(id==='satugoFinalAccount'){
+            if(typeof window.sgOpenAccountFinal==='function') window.sgOpenAccountFinal();
+            else if(typeof window.openAccount==='function') window.openAccount();
+            else if(typeof window.openAuth==='function') window.openAuth();
+          }
+        }catch(err){console.error(err)}
+      },false);
+    });
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
-  setTimeout(bind,500);setTimeout(bind,1500);
+  window.addEventListener('load',bind);
 })();
 </script>
 
-<style id="satugo-phone-nav-final-fix">
-@media (max-width:700px){
-  #satugoFinalNav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;height:76px!important;display:flex!important;z-index:2147483647!important;pointer-events:auto!important;touch-action:none!important}
-  #satugoFinalNav button{flex:1 1 20%!important;height:76px!important;min-width:0!important;display:flex!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;position:relative!important;z-index:2147483648!important;pointer-events:auto!important;touch-action:manipulation!important}
-}
-</style>
-<script id="satugo-phone-nav-final-fix-js">
-(function(){
-'use strict';
-var last=0;
-function btn(id){return document.getElementById(id)}
-function openAccount(){
- try{
-  if(typeof window.sgDirectAccount==='function'){window.sgDirectAccount();return true;}
-  if(typeof window.sgOpenAccountFinal==='function'){window.sgOpenAccountFinal();return true;}
-  if(typeof window.openAccount==='function'){window.openAccount();return true;}
- }catch(e){console.error(e)}
- return false;
-}
-function openChats(){
- try{
-  if(typeof window.sgOpenChat==='function'){window.sgOpenChat();return true;}
-  var p=btn('sgChatPanel'); if(p){p.style.display='flex';p.style.visibility='visible';p.classList.add('open');return true;}
- }catch(e){console.error(e)}
- return false;
-}
-function route(id){
- if(Date.now()-last<350)return;
- last=Date.now();
- if(id==='satugoFinalAccount')openAccount();
- else if(id==='satugoFinalChat')openChats();
-}
-function targetId(t){
- if(!t)return null;
- var el=t.closest?t.closest('#satugoFinalAccount,#satugoFinalChat'):null;
- return el?el.id:null;
-}
-function handle(e){
- var id=targetId(e.target);
- if(id){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();route(id);return;}
- if(e.touches&&e.touches[0]){
-  var q=e.touches[0],el=document.elementFromPoint(q.clientX,q.clientY);
-  id=targetId(el);if(id){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();route(id);}
- }
-}
-function bind(){
- var a=btn('satugoFinalAccount'),c=btn('satugoFinalChat');
- [a,c].forEach(function(b){if(b){b.style.pointerEvents='auto';b.style.touchAction='manipulation';b.onclick=null;}});
-}
-// Capture phase: works even if an old overlay/event handler is sitting above the button.
-document.addEventListener('touchend',handle,{capture:true,passive:false});
-document.addEventListener('click',handle,{capture:true,passive:false});
-document.addEventListener('pointerup',handle,{capture:true,passive:false});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
-window.addEventListener('load',bind);setTimeout(bind,300);setTimeout(bind,1000);
-})();
-</script>
-
-
-<!-- SatuGo market flow patch -->
-<style id="satugoMarketPatchStyle">
-.sg-market-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2147483000;display:none;align-items:flex-end;justify-content:center}
-.sg-market-sheet{width:min(720px,100%);max-height:88vh;overflow:auto;background:#fff;border-radius:22px 22px 0 0;padding:18px;box-sizing:border-box}
-.sg-market-row{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #eee}
-.sg-market-btn{border:0;border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:600}
-.sg-market-status{display:inline-block;padding:5px 9px;border-radius:999px;background:#f1f3f5;font-size:12px}
-@media(max-width:600px){.sg-market-sheet{max-height:92vh}.sg-market-btn{min-height:42px}}
-</style>
-<div id="sgMarketOverlay" class="sg-market-overlay" aria-hidden="true">
- <div class="sg-market-sheet" role="dialog" aria-modal="true">
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
-   <h2 id="sgMarketTitle" style="margin:0;font-size:20px">Тапсырыстар</h2>
-   <button class="sg-market-btn" id="sgMarketClose">✕</button>
-  </div>
-  <div id="sgMarketBody" style="margin-top:12px"></div>
- </div>
-</div>
-<script>
-(function(){
- 'use strict';
- function getUser(){return (window.auth&&window.auth.currentUser)||window.currentUser||(typeof user!=='undefined'?user:null)}
- function getDb(){return window.db||(typeof db!=='undefined'?db:null)}
- function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
- function openSheet(title,html){var o=document.getElementById('sgMarketOverlay');document.getElementById('sgMarketTitle').textContent=title;document.getElementById('sgMarketBody').innerHTML=html;o.style.display='flex';o.setAttribute('aria-hidden','false')}
- function closeSheet(){var o=document.getElementById('sgMarketOverlay');o.style.display='none';o.setAttribute('aria-hidden','true')}
- document.getElementById('sgMarketClose').onclick=closeSheet;
- document.getElementById('sgMarketOverlay').addEventListener('click',e=>{if(e.target.id==='sgMarketOverlay')closeSheet()});
- window.sgOpenOrdersMarket=async function(){
-  var u=getUser(); if(!u){ if(typeof openAuth==='function')openAuth(); else alert('Алдымен аккаунтқа кіріңіз.'); return; }
-  var d=getDb(); if(!d){alert('Firebase қосылмаған.');return;}
-  openSheet('📦 Менің тапсырыстарым','Жүктелуде...');
-  try{
-   var snap=await d.collection('orders').where('buyerId','==',u.uid).get();
-   var arr=snap.docs.map(x=>Object.assign({id:x.id},x.data()||{}));
-   arr.sort((a,b)=>(b.createdAtLocal||0)-(a.createdAtLocal||0));
-   if(!arr.length){document.getElementById('sgMarketBody').innerHTML='<p>Әзірге тапсырыс жоқ.</p>';return}
-   document.getElementById('sgMarketBody').innerHTML=arr.map(o=>`<div class="sg-market-row"><div style="flex:1"><b>№${esc(o.id.slice(0,8))}</b><div>${esc(o.items?.map(i=>i.title+' × '+i.qty).join(', ')||'Тауар')}</div><div>${Number(o.total||0).toLocaleString('kk-KZ')} ₸</div><span class="sg-market-status">${esc(o.status||'Жаңа тапсырыс')}</span></div></div>`).join('');
-  }catch(e){document.getElementById('sgMarketBody').innerHTML='<p>Тапсырыстарды жүктеу қатесі: '+esc(e.message)+'</p>'}
- };
- window.sgOpenSellerOrdersMarket=async function(){
-  var u=getUser(); if(!u){if(typeof openAuth==='function')openAuth();return}
-  var d=getDb(); if(!d){alert('Firebase қосылмаған.');return}
-  openSheet('🏪 Сатушы тапсырыстары','Жүктелуде...');
-  try{
-   var snap=await d.collection('orders').where('sellerIds','array-contains',u.uid).get();
-   var arr=snap.docs.map(x=>Object.assign({id:x.id},x.data()||{}));arr.sort((a,b)=>(b.createdAtLocal||0)-(a.createdAtLocal||0));
-   if(!arr.length){document.getElementById('sgMarketBody').innerHTML='<p>Жаңа тапсырыс жоқ.</p>';return}
-   document.getElementById('sgMarketBody').innerHTML=arr.map(o=>`<div class="sg-market-row"><div style="flex:1"><b>№${esc(o.id.slice(0,8))}</b><div>${esc(o.customerName||'Клиент')}</div><div>${Number(o.total||0).toLocaleString('kk-KZ')} ₸</div><span class="sg-market-status">${esc(o.status||'Жаңа тапсырыс')}</span></div><button class="sg-market-btn" data-sg-order="${esc(o.id)}">Қабылдау</button></div>`).join('');
-   document.querySelectorAll('[data-sg-order]').forEach(b=>b.onclick=async()=>{try{await d.collection('orders').doc(b.dataset.sgOrder).update({status:'Қабылданды',updatedAt:firebase.firestore.FieldValue.serverTimestamp()});b.parentElement.querySelector('.sg-market-status').textContent='Қабылданды';}catch(e){alert('Тапсырысты жаңарту мүмкін болмады: '+e.message)}})
-  }catch(e){document.getElementById('sgMarketBody').innerHTML='<p>Тапсырыстарды жүктеу қатесі: '+esc(e.message)+'</p>'}
- };
- window.sgOpenProductReviewsMarket=async function(productId){
-  var d=getDb(); if(!d){alert('Firebase қосылмаған.');return}
-  openSheet('⭐ Пікірлер','Жүктелуде...');
-  try{var s=await d.collection('products').doc(productId).collection('reviews').get();var a=s.docs.map(x=>x.data()||{});document.getElementById('sgMarketBody').innerHTML=a.length?a.map(r=>`<div class="sg-market-row"><div><b>${'★'.repeat(Math.max(1,Math.min(5,Number(r.rating||5))))}</b><div>${esc(r.text||'')}</div></div></div>`).join(''):'<p>Пікір әзірге жоқ.</p>'}catch(e){document.getElementById('sgMarketBody').innerHTML='<p>Пікірлер ашылмады.</p>'}
- };
- // Safe hooks for existing buttons without replacing existing UI.
- document.addEventListener('click',function(e){
-  var el=e.target.closest&&e.target.closest('[data-sg-orders],[data-sg-seller-orders],[data-sg-reviews]'); if(!el)return;
-  e.preventDefault();e.stopPropagation();
-  if(el.hasAttribute('data-sg-orders'))window.sgOpenOrdersMarket();
-  if(el.hasAttribute('data-sg-seller-orders'))window.sgOpenSellerOrdersMarket();
-  if(el.hasAttribute('data-sg-reviews'))window.sgOpenProductReviewsMarket(el.getAttribute('data-sg-reviews'));
- },true);
-})();
-</script>
-
-<!-- SatuGo PLUS: order status + notifications + quick tools -->
-<style>
-#sgPlusOverlay{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:2147483646;display:none;align-items:flex-end;justify-content:center}
-#sgPlusSheet{width:min(760px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:22px 22px 0 0;padding:18px;box-sizing:border-box}
-.sg-plus-card{border:1px solid #e8e8e8;border-radius:16px;padding:14px;margin:10px 0;background:#fff}
-.sg-plus-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
-.sg-plus-btn{border:0;border-radius:11px;padding:9px 12px;min-height:40px;font-weight:600;cursor:pointer}
-.sg-plus-step{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:14px}
-.sg-plus-dot{width:12px;height:12px;border-radius:50%;background:#ddd;flex:none}
-.sg-plus-step.active .sg-plus-dot{background:#111}
-.sg-plus-step.active{font-weight:700}
-#sgPlusBell{position:fixed;right:14px;top:14px;z-index:2147483645;border:0;border-radius:50%;width:46px;height:46px;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.18);font-size:21px;cursor:pointer}
-#sgPlusBadge{position:absolute;right:-2px;top:-2px;background:#e53935;color:#fff;border-radius:99px;min-width:18px;height:18px;font-size:11px;display:none;align-items:center;justify-content:center}
-@media(max-width:600px){#sgPlusBell{bottom:78px;top:auto;right:12px}.sg-plus-btn{flex:1;min-width:130px}}
-</style>
-<button id="sgPlusBell" aria-label="Хабарламалар">🔔<span id="sgPlusBadge">0</span></button>
-<div id="sgPlusOverlay" aria-hidden="true"><div id="sgPlusSheet">
- <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 id="sgPlusTitle" style="margin:0">Хабарламалар</h2><button class="sg-plus-btn" id="sgPlusClose">✕</button></div>
- <div id="sgPlusBody" style="margin-top:12px"></div>
-</div></div>
-<script>
-(function(){
-'use strict';
-var statuses=['Жаңа тапсырыс','Қабылданды','Дайындалуда','Жолда','Жеткізілді','Аяқталды'];
-function U(){return (window.auth&&window.auth.currentUser)||window.currentUser||(typeof user!=='undefined'?user:null)}
-function D(){return window.db||(typeof db!=='undefined'?db:null)}
-function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function openPlus(t,h){var o=document.getElementById('sgPlusOverlay');document.getElementById('sgPlusTitle').textContent=t;document.getElementById('sgPlusBody').innerHTML=h;o.style.display='flex';o.setAttribute('aria-hidden','false')}
-function closePlus(){var o=document.getElementById('sgPlusOverlay');o.style.display='none';o.setAttribute('aria-hidden','true')}
-document.getElementById('sgPlusClose').onclick=closePlus;
-document.getElementById('sgPlusOverlay').addEventListener('click',function(e){if(e.target.id==='sgPlusOverlay')closePlus()});
-async function orderList(){var u=U(),d=D();if(!u||!d){if(typeof openAuth==='function')openAuth();return []}var a=[];try{var b=await d.collection('orders').where('buyerId','==',u.uid).get();b.forEach(x=>a.push(Object.assign({id:x.id},x.data()||{})));}catch(e){}try{var s=await d.collection('orders').where('sellerIds','array-contains',u.uid).get();s.forEach(x=>{if(!a.some(y=>y.id===x.id))a.push(Object.assign({id:x.id},x.data()||{}))})}catch(e){}return a}
-function timeline(status){var i=statuses.indexOf(status);if(i<0)i=0;return '<div>'+statuses.map((s,n)=>'<div class="sg-plus-step '+(n<=i?'active':'')+'"><span class="sg-plus-dot"></span><span>'+esc(s)+'</span></div>').join('')+'</div>'}
-window.sgPlusOpenOrders=async function(){var a=await orderList();openPlus('📦 Тапсырыс статустары','Жүктелуде...');var b=document.getElementById('sgPlusBody');if(!a.length){b.innerHTML='<p>Тапсырыс жоқ.</p>';return}b.innerHTML=a.sort((x,y)=>(y.createdAtLocal||0)-(x.createdAtLocal||0)).map(o=>'<div class="sg-plus-card"><b>№'+esc(o.id.slice(0,8))+'</b><div style="margin-top:5px">'+esc(o.items?.map(i=>i.title+' × '+i.qty).join(', ')||'Тауар')+'</div><div style="margin-top:5px"><b>'+Number(o.total||0).toLocaleString('kk-KZ')+' ₸</b></div><div style="margin-top:10px">'+timeline(o.status||'Жаңа тапсырыс')+'</div><div class="sg-plus-actions">'+(U()&&o.sellerIds&&o.sellerIds.includes(U().uid)?statuses.map(s=>'<button class="sg-plus-btn" data-sg-status="'+esc(s)+'" data-sg-order="'+esc(o.id)+'">'+esc(s)+'</button>').join(''):'')+'</div></div>').join('');b.querySelectorAll('[data-sg-status]').forEach(btn=>btn.onclick=async function(){var d=D();try{await d.collection('orders').doc(btn.dataset.sgOrder).update({status:btn.dataset.sgStatus,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});btn.closest('.sg-plus-card').querySelectorAll('.sg-plus-step').forEach((x,n)=>x.classList.toggle('active',n<=statuses.indexOf(btn.dataset.sgStatus)));}catch(e){alert('Статус өзгермеді: '+e.message)}})};
-window.sgPlusOpenNotifications=async function(){var a=await orderList();a.sort((x,y)=>(y.updatedAt?.seconds||y.createdAtLocal||0)-(x.updatedAt?.seconds||x.createdAtLocal||0));openPlus('🔔 Хабарламалар',a.length?a.slice(0,20).map(o=>'<div class="sg-plus-card"><b>Тапсырыс №'+esc(o.id.slice(0,8))+'</b><div>'+esc(o.status||'Жаңа тапсырыс')+'</div><div style="font-size:13px;margin-top:4px">'+esc(o.customerName||'Тапсырыс')+'</div></div>').join(''):'<p>Әзірге хабарлама жоқ.</p>')}
-async function badge(){var a=await orderList();var b=document.getElementById('sgPlusBadge');if(!b)return;b.textContent=Math.min(99,a.length);b.style.display=a.length?'flex':'none'}
-document.getElementById('sgPlusBell').addEventListener('click',function(){window.sgPlusOpenNotifications()});
-window.addEventListener('load',function(){setTimeout(badge,1200)});
-setInterval(function(){if(document.visibilityState==='visible')badge()},30000);
-// Add a status button to the existing orders entry when possible.
-document.addEventListener('click',function(e){var el=e.target.closest&&e.target.closest('[data-sg-plus-orders]');if(!el)return;e.preventDefault();e.stopPropagation();window.sgPlusOpenOrders()},true);
-})();
-</script>
-<script>
-/* SatuGo next market layer: checkout address, notifications, reviews */
-(function(){
-  function qs(s){return document.querySelector(s)}
-  function getUser(){return (window.auth&&auth.currentUser)||window.currentUser||null}
-  function dbx(){return window.db||null}
-  function esc(v){return String(v??'').replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]})}
-  window.sgOpenDelivery=async function(){
-    var u=getUser(); if(!u){ if(window.openAuth)openAuth(); else alert('Алдымен аккаунтқа кіріңіз'); return; }
-    var old=qs('#sgDeliveryPlus'); if(old)old.remove();
-    var d=document.createElement('div'); d.id='sgDeliveryPlus'; d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:16px';
-    d.innerHTML='<div style="background:#fff;border-radius:20px;max-width:480px;width:100%;padding:20px;max-height:90vh;overflow:auto"><h2>📍 Жеткізу мекенжайы</h2><input id="sgCity" placeholder="Қала" style="width:100%;padding:12px;margin:6px 0"><input id="sgAddress" placeholder="Көше, үй, пәтер" style="width:100%;padding:12px;margin:6px 0"><input id="sgPhone" placeholder="+7 7XX XXX XX XX" style="width:100%;padding:12px;margin:6px 0"><button id="sgSaveDelivery" style="width:100%;padding:13px;margin-top:10px">Сақтау және жалғастыру</button><button id="sgCloseDelivery" style="width:100%;padding:11px;margin-top:6px;background:#eee;border:0">Жабу</button></div>';
-    document.body.appendChild(d);
-    var snap=null; try{ if(dbx())snap=await dbx().collection('users').doc(u.uid).get() }catch(e){}
-    var p=snap&&snap.exists?snap.data():{}; qs('#sgCity').value=p.city||''; qs('#sgAddress').value=p.address||''; qs('#sgPhone').value=p.phone||u.phoneNumber||'';
-    qs('#sgCloseDelivery').onclick=function(){d.remove()};
-    qs('#sgSaveDelivery').onclick=async function(){
-      var data={city:qs('#sgCity').value.trim(),address:qs('#sgAddress').value.trim(),phone:qs('#sgPhone').value.trim(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
-      if(!data.city||!data.address||!data.phone){alert('Қала, мекенжай және телефонды толтырыңыз');return}
-      try{await dbx().collection('users').doc(u.uid).set(data,{merge:true});d.remove(); if(window.checkout)checkout(); else alert('Мекенжай сақталды');}catch(e){alert('Сақталмады: '+e.message)}
-    };
-  };
-  window.sgShowReviews=async function(productId){
-    var old=qs('#sgReviewsPlus');if(old)old.remove(); var d=document.createElement('div');d.id='sgReviewsPlus';d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2147483001;display:flex;align-items:center;justify-content:center;padding:16px';
-    d.innerHTML='<div style="background:#fff;border-radius:20px;max-width:520px;width:100%;padding:20px;max-height:90vh;overflow:auto"><h2>⭐ Пікірлер</h2><div id="sgReviewList">Жүктелуде...</div><div style="margin-top:14px"><textarea id="sgReviewText" maxlength="2000" placeholder="Пікіріңіз" style="width:100%;min-height:90px;padding:10px"></textarea><select id="sgReviewRating" style="width:100%;padding:10px;margin-top:7px"><option value="5">5 ⭐</option><option value="4">4 ⭐</option><option value="3">3 ⭐</option><option value="2">2 ⭐</option><option value="1">1 ⭐</option></select><button id="sgReviewSend" style="width:100%;padding:12px;margin-top:8px">Пікір қалдыру</button></div><button id="sgReviewClose" style="width:100%;padding:10px;margin-top:8px;background:#eee;border:0">Жабу</button></div>';
-    document.body.appendChild(d);qs('#sgReviewClose').onclick=function(){d.remove()};
-    try{var snap=await dbx().collection('products').doc(productId).collection('reviews').orderBy('createdAt','desc').limit(30).get();qs('#sgReviewList').innerHTML=snap.empty?'<p>Пікір әзірге жоқ.</p>':snap.docs.map(function(x){var v=x.data();return '<div style="border-bottom:1px solid #eee;padding:10px 0"><b>'+esc(v.rating)+' ⭐</b><div>'+esc(v.text)+'</div></div>'}).join('');}catch(e){qs('#sgReviewList').textContent='Пікірлерді жүктеу мүмкін болмады';}
-    qs('#sgReviewSend').onclick=async function(){var u=getUser();if(!u){alert('Пікір жазу үшін аккаунтқа кіріңіз');return}var text=qs('#sgReviewText').value.trim();if(!text){alert('Пікір жазыңыз');return}try{await dbx().collection('products').doc(productId).collection('reviews').add({userId:u.uid,rating:Number(qs('#sgReviewRating').value),text:text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});alert('Пікір сақталды');d.remove();window.sgShowReviews(productId)}catch(e){alert('Пікір сақталмады: '+e.message)}};
-  };
-  window.sgOpenNotifications=async function(){var u=getUser();if(!u){if(window.openAuth)openAuth();return}var old=qs('#sgNotifPlus');if(old)old.remove();var d=document.createElement('div');d.id='sgNotifPlus';d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2147483002;display:flex;align-items:center;justify-content:center;padding:16px';d.innerHTML='<div style="background:#fff;border-radius:20px;max-width:480px;width:100%;padding:20px"><h2>🔔 Хабарламалар</h2><div id="sgNotifList">Жүктелуде...</div><button id="sgNotifClose" style="width:100%;padding:11px;margin-top:10px;background:#eee;border:0">Жабу</button></div>';document.body.appendChild(d);qs('#sgNotifClose').onclick=function(){d.remove()};try{var s=await dbx().collection('notifications').where('userId','==',u.uid).orderBy('createdAt','desc').limit(30).get();qs('#sgNotifList').innerHTML=s.empty?'<p>Хабарлама жоқ.</p>':s.docs.map(function(x){var v=x.data();return '<div style="padding:10px;border-bottom:1px solid #eee"><b>'+esc(v.title||'SatuGo')+'</b><div>'+esc(v.text||v.message||'')+'</div></div>'}).join('')}catch(e){qs('#sgNotifList').textContent='Хабарламалар әзірге қолжетімсіз';}}
-})();
-</script>
+</body>
+</html>
