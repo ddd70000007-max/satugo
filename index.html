@@ -7179,5 +7179,74 @@ document.addEventListener('click',function(e){
 },true);
 })();
 </script>
+
+<style id="satugo-chat-integration-plus-css">
+#sgChatUnreadBadge{position:absolute;right:6px;top:2px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#ef4444;color:#fff;font-size:11px;font-weight:900;display:none;align-items:center;justify-content:center;line-height:18px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+#satugoFinalChat{position:relative!important}
+.sgOrderCard{margin:8px 0;padding:11px;border:1px solid #e5e7eb;border-radius:14px;background:#f8fafc}.sgOrderCard b{display:block;margin-bottom:5px}.sgOrderCard small{display:block;color:#6b7280;margin-top:3px}.sgOrderCard button{margin-top:8px;border:0;border-radius:10px;padding:8px 10px;font-weight:800;cursor:pointer}
+</style>
+<script id="satugo-chat-integration-plus-js">
+(function(){
+'use strict';
+function U(){return window.currentUser||(window.auth&&window.auth.currentUser)||(window.firebase&&firebase.auth&&firebase.auth().currentUser)||null}
+function db(){return window.db||null}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
+function toast(t){if(typeof window.sgToast==='function')window.sgToast(t);else if(typeof window.showToast==='function')window.showToast(t);else alert(t)}
+function badge(){var n=document.getElementById('sgChatUnreadBadge');if(!n){var b=document.getElementById('satugoFinalChat');if(!b)return;n=document.createElement('span');n.id='sgChatUnreadBadge';b.appendChild(n)}return n}
+async function refreshUnread(){var u=U(),D=db();if(!u||!D){var b=badge();if(b)b.style.display='none';return}try{var qs=[];try{qs.push(await D.collection('chats').where('members','array-contains',u.uid).get())}catch(e){}try{qs.push(await D.collection('chats').where('participants','array-contains',u.uid).get())}catch(e){}var ids={},count=0;qs.forEach(function(q){q.docs.forEach(function(d){if(ids[d.id])return;ids[d.id]=1;var x=d.data()||{};if(x.unreadFor===u.uid)count++})});var b=badge();if(b){b.textContent=count>99?'99+':String(count);b.style.display=count?'flex':'none'}}catch(e){}}
+function patchList(){
+ var old=window.sgNewChatOpen;
+ if(typeof old!=='function')return;
+ window.sgNewChatOpen=async function(){await old();decorateList();refreshUnread()}
+}
+function decorateList(){
+ var body=document.getElementById('sgNewChatBody');if(!body)return;
+ body.querySelectorAll('.row').forEach(function(row){
+   if(row.querySelector('.sg-unread-dot'))return;
+   var name=row.getAttribute('data-name')||'';
+   var u=U();
+   if(!u||!db())return;
+   db().collection('chats').doc(row.getAttribute('data-chat')).get().then(function(ds){
+     if(!ds.exists)return;var x=ds.data()||{};
+     if(x.unreadFor===u.uid){var dot=document.createElement('span');dot.className='sg-unread-dot';dot.textContent=' ЖАҢА';dot.style.cssText='float:right;background:#ef4444;color:#fff;border-radius:8px;padding:3px 6px;font-size:10px;font-weight:900';row.insertBefore(dot,row.firstChild)}
+   }).catch(function(){});
+ })
+}
+function markCurrent(){try{var u=U(),id=window.__sgCurrentChatId||null;if(!id&&window.sgNewChatState)id=window.sgNewChatState.currentChatId;if(!u||!id||!db())return;var o={};o[u.uid]=firebase.firestore.FieldValue.serverTimestamp();db().collection('chats').doc(id).set({unreadFor:'',lastReadAt:o},{merge:true}).then(refreshUnread).catch(function(){})}catch(e){}}
+function addUnreadWatcher(){var u=U(),D=db();if(!u||!D)return;var stop=[];function listen(field){try{var un=D.collection('chats').where(field,'array-contains',u.uid).onSnapshot(function(){refreshUnread()});stop.push(un)}catch(e){}}
+listen('members');listen('participants');window.__sgUnreadStop=function(){stop.forEach(function(x){try{x()}catch(e){}})} }
+function enhanceOrderMessage(){
+ var body=document.getElementById('sgNewChatBody');if(!body)return;
+ body.querySelectorAll('.bubble').forEach(function(b){
+   var text=b.textContent||'';if(text.indexOf('Тапсырыс берілді')>=0&&!b.querySelector('.sgOrderCard')){
+     var c=document.createElement('div');c.className='sgOrderCard';c.innerHTML='<b>📦 Тапсырыс</b><small>Тапсырыс чат арқылы жіберілді.</small>';
+     b.appendChild(c)
+   }
+ })
+}
+function wrapSnapshot(){
+ var old=window.sgNewChatStart;
+ if(typeof old!=='function')return;
+ window.sgNewChatStart=old;
+}
+function install(){
+ patchList();
+ var b=document.getElementById('satugoFinalChat');if(b&&!b.querySelector('#sgChatUnreadBadge'))badge();
+ refreshUnread();addUnreadWatcher();
+ // Periodic unread refresh keeps the badge correct after another user sends a message.
+ setInterval(refreshUnread,15000);
+ // Observe chat UI only; never mutate the whole document.
+ var root=document.getElementById('sgNewChatV2');
+ if(root){new MutationObserver(function(){decorateList();enhanceOrderMessage()}).observe(root,{childList:true,subtree:true})}
+}
+// Seller order notifications: no client-side /notifications write is used because normal users may not have permission.
+window.sgNotifyOrderForSeller=function(order){
+ try{var u=U();if(!u||!order)return false;return Array.isArray(order.sellerIds)&&order.sellerIds.indexOf(u.uid)>=0}catch(e){return false}
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install);else install();
+window.addEventListener('satugo:login',function(){setTimeout(function(){refreshUnread();addUnreadWatcher()},500)});
+window.addEventListener('focus',refreshUnread);
+})();
+</script>
 </body>
 </html>
