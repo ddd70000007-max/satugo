@@ -6746,5 +6746,326 @@ body{padding-bottom:80px!important;}
 })();
 </script>
 
+
+<!-- SATUGO ACCOUNT BUTTON REAL INPUT FIX -->
+<style id="satugo-account-real-input-fix">
+#satugoFinalAccount,
+#sgAccountHardNav,
+#sgAccountHardLogin{
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  cursor:pointer!important;
+}
+</style>
+<script id="satugo-account-real-input-fix-js">
+(function(){
+  "use strict";
+
+  function openLogin(){
+    try{
+      if(typeof window.sgHardOpenLogin==="function"){
+        window.sgHardOpenLogin();
+        return;
+      }
+      var m=document.getElementById("sgHardLogin");
+      if(m){
+        m.classList.add("open");
+        m.setAttribute("aria-hidden","false");
+      }
+    }catch(e){
+      console.error("SatuGo account open:",e);
+    }
+  }
+
+  function bind(){
+    var b=document.getElementById("satugoFinalAccount");
+    if(!b || b.dataset.sgRealAccountBound==="1") return;
+    b.dataset.sgRealAccountBound="1";
+
+    /* pointerdown/touchstart works before the old click handlers */
+    function go(e){
+      if(e && e.cancelable) e.preventDefault();
+      openLogin();
+    }
+
+    b.addEventListener("pointerdown",go,{capture:true,passive:false});
+    b.addEventListener("touchstart",go,{capture:true,passive:false});
+    b.addEventListener("mousedown",go,{capture:true});
+  }
+
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",bind,{once:true});
+  }else{
+    bind();
+  }
+
+  window.addEventListener("load",bind,{once:true});
+  setTimeout(bind,300);
+  setTimeout(bind,1000);
+})();
+</script>
+
+
+<!-- SATUGO FINAL ACCOUNT CLICK FIX -->
+<style id="satugo-final-account-click-fix">
+/* Old account layers must never block the real button */
+#accountModal,
+#sgStableAccountOverlay,
+#sgFinalAccountOverlay,
+#sgHardAccount,
+#sgFinalAccountClean,
+#sgCleanAuth,
+#sgCleanProfile,
+#sgProfileOverlay,
+#sgMarketOverlay,
+#sgPlusOverlay,
+#sgNextOverlay{
+  pointer-events:none!important;
+}
+#sgHardLogin.open{
+  pointer-events:auto!important;
+}
+#satugoFinalAccount,
+#sgAccountHardNav{
+  position:relative!important;
+  z-index:2147483646!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+}
+</style>
+<script id="satugo-final-account-click-fix-js">
+(function(){
+  "use strict";
+
+  var blocked=[
+    "accountModal","sgStableAccountOverlay","sgFinalAccountOverlay",
+    "sgHardAccount","sgFinalAccountClean","sgCleanAuth","sgCleanProfile",
+    "sgProfileOverlay","sgMarketOverlay","sgPlusOverlay","sgNextOverlay"
+  ];
+
+  function hideOld(){
+    blocked.forEach(function(id){
+      var x=document.getElementById(id);
+      if(!x)return;
+      if(id==="accountModal" || !x.classList.contains("open")){
+        x.style.setProperty("pointer-events","none","important");
+      }
+    });
+  }
+
+  function open(){
+    hideOld();
+
+    var m=document.getElementById("sgHardLogin");
+    if(m){
+      m.style.setProperty("display","flex","important");
+      m.style.setProperty("pointer-events","auto","important");
+      m.classList.add("open");
+      m.setAttribute("aria-hidden","false");
+      var e=document.getElementById("sgHardEmail");
+      if(e)setTimeout(function(){try{e.focus()}catch(_){}},50);
+      return;
+    }
+
+    /* fallback: existing SMS/auth window */
+    try{
+      if(typeof window.sgPhoneOpen==="function"){
+        window.sgPhoneOpen();
+        return;
+      }
+      if(typeof window.openAuth==="function"){
+        window.openAuth();
+      }
+    }catch(e){console.error(e)}
+  }
+
+  function bind(){
+    hideOld();
+
+    var b=document.getElementById("satugoFinalAccount") ||
+          document.getElementById("sgAccountHardNav");
+
+    if(!b)return;
+    b.style.setProperty("pointer-events","auto","important");
+
+    if(b.dataset.sgFinalBound==="1")return;
+    b.dataset.sgFinalBound="1";
+
+    ["click","pointerup","touchend"].forEach(function(type){
+      b.addEventListener(type,function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        try{e.stopImmediatePropagation()}catch(_){}
+        open();
+      },true);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded",bind,{once:true});
+  window.addEventListener("load",bind);
+  setInterval(function(){
+    hideOld();
+    bind();
+  },1000);
+})();
+</script>
+
+
+<!-- SATUGO: ACCOUNT CLEAN REBUILD -->
+<style id="satugo-account-clean-rebuild-css">
+#sgCleanAccountNav{
+  position:fixed!important;
+  left:0!important;right:0!important;bottom:0!important;
+  height:72px!important;
+  z-index:2147483647!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-around!important;
+  background:#fff!important;
+  border-top:1px solid #ddd!important;
+  box-shadow:0 -4px 18px rgba(0,0,0,.10)!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+}
+#sgCleanAccountNav button{
+  appearance:none!important;
+  border:0!important;
+  background:transparent!important;
+  color:#222!important;
+  font:600 13px Arial,sans-serif!important;
+  min-width:90px!important;
+  height:60px!important;
+  border-radius:14px!important;
+  cursor:pointer!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+}
+#sgCleanAccountNav button:active{transform:scale(.96)!important}
+#sgCleanAccountModal{
+  position:fixed!important;inset:0!important;
+  z-index:2147483647!important;
+  display:none!important;
+  align-items:center!important;justify-content:center!important;
+  padding:18px!important;
+  background:rgba(0,0,0,.58)!important;
+  pointer-events:auto!important;
+}
+#sgCleanAccountModal.open{display:flex!important}
+#sgCleanAccountBox{
+  width:min(420px,100%)!important;
+  background:#fff!important;
+  border-radius:22px!important;
+  padding:24px!important;
+  box-sizing:border-box!important;
+  box-shadow:0 20px 60px rgba(0,0,0,.25)!important;
+  pointer-events:auto!important;
+}
+#sgCleanAccountBox button{
+  width:100%!important;height:50px!important;
+  border:0!important;border-radius:13px!important;
+  margin-top:10px!important;
+  font-size:16px!important;font-weight:700!important;
+  cursor:pointer!important;touch-action:manipulation!important;
+}
+#sgCleanAccountClose{
+  width:42px!important;height:42px!important;
+  margin:0 0 8px auto!important;
+  display:block!important;
+  border-radius:50%!important;
+  background:#eee!important;
+}
+</style>
+
+<div id="sgCleanAccountNav">
+  <button id="sgCleanAccountButton" type="button">
+    <div style="font-size:25px;line-height:28px">👤</div>
+    <div>Аккаунт</div>
+  </button>
+</div>
+
+<div id="sgCleanAccountModal" aria-hidden="true">
+  <div id="sgCleanAccountBox">
+    <button id="sgCleanAccountClose" type="button">×</button>
+    <div style="font-size:48px;text-align:center">👤</div>
+    <h2 style="text-align:center;margin:8px 0">Жеке кабинет</h2>
+    <p id="sgCleanAccountText" style="text-align:center;color:#666">
+      Аккаунтқа кіріңіз немесе тіркеліңіз.
+    </p>
+    <button id="sgCleanLogin" type="button" style="background:#111;color:#fff">
+      🔐 Аккаунтқа кіру
+    </button>
+    <button id="sgCleanSms" type="button" style="background:#f2c200;color:#111">
+      📱 +7 SMS арқылы кіру
+    </button>
+  </div>
+</div>
+
+<script id="satugo-account-clean-rebuild-js">
+(function(){
+  "use strict";
+  var nav=document.getElementById("sgCleanAccountNav");
+  var btn=document.getElementById("sgCleanAccountButton");
+  var modal=document.getElementById("sgCleanAccountModal");
+  var close=document.getElementById("sgCleanAccountClose");
+  var login=document.getElementById("sgCleanLogin");
+  var sms=document.getElementById("sgCleanSms");
+
+  function openModal(){
+    if(!modal)return;
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden","false");
+  }
+  function closeModal(){
+    if(!modal)return;
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden","true");
+  }
+
+  if(btn) btn.onclick=function(e){
+    e.preventDefault(); e.stopPropagation(); openModal(); return false;
+  };
+  if(close) close.onclick=function(e){
+    e.preventDefault(); e.stopPropagation(); closeModal(); return false;
+  };
+  if(modal) modal.addEventListener("click",function(e){
+    if(e.target===modal) closeModal();
+  });
+  if(login) login.onclick=function(e){
+    e.preventDefault(); e.stopPropagation();
+    closeModal();
+    setTimeout(function(){
+      if(typeof window.sgHardOpenLogin==="function") window.sgHardOpenLogin();
+      else if(typeof window.openAuth==="function") window.openAuth();
+      else alert("Кіру терезесі табылмады.");
+    },50);
+  };
+  if(sms) sms.onclick=function(e){
+    e.preventDefault(); e.stopPropagation();
+    closeModal();
+    setTimeout(function(){
+      if(typeof window.sgPhoneOpen==="function") window.sgPhoneOpen();
+      else if(typeof window.openAuth==="function") window.openAuth();
+      else alert("SMS кіру жүйесі табылмады.");
+    },50);
+  };
+
+  /* Remove every old account bottom button so it cannot interfere. */
+  function removeOld(){
+    [
+      "satugoFinalAccount","sgAccountHardNav",
+      "sgAccountHardLogin"
+    ].forEach(function(id){
+      var x=document.getElementById(id);
+      if(x && x!==btn && x!==nav){
+        try{x.remove()}catch(_){x.style.display="none"}
+      }
+    });
+  }
+  removeOld();
+  setTimeout(removeOld,100);
+  setTimeout(removeOld,500);
+})();
+</script>
+
 </body>
 </html>
