@@ -6430,296 +6430,40 @@ body{padding-bottom:80px!important;}
 </script>
 
 
-<!-- SATUGO ACCOUNT LOGIN — FINAL HARD FIX -->
-<style id="satugo-account-hardfix-css">
-#sgHardAccount{display:none;position:fixed;inset:0;z-index:2147483645;background:rgba(0,0,0,.62);padding:10px;box-sizing:border-box;align-items:flex-start;justify-content:center;overflow:auto;touch-action:auto}
-#sgHardAccount.open{display:flex!important;pointer-events:auto!important}
-#sgHardAccountBox{width:min(680px,100%);min-height:220px;margin:8px auto 90px;background:#fff;border-radius:22px;padding:18px;box-sizing:border-box;position:relative;box-shadow:0 20px 70px rgba(0,0,0,.3);pointer-events:auto}
-#sgHardAccountClose{position:absolute;right:10px;top:10px;width:44px;height:44px;border:0;border-radius:50%;background:#eef2f7;font-size:26px;cursor:pointer;z-index:20;touch-action:manipulation}
-#sgHardLogin{display:block;width:100%;max-width:440px;margin:20px auto 0;padding:15px 18px;border:0;border-radius:14px;background:#15803d;color:#fff;font-size:17px;font-weight:800;cursor:pointer;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+
+<style id="satugo-account-one-system">
+#sgAccountOne{display:none!important;position:fixed!important;inset:0!important;z-index:2147483645!important;background:rgba(0,0,0,.62)!important;padding:10px!important;box-sizing:border-box!important;align-items:center!important;justify-content:center!important;overflow:auto!important}
+#sgAccountOne.open{display:flex!important;pointer-events:auto!important}
+#sgAccountOneBox{width:min(680px,100%)!important;max-height:calc(100dvh - 30px)!important;overflow:auto!important;background:#fff!important;border-radius:22px!important;padding:18px!important;box-sizing:border-box!important;position:relative!important;box-shadow:0 20px 70px rgba(0,0,0,.3)!important}
+#sgAccountOneClose{position:absolute!important;right:10px!important;top:10px!important;width:44px!important;height:44px!important;border:0!important;border-radius:50%!important;background:#eef2f7!important;font-size:27px!important;cursor:pointer!important;z-index:10!important;touch-action:manipulation!important}
+#sgAccountOneLogin{display:block!important;width:100%!important;max-width:440px!important;margin:22px auto 0!important;padding:15px 18px!important;border:0!important;border-radius:14px!important;background:#15803d!important;color:#fff!important;font-size:17px!important;font-weight:800!important;cursor:pointer!important;touch-action:manipulation!important}
 #sgAuthModal{z-index:2147483646!important}
 #sgAuthModal.open{display:flex!important;pointer-events:auto!important}
-#sgAuthModal .sg-auth-card{pointer-events:auto!important;touch-action:auto}
+#sgAuthModal .sg-auth-card{pointer-events:auto!important}
 #sgPhoneAuth{z-index:2147483647!important}
-@media(max-width:700px){#sgHardAccount{padding:7px 7px 86px}#sgHardAccountBox{margin:4px auto 0;min-height:calc(100dvh - 97px);border-radius:18px;padding:15px}#sgAuthModal{padding:8px!important}#sgAuthModal .sg-auth-card{max-height:calc(100dvh - 16px)!important;border-radius:18px!important}}
+@media(max-width:700px){#sgAccountOne{padding:7px 7px 82px!important}#sgAccountOneBox{max-height:calc(100dvh - 94px)!important;border-radius:18px!important;padding:15px!important}#sgAuthModal{padding:8px!important}}
 </style>
-<script id="satugo-account-hardfix-js">
-(function(){
-'use strict';
-var ACCOUNT='sgHardAccount', AUTH='sgAuthModal', PHONE='sgPhoneAuth';
-function el(id){return document.getElementById(id)}
-function hardHide(id){var x=el(id);if(!x)return;x.classList.remove('open','show','active');x.setAttribute('aria-hidden','true');x.style.setProperty('display','none','important');x.style.setProperty('pointer-events','none','important')}
-function hideLegacy(){['accountModal','sgStableAccountOverlay','sgFinalAccountOverlay','sellerModal','ordersModal','favoritesModal','sgNextOverlay','sgProfileOverlay','sgMarketOverlay','sgPlusOverlay'].forEach(hardHide)}
-function install(){
- if(el(ACCOUNT))return;
- var o=document.createElement('div');o.id=ACCOUNT;o.setAttribute('aria-hidden','true');
- o.innerHTML='<div id="sgHardAccountBox"><button id="sgHardAccountClose" type="button" aria-label="Жабу">×</button><div id="sgHardAccountContent"></div></div>';
- document.body.appendChild(o);
- el('sgHardAccountClose').addEventListener('pointerup',function(e){e.preventDefault();e.stopImmediatePropagation();closeAccount()},{capture:true});
- o.addEventListener('pointerup',function(e){if(e.target===o){e.preventDefault();closeAccount()}},{capture:true});
-}
-function closeAccount(){var o=el(ACCOUNT);if(!o)return;o.classList.remove('open');o.setAttribute('aria-hidden','true');o.style.setProperty('display','none','important');o.style.setProperty('pointer-events','none','important')}
-function closeAuth(){var a=el(AUTH);if(!a)return;a.classList.remove('open');a.setAttribute('aria-hidden','true');a.style.setProperty('display','none','important');a.style.setProperty('pointer-events','none','important')}
-function closePhone(){var p=el(PHONE);if(!p)return;p.classList.remove('open');p.setAttribute('aria-hidden','true');p.style.setProperty('display','none','important');p.style.setProperty('pointer-events','none','important')}
-function showAuth(){
- install(); closeAccount(); closePhone(); hideLegacy();
- var a=el(AUTH); if(!a){alert('Кіру терезесі табылмады.');return false}
- a.classList.remove('show','active');
- a.style.setProperty('display','flex','important');a.style.setProperty('position','fixed','important');a.style.setProperty('inset','0','important');a.style.setProperty('z-index','2147483646','important');a.style.setProperty('pointer-events','auto','important');
- a.classList.add('open');a.setAttribute('aria-hidden','false');
- try{if(typeof window.sgAuthTab==='function')window.sgAuthTab('phone')}catch(e){}
- return false;
-}
-function showPhone(){
- closeAuth(); closeAccount();
- var p=el(PHONE);if(!p){alert('SMS терезесі табылмады.');return false}
- p.style.setProperty('display','block','important');p.style.setProperty('position','fixed','important');p.style.setProperty('inset','0','important');p.style.setProperty('z-index','2147483647','important');p.style.setProperty('pointer-events','auto','important');p.classList.add('open');p.setAttribute('aria-hidden','false');
- setTimeout(function(){var i=el('sgPhoneNumber');if(i)try{i.focus()}catch(e){}},60);return false;
-}
-function showAccount(){
- install(); closeAuth(); closePhone(); hideLegacy();
- var box=el('sgHardAccountContent');if(!box)return false;
- var logged=!!((window.auth&&window.auth.currentUser)||window.user);
- if(!logged){
-  box.innerHTML='<div style="padding:42px 18px;text-align:center">'+
-   '<div style="font-size:58px;margin-bottom:12px">👤</div>'+
-   '<h2 style="margin:0 0 8px;font-size:25px">Жеке кабинет</h2>'+
-   '<p style="color:#64748b;line-height:1.5;margin:0 auto;max-width:450px">Тапсырыстарды, таңдаулыларды және профиліңізді басқару үшін аккаунтқа кіріңіз.</p>'+
-   '<button id="sgHardLogin" type="button">🔐 Аккаунтқа кіру</button></div>';
-  var b=el('sgHardLogin');
-  if(b){
-   var go=function(e){e.preventDefault();e.stopImmediatePropagation();showAuth();return false};
-   b.onclick=go;b.onpointerup=go;b.ontouchend=go;
-  }
- }else{
-  try{if(typeof window.renderAccount==='function')window.renderAccount()}catch(e){}
-  var source=el('account');box.innerHTML=source?source.innerHTML:'<div style="padding:30px;text-align:center">Аккаунт жүктелуде...</div>';
- }
- var o=el(ACCOUNT);o.style.setProperty('display','flex','important');o.style.setProperty('pointer-events','auto','important');o.style.setProperty('z-index','2147483645','important');o.classList.add('open');o.setAttribute('aria-hidden','false');
- return false;
-}
-window.sgFinalShowAccount=showAccount;window.sgFinalShowAuth=showAuth;window.sgFinalShowPhone=showPhone;
-window.openAccount=showAccount;window.openAuth=showAuth;window.sgCloseAuth=closeAuth;window.sgPhoneOpen=showPhone;window.sgPhoneClose=closePhone;
-function isLoginButton(t){if(!t||!t.closest)return false;var b=t.closest('#sgHardLogin');if(b)return true;b=t.closest('#sgHardAccountContent button');if(b&&String(b.textContent||'').indexOf('Аккаунтқа кіру')>=0)return true;return false}
-function bind(){
- install();
- if(window.__sgHardBound)return;window.__sgHardBound=true;
- // Window capture runs before all old document handlers in this file.
- window.addEventListener('pointerup',function(e){
-  var t=e.target;if(!t||!t.closest)return;
-  var acc=t.closest('#satugoFinalAccount');
-  if(acc){e.preventDefault();e.stopImmediatePropagation();showAccount();return}
-  if(isLoginButton(t)){e.preventDefault();e.stopImmediatePropagation();showAuth();return}
-  var oldLogin=t.closest('#accountModal button[onclick*="openAuth"], #sgFinalAccountOverlay button[onclick*="openAuth"]');
-  if(oldLogin && !t.closest('#sgAuthModal')){e.preventDefault();e.stopImmediatePropagation();showAuth();return}
-  var close=t.closest('#sgAuthModal .sg-auth-close');
-  if(close){e.preventDefault();e.stopImmediatePropagation();closeAuth();return}
-  var phone=t.closest('#sgAuthModal button[onclick*="sgPhoneOpen"]');
-  if(phone){e.preventDefault();e.stopImmediatePropagation();showPhone();return}
- },true);
- window.addEventListener('click',function(e){
-  var t=e.target;if(!t||!t.closest)return;
-  var acc=t.closest('#satugoFinalAccount');
-  if(acc){e.preventDefault();e.stopImmediatePropagation();showAccount();return}
-  if(isLoginButton(t)){e.preventDefault();e.stopImmediatePropagation();showAuth();return}
- },true);
- window.addEventListener('keydown',function(e){if(e.key!=='Escape')return;if(el(PHONE)?.classList.contains('open')){closePhone();return}if(el(AUTH)?.classList.contains('open')){closeAuth();return}if(el(ACCOUNT)?.classList.contains('open')){closeAccount();return}},true);
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
-window.addEventListener('load',bind,{once:true});
-})();
-</script>
-
-
-<!-- SATUGO FINAL CLEAN ACCOUNT / AUTH MANAGER -->
-<style id="satugo-final-account-clean-css">
-#sgFinalAccountClean{display:none!important;position:fixed!important;inset:0!important;z-index:2147483640!important;background:rgba(0,0,0,.62)!important;align-items:center!important;justify-content:center!important;padding:10px!important;box-sizing:border-box!important;overflow:auto!important;touch-action:auto!important}
-#sgFinalAccountClean.open{display:flex!important;pointer-events:auto!important}
-#sgFinalAccountCleanBox{width:min(620px,100%)!important;max-height:calc(100dvh - 20px)!important;overflow:auto!important;background:#fff!important;border-radius:22px!important;position:relative!important;box-shadow:0 24px 80px rgba(0,0,0,.35)!important;padding:18px!important;box-sizing:border-box!important}
-#sgFinalAccountCleanClose{position:absolute!important;right:10px!important;top:10px!important;width:44px!important;height:44px!important;border:0!important;border-radius:50%!important;background:#eef2f7!important;font-size:27px!important;font-weight:700!important;cursor:pointer!important;z-index:20!important;touch-action:manipulation!important}
-#sgFinalAccountCleanLogin{display:block!important;width:100%!important;max-width:460px!important;margin:22px auto 0!important;padding:16px 18px!important;border:0!important;border-radius:15px!important;background:#15803d!important;color:#fff!important;font-size:17px!important;font-weight:800!important;cursor:pointer!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important}
-#sgAuthModal{z-index:2147483646!important}
-#sgAuthModal.open{display:flex!important;pointer-events:auto!important}
-#sgPhoneAuth{z-index:2147483647!important}
-@media(max-width:700px){
- #sgFinalAccountClean{padding:6px 6px 82px!important;align-items:flex-start!important}
- #sgFinalAccountCleanBox{margin:4px auto 0!important;min-height:calc(100dvh - 92px)!important;max-height:none!important;border-radius:18px!important;padding:15px!important}
- #sgAuthModal{padding:7px!important}
-}
-</style>
-<div id="sgFinalAccountClean" aria-hidden="true">
-  <div id="sgFinalAccountCleanBox">
-    <button id="sgFinalAccountCleanClose" type="button" aria-label="Жабу">×</button>
-    <div id="sgFinalAccountCleanContent"></div>
+<div id="sgAccountOne" aria-hidden="true">
+  <div id="sgAccountOneBox">
+    <button id="sgAccountOneClose" type="button" aria-label="Жабу">×</button>
+    <div id="sgAccountOneContent"></div>
   </div>
 </div>
-<script id="satugo-final-account-clean-js">
+<script id="satugo-account-one-system-js">
 (function(){
 'use strict';
-
-var ACCOUNT='sgFinalAccountClean';
-var AUTH='sgAuthModal';
-var PHONE='sgPhoneAuth';
-var bound=false;
-
+var A='sgAccountOne', AUTH='sgAuthModal', PHONE='sgPhoneAuth', ready=false;
 function $(id){return document.getElementById(id)}
-function hardHide(id){
-  var e=$(id); if(!e)return;
-  e.classList.remove('open','show','active');
-  e.setAttribute('aria-hidden','true');
-  e.style.setProperty('display','none','important');
-  e.style.setProperty('pointer-events','none','important');
-}
-function hideOldAccount(){
-  ['accountModal','sgStableAccountOverlay','sgFinalAccountOverlay','sgCleanAuth','sgCleanProfile','sgProfileOverlay','sgMarketOverlay','sgPlusOverlay'].forEach(hardHide);
-}
-function hideOldAuthExceptMain(){
-  ['sgPhoneAuth','sgNextOverlay'].forEach(hardHide);
-}
-function closeAccount(){
-  var e=$(ACCOUNT); if(!e)return;
-  e.classList.remove('open');
-  e.setAttribute('aria-hidden','true');
-  e.style.setProperty('display','none','important');
-  e.style.setProperty('pointer-events','none','important');
-}
-function closeAuth(){
-  var e=$(AUTH); if(e){
-    e.classList.remove('open','show','active');
-    e.setAttribute('aria-hidden','true');
-    e.style.setProperty('display','none','important');
-    e.style.setProperty('pointer-events','none','important');
-  }
-  hardHide(PHONE); hardHide('sgNextOverlay');
-}
-function showAuth(){
-  closeAccount();
-  hideOldAccount();
-  hideOldAuthExceptMain();
-  var m=$(AUTH);
-  if(!m){alert('Кіру терезесі табылмады.');return false;}
-  m.classList.remove('show','active');
-  m.style.setProperty('display','flex','important');
-  m.style.setProperty('position','fixed','important');
-  m.style.setProperty('inset','0','important');
-  m.style.setProperty('z-index','2147483646','important');
-  m.style.setProperty('pointer-events','auto','important');
-  m.classList.add('open');
-  m.setAttribute('aria-hidden','false');
-  try{if(typeof window.sgAuthTab==='function')window.sgAuthTab('phone')}catch(e){}
-  return false;
-}
-function showPhone(){
-  closeAccount();
-  closeAuth();
-  var p=$(PHONE);
-  if(!p){alert('SMS терезесі табылмады.');return false;}
-  p.classList.add('open');
-  p.setAttribute('aria-hidden','false');
-  p.style.setProperty('display','flex','important');
-  p.style.setProperty('position','fixed','important');
-  p.style.setProperty('inset','0','important');
-  p.style.setProperty('z-index','2147483647','important');
-  p.style.setProperty('pointer-events','auto','important');
-  setTimeout(function(){var i=$("sgPhoneNumber");if(i)try{i.focus()}catch(e){}},80);
-  return false;
-}
-function showAccount(){
-  closeAuth();
-  hideOldAccount();
-  var o=$(ACCOUNT), box=$("sgFinalAccountCleanContent");
-  if(!o||!box)return false;
-  var logged=!!((window.auth&&window.auth.currentUser)||window.user);
-  if(!logged){
-    box.innerHTML='<div style="padding:48px 18px 32px;text-align:center">'+
-      '<div style="font-size:60px;margin-bottom:12px">👤</div>'+
-      '<h2 style="margin:0 0 8px;font-size:25px">Жеке кабинет</h2>'+
-      '<p style="color:#64748b;line-height:1.55;margin:0 auto;max-width:460px">Тапсырыстарды, таңдаулыларды және профиліңізді басқару үшін аккаунтқа кіріңіз.</p>'+
-      '<button id="sgFinalAccountCleanLogin" type="button">🔐 Аккаунтқа кіру</button>'+
-      '</div>';
-  }else{
-    try{if(typeof window.renderAccount==='function')window.renderAccount()}catch(e){}
-    var src=$("account");
-    box.innerHTML=src?src.innerHTML:'<div style="padding:30px;text-align:center">Аккаунт жүктелуде...</div>';
-    // Make the copied content safe: the login button is always handled by this manager.
-    var buttons=box.querySelectorAll('button');
-    for(var i=0;i<buttons.length;i++){
-      var b=buttons[i];
-      if((b.textContent||'').indexOf('Аккаунтқа кіру')>=0 || (b.getAttribute('onclick')||'').indexOf('openAuth')>=0){
-        b.removeAttribute('onclick');
-        b.type='button';
-        b.addEventListener('click',function(ev){ev.preventDefault();ev.stopImmediatePropagation();showAuth();},true);
-      }
-    }
-  }
-  o.classList.add('open');
-  o.setAttribute('aria-hidden','false');
-  o.style.setProperty('display','flex','important');
-  o.style.setProperty('pointer-events','auto','important');
-  return false;
-}
-
-window.sgFinalShowAccount=showAccount;
-window.sgFinalShowAuth=showAuth;
-window.sgFinalShowPhone=showPhone;
-window.openAccount=showAccount;
-window.openAuth=showAuth;
-window.sgCloseAuth=closeAuth;
-window.sgPhoneOpen=showPhone;
-window.sgPhoneClose=function(){hardHide(PHONE)};
-
-function isAccountTarget(t){
-  if(!t||!t.closest)return false;
-  return !!t.closest('#satugoFinalAccount');
-}
-function isLoginTarget(t){
-  if(!t||!t.closest)return false;
-  var b=t.closest('#sgFinalAccountCleanLogin');
-  if(b)return true;
-  var box=t.closest('#sgFinalAccountCleanContent');
-  if(box){
-    var x=t.closest('button');
-    if(x && ((x.textContent||'').indexOf('Аккаунтқа кіру')>=0 || (x.getAttribute('onclick')||'').indexOf('openAuth')>=0))return true;
-  }
-  return false;
-}
-function isOldLoginTarget(t){
-  if(!t||!t.closest)return false;
-  if(t.closest('#'+AUTH))return false;
-  var b=t.closest('[onclick*="openAuth"]');
-  if(b)return true;
-  var x=t.closest('button');
-  return !!(x && (x.textContent||'').indexOf('Аккаунтқа кіру')>=0 && (x.closest('#accountModal')||x.closest('#sgStableAccountOverlay')||x.closest('#sgFinalAccountOverlay')));
-}
-function bind(){
-  if(bound)return;
-  bound=true;
-  var doc=document;
-  doc.addEventListener('click',function(ev){
-    var t=ev.target;
-    if(isAccountTarget(t)){
-      ev.preventDefault();ev.stopImmediatePropagation();showAccount();return;
-    }
-    if(isLoginTarget(t)||isOldLoginTarget(t)){
-      ev.preventDefault();ev.stopImmediatePropagation();showAuth();return;
-    }
-    var close=t&&t.closest?t.closest('#sgFinalAccountCleanClose'):null;
-    if(close){ev.preventDefault();ev.stopImmediatePropagation();closeAccount();return;}
-    if(t===$(ACCOUNT)){ev.preventDefault();closeAccount();return;}
-    var authClose=t&&t.closest?t.closest('#sgAuthModal .sg-auth-close'):null;
-    if(authClose){ev.preventDefault();ev.stopImmediatePropagation();closeAuth();return;}
-    var phoneBtn=t&&t.closest?t.closest('#sgAuthModal [onclick*="sgPhoneOpen"]'):null;
-    if(phoneBtn){ev.preventDefault();ev.stopImmediatePropagation();showPhone();return;}
-  },true);
-  doc.addEventListener('keydown',function(ev){
-    if(ev.key!=='Escape')return;
-    if($(PHONE)&&$(PHONE).classList.contains('open')){hardHide(PHONE);return;}
-    if($(AUTH)&&$(AUTH).classList.contains('open')){closeAuth();return;}
-    if($(ACCOUNT)&&$(ACCOUNT).classList.contains('open')){closeAccount();return;}
-  },true);
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
-window.addEventListener('load',bind,{once:true});
+function hide(id){var e=$(id);if(!e)return;e.classList.remove('open','show','active');e.setAttribute('aria-hidden','true');e.style.setProperty('display','none','important');e.style.setProperty('pointer-events','none','important')}
+function hideLegacy(){['accountModal','sgStableAccountOverlay','sgFinalAccountOverlay','sgHardAccount','sgFinalAccountClean','sgCleanAuth','sgCleanProfile','sgProfileOverlay','sgMarketOverlay','sgPlusOverlay','sgNextOverlay'].forEach(hide)}
+function closeAccount(){var e=$(A);if(!e)return;e.classList.remove('open');e.setAttribute('aria-hidden','true');e.style.setProperty('display','none','important');e.style.setProperty('pointer-events','none','important')}
+function closeAuth(){hide(AUTH);hide(PHONE);hide('sgNextOverlay')}
+function showAuth(){closeAccount();hideLegacy();hide(PHONE);var m=$(AUTH);if(!m){alert('Кіру терезесі табылмады.');return false}m.classList.remove('show','active');m.classList.add('open');m.setAttribute('aria-hidden','false');m.style.setProperty('display','flex','important');m.style.setProperty('position','fixed','important');m.style.setProperty('inset','0','important');m.style.setProperty('z-index','2147483646','important');m.style.setProperty('pointer-events','auto','important');try{if(typeof window.sgAuthTab==='function')window.sgAuthTab('phone')}catch(e){}return false}
+function showPhone(){closeAccount();hide(AUTH);var p=$(PHONE);if(!p){alert('SMS терезесі табылмады.');return false}p.classList.add('open');p.setAttribute('aria-hidden','false');p.style.setProperty('display','flex','important');p.style.setProperty('position','fixed','important');p.style.setProperty('inset','0','important');p.style.setProperty('z-index','2147483647','important');p.style.setProperty('pointer-events','auto','important');setTimeout(function(){var i=$('sgPhoneNumber');if(i)try{i.focus()}catch(e){}},80);return false}
+function showAccount(){closeAuth();hideLegacy();var o=$(A),box=$('sgAccountOneContent');if(!o||!box)return false;var logged=!!((window.auth&&window.auth.currentUser)||window.user);if(!logged){box.innerHTML='<div style="padding:48px 18px 32px;text-align:center"><div style="font-size:60px;margin-bottom:12px">👤</div><h2 style="margin:0 0 8px;font-size:25px">Жеке кабинет</h2><p style="color:#64748b;line-height:1.55;margin:0 auto;max-width:460px">Тапсырыстарды, таңдаулыларды және профиліңізді басқару үшін аккаунтқа кіріңіз.</p><button id="sgAccountOneLogin" type="button">🔐 Аккаунтқа кіру</button></div>'}else{try{if(typeof window.renderAccount==='function')window.renderAccount()}catch(e){}var src=$('account');box.innerHTML=src?src.innerHTML:'<div style="padding:30px;text-align:center">Аккаунт жүктелуде...</div>';var bs=box.querySelectorAll('button');for(var i=0;i<bs.length;i++){if((bs[i].textContent||'').indexOf('Аккаунтқа кіру')>=0||(bs[i].getAttribute('onclick')||'').indexOf('openAuth')>=0){bs[i].removeAttribute('onclick');bs[i].addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();showAuth()},true)}}}o.classList.add('open');o.setAttribute('aria-hidden','false');o.style.setProperty('display','flex','important');o.style.setProperty('pointer-events','auto','important');return false}
+window.openAccount=showAccount;window.openAuth=showAuth;window.sgFinalShowAccount=showAccount;window.sgFinalShowAuth=showAuth;window.sgCloseAuth=closeAuth;window.sgPhoneOpen=showPhone;window.sgPhoneClose=function(){hide(PHONE)};
+function bind(){if(ready)return;ready=true;document.addEventListener('click',function(e){var t=e.target;if(!t||!t.closest)return;var acc=t.closest('#satugoFinalAccount');if(acc){e.preventDefault();e.stopImmediatePropagation();showAccount();return}var direct=t.closest('#sgAccountOneLogin');if(direct){e.preventDefault();e.stopImmediatePropagation();showAuth();return}var old=t.closest('#accountModal [onclick*="openAuth"], #sgStableAccountOverlay [onclick*="openAuth"], #sgFinalAccountOverlay [onclick*="openAuth"], #sgHardAccount [onclick*="openAuth"]');if(old){e.preventDefault();e.stopImmediatePropagation();showAuth();return}var close=t.closest('#sgAccountOneClose');if(close){e.preventDefault();e.stopImmediatePropagation();closeAccount();return}var ac=t.closest('#sgAuthModal .sg-auth-close');if(ac){e.preventDefault();e.stopImmediatePropagation();closeAuth();return}var pb=t.closest('#sgAuthModal [onclick*="sgPhoneOpen"]');if(pb){e.preventDefault();e.stopImmediatePropagation();showPhone();return}if(t===$(A)){e.preventDefault();closeAccount()}},true);document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;if($(PHONE)&&$(PHONE).classList.contains('open')){hide(PHONE);return}if($(AUTH)&&$(AUTH).classList.contains('open')){closeAuth();return}if($(A)&&$(A).classList.contains('open'))closeAccount()},true);var c=$('sgAccountOneClose');if(c)c.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();closeAccount()},true);var o=$(A);if(o)o.addEventListener('click',function(e){if(e.target===o)closeAccount()},true)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();window.addEventListener('load',bind,{once:true});
 })();
 </script>
 </body>
