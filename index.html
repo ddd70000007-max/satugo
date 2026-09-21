@@ -1511,7 +1511,6 @@ body{padding-bottom:86px!important}
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
 <script>
 
 /* =========================================================
@@ -6531,64 +6530,196 @@ window.addEventListener('load',bind,{once:true});
 })();
 </script>
 
-<style id="satugo-chat-plus-style">
-#sgChatPanel .sg-chat-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;border-bottom:1px solid #eee;background:#fff}
-#sgChatPanel .sg-chat-head b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#sgChatPanel .sg-chat-status{font-size:11px;font-weight:500;opacity:.75;margin-left:5px}
-#sgChatPanel .sg-chat-compose{align-items:center}
-#sgChatPanel .sg-chat-photo{width:42px;height:42px;border:0;background:#f2f3f5;border-radius:10px;font-size:20px;cursor:pointer;flex:0 0 auto}
-#sgChatPanel .sg-chat-send{min-width:64px}
-#sgChatPanel #sgChatInput{min-height:40px}
-#sgChatPanel .sg-chat-typing{font-size:11px;opacity:.65;padding:4px 12px;min-height:16px}
-#sgChatPanel .sg-msg-photo{display:block;max-width:220px;max-height:260px;border-radius:12px;margin-bottom:5px;object-fit:cover;cursor:pointer}
-#sgChatPanel .sg-msg-file{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;border-radius:10px;background:rgba(127,127,127,.12);margin-bottom:4px}
-#sgChatPanel .sg-msg-meta{display:flex;align-items:center;justify-content:flex-end;gap:4px;font-size:10px;opacity:.65;margin-top:3px}
-#sgChatPanel .sg-read{font-weight:700}
-#sgChatPanel .sg-unread-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#111;color:#fff;font-size:10px;margin-left:6px}
-#sgChatPanel .sg-chat-row{position:relative}
-#sgChatPanel .sg-chat-row .sg-row-meta{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:3px;font-size:10px;opacity:.65}
-#sgChatPanel .sg-chat-row .sg-row-status{font-size:10px}
-#sgChatPanel .sg-chat-row .sg-online-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;background:#aaa}
-#sgChatPanel .sg-chat-row .sg-online-dot.on{background:#20a44a}
-#sgChatPhotoInput{display:none}
-@media(max-width:700px){#sgChatPanel .sg-msg-photo{max-width:68vw;max-height:42vh}#sgChatPanel .sg-chat-compose{padding:8px 7px;gap:5px}}
+
+<!-- SATUGO FINAL CLEAN ACCOUNT / AUTH MANAGER -->
+<style id="satugo-final-account-clean-css">
+#sgFinalAccountClean{display:none!important;position:fixed!important;inset:0!important;z-index:2147483640!important;background:rgba(0,0,0,.62)!important;align-items:center!important;justify-content:center!important;padding:10px!important;box-sizing:border-box!important;overflow:auto!important;touch-action:auto!important}
+#sgFinalAccountClean.open{display:flex!important;pointer-events:auto!important}
+#sgFinalAccountCleanBox{width:min(620px,100%)!important;max-height:calc(100dvh - 20px)!important;overflow:auto!important;background:#fff!important;border-radius:22px!important;position:relative!important;box-shadow:0 24px 80px rgba(0,0,0,.35)!important;padding:18px!important;box-sizing:border-box!important}
+#sgFinalAccountCleanClose{position:absolute!important;right:10px!important;top:10px!important;width:44px!important;height:44px!important;border:0!important;border-radius:50%!important;background:#eef2f7!important;font-size:27px!important;font-weight:700!important;cursor:pointer!important;z-index:20!important;touch-action:manipulation!important}
+#sgFinalAccountCleanLogin{display:block!important;width:100%!important;max-width:460px!important;margin:22px auto 0!important;padding:16px 18px!important;border:0!important;border-radius:15px!important;background:#15803d!important;color:#fff!important;font-size:17px!important;font-weight:800!important;cursor:pointer!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important}
+#sgAuthModal{z-index:2147483646!important}
+#sgAuthModal.open{display:flex!important;pointer-events:auto!important}
+#sgPhoneAuth{z-index:2147483647!important}
+@media(max-width:700px){
+ #sgFinalAccountClean{padding:6px 6px 82px!important;align-items:flex-start!important}
+ #sgFinalAccountCleanBox{margin:4px auto 0!important;min-height:calc(100dvh - 92px)!important;max-height:none!important;border-radius:18px!important;padding:15px!important}
+ #sgAuthModal{padding:7px!important}
+}
 </style>
-<script id="satugo-chat-plus-final">
+<div id="sgFinalAccountClean" aria-hidden="true">
+  <div id="sgFinalAccountCleanBox">
+    <button id="sgFinalAccountCleanClose" type="button" aria-label="Жабу">×</button>
+    <div id="sgFinalAccountCleanContent"></div>
+  </div>
+</div>
+<script id="satugo-final-account-clean-js">
 (function(){
 'use strict';
-var activeChatPlus=null,unsubPlus=null,unsubChatListPlus=null,typingTimer=null,presenceTimer=null,typingUnsub=null;
-function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
-function U(){return window.currentUser||(window.auth&&window.auth.currentUser)||null}
-function db(){return window.db}
-function now(){return Date.now()}
-function toast(t){if(typeof window.sgToast==='function')window.sgToast(t);else alert(t)}
-function cid(a,b){return [a,b].sort().join('_')}
-function pname(u){try{var p=JSON.parse(localStorage.getItem('satugo_core_profile_'+u.uid)||localStorage.getItem('satugo_core_profile')||'{}');return p.name||u.displayName||u.email||'Қолданушы'}catch(e){return u.displayName||u.email||'Қолданушы'}}
-function ensure(){var p=document.getElementById('sgChatPanel');if(!p){p=document.createElement('div');p.id='sgChatPanel';p.className='sg-chat-panel';p.innerHTML='<div class="sg-chat-head"><b id="sgChatTitle">💬 Чаттар</b><button id="sgChatCloseBtn" type="button">×</button></div><div id="sgChatBody" class="sg-chat-list"></div>';document.body.appendChild(p)}return p}
-function close(){var p=document.getElementById('sgChatPanel');if(p){p.classList.remove('open');p.style.setProperty('display','none','important')}if(unsubPlus){unsubPlus();unsubPlus=null}if(unsubChatListPlus){unsubChatListPlus();unsubChatListPlus=null}if(typingUnsub){typingUnsub();typingUnsub=null}if(presenceTimer){clearInterval(presenceTimer);presenceTimer=null}activeChatPlus=null}
-window.sgCloseChat=close;
-function open(){var p=ensure();p.classList.add('open');p.style.setProperty('display','flex','important');p.style.visibility='visible';p.style.opacity='1';p.style.pointerEvents='auto';return p}
-function dt(v){try{return v&&v.toDate?v.toDate().toLocaleTimeString('kk-KZ',{hour:'2-digit',minute:'2-digit'}):''}catch(e){return ''}}
-function dte(v){try{return v&&v.toDate?v.toDate().toLocaleDateString('kk-KZ',{day:'2-digit',month:'2-digit'}):''}catch(e){return ''}}
-function isOnline(v){var n=v&&v.toMillis?v.toMillis():0;return n && (Date.now()-n<70000)}
-function otherId(x,u){return (x.participants||[]).find(function(id){return id!==u.uid})||''}
-async function markRead(id,u){try{await db().collection('chats').doc(id).set({readAt:{[u.uid]:firebase.firestore.FieldValue.serverTimestamp()},unreadCount:{[u.uid]:0}},{merge:true})}catch(e){}}
-async function presence(id,u,on){try{var o={};o['presence.'+u.uid]={online:on,lastSeen:firebase.firestore.FieldValue.serverTimestamp()};await db().collection('chats').doc(id).set(o,{merge:true})}catch(e){}}
-function renderMessage(d,u){var x=d.data()||{}, me=x.senderId===u.uid, time=dt(x.createdAt), read=x.readAt&&x.readAt[u.uid];var content='';if(x.type==='image'&&x.url){content='<img class="sg-msg-photo" src="'+esc(x.url)+'" alt="Фото" onclick="window.open('+JSON.stringify(x.url)+','_blank')">'}else if(x.type==='file'&&x.url){content='<a class="sg-msg-file" href="'+esc(x.url)+'" target="_blank" rel="noopener">📎 '+esc(x.fileName||'Файл')+'</a>'}else{content=esc(x.text||'')}return '<div class="sg-msg '+(me?'me':'other')+'">'+content+'<div class="sg-msg-meta"><span>'+esc(time)+'</span>'+(me?'<span class="sg-read">'+(read?'✓✓':'✓')+'</span>':'')+'</div></div>'}
-function compose(){var old=document.getElementById('sgChatCompose');if(old)old.remove();var p=document.getElementById('sgChatPanel');var c=document.createElement('div');c.id='sgChatCompose';c.className='sg-chat-compose';c.innerHTML='<input id="sgChatPhotoInput" type="file" accept="image/*" capture="environment"><button id="sgChatPhoto" class="sg-chat-photo" type="button" title="Фото">📷</button><input id="sgChatInput" type="text" autocomplete="off" placeholder="Хабарлама жазыңыз..."><button id="sgChatSend" class="sg-chat-send" type="button">Жіберу</button>';p.appendChild(c);
- document.getElementById('sgChatSend').onclick=window.sgSendMessagePlus;document.getElementById('sgChatInput').oninput=function(){setTyping(true)};document.getElementById('sgChatInput').onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();window.sgSendMessagePlus()}};document.getElementById('sgChatPhoto').onclick=function(){document.getElementById('sgChatPhotoInput').click()};document.getElementById('sgChatPhotoInput').onchange=function(){if(this.files&&this.files[0])window.sgSendPhotoPlus(this.files[0]);this.value=''}
+
+var ACCOUNT='sgFinalAccountClean';
+var AUTH='sgAuthModal';
+var PHONE='sgPhoneAuth';
+var bound=false;
+
+function $(id){return document.getElementById(id)}
+function hardHide(id){
+  var e=$(id); if(!e)return;
+  e.classList.remove('open','show','active');
+  e.setAttribute('aria-hidden','true');
+  e.style.setProperty('display','none','important');
+  e.style.setProperty('pointer-events','none','important');
 }
-function subscribeTyping(id,u){if(typingUnsub)typingUnsub();var ref=db().collection('chats').doc(id);typingUnsub=ref.onSnapshot(function(s){var x=s.data()||{},o=otherId(x,u),t=x.typing&&x.typing[o];var el=document.getElementById('sgChatTyping');if(el)el.textContent=t?'Жазып жатыр...':''})}
-async function setTyping(on){var u=U();if(!u||!activeChatPlus)return;clearTimeout(typingTimer);try{var o={};o['typing.'+u.uid]=on;await db().collection('chats').doc(activeChatPlus).set(o,{merge:true})}catch(e){}if(on)typingTimer=setTimeout(function(){setTyping(false)},1500)}
-function startPresence(id,u){presence(id,u,true);if(presenceTimer)clearInterval(presenceTimer);presenceTimer=setInterval(function(){presence(id,u,true)},30000)}
-window.sgOpenChatPlus=async function(){var u=U(),p=open(),b=document.getElementById('sgChatBody');if(!u){b.innerHTML='<div class="sg-chat-empty">Чатқа кіру үшін аккаунтқа кіріңіз.</div>';return}b.className='sg-chat-list';b.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';if(unsubChatListPlus)unsubChatListPlus();try{var snap=await db().collection('chats').where('participants','array-contains',u.uid).get();var docs=snap.docs.sort(function(a,b){var at=a.data().updatedAt?.toMillis?a.data().updatedAt.toMillis():0,bt=b.data().updatedAt?.toMillis?b.data().updatedAt.toMillis():0;return bt-at});if(!docs.length){b.innerHTML='<div class="sg-chat-empty">Әзірге чат жоқ.<br>Тауардан «Сатушымен чат» батырмасын басыңыз.</div>';return}b.innerHTML=docs.map(function(d){var x=d.data()||{},o=otherId(x,u),name=(x.participantNames&&x.participantNames[o])||x.sellerName||'Қолданушы',uc=x.unreadCount&&x.unreadCount[u.uid]||0,p=x.presence&&x.presence[o],last=x.lastMessage||'';return '<button type="button" class="sg-chat-row" data-chat-id="'+esc(d.id)+'" data-chat-name="'+esc(name)+'"><b>👤 '+esc(name)+(p&&isOnline(p)?'<span class="sg-online-dot on"></span><span class="sg-chat-status">онлайн</span>':'')+'</b><small>'+esc(last||'Чатты ашу')+'</small><span class="sg-row-meta"><span>'+esc(dte(x.updatedAt)||'')+'</span>'+(uc?'<span class="sg-unread-badge">'+uc+'</span>':'')+'</span></button>'}).join('');b.querySelectorAll('[data-chat-id]').forEach(function(el){el.onclick=function(){window.sgOpenExistingChatPlus(el.dataset.chatId,el.dataset.chatName)}})}catch(e){b.innerHTML='<div class="sg-chat-empty">Чаттарды жүктеу қатесі.<br>'+esc(e.message)+'</div>'}};
-window.sgStartChatPlus=async function(sellerId,sellerName,sellerEmail){var u=U();if(!u){toast('Чатқа кіру үшін аккаунтқа кіріңіз');return}try{if(!sellerId&&sellerEmail){var q=await db().collection('users').where('email','==',sellerEmail).limit(1).get();if(!q.empty)sellerId=q.docs[0].id}if(!sellerId||sellerId===u.uid){toast(!sellerId?'Сатушы аккаунты табылмады':'Өз тауарыңызға чат аша алмайсыз');return}var id=cid(u.uid,sellerId),names={};names[u.uid]=pname(u);names[sellerId]=sellerName||'Сатушы';await db().collection('chats').doc(id).set({participants:[u.uid,sellerId],members:[u.uid,sellerId],participantNames:names,sellerId:sellerId,sellerName:sellerName||'Сатушы',sellerEmail:sellerEmail||'',updatedAt:firebase.firestore.FieldValue.serverTimestamp(),unreadCount:{[u.uid]:0,[sellerId]:0},readAt:{},typing:{},presence:{}},{merge:true});window.sgOpenExistingChatPlus(id,sellerName||'Сатушы')}catch(e){toast('Чат ашылмады: '+e.message)}};
-window.sgOpenExistingChatPlus=function(id,name){var u=U();if(!u)return;open();activeChatPlus=id;var b=document.getElementById('sgChatBody'),t=document.getElementById('sgChatTitle');if(unsubPlus)unsubPlus();if(typingUnsub)typingUnsub();t.innerHTML='<button type="button" id="sgChatBack">←</button> 💬 '+esc(name||'Чат')+'<span id="sgChatOnline" class="sg-chat-status"></span>';document.getElementById('sgChatBack').onclick=function(){window.sgOpenChatPlus()};b.className='sg-chat-messages';b.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';compose();subscribeTyping(id,u);markRead(id,u);startPresence(id,u);unsubPlus=db().collection('chats').doc(id).onSnapshot(function(cs){var x=cs.data()||{},o=otherId(x,u),po=x.presence&&x.presence[o],os=document.getElementById('sgChatOnline');if(os)os.textContent=po&&isOnline(po)?'● онлайн':'соңғы рет: '+(dt(po&&po.lastSeen)||'—');});var msgUnsub=db().collection('chats').doc(id).collection('messages').orderBy('createdAt','asc').limitToLast(100).onSnapshot(function(s){var html=s.empty?'<div class="sg-chat-empty">Сәлемдесуден бастаңыз 👋</div>':s.docs.map(function(d){return renderMessage(d,u)}).join('');b.innerHTML=html+'<div id="sgChatTyping" class="sg-chat-typing"></div>';b.scrollTop=b.scrollHeight;markRead(id,u);var ids=s.docs.map(function(d){return d.id});if(ids.length)Promise.all(s.docs.filter(function(d){return d.data().senderId!==u.uid&&!d.data().readAt}).map(function(d){return d.ref.set({readAt:{[u.uid]:firebase.firestore.FieldValue.serverTimestamp()}},{merge:true}).catch(function(){})}));},function(e){b.innerHTML='<div class="sg-chat-empty">Хабарламаларды жүктеу қатесі.<br>'+esc(e.message)+'</div>'});var oldMsgUnsub=unsubPlus;unsubPlus=function(){if(oldMsgUnsub)oldMsgUnsub();msgUnsub()}};
-window.sgSendMessagePlus=async function(){var u=U(),inp=document.getElementById('sgChatInput');if(!u||!activeChatPlus||!inp)return;var text=inp.value.trim();if(!text)return;inp.value='';setTyping(false);try{var ref=db().collection('chats').doc(activeChatPlus),snap=await ref.get(),x=snap.data()||{},parts=x.participants||[];if(parts.indexOf(u.uid)<0)throw new Error('Бұл чатқа рұқсат жоқ');var other=otherId(x,u),counts=x.unreadCount||{};counts[other]=(counts[other]||0)+1;await ref.collection('messages').add({senderId:u.uid,senderName:pname(u),text:text,type:'text',createdAt:firebase.firestore.FieldValue.serverTimestamp(),readAt:{}});await ref.set({lastMessage:text,lastSenderId:u.uid,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),unreadCount:counts},{merge:true})}catch(e){inp.value=text;toast('Хабарлама жіберілмеді: '+e.message)}};
-window.sgSendPhotoPlus=async function(file){var u=U();if(!u||!activeChatPlus||!file)return;if(!firebase.storage){toast('Фото сақтау модулі қосылмаған');return}if(file.size>8*1024*1024){toast('Фото 8 МБ-тан үлкен болмауы керек');return}try{toast('Фото жүктелуде...');var path='chatPhotos/'+activeChatPlus+'/'+Date.now()+'_'+String(file.name||'photo.jpg').replace(/[^a-zA-Z0-9._-]/g,'_');var snap=await firebase.storage().ref(path).put(file);var url=await snap.ref.getDownloadURL(),ref=db().collection('chats').doc(activeChatPlus),chat=await ref.get(),x=chat.data()||{},other=otherId(x,u),counts=x.unreadCount||{};counts[other]=(counts[other]||0)+1;await ref.collection('messages').add({senderId:u.uid,senderName:pname(u),text:'📷 Фото',type:'image',url:url,fileName:file.name||'photo.jpg',createdAt:firebase.firestore.FieldValue.serverTimestamp(),readAt:{}});await ref.set({lastMessage:'📷 Фото',lastSenderId:u.uid,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),unreadCount:counts},{merge:true})}catch(e){toast('Фото жіберілмеді: '+e.message)}};
-// Keep old entry points working
-window.sgOpenChat=window.sgOpenChatPlus;window.sgStartChat=window.sgStartChatPlus;window.sgOpenExistingChat=window.sgOpenExistingChatPlus;window.sgSendMessage=window.sgSendMessagePlus;
-setTimeout(ensure,400);
+function hideOldAccount(){
+  ['accountModal','sgStableAccountOverlay','sgFinalAccountOverlay','sgCleanAuth','sgCleanProfile','sgProfileOverlay','sgMarketOverlay','sgPlusOverlay'].forEach(hardHide);
+}
+function hideOldAuthExceptMain(){
+  ['sgPhoneAuth','sgNextOverlay'].forEach(hardHide);
+}
+function closeAccount(){
+  var e=$(ACCOUNT); if(!e)return;
+  e.classList.remove('open');
+  e.setAttribute('aria-hidden','true');
+  e.style.setProperty('display','none','important');
+  e.style.setProperty('pointer-events','none','important');
+}
+function closeAuth(){
+  var e=$(AUTH); if(e){
+    e.classList.remove('open','show','active');
+    e.setAttribute('aria-hidden','true');
+    e.style.setProperty('display','none','important');
+    e.style.setProperty('pointer-events','none','important');
+  }
+  hardHide(PHONE); hardHide('sgNextOverlay');
+}
+function showAuth(){
+  closeAccount();
+  hideOldAccount();
+  hideOldAuthExceptMain();
+  var m=$(AUTH);
+  if(!m){alert('Кіру терезесі табылмады.');return false;}
+  m.classList.remove('show','active');
+  m.style.setProperty('display','flex','important');
+  m.style.setProperty('position','fixed','important');
+  m.style.setProperty('inset','0','important');
+  m.style.setProperty('z-index','2147483646','important');
+  m.style.setProperty('pointer-events','auto','important');
+  m.classList.add('open');
+  m.setAttribute('aria-hidden','false');
+  try{if(typeof window.sgAuthTab==='function')window.sgAuthTab('phone')}catch(e){}
+  return false;
+}
+function showPhone(){
+  closeAccount();
+  closeAuth();
+  var p=$(PHONE);
+  if(!p){alert('SMS терезесі табылмады.');return false;}
+  p.classList.add('open');
+  p.setAttribute('aria-hidden','false');
+  p.style.setProperty('display','flex','important');
+  p.style.setProperty('position','fixed','important');
+  p.style.setProperty('inset','0','important');
+  p.style.setProperty('z-index','2147483647','important');
+  p.style.setProperty('pointer-events','auto','important');
+  setTimeout(function(){var i=$("sgPhoneNumber");if(i)try{i.focus()}catch(e){}},80);
+  return false;
+}
+function showAccount(){
+  closeAuth();
+  hideOldAccount();
+  var o=$(ACCOUNT), box=$("sgFinalAccountCleanContent");
+  if(!o||!box)return false;
+  var logged=!!((window.auth&&window.auth.currentUser)||window.user);
+  if(!logged){
+    box.innerHTML='<div style="padding:48px 18px 32px;text-align:center">'+
+      '<div style="font-size:60px;margin-bottom:12px">👤</div>'+
+      '<h2 style="margin:0 0 8px;font-size:25px">Жеке кабинет</h2>'+
+      '<p style="color:#64748b;line-height:1.55;margin:0 auto;max-width:460px">Тапсырыстарды, таңдаулыларды және профиліңізді басқару үшін аккаунтқа кіріңіз.</p>'+
+      '<button id="sgFinalAccountCleanLogin" type="button">🔐 Аккаунтқа кіру</button>'+
+      '</div>';
+  }else{
+    try{if(typeof window.renderAccount==='function')window.renderAccount()}catch(e){}
+    var src=$("account");
+    box.innerHTML=src?src.innerHTML:'<div style="padding:30px;text-align:center">Аккаунт жүктелуде...</div>';
+    // Make the copied content safe: the login button is always handled by this manager.
+    var buttons=box.querySelectorAll('button');
+    for(var i=0;i<buttons.length;i++){
+      var b=buttons[i];
+      if((b.textContent||'').indexOf('Аккаунтқа кіру')>=0 || (b.getAttribute('onclick')||'').indexOf('openAuth')>=0){
+        b.removeAttribute('onclick');
+        b.type='button';
+        b.addEventListener('click',function(ev){ev.preventDefault();ev.stopImmediatePropagation();showAuth();},true);
+      }
+    }
+  }
+  o.classList.add('open');
+  o.setAttribute('aria-hidden','false');
+  o.style.setProperty('display','flex','important');
+  o.style.setProperty('pointer-events','auto','important');
+  return false;
+}
+
+window.sgFinalShowAccount=showAccount;
+window.sgFinalShowAuth=showAuth;
+window.sgFinalShowPhone=showPhone;
+window.openAccount=showAccount;
+window.openAuth=showAuth;
+window.sgCloseAuth=closeAuth;
+window.sgPhoneOpen=showPhone;
+window.sgPhoneClose=function(){hardHide(PHONE)};
+
+function isAccountTarget(t){
+  if(!t||!t.closest)return false;
+  return !!t.closest('#satugoFinalAccount');
+}
+function isLoginTarget(t){
+  if(!t||!t.closest)return false;
+  var b=t.closest('#sgFinalAccountCleanLogin');
+  if(b)return true;
+  var box=t.closest('#sgFinalAccountCleanContent');
+  if(box){
+    var x=t.closest('button');
+    if(x && ((x.textContent||'').indexOf('Аккаунтқа кіру')>=0 || (x.getAttribute('onclick')||'').indexOf('openAuth')>=0))return true;
+  }
+  return false;
+}
+function isOldLoginTarget(t){
+  if(!t||!t.closest)return false;
+  if(t.closest('#'+AUTH))return false;
+  var b=t.closest('[onclick*="openAuth"]');
+  if(b)return true;
+  var x=t.closest('button');
+  return !!(x && (x.textContent||'').indexOf('Аккаунтқа кіру')>=0 && (x.closest('#accountModal')||x.closest('#sgStableAccountOverlay')||x.closest('#sgFinalAccountOverlay')));
+}
+function bind(){
+  if(bound)return;
+  bound=true;
+  var doc=document;
+  doc.addEventListener('click',function(ev){
+    var t=ev.target;
+    if(isAccountTarget(t)){
+      ev.preventDefault();ev.stopImmediatePropagation();showAccount();return;
+    }
+    if(isLoginTarget(t)||isOldLoginTarget(t)){
+      ev.preventDefault();ev.stopImmediatePropagation();showAuth();return;
+    }
+    var close=t&&t.closest?t.closest('#sgFinalAccountCleanClose'):null;
+    if(close){ev.preventDefault();ev.stopImmediatePropagation();closeAccount();return;}
+    if(t===$(ACCOUNT)){ev.preventDefault();closeAccount();return;}
+    var authClose=t&&t.closest?t.closest('#sgAuthModal .sg-auth-close'):null;
+    if(authClose){ev.preventDefault();ev.stopImmediatePropagation();closeAuth();return;}
+    var phoneBtn=t&&t.closest?t.closest('#sgAuthModal [onclick*="sgPhoneOpen"]'):null;
+    if(phoneBtn){ev.preventDefault();ev.stopImmediatePropagation();showPhone();return;}
+  },true);
+  doc.addEventListener('keydown',function(ev){
+    if(ev.key!=='Escape')return;
+    if($(PHONE)&&$(PHONE).classList.contains('open')){hardHide(PHONE);return;}
+    if($(AUTH)&&$(AUTH).classList.contains('open')){closeAuth();return;}
+    if($(ACCOUNT)&&$(ACCOUNT).classList.contains('open')){closeAccount();return;}
+  },true);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
+window.addEventListener('load',bind,{once:true});
 })();
 </script>
 </body>
