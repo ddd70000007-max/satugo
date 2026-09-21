@@ -3395,7 +3395,7 @@ function renderAccount(){
         <div class="sg-account-avatar">👤</div>
         <h2>Жеке кабинет</h2>
         <p class="muted">Тапсырыстарды, таңдаулыларды және профильді басқару үшін аккаунтқа кіріңіз.</p>
-        <button class="btn btn-primary" style="width:100%;margin-top:15px" onclick="openAuth()">🔐 Аккаунтқа кіру</button>
+        <button type="button" class="btn btn-primary" style="width:100%;margin-top:15px" onclick="openAuth();return false;">🔐 Аккаунтқа кіру</button>
       </div>`;
     return;
   }
@@ -6489,7 +6489,16 @@ body{padding-bottom:80px!important;}
      if(!hit)return;
      e.preventDefault();e.stopPropagation();
      closeStable();
-     setTimeout(function(){try{if(typeof window[hit]==='function')window[hit]();}catch(err){alert('Бөлімді ашу қатесі: '+(err.message||err));}},30);
+     setTimeout(function(){
+       try{
+         if(hit==='openAuth'){
+           if(typeof window.openAuth==='function') window.openAuth();
+           else if(typeof window.sgPhoneOpen==='function') window.sgPhoneOpen();
+           return;
+         }
+         if(typeof window[hit]==='function') window[hit]();
+       }catch(err){alert('Бөлімді ашу қатесі: '+(err.message||err));}
+     },80);
    });
  }
  function account(){stableAccount()}
@@ -6560,5 +6569,182 @@ body{padding-bottom:80px!important;}
   setTimeout(bind,300); setTimeout(bind,1000);
 })();
 </script>
+
+<!-- FINAL ACCOUNT LOGIN CLICK FIX -->
+<script id="satugo-final-account-login-fix">
+(function(){
+  function bind(){
+    var root=document.getElementById('sgStableAccountOverlay');
+    if(!root || root.dataset.loginFix==='1') return;
+    root.dataset.loginFix='1';
+    root.addEventListener('click',function(e){
+      var b=e.target && e.target.closest ? e.target.closest('button') : null;
+      if(!b) return;
+      var txt=(b.textContent||'').replace(/\s+/g,' ').trim();
+      if(txt.indexOf('Аккаунтқа кіру')===-1 && txt.indexOf('Кіру')===-1) return;
+      e.preventDefault(); e.stopPropagation();
+      try{ if(window.sgStableCloseAccount) window.sgStableCloseAccount(); }catch(_){}
+      setTimeout(function(){
+        try{ if(window.openAuth) window.openAuth(); else if(window.sgPhoneOpen) window.sgPhoneOpen(); }catch(err){ alert('Кіру терезесін ашу қатесі: '+(err.message||err)); }
+      },100);
+    },true);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind,{once:true}); else bind();
+  window.addEventListener('load',bind,{once:true});
+  setTimeout(bind,500);
+})();
+</script>
+
+<!-- SATUGO HARD LOGIN WINDOW -->
+<style id="satugo-hard-login-css">
+#sgHardLogin{
+  display:none;position:fixed;inset:0;z-index:2147483647;
+  background:rgba(0,0,0,.65);padding:12px;
+  align-items:center;justify-content:center;
+}
+#sgHardLogin.open{display:flex!important}
+#sgHardLogin .box{
+  width:min(430px,100%);background:#fff;border-radius:20px;
+  padding:20px;box-shadow:0 20px 80px rgba(0,0,0,.35);
+  position:relative;max-height:92vh;overflow:auto;
+}
+#sgHardLogin .close{
+  position:absolute;right:10px;top:10px;width:38px;height:38px;
+  border:0;border-radius:50%;background:#f1f1f1;font-size:22px;
+}
+#sgHardLogin input{
+  width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;
+  margin:6px 0 10px;box-sizing:border-box;
+}
+#sgHardLogin button.action{
+  width:100%;padding:12px;border:0;border-radius:11px;
+  background:#15803d;color:#fff;font-weight:800;margin-top:7px;
+}
+#sgHardLogin button.sms{
+  background:#2563eb;
+}
+#sgHardLogin .msg{min-height:20px;font-size:13px;margin:7px 0}
+</style>
+
+<div id="sgHardLogin" aria-hidden="true">
+  <div class="box">
+    <button class="close" id="sgHardLoginClose" type="button">×</button>
+    <h2 style="margin:0 0 5px">🔐 SatuGo-ға кіру</h2>
+    <p style="margin:0 0 15px;color:#666;font-size:13px">
+      Аккаунтыңызға Email/құпиясөз немесе SMS арқылы кіріңіз.
+    </p>
+
+    <label>Email</label>
+    <input id="sgHardEmail" type="email" autocomplete="email" placeholder="example@mail.com">
+
+    <label>Құпиясөз</label>
+    <input id="sgHardPassword" type="password" autocomplete="current-password" placeholder="Кемінде 6 таңба">
+
+    <div id="sgHardMsg" class="msg"></div>
+
+    <button id="sgHardEmailLogin" class="action" type="button">🔑 Email арқылы кіру</button>
+    <button id="sgHardSmsLogin" class="action sms" type="button">📱 SMS арқылы кіру / тіркелу</button>
+  </div>
+</div>
+
+<script id="satugo-hard-login-js">
+(function(){
+  function q(id){return document.getElementById(id)}
+  function openHard(){
+    var m=q('sgHardLogin');
+    if(!m)return;
+    m.classList.add('open');
+    m.setAttribute('aria-hidden','false');
+    var msg=q('sgHardMsg'); if(msg)msg.textContent='';
+  }
+  function closeHard(){
+    var m=q('sgHardLogin');
+    if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true')}
+  }
+  window.sgHardOpenLogin=openHard;
+  window.sgHardCloseLogin=closeHard;
+
+  function isLoginButton(el){
+    if(!el)return false;
+    var t=(el.textContent||'').replace(/\s+/g,' ').trim();
+    return t.indexOf('Аккаунтқа кіру')!==-1 || t==='Кіру' || t.indexOf('🔐 Аккаунтқа кіру')!==-1;
+  }
+
+  function install(){
+    var m=q('sgHardLogin');
+    if(!m)return;
+
+    q('sgHardLoginClose').onclick=function(e){
+      e.preventDefault();e.stopPropagation();closeHard();
+    };
+
+    m.onclick=function(e){
+      if(e.target===m)closeHard();
+    };
+
+    q('sgHardEmailLogin').onclick=async function(){
+      var msg=q('sgHardMsg');
+      var email=(q('sgHardEmail').value||'').trim().toLowerCase();
+      var password=q('sgHardPassword').value||'';
+      if(!email || !password){
+        msg.textContent='Email және құпиясөзді енгізіңіз.';
+        msg.style.color='#dc2626'; return;
+      }
+      if(!window.auth || !auth.signInWithEmailAndPassword){
+        msg.textContent='Firebase Auth қосылмаған.';
+        msg.style.color='#dc2626'; return;
+      }
+      msg.textContent='⏳ Кіру...';msg.style.color='#555';
+      try{
+        var result=await auth.signInWithEmailAndPassword(email,password);
+        window.currentUser=result.user;
+        if(typeof loadProfile==='function') await loadProfile();
+        if(typeof renderAccount==='function') renderAccount();
+        if(typeof updateCounts==='function') updateCounts();
+        msg.textContent='✅ Кіру сәтті!';
+        msg.style.color='#15803d';
+        setTimeout(closeHard,500);
+      }catch(e){
+        var map={
+          'auth/invalid-credential':'Email немесе құпиясөз дұрыс емес.',
+          'auth/invalid-email':'Email дұрыс емес.',
+          'auth/user-not-found':'Бұл Email тіркелмеген.',
+          'auth/wrong-password':'Құпиясөз дұрыс емес.',
+          'auth/too-many-requests':'Тым көп әрекет. Кейін қайталап көріңіз.',
+          'auth/network-request-failed':'Интернет байланысын тексеріңіз.'
+        };
+        msg.textContent='❌ '+(map[e.code]||e.message||'Кіру қатесі');
+        msg.style.color='#dc2626';
+      }
+    };
+
+    q('sgHardSmsLogin').onclick=function(e){
+      e.preventDefault();e.stopPropagation();
+      closeHard();
+      setTimeout(function(){
+        if(typeof window.sgPhoneOpen==='function') window.sgPhoneOpen();
+        else if(typeof window.openAuth==='function') window.openAuth();
+        else alert('SMS кіру жүйесі табылмады.');
+      },50);
+    };
+
+    document.addEventListener('click',function(e){
+      var el=e.target && e.target.closest ? e.target.closest('button,a') : null;
+      if(!el || !isLoginButton(el))return;
+
+      /* Ескі аккаунт терезелерін жаппай, алдымен жаңа кіру терезесін ашамыз. */
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      openHard();
+    },true);
+  }
+
+  if(document.readyState==='loading')
+    document.addEventListener('DOMContentLoaded',install,{once:true});
+  else install();
+})();
+</script>
+
 </body>
 </html>
