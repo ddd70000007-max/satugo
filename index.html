@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="kk">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>SatuGo — Қазақстан маркетплейсі</title>
+
 <style>
 *{
   box-sizing:border-box;
@@ -734,6 +735,7 @@ footer{
 .sg-account-warning{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border-radius:14px;background:#fffbeb;border:1px solid #fde68a;margin-bottom:10px}.sg-account-warning b{display:block;color:#92400e;font-size:13px}.sg-account-warning small{display:block;color:#a16207;font-size:11px;margin-top:3px}.sg-account-success{text-align:center;padding:9px;border-radius:12px;background:#f0fdf4;color:#166534;font-size:12px;font-weight:700;margin-bottom:10px}
 @media(max-width:650px){.sg-profile-head{padding:14px}.sg-profile-avatar{width:58px;height:58px;flex-basis:58px;font-size:27px}.sg-profile-info h2{font-size:18px}.sg-profile-data{grid-template-columns:1fr}.sg-account-section-title{align-items:flex-start}.sg-account-stats{gap:6px}.sg-account-stat{padding:11px 5px}.sg-account-menu-item{padding:11px}}
 </style>
+
 <style id="satugo-card-style">
 .satugo-compact-card{
   position:relative;
@@ -799,7 +801,9 @@ footer{
   display:none !important;
 }
 </style>
+
 <style id="satugo-plus-style">.satugo-checkout-box{margin-top:14px;padding:12px;border:1px solid #e5e7eb;border-radius:14px;background:#fafafa}.satugo-checkout-box input{margin:6px 0}</style>
+
 <style id="satugo-all-features">
 /* SatuGo advanced marketplace layer */
 .sg-adv-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
@@ -823,6 +827,7 @@ footer{
 @media(max-width:900px){.sg-adv-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.sg-adv-grid{grid-template-columns:1fr}.sg-two{grid-template-columns:1fr}.sg-box{padding:15px}}
 </style>
+
 <style id="satugo-v2-css">
 .sg-v2-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.sg-v2-card{background:#fff;border:1px solid #e7e7e7;border-radius:16px;padding:15px}.sg-v2-card h3{margin:0 0 7px}.sg-v2-small{font-size:12px;color:#777}.sg-v2-btn{border:0;border-radius:10px;padding:10px 13px;background:#111;color:#fff;font-weight:700;cursor:pointer;margin:3px}.sg-v2-btn.light{background:#f2f2f2;color:#111}.sg-v2-btn.green{background:#16834d}.sg-v2-input{width:100%;box-sizing:border-box;padding:10px;border:1px solid #ddd;border-radius:10px;margin:4px 0 9px}.sg-v2-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:15px;z-index:120002}.sg-v2-modal.open{display:flex}.sg-v2-box{background:#fff;width:min(720px,100%);max-height:90vh;overflow:auto;border-radius:18px;padding:20px}.sg-v2-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #eee}.sg-v2-status{border-radius:999px;padding:5px 9px;background:#eee;font-size:12px;font-weight:700}@media(max-width:900px){.sg-v2-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.sg-v2-grid{grid-template-columns:1fr}}
 </style>
@@ -841,6 +846,8 @@ footer{
 .sg-core-floating{position:fixed;right:18px;bottom:70px;z-index:9998}
 @media(max-width:650px){.sg-core-grid{grid-template-columns:1fr}.sg-core-box{padding:14px}}
 </style>
+
+
 <style id="satugo-phone-auth-css">
 .sg-phone-auth{display:none;position:absolute;top:100%;right:12px;width:min(390px,calc(100vw - 24px));background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:16px;box-shadow:0 12px 35px rgba(0,0,0,.12);z-index:99999}
 .sg-phone-auth.open{display:block}
@@ -858,6 +865,8 @@ footer{
  .sg-phone-auth{position:fixed;top:auto;bottom:10px;left:10px;right:10px;width:auto;border-radius:18px;padding:15px}
 }
 </style>
+
+
 <style id="satugo-profile-v3-css">
 #sgProfileOverlay{position:fixed;inset:0;background:rgba(0,0,0,.28);display:none;z-index:2147483001;pointer-events:none}
 #sgProfileOverlay.open{display:block;pointer-events:auto}
@@ -874,6 +883,8 @@ footer{
  #sgProfilePanel{top:auto;bottom:10px;left:10px;right:10px;width:auto;max-width:none}
 }
 </style>
+
+
 <style id="satugo-phone-fix-v2">
 html,body{width:100%;max-width:100%;margin:0;padding:0;overflow-x:hidden}
 *,*:before,*:after{box-sizing:border-box}
@@ -1001,6 +1012,8 @@ button,input,select,textarea{max-width:100%}
   }
 }
 </style>
+
+
 <style id="satugo-v2-redesign">
 /* SatuGo compact redesign */
 :root{
@@ -1087,9 +1100,13 @@ footer{
   .sg-extra-grid{grid-template-columns:repeat(4,1fr)}
 }
 </style>
+
+
 <style id="satugo-v2-bottom-cleanup">
 /* Seller utilities remain functional through Profile/Cabinet, but no longer clutter the page bottom. */
 </style>
+
+
 <style id="satugo-modal-layer-fix">
 body.sg-modal-active header,
 body.sg-modal-active .bottom-nav,
@@ -1104,6 +1121,7 @@ body.sg-modal-active .sg-core-modal {
   visibility:visible !important;
 }
 </style>
+
 <!-- SatuGo FIX: search/header must disappear while any modal or section is open -->
 <style id="satugo-search-modal-final-fix">
   body.sg-modal-active .search-wrap,
@@ -1126,6 +1144,7 @@ body.sg-modal-active .sg-core-modal {
     visibility: visible !important;
   }
 </style>
+
 <script id="satugo-search-modal-final-fix-js">
 (function(){
   function modalIsOpen(){
@@ -1164,53 +1183,108 @@ body.sg-modal-active .sg-core-modal {
   setTimeout(syncModalState, 100);
 })();
 </script>
+
+
 <!-- SatuGo MOBILE BUTTON SAFETY FIX -->
-<style id="satugo-clean-bottom-ui">
-@media(max-width:700px){
-  #satugoBottomNav,#sgMobileNav,#sgCoreQuickBar,#sgUniqueLauncher{display:none!important;pointer-events:none!important;}
-  #satugoFinalNav{display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:72px!important;z-index:2147483647!important;}
-  #satugoFinalNav button{pointer-events:auto!important;touch-action:manipulation!important;}
+<style id="satugo-mobile-buttons-final-fix">
+@media (max-width: 768px){
+  button,
+  a,
+  input,
+  select,
+  textarea{
+    touch-action:manipulation;
+  }
+
+  button,
+  .btn,
+  [role="button"]{
+    pointer-events:auto !important;
+  }
+
+  #sgMobileNav{
+    pointer-events:auto !important;
+    z-index:2147483646 !important;
+  }
+
+  #sgMobileNav button{
+    pointer-events:auto !important;
+    position:relative;
+    z-index:2147483647;
+  }
+
+  /* A closed modal must never block touches on the page. */
+  .modal:not(.show),
+  .sg-modal:not(.open),
+  .sg-v2-modal:not(.open),
+  .sg-core-modal:not(.open),
+  #sgProfileOverlay:not(.open){
+    pointer-events:none !important;
+  }
 }
 </style>
+
+<script id="satugo-mobile-buttons-final-fix-js">
+(function(){
+  function isVisible(el){
+    if(!el) return false;
+    const cs = getComputedStyle(el);
+    const r = el.getBoundingClientRect();
+    return cs.display !== 'none' &&
+           cs.visibility !== 'hidden' &&
+           cs.pointerEvents !== 'none' &&
+           r.width > 0 && r.height > 0;
+  }
+
+  function repair(){
+    const modalSelectors = [
+      '.modal.show',
+      '.sg-modal.open',
+      '.sg-v2-modal.open',
+      '.sg-core-modal.open',
+      '#sgProfileOverlay.open'
+    ];
+
+    const hasOpenModal = modalSelectors.some(sel =>
+      Array.from(document.querySelectorAll(sel)).some(isVisible)
+    );
+
+    /* If no modal is actually visible, remove the global modal lock. */
+    if(!hasOpenModal){
+      document.body.classList.remove('sg-modal-active');
+
+      document.querySelectorAll(
+        '.modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),.sg-core-modal:not(.open),#sgProfileOverlay:not(.open)'
+      ).forEach(el => {
+        el.style.pointerEvents = 'none';
+      });
+    }
+
+    /* Keep the mobile navigation clickable above page content. */
+    const nav = document.getElementById('sgMobileNav');
+    if(nav){
+      nav.style.pointerEvents = 'auto';
+      nav.style.zIndex = '2147483646';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', repair);
+  window.addEventListener('load', repair);
+
+  /* Repair after opening/closing any SatuGo section. */
+  document.addEventListener('click', function(){
+    setTimeout(repair, 30);
+    setTimeout(repair, 250);
+  }, true);
+
+  setInterval(repair, 1000);
+})();
+</script>
+
 </head>
+
 <body>
-<style id="satugo-nav-definitive">
-#satugoFinalNav{
-  display:flex!important;
-  position:fixed!important;
-  left:0!important;right:0!important;bottom:0!important;
-  width:100%!important;height:76px!important;
-  margin:0!important;padding:0!important;
-  visibility:visible!important;opacity:1!important;
-  pointer-events:auto!important;
-  z-index:2147483647!important;
-  background:#fff!important;
-  border-top:1px solid #ddd!important;
-  box-shadow:0 -3px 15px rgba(0,0,0,.15)!important;
-  isolation:isolate!important;
-}
-#satugoFinalNav button{
-  display:flex!important;visibility:visible!important;opacity:1!important;
-  pointer-events:auto!important;position:relative!important;
-  flex:1 1 20%!important;width:20%!important;height:76px!important;
-  min-width:0!important;margin:0!important;padding:5px 2px!important;
-  border:0!important;background:#fff!important;color:#222!important;
-  align-items:center!important;justify-content:center!important;
-  flex-direction:column!important;gap:2px!important;
-  font:600 11px Arial,sans-serif!important;
-  cursor:pointer!important;touch-action:manipulation!important;
-  -webkit-tap-highlight-color:transparent!important;
-}
-#satugoFinalNav button .i{font-size:23px!important;line-height:27px!important;display:block!important}
-body{padding-bottom:86px!important}
-</style>
-<nav aria-label="Телефон навигациясы" id="satugoFinalNav">
-<button id="satugoFinalHome" type="button"><span class="i">⌂</span><span>Басты бет</span></button>
-<button id="satugoFinalSearch" type="button"><span class="i">⌕</span><span>Іздеу</span></button>
-<button id="satugoFinalFav" type="button"><span class="i">♡</span><span>Таңдаулы</span></button>
-<button id="satugoFinalChat" type="button"><span class="i">💬</span><span>Чаттар</span></button>
-<button id="satugoFinalAccount" type="button" onclick="if(window.sgStableOpenAccount){window.sgStableOpenAccount();} return false;"><span class="i">👤</span><span>Аккаунт</span></button>
-</nav>
+
 <!-- SATUGO UNIQUE TOP START -->
 <style>
 #sgSmartTop{
@@ -1263,254 +1337,493 @@ body{padding-bottom:86px!important}
  .sg-smart-card{padding:11px 9px}
 }
 </style>
-<!-- removed extra smart feature section -->
+
+<section id="sgSmartTop" aria-label="SatuGo ерекше мүмкіндіктер">
+  <div class="sg-smart-head">
+    <div class="sg-smart-title">
+      <div class="sg-smart-icon">✨</div>
+      <div>
+        <strong>SatuGo Smart</strong>
+        <span>Маркетплейстегі ерекше мүмкіндіктер</span>
+      </div>
+    </div>
+    <button class="sg-smart-toggle" type="button" onclick="sgToggleSmartTop()">Мүмкіндіктерді ашу ▾</button>
+  </div>
+
+  <div class="sg-smart-grid">
+    <button class="sg-smart-card" type="button" onclick="sgUniqueAI()">
+      <b>🤖</b><strong>AI Кеңесші</strong><small>Тауар таңдауға көмектеседі</small>
+    </button>
+    <button class="sg-smart-card" type="button" onclick="sgBudgetMode()">
+      <b>💰</b><strong>Бюджетпен жинау</strong><small>Бюджетке сай комплект</small>
+    </button>
+    <button class="sg-smart-card" type="button" onclick="sgBundleMode()">
+      <b>🧩</b><strong>Комплект құрастыр</strong><small>Қосымша тауарларды табу</small>
+    </button>
+    <button class="sg-smart-card" type="button" onclick="sgPriceWatch()">
+      <b>📉</b><strong>Баға бақылау</strong><small>Баға түскенде белгі береді</small>
+    </button>
+    <button class="sg-smart-card" type="button" onclick="sgEarnCoins()">
+      <b>🪙</b><strong>SatuGo Coins</strong><small>Сатып алып бонус жина</small>
+    </button>
+    <button class="sg-smart-card" type="button" onclick="sgGroupDeal()">
+      <b>👥</b><strong>Group Deal</strong><small>Бірге алсаң — жеңілдік</small>
+    </button>
+  </div>
+</section>
+<script>
+function sgToggleSmartTop(){
+  const el=document.getElementById('sgSmartTop');
+  const btn=el.querySelector('.sg-smart-toggle');
+  el.classList.toggle('open');
+  btn.textContent=el.classList.contains('open')?'Жабу ▴':'Мүмкіндіктерді ашу ▾';
+}
+</script>
+<!-- SATUGO UNIQUE TOP END -->
+
+
+
 <header>
-<div class="wrap">
-<div class="header-main">
-<div class="logo">SatuGo</div>
-<div class="search-wrap">
-<span class="search-icon">🔍</span>
-<input id="search" oninput="renderProducts()" placeholder="Тауар, дүкен іздеу..."/>
-</div>
-<div class="header-actions">
-<button class="icon-btn" onclick="openFavorites()">
+  <div class="wrap">
+
+    <div class="header-main">
+
+      <div class="logo">SatuGo</div>
+
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input
+          id="search"
+          placeholder="Тауар, дүкен іздеу..."
+          oninput="renderProducts()"
+        >
+      </div>
+
+      <div class="header-actions">
+
+        <button class="icon-btn" onclick="openFavorites()">
           ❤️ <span id="favCount">0</span>
-</button>
-<button class="icon-btn" onclick="openCart()">
+        </button>
+
+        <button class="icon-btn" onclick="openCart()">
           🛒 <span id="cartCount">0</span>
-</button>
-<button class="icon-btn" onclick="openAccount()">
+        </button>
+
+        <button class="icon-btn" onclick="openAccount()">
           👤
         </button>
-</div>
-</div>
-<div class="categories" id="categoryRow">
-<button class="active" data-cat="Барлығы" onclick="setCategory('Барлығы',this)">
+
+      </div>
+
+    </div>
+
+    <div class="categories" id="categoryRow">
+
+      <button class="active" data-cat="Барлығы"
+        onclick="setCategory('Барлығы',this)">
         Барлығы
       </button>
-<button data-cat="Киім" onclick="setCategory('Киім',this)">
+
+      <button data-cat="Киім"
+        onclick="setCategory('Киім',this)">
         👕 Киім
       </button>
-<button data-cat="Аяқ киім" onclick="setCategory('Аяқ киім',this)">
+
+      <button data-cat="Аяқ киім"
+        onclick="setCategory('Аяқ киім',this)">
         👟 Аяқ киім
       </button>
-<button data-cat="Электроника" onclick="setCategory('Электроника',this)">
+
+      <button data-cat="Электроника"
+        onclick="setCategory('Электроника',this)">
         📱 Электроника
       </button>
-<button data-cat="Косметика" onclick="setCategory('Косметика',this)">
+
+      <button data-cat="Косметика"
+        onclick="setCategory('Косметика',this)">
         💄 Косметика
       </button>
-<button data-cat="Үй" onclick="setCategory('Үй',this)">
+
+      <button data-cat="Үй"
+        onclick="setCategory('Үй',this)">
         🏠 Үй
       </button>
-<button onclick="openSeller()">
+
+      <button onclick="openSeller()">
         🏪 Сату
       </button>
-</div>
-</div>
+
+    </div>
+
+  </div>
 </header>
+
+
 <main class="wrap">
+
 <div class="sg-compact-tools" id="sgCompactTools">
-<a class="sg-tool" href="#deals"><span>🔥</span><div><b>Deals</b><small>Арнайы ұсыныстар</small></div></a>
-<a class="sg-tool" href="#categoryRow"><span>📂</span><div><b>Категория</b><small>Тауарларды таңда</small></div></a>
-<button class="sg-tool" onclick="document.getElementById('sgExtraGrid').hidden=!document.getElementById('sgExtraGrid').hidden" type="button">
-<span>⚡</span><div><b>Қосымша</b><small>AI және басқа функциялар</small></div>
-</button>
-<button class="sg-tool" onclick="typeof sgProfileOpenV3==='function'?sgProfileOpenV3():openAccount()" type="button"><span>👤</span><div><b>Профиль</b><small>Тапсырыс және кабинет</small></div></button>
+  <a class="sg-tool" href="#deals"><span>🔥</span><div><b>Deals</b><small>Арнайы ұсыныстар</small></div></a>
+  <a class="sg-tool" href="#categoryRow"><span>📂</span><div><b>Категория</b><small>Тауарларды таңда</small></div></a>
+  <button class="sg-tool" type="button" onclick="document.getElementById('sgExtraGrid').hidden=!document.getElementById('sgExtraGrid').hidden">
+    <span>⚡</span><div><b>Қосымша</b><small>AI және басқа функциялар</small></div>
+  </button>
+  <button class="sg-tool" type="button" onclick="typeof sgProfileOpenV3==='function'?sgProfileOpenV3():openAccount()"><span>👤</span><div><b>Профиль</b><small>Тапсырыс және кабинет</small></div></button>
 </div>
 <div class="sg-extra-wrap" id="sgExtraWrap">
-<button class="sg-extra-toggle" onclick="document.getElementById('sgExtraGrid').hidden=!document.getElementById('sgExtraGrid').hidden" type="button">
-<span>⚡ Қосымша мүмкіндіктер</span><span>⌄</span>
-</button>
-<div class="sg-extra-grid" hidden="" id="sgExtraGrid">
-<button onclick="typeof sgUniqueAI==='function'&amp;&amp;sgUniqueAI()" type="button">🤖 AI Кеңесші</button>
-<button onclick="typeof sgBudgetMode==='function'&amp;&amp;sgBudgetMode()" type="button">💰 Бюджет</button>
-<button onclick="typeof sgBundleMode==='function'&amp;&amp;sgBundleMode()" type="button">🧩 Комплект</button>
-<button onclick="typeof sgPriceWatch==='function'&amp;&amp;sgPriceWatch()" type="button">📉 Баға бақылау</button>
-<button onclick="typeof sgEarnCoins==='function'&amp;&amp;sgEarnCoins()" type="button">🪙 Coins</button>
-<button onclick="typeof sgGroupDeal==='function'&amp;&amp;sgGroupDeal()" type="button">👥 Group Deal</button>
-<button onclick="typeof openRequest==='function'&amp;&amp;openRequest()" type="button">📣 Маған тауып бер</button>
-<button onclick="typeof openOffers==='function'&amp;&amp;openOffers()" type="button">💵 Баға ұсыну</button>
+  <button class="sg-extra-toggle" type="button" onclick="document.getElementById('sgExtraGrid').hidden=!document.getElementById('sgExtraGrid').hidden">
+    <span>⚡ Қосымша мүмкіндіктер</span><span>⌄</span>
+  </button>
+  <div class="sg-extra-grid" id="sgExtraGrid" hidden>
+    <button type="button" onclick="typeof sgUniqueAI==='function'&&sgUniqueAI()">🤖 AI Кеңесші</button>
+    <button type="button" onclick="typeof sgBudgetMode==='function'&&sgBudgetMode()">💰 Бюджет</button>
+    <button type="button" onclick="typeof sgBundleMode==='function'&&sgBundleMode()">🧩 Комплект</button>
+    <button type="button" onclick="typeof sgPriceWatch==='function'&&sgPriceWatch()">📉 Баға бақылау</button>
+    <button type="button" onclick="typeof sgEarnCoins==='function'&&sgEarnCoins()">🪙 Coins</button>
+    <button type="button" onclick="typeof sgGroupDeal==='function'&&sgGroupDeal()">👥 Group Deal</button>
+    <button type="button" onclick="typeof openRequest==='function'&&openRequest()">📣 Маған тауып бер</button>
+    <button type="button" onclick="typeof openOffers==='function'&&openOffers()">💵 Баға ұсыну</button>
+  </div>
 </div>
-</div>
-<section class="hero">
-<h1>
+
+
+
+  <section class="hero">
+
+    <h1>
       Қажет нәрсеңді тез тап.
       Қазақстан бойынша сатып ал.
     </h1>
-<p>
+
+    <p>
       SatuGo — сатып алушылар мен сатушыларды
       бір жерге жинайтын заманауи маркетплейс.
     </p>
-<div class="hero-search">
-<input id="heroSearch" onkeydown="
+
+    <div class="hero-search">
+
+      <input
+        id="heroSearch"
+        placeholder="Мысалы: iPhone 15, Nike, ноутбук..."
+        onkeydown="
           if(event.key==='Enter'){
             document.getElementById('search').value=this.value;
             renderProducts();
             document.getElementById('products').scrollIntoView();
           }
-        " placeholder="Мысалы: iPhone 15, Nike, ноутбук..."/>
-<button class="btn btn-primary" onclick="
+        "
+      >
+
+      <button
+        class="btn btn-primary"
+        onclick="
           document.getElementById('search').value=
             document.getElementById('heroSearch').value;
           renderProducts();
           document.getElementById('products').scrollIntoView();
-        ">
+        "
+      >
         Іздеу
       </button>
-</div>
-</section>
+
+    </div>
+
+  </section>
 <!-- FILTER -->
-<section class="section">
-<div class="section-head">
-<h2>🛍️ Тауарлар</h2>
-<span class="muted" id="productCount"></span>
-</div>
-<div class="filters">
-<select id="sort" onchange="renderProducts()">
-<option value="new">Жаңалары</option>
-<option value="cheap">Арзаннан</option>
-<option value="expensive">Қымбаттан</option>
-<option value="rating">Рейтинг бойынша</option>
-</select>
-<input id="minPrice" oninput="renderProducts()" placeholder="Мин ₸" type="number"/>
-<input id="maxPrice" oninput="renderProducts()" placeholder="Макс ₸" type="number"/>
-</div>
-<div class="grid" id="products"></div>
-</section>
-<!-- DEALS -->
-<section class="section">
-<div class="section-head">
-<h2>🔥 SatuGo Deals</h2>
-<span class="muted">Арнайы ұсыныстар</span>
-</div>
-<div class="grid" id="deals"></div>
-</section>
-<!-- TRUSTED -->
-<section class="section">
-<div class="section-head">
-<h2>🏆 Сенімді сатушылар</h2>
-<span class="muted">4.7+</span>
-</div>
-<div class="grid" id="trusted"></div>
-</section>
+
+  <section class="section">
+
+    <div class="section-head">
+      <h2>🛍️ Тауарлар</h2>
+      <span class="muted" id="productCount"></span>
+    </div>
+
+    <div class="filters">
+
+      <select id="sort" onchange="renderProducts()">
+
+        <option value="new">Жаңалары</option>
+        <option value="cheap">Арзаннан</option>
+        <option value="expensive">Қымбаттан</option>
+        <option value="rating">Рейтинг бойынша</option>
+
+      </select>
+
+      <input
+        id="minPrice"
+        type="number"
+        placeholder="Мин ₸"
+        oninput="renderProducts()"
+      >
+
+      <input
+        id="maxPrice"
+        type="number"
+        placeholder="Макс ₸"
+        oninput="renderProducts()"
+      >
+
+    </div>
+
+    <div id="products" class="grid"></div>
+
+  </section>
+
+
+  <!-- DEALS -->
+
+  <section class="section">
+
+    <div class="section-head">
+      <h2>🔥 SatuGo Deals</h2>
+      <span class="muted">Арнайы ұсыныстар</span>
+    </div>
+
+    <div id="deals" class="grid"></div>
+
+  </section>
+
+
+  <!-- TRUSTED -->
+
+  <section class="section">
+
+    <div class="section-head">
+      <h2>🏆 Сенімді сатушылар</h2>
+      <span class="muted">4.7+</span>
+    </div>
+
+    <div id="trusted" class="grid"></div>
+
+  </section>
+
 </main>
 <!-- PRODUCT MODAL -->
-<div class="modal" id="productModal">
-<div class="modal-box">
-<button class="close" onclick="closeModal('productModal')">
+
+<div id="productModal" class="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal('productModal')">
       ×
     </button>
-<div id="productDetail"></div>
+
+    <div id="productDetail"></div>
+
+  </div>
+
 </div>
-</div>
+
+
 <!-- CART -->
-<div class="modal" id="cartModal">
-<div class="modal-box">
-<button class="close" onclick="closeModal('cartModal')">
+
+<div id="cartModal" class="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal('cartModal')">
       ×
     </button>
-<h2>🛒 Себет</h2>
-<div id="cart"></div>
+
+    <h2>🛒 Себет</h2>
+
+    <div id="cart"></div>
+
+  </div>
+
 </div>
-</div>
+
+
 <!-- FAVORITES -->
-<div class="modal" id="favoritesModal">
-<div class="modal-box">
-<button class="close" onclick="closeModal('favoritesModal')">
+
+<div id="favoritesModal" class="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal('favoritesModal')">
       ×
     </button>
-<h2>❤️ Таңдаулылар</h2>
-<div id="favorites"></div>
+
+    <h2>❤️ Таңдаулылар</h2>
+
+    <div id="favorites"></div>
+
+  </div>
+
+</div>
+
+
+<!-- SATUGO CLEAN ACCOUNT MODAL -->
+<div id="sgAccountModal" class="sg-account-modal" aria-hidden="true">
+  <div class="sg-account-card">
+    <button id="sgAccountClose" class="sg-account-close" type="button">×</button>
+    <div id="sgAccountBody"></div>
+  </div>
 </div>
 </div>
-<!-- ACCOUNT -->
-<div class="modal" id="accountModal">
-<div class="modal-box">
-<button class="close" onclick="closeModal('accountModal')">
-      ×
-    </button>
-<h2>👤 Аккаунт</h2>
-<div id="account"></div>
-</div>
-</div>
+
+
 <!-- ORDERS -->
-<div class="modal" id="ordersModal">
-<div class="modal-box">
-<button class="close" onclick="closeModal('ordersModal')">×</button>
-<h2>📦 Менің тапсырыстарым</h2>
-<div id="ordersList"></div>
+<div id="ordersModal" class="modal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal('ordersModal')">×</button>
+    <h2>📦 Менің тапсырыстарым</h2>
+    <div id="ordersList"></div>
+  </div>
 </div>
-</div>
+
 <!-- SELLER -->
-<div class="modal" id="sellerModal">
-<div class="modal-box">
-<button class="close" onclick="closeModal('sellerModal')">
+
+<div id="sellerModal" class="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal('sellerModal')">
       ×
     </button>
-<h2>🏪 Сатушы кабинеті</h2>
-<div id="seller"></div>
+
+    <h2>🏪 Сатушы кабинеті</h2>
+
+    <div id="seller"></div>
+
+  </div>
+
 </div>
-</div>
+
+
 <!-- REQUEST -->
-<div class="modal" id="requestModal">
-<div class="modal-box">
-<button class="close" onclick="closeModal('requestModal')">
+
+<div id="requestModal" class="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal('requestModal')">
       ×
     </button>
-<h2>📣 Маған тауып бер</h2>
-<p class="muted">
+
+    <h2>📣 Маған тауып бер</h2>
+
+    <p class="muted">
       Қажетті тауарды сипаттаңыз.
       Сатушылар сіздің сұранысыңызды көре алады.
     </p>
-<input id="requestTitle" placeholder="Мысалы: iPhone 15 Pro керек"/>
-<input id="requestBudget" placeholder="Бюджет, ₸" type="number"/>
-<input id="requestCity" placeholder="Қала"/>
-<textarea id="requestDesc" placeholder="Қосымша талаптар" rows="4"></textarea>
-<button class="btn btn-primary" onclick="saveRequest()" style="width:100%">
+
+    <input
+      id="requestTitle"
+      placeholder="Мысалы: iPhone 15 Pro керек"
+    >
+
+    <input
+      id="requestBudget"
+      type="number"
+      placeholder="Бюджет, ₸"
+    >
+
+    <input
+      id="requestCity"
+      placeholder="Қала"
+    >
+
+    <textarea
+      id="requestDesc"
+      rows="4"
+      placeholder="Қосымша талаптар"
+    ></textarea>
+
+    <button
+      class="btn btn-primary"
+      style="width:100%"
+      onclick="saveRequest()"
+    >
       📣 Сұранысты жариялау
     </button>
-<div id="requestList"></div>
+
+    <div id="requestList"></div>
+
+  </div>
+
 </div>
-</div>
+
+
 <!-- OFFER -->
-<div class="modal" id="offerModal">
-<div class="modal-box">
-<button class="close" onclick="closeModal('offerModal')">
+
+<div id="offerModal" class="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal('offerModal')">
       ×
     </button>
-<h2>💰 Баға ұсыну</h2>
-<div id="offerProduct"></div>
-<input id="offerPrice" placeholder="Сіздің бағаңыз, ₸" type="number"/>
-<textarea id="offerMessage" placeholder="Қосымша хабарлама"></textarea>
-<button class="btn btn-primary" onclick="sendOffer()" style="width:100%">
+
+    <h2>💰 Баға ұсыну</h2>
+
+    <div id="offerProduct"></div>
+
+    <input
+      id="offerPrice"
+      type="number"
+      placeholder="Сіздің бағаңыз, ₸"
+    >
+
+    <textarea
+      id="offerMessage"
+      placeholder="Қосымша хабарлама"
+    ></textarea>
+
+    <button
+      class="btn btn-primary"
+      style="width:100%"
+      onclick="sendOffer()"
+    >
       Ұсынысты жіберу
     </button>
+
+  </div>
+
 </div>
-</div>
+
+
 <!-- OFFERS -->
-<div class="modal" id="offersModal">
-<div class="modal-box">
-<button class="close" onclick="closeModal('offersModal')">
+
+<div id="offersModal" class="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal('offersModal')">
       ×
     </button>
-<h2>💰 Менің ұсыныстарым</h2>
-<div id="offersList"></div>
+
+    <h2>💰 Менің ұсыныстарым</h2>
+
+    <div id="offersList"></div>
+
+  </div>
+
 </div>
-</div>
+
+
 <!-- COMPARE -->
-<div class="modal" id="compareModal">
-<div class="modal-box">
-<button class="close" onclick="closeModal('compareModal')">
+
+<div id="compareModal" class="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal('compareModal')">
       ×
     </button>
-<h2>⚖️ Салыстыру</h2>
-<div id="compareList"></div>
+
+    <h2>⚖️ Салыстыру</h2>
+
+    <div id="compareList"></div>
+
+  </div>
+
 </div>
-</div>
+
+
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+
 <script>
 
 /* =========================================================
@@ -1528,10 +1841,9 @@ apiKey: "AIzaSyCj7VBpb0u5YgFqz2Mm8NhvbytX_Fs5tJE",
 };
 
 firebase.initializeApp(firebaseConfig);
-window.firebaseConfig = firebaseConfig;
 
 const auth=firebase.auth();
-const db=firebase.firestore(); window.db=db; window.auth=auth;
+const db=firebase.firestore();
 
 
 /* =========================================================
@@ -1712,7 +2024,7 @@ function closeModal(id){
 
 async function loadProducts(){
 
-  products=[];
+  products=[...demoProducts];
 
   try{
 
@@ -2267,7 +2579,7 @@ async function checkout(){
 
         customerName:
           profile?.name||
-          u.email||
+          user.email||
           user.phoneNumber||
           "SatuGo қолданушысы",
 
@@ -2471,15 +2783,8 @@ async function showProduct(id){
       </button>
 
       <button
-        type="button"
-        class="btn btn-light sg-seller-chat-btn"
-        data-seller-id="${esc(p.sellerId||p.sellerUid||p.ownerId||'')}"
-        data-seller-name="${esc(p.seller||p.sellerName||p.storeName||'Сатушы')}"
-        data-seller-email="${esc(p.sellerEmail||p.ownerEmail||'')}"
-        data-product-id="${esc(p.id||'')}"
-        data-product-name="${esc(p.title||p.name||'Тауар')}"
-        data-product-price="${esc(p.price||0)}"
-        data-product-image="${esc(p.image||p.img||'')}"
+        class="btn btn-light"
+        onclick="sgStartChat('${p.sellerId||p.sellerUid||p.ownerId||''}','${esc(p.seller||p.sellerName||p.storeName||'Сатушы')}','${esc(p.sellerEmail||p.ownerEmail||'')}')"
       >
         💬 Сатушымен чат
       </button>
@@ -2651,7 +2956,7 @@ async function addReview(id){
 
         userName:
           profile?.name||
-          u.email||
+          user.email||
           "Қолданушы",
 
         stars,
@@ -3347,781 +3652,215 @@ async function openOffers(){
 
 
 /* =========================================================
-   AUTH — КІРУ / ТІРКЕЛУ / ШЫҒУ
+   SATUGO — CLEAN ACCOUNT SYSTEM
+   One account system only. Old account UI is not used.
 ========================================================= */
 
-auth.onAuthStateChanged(async (firebaseUser) => {
+(function(){
+  "use strict";
 
-  user = firebaseUser;
-  window.currentUser = firebaseUser || null;
+  const A = "sgAccountModal";
+  const B = "sgAccountBody";
 
-  if (user) {
-    await loadProfile();
-  } else {
-    profile = null;
+  function byId(id){ return document.getElementById(id); }
+  function currentUser(){ return auth.currentUser || user || null; }
+  function escA(v){
+    if(typeof esc === "function") return esc(v == null ? "" : String(v));
+    return String(v == null ? "" : v).replace(/[&<>\"']/g,function(c){return ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[c];});
+  }
+  function show(){
+    var m=byId(A); if(!m) return;
+    m.classList.add("open");
+    m.setAttribute("aria-hidden","false");
+    document.body.classList.add("sg-account-lock");
+  }
+  function close(){
+    var m=byId(A); if(!m) return;
+    m.classList.remove("open");
+    m.setAttribute("aria-hidden","true");
+    document.body.classList.remove("sg-account-lock");
   }
 
-  renderAccount();
-  updateCounts();
+  window.sgAccountClose=close;
 
-});
-
-
-/* =========================================================
-   ACCOUNT MODAL
-========================================================= */
-
-function openAccount(){
-
-  renderAccount();
-
-  openModal("accountModal");
-
-}
-
-
-/* =========================================================
-   ACCOUNT UI
-========================================================= */
-
-function renderAccount(){
-
-  const box = document.getElementById("account");
-  if(!box) return;
-
-  if(!user){
-    box.innerHTML = `
-      <div class="sg-account-login">
-        <div class="sg-account-avatar">👤</div>
-        <h2>Жеке кабинет</h2>
-        <p class="muted">Тапсырыстарды, таңдаулыларды және профильді басқару үшін аккаунтқа кіріңіз.</p>
-        <button type="button" class="btn btn-primary" style="width:100%;margin-top:15px" onclick="openAuth();return false;">🔐 Аккаунтқа кіру</button>
-      </div>`;
-    return;
-  }
-
-  const name = profile?.name || user.displayName || user.email?.split("@")[0] || "Қолданушы";
-  const email = user.email || "";
-  const phone = profile?.phone || user.phoneNumber || "Телефон енгізілмеген";
-  const city = profile?.city || "Қала енгізілмеген";
-  const address = profile?.address || "Мекенжай енгізілмеген";
-  const role = profile?.role === "seller" ? "🏪 Сатушы" : "🛒 Сатып алушы";
-  const favoriteCount = Array.isArray(favorites) ? favorites.length : 0;
-  const cartCount = Array.isArray(cart) ? cart.reduce((sum,item)=>sum + Number(item.qty || 1),0) : 0;
-
-  box.innerHTML = `
-    <div class="sg-profile-head">
-      <div class="sg-profile-avatar">👤</div>
-      <div class="sg-profile-info">
-        <h2>${esc(name)}</h2>
-        <p>${esc(email)}</p>
-        <span class="sg-profile-role">${role}</span>
-      </div>
-    </div>
-
-    <div class="sg-account-section">
-      <div class="sg-account-section-title">
-        <span>👤 Жеке мәліметтер</span>
-        <button class="btn btn-light" onclick="sgCoreOpenProfile()">✏️ Өзгерту</button>
-      </div>
-      <div class="sg-profile-data">
-        <div class="sg-profile-item"><span>📱 Телефон</span><b>${esc(phone)}</b></div>
-        <div class="sg-profile-item"><span>📍 Қала</span><b>${esc(city)}</b></div>
-        <div class="sg-profile-item"><span>🏠 Мекенжай</span><b>${esc(address)}</b></div>
-        <div class="sg-profile-item"><span>📧 Email</span><b>${esc(email || "—")}</b></div>
-      </div>
-    </div>
-
-    <div class="sg-account-stats">
-      <button onclick="openFavorites()" class="sg-account-stat"><strong>❤️ ${favoriteCount}</strong><span>Таңдаулы</span></button>
-      <button onclick="openCart()" class="sg-account-stat"><strong>🛒 ${cartCount}</strong><span>Себет</span></button>
-      <button onclick="openOrders()" class="sg-account-stat"><strong>📦</strong><span>Тапсырыстар</span></button>
-    </div>
-
-    <div class="sg-account-menu">
-      <button onclick="openOrders()" class="sg-account-menu-item"><span class="sg-menu-icon">📦</span><span><b>Менің тапсырыстарым</b><small>Барлық тапсырыстарыңызды көру</small></span><span class="sg-arrow">›</span></button>
-      <button onclick="openFavorites()" class="sg-account-menu-item"><span class="sg-menu-icon">❤️</span><span><b>Таңдаулылар</b><small>Сақталған тауарлар</small></span><span class="sg-arrow">›</span></button>
-      <button onclick="openOffers()" class="sg-account-menu-item"><span class="sg-menu-icon">💰</span><span><b>Менің ұсыныстарым</b><small>Баға бойынша ұсыныстар</small></span><span class="sg-arrow">›</span></button>
-      <button onclick="openRequest()" class="sg-account-menu-item"><span class="sg-menu-icon">📣</span><span><b>Менің сұраныстарым</b><small>Тауар іздеу сұраныстары</small></span><span class="sg-arrow">›</span></button>
-      <button onclick="openSeller()" class="sg-account-menu-item seller-item"><span class="sg-menu-icon">🏪</span><span><b>Сатушы кабинеті</b><small>Тауарлар мен сатылымдарды басқару</small></span><span class="sg-arrow">›</span></button>
-    </div>
-
-    ${!user.emailVerified ? `<div class="sg-account-warning"><div><b>⚠️ Email расталмаған</b><small>Аккаунтыңыздың қауіпсіздігі үшін email-ды растаңыз.</small></div><button class="btn btn-light" onclick="resendVerification()">📧 Растау</button></div>` : `<div class="sg-account-success">✓ Email расталған</div>`}
-
-    <button class="btn btn-danger" style="width:100%;margin-top:14px" onclick="logout()">🚪 Аккаунттан шығу</button>
-  `;
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-function authMessage(message, type="info"){
-
-  const box =
-    document.getElementById("authStatus");
-
-  if(!box){
-
-    alert(message);
-    return;
-
-  }
-
-
-  const colors = {
-
-    info:"#6b7280",
-    success:"#15803d",
-    error:"#dc2626"
-
+  window.openAccount=function(){
+    renderAccount();
+    show();
   };
 
+  window.sgOpenAccount=window.openAccount;
 
-  box.style.color =
-    colors[type] || colors.info;
+  function renderAccount(){
+    var box=byId(B); if(!box) return;
+    var u=currentUser();
 
-  box.textContent = message;
+    if(!u){
+      box.innerHTML=''+
+        '<div class="sg-new-account-icon">👤</div>'+
+        '<h2>Аккаунт</h2>'+
+        '<p class="sg-new-muted">SatuGo-да тапсырыс беру, чат қолдану және таңдаулыларды сақтау үшін кіріңіз.</p>'+
+        '<button type="button" class="sg-new-btn sg-new-primary" id="sgNewLogin">🔐 Кіру</button>'+
+        '<button type="button" class="sg-new-btn sg-new-sms" id="sgNewSms">📱 +7 SMS арқылы кіру</button>'+
+        '<button type="button" class="sg-new-btn sg-new-light" id="sgNewRegister">📝 Жаңа аккаунт ашу</button>'+
+        '<div id="sgNewAuthArea"></div>';
+      bindLoggedOut();
+      return;
+    }
 
-}
+    var p=profile||{};
+    var name=p.name || u.displayName || u.email?.split("@")[0] || u.phoneNumber || "SatuGo қолданушысы";
+    var phone=p.phone || u.phoneNumber || "Телефон енгізілмеген";
+    var email=u.email || p.email || "";
+    var city=p.city || "Қала енгізілмеген";
+    var role=p.role === "seller" ? "🏪 Сатушы" : "🛒 Сатып алушы";
+    var fav=Array.isArray(favorites)?favorites.length:0;
+    var cartCountLocal=Array.isArray(cart)?cart.reduce(function(a,x){return a+Number(x.qty||1)},0):0;
 
-
-/* =========================================================
-   REGISTER
-========================================================= */
-
-async function register(){
-
-  const name =
-    document
-      .getElementById("authName")
-      ?.value
-      .trim();
-
-  const email =
-    document
-      .getElementById("authEmail")
-      ?.value
-      .trim()
-      .toLowerCase();
-
-  const password =
-    document
-      .getElementById("authPassword")
-      ?.value;
-
-
-  if(!name){
-
-    authMessage(
-      "Атыңызды енгізіңіз.",
-      "error"
-    );
-
-    return;
-
+    box.innerHTML=''+
+      '<div class="sg-new-profile-head"><div class="sg-new-avatar">👤</div><div><h2>'+escA(name)+'</h2><span>'+escA(role)+'</span></div></div>'+
+      '<div class="sg-new-info">'+
+        '<div><span>📱 Телефон</span><b>'+escA(phone)+'</b></div>'+
+        '<div><span>📧 Email</span><b>'+escA(email||"—")+'</b></div>'+
+        '<div><span>📍 Қала</span><b>'+escA(city)+'</b></div>'+ 
+      '</div>'+ 
+      '<div class="sg-new-stats">'+
+        '<button type="button" onclick="openFavorites()"><b>❤️ '+fav+'</b><span>Таңдаулы</span></button>'+ 
+        '<button type="button" onclick="openCart()"><b>🛒 '+cartCountLocal+'</b><span>Себет</span></button>'+ 
+        '<button type="button" onclick="openOrders()"><b>📦</b><span>Тапсырыс</span></button>'+ 
+      '</div>'+ 
+      '<button type="button" class="sg-new-menu" onclick="openOrders()">📦 Менің тапсырыстарым <span>›</span></button>'+ 
+      '<button type="button" class="sg-new-menu" onclick="openFavorites()">❤️ Таңдаулылар <span>›</span></button>'+ 
+      '<button type="button" class="sg-new-menu" onclick="openSeller()">🏪 Сатушы кабинеті <span>›</span></button>'+ 
+      '<button type="button" class="sg-new-btn sg-new-danger" id="sgNewLogout">🚪 Аккаунттан шығу</button>';
+    var lo=byId("sgNewLogout"); if(lo) lo.addEventListener("click",logout);
   }
 
-
-  if(!email){
-
-    authMessage(
-      "Email енгізіңіз.",
-      "error"
-    );
-
-    return;
-
+  function bindLoggedOut(){
+    var l=byId("sgNewLogin"), sms=byId("sgNewSms"), r=byId("sgNewRegister");
+    if(l) l.addEventListener("click",function(){showAuthForm("login")});
+    if(r) r.addEventListener("click",function(){showAuthForm("register")});
+    if(sms) sms.addEventListener("click",function(){
+      close();
+      if(typeof window.sgPhoneOpen === "function") window.sgPhoneOpen();
+      else alert("📱 SMS кіру модулі табылмады.");
+    });
   }
 
-
-  if(password.length < 6){
-
-    authMessage(
-      "Құпиясөз кемінде 6 таңбадан тұруы керек.",
-      "error"
-    );
-
-    return;
-
+  function status(msg,type){
+    var x=byId("sgNewAuthStatus"); if(!x) return;
+    x.textContent=msg;
+    x.className="sg-new-status "+(type||"");
   }
 
+  function showAuthForm(mode){
+    var area=byId("sgNewAuthArea"); if(!area) return;
+    var reg=mode==="register";
+    area.innerHTML=''+
+      '<div class="sg-new-auth-box">'+
+      '<h3>'+(reg?"📝 Жаңа аккаунт":"🔐 Аккаунтқа кіру")+'</h3>'+ 
+      (reg?'<input id="sgNewName" placeholder="Аты-жөніңіз" autocomplete="name">':'')+
+      '<input id="sgNewEmail" type="email" placeholder="Email" autocomplete="email">'+
+      '<input id="sgNewPassword" type="password" placeholder="Құпиясөз (кемінде 6 таңба)" autocomplete="current-password">'+
+      '<div id="sgNewAuthStatus" class="sg-new-status"></div>'+ 
+      '<button type="button" class="sg-new-btn sg-new-primary" id="sgNewAuthSubmit">'+(reg?"Тіркелу":"Кіру")+'</button>'+ 
+      (!reg?'<button type="button" class="sg-new-link" id="sgNewReset">Құпиясөзді ұмыттыңыз ба?</button>':'')+
+      '<button type="button" class="sg-new-link" id="sgNewBack">← Артқа</button>'+ 
+      '</div>';
+    var submit=byId("sgNewAuthSubmit");
+    if(submit) submit.addEventListener("click",function(){reg?doRegister():doLogin()});
+    var back=byId("sgNewBack"); if(back) back.addEventListener("click",function(){renderAccount()});
+    var reset=byId("sgNewReset"); if(reset) reset.addEventListener("click",doReset);
+  }
 
-  try{
-
-    authMessage(
-      "⏳ Аккаунт құрылып жатыр..."
-    );
-
-
-    const result =
-      await auth
-        .createUserWithEmailAndPassword(
-          email,
-          password
-        );
-
-
-    const newUser =
-      result.user;
-
-
-    /* PROFILE */
-
-    await db
-      .collection("users")
-      .doc(newUser.uid)
-      .set({
-
-        uid:newUser.uid,
-
-        name:name,
-
-        email:email,
-
-        role:"buyer",
-
-        createdAt:
-          firebase.firestore
-            .FieldValue
-            .serverTimestamp()
-
-      });
-
-
-    /* DISPLAY NAME */
-
+  async function doRegister(){
+    var name=(byId("sgNewName")?.value||"").trim();
+    var email=(byId("sgNewEmail")?.value||"").trim().toLowerCase();
+    var pass=byId("sgNewPassword")?.value||"";
+    if(!name){status("Атыңызды енгізіңіз.","error");return}
+    if(!email){status("Email енгізіңіз.","error");return}
+    if(pass.length<6){status("Құпиясөз кемінде 6 таңба болуы керек.","error");return}
     try{
-
-      await newUser.updateProfile({
-
-        displayName:name
-
-      });
-
-    }catch(error){
-
-      console.warn(
-        "Display name:",
-        error
-      );
-
+      status("⏳ Аккаунт құрылып жатыр...");
+      var res=await auth.createUserWithEmailAndPassword(email,pass);
+      user=res.user;
+      await db.collection("users").doc(user.uid).set({uid:user.uid,name:name,email:email,role:"buyer",createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+      try{await user.updateProfile({displayName:name})}catch(e){}
+      profile={uid:user.uid,name:name,email:email,role:"buyer"};
+      try{await user.sendEmailVerification()}catch(e){}
+      updateCounts();
+      renderAccount();
+      status("✅ Аккаунт сәтті құрылды!","success");
+    }catch(e){
+      var m="Тіркелу кезінде қате.";
+      if(e.code==="auth/email-already-in-use")m="Бұл Email бұрын тіркелген.";
+      else if(e.code==="auth/invalid-email")m="Email дұрыс емес.";
+      else if(e.code==="auth/weak-password")m="Құпиясөз әлсіз.";
+      else if(e.code==="auth/operation-not-allowed")m="Firebase-та Email/Password кіруі қосылмаған.";
+      status("❌ "+m,"error");
     }
+  }
 
-
-    /* EMAIL VERIFICATION */
-
+  async function doLogin(){
+    var email=(byId("sgNewEmail")?.value||"").trim().toLowerCase();
+    var pass=byId("sgNewPassword")?.value||"";
+    if(!email){status("Email енгізіңіз.","error");return}
+    if(!pass){status("Құпиясөз енгізіңіз.","error");return}
     try{
-
-      await newUser.sendEmailVerification();
-
-    }catch(error){
-
-      console.warn(
-        "Verification email:",
-        error
-      );
-
+      status("⏳ Кіріп жатыр...");
+      var res=await auth.signInWithEmailAndPassword(email,pass);
+      user=res.user;
+      await loadProfile();
+      updateCounts();
+      renderAccount();
+    }catch(e){
+      var m="Email немесе құпиясөз дұрыс емес.";
+      if(e.code==="auth/user-not-found")m="Бұл Email бойынша аккаунт жоқ.";
+      else if(e.code==="auth/too-many-requests")m="Тым көп әрекет. Кейін қайталап көріңіз.";
+      else if(e.code==="auth/network-request-failed")m="Интернетті тексеріңіз.";
+      status("❌ "+m,"error");
     }
+  }
 
+  async function doReset(){
+    var email=(byId("sgNewEmail")?.value||"").trim().toLowerCase();
+    if(!email){status("Алдымен Email енгізіңіз.","error");return}
+    try{await auth.sendPasswordResetEmail(email);status("📧 Қалпына келтіру хаты жіберілді.","success")}
+    catch(e){status("❌ Email табылмады немесе қате болды.","error")}
+  }
 
-    user =
-      auth.currentUser;
+  async function logout(){
+    try{await auth.signOut();user=null;profile=null;updateCounts();renderAccount()}
+    catch(e){alert("❌ Аккаунттан шығу қатесі: "+e.message)}
+  }
+  window.logout=logout;
 
-    profile = {
+  async function loadProfile(){
+    if(!user){profile=null;return}
+    try{
+      var snap=await db.collection("users").doc(user.uid).get();
+      if(snap.exists) profile=snap.data();
+      else{
+        profile={uid:user.uid,name:user.displayName||user.email?.split("@")[0]||"SatuGo қолданушысы",email:user.email||"",role:"buyer"};
+        await db.collection("users").doc(user.uid).set({...profile,createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+      }
+    }catch(e){console.error("PROFILE ERROR",e);profile=null}
+  }
+  window.loadProfile=loadProfile;
 
-      uid:newUser.uid,
-
-      name:name,
-
-      email:email,
-
-      role:"buyer"
-
-    };
-
-
-    renderAccount();
+  auth.onAuthStateChanged(async function(fu){
+    user=fu||null;
+    if(user) await loadProfile(); else profile=null;
     updateCounts();
-
-
-    authMessage(
-      "✅ Аккаунт сәтті құрылды!",
-      "success"
-    );
-
-
-    setTimeout(()=>{
-
-      closeModal("accountModal");
-
-    },1000);
-
-
-  }catch(error){
-
-    console.error(
-      "REGISTER ERROR:",
-      error
-    );
-
-
-    let message =
-      "Тіркелу кезінде қате пайда болды.";
-
-
-    switch(error.code){
-
-      case "auth/email-already-in-use":
-
-        message =
-          "Бұл Email бұрын тіркелген. Кіруге тырысыңыз.";
-
-        break;
-
-
-      case "auth/invalid-email":
-
-        message =
-          "Email форматы дұрыс емес.";
-
-        break;
-
-
-      case "auth/weak-password":
-
-        message =
-          "Құпиясөз тым әлсіз. Кемінде 6 таңба болуы керек.";
-
-        break;
-
-
-      case "auth/operation-not-allowed":
-
-        message =
-          "Firebase Console ішінде Email/Password авторизациясы қосылмаған.";
-
-        break;
-
-
-      case "auth/network-request-failed":
-
-        message =
-          "Интернет байланысын тексеріңіз.";
-
-        break;
-
-    }
-
-
-    authMessage(
-      "❌ "+message,
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-async function login(){
-
-  const email =
-    document
-      .getElementById("authEmail")
-      ?.value
-      .trim()
-      .toLowerCase();
-
-  const password =
-    document
-      .getElementById("authPassword")
-      ?.value;
-
-
-  if(!email){
-
-    authMessage(
-      "Email енгізіңіз.",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  if(!password){
-
-    authMessage(
-      "Құпиясөзді енгізіңіз.",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  try{
-
-    authMessage(
-      "⏳ Кіріп жатыр..."
-    );
-
-
-    const result =
-      await auth
-        .signInWithEmailAndPassword(
-          email,
-          password
-        );
-
-
-    user =
-      result.user;
-
-
-    await loadProfile();
-
-
-    renderAccount();
-    updateCounts();
-
-
-    closeModal("accountModal");
-
-
-    console.log(
-      "SatuGo login:",
-      user.uid
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "LOGIN ERROR:",
-      error
-    );
-
-
-    let message =
-      "Кіру кезінде қате пайда болды.";
-
-
-    switch(error.code){
-
-      case "auth/invalid-email":
-
-        message =
-          "Email форматы дұрыс емес.";
-
-        break;
-
-
-      case "auth/user-not-found":
-
-        message =
-          "Бұл Email бойынша аккаунт табылмады.";
-
-        break;
-
-
-      case "auth/wrong-password":
-
-        message =
-          "Құпиясөз дұрыс емес.";
-
-        break;
-
-
-      case "auth/invalid-credential":
-
-        message =
-          "Email немесе құпиясөз дұрыс емес.";
-
-        break;
-
-
-      case "auth/too-many-requests":
-
-        message =
-          "Тым көп әрекет жасалды. Біраз уақыттан кейін қайталап көріңіз.";
-
-        break;
-
-
-      case "auth/user-disabled":
-
-        message =
-          "Бұл аккаунт бұғатталған.";
-
-        break;
-
-
-      case "auth/network-request-failed":
-
-        message =
-          "Интернет байланысын тексеріңіз.";
-
-        break;
-
-    }
-
-
-    authMessage(
-      "❌ "+message,
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   PASSWORD RESET
-========================================================= */
-
-async function resetPassword(){
-
-  const email =
-    document
-      .getElementById("authEmail")
-      ?.value
-      .trim()
-      .toLowerCase();
-
-
-  if(!email){
-
-    alert(
-      "Алдымен Email енгізіңіз."
-    );
-
-    return;
-
-  }
-
-
-  try{
-
-    await auth.sendPasswordResetEmail(
-      email
-    );
-
-
-    alert(
-      "📧 Құпиясөзді өзгерту сілтемесі Email-ге жіберілді."
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "RESET PASSWORD:",
-      error
-    );
-
-
-    let message =
-      "Құпиясөзді қалпына келтіру мүмкін болмады.";
-
-
-    switch(error.code){
-
-      case "auth/user-not-found":
-
-        message =
-          "Бұл Email бойынша аккаунт табылмады.";
-
-        break;
-
-
-      case "auth/invalid-email":
-
-        message =
-          "Email дұрыс емес.";
-
-        break;
-
-    }
-
-
-    alert(
-      "❌ "+message
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   RESEND EMAIL VERIFICATION
-========================================================= */
-
-async function resendVerification(){
-
-  if(!user)
-    return;
-
-
-  try{
-
-    await user.sendEmailVerification();
-
-
-    alert(
-      "📧 Растау хаты қайта жіберілді."
-    );
-
-
-  }catch(error){
-
-    console.error(
-      error
-    );
-
-
-    alert(
-      "❌ Растау хатын жіберу мүмкін болмады.\n"+
-      error.message
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   LOAD PROFILE
-========================================================= */
-
-async function loadProfile(){
-
-  if(!user){
-
-    profile=null;
-    return;
-
-  }
-
-
-  try{
-
-    const snap =
-      await db
-        .collection("users")
-        .doc(user.uid)
-        .get();
-
-
-    if(snap.exists){
-
-      profile =
-        snap.data();
-
-    }else{
-
-      /* Егер users құжаты кездейсоқ жоқ болса,
-         автоматты түрде қайта жасаймыз. */
-
-      profile = {
-
-        uid:user.uid,
-
-        name:
-          user.displayName ||
-          user.email?.split("@")[0] ||
-          "SatuGo қолданушысы",
-
-        email:
-          user.email || "",
-
-        role:"buyer"
-
-      };
-
-
-      await db
-        .collection("users")
-        .doc(user.uid)
-        .set({
-
-          ...profile,
-
-          createdAt:
-            firebase.firestore
-              .FieldValue
-              .serverTimestamp()
-
-        });
-
-    }
-
-
-  }catch(error){
-
-    console.error(
-      "PROFILE ERROR:",
-      error
-    );
-
-    profile=null;
-
-  }
-
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-async function logout(){
-
-  try{
-
-    await auth.signOut();
-
-    user=null;
-    profile=null;
-
-
-    renderAccount();
-    updateCounts();
-
-
-    closeModal("accountModal");
-
-
-    alert(
-      "👋 Аккаунттан сәтті шықтыңыз."
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "LOGOUT ERROR:",
-      error
-    );
-
-
-    alert(
-      "❌ Шығу кезінде қате пайда болды."
-    );
-
-  }
-
-}
+    if(byId(A)?.classList.contains("open")) renderAccount();
+  });
+
+  document.addEventListener("click",function(e){
+    var m=byId(A);
+    if(m && e.target===m) close();
+  });
+  var c=byId("sgAccountClose"); if(c)c.addEventListener("click",close);
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")close()});
+})();
 
 
 /* =========================================================
@@ -4166,7 +3905,7 @@ async function renderSeller(){
     const snap=
       await db
         .collection("stores")
-        .doc(u.uid)
+        .doc(user.uid)
         .get();
 
     if(snap.exists)
@@ -4210,7 +3949,7 @@ async function renderSeller(){
       </div>
 
       <div class="stat"><div>Қойма</div><strong>${sellerStock}</strong></div>
-      
+      <div class="stat"><div>Сатылым</div><strong>${sellerSales}</strong></div>
 
     </div>
 
@@ -4227,7 +3966,12 @@ async function renderSeller(){
       placeholder="Дүкен сипаттамасы"
     >${esc(store.description||"")}</textarea>
 
-
+    <button
+      class="btn btn-blue"
+      onclick="saveStore()"
+    >
+      Дүкенді сақтау
+    </button>
 
     <hr>
 
@@ -4322,34 +4066,71 @@ async function renderSeller(){
 
 
 async function saveStore(){
-  const u=(window.auth&&auth.currentUser)||window.currentUser||user;
-  if(!u){ alert("Алдымен аккаунтқа кіріңіз."); openAuth(); return; }
-  const name=(document.getElementById("storeName")?.value||"").trim();
-  const description=(document.getElementById("storeDescription")?.value||"").trim();
-  if(!name){ alert("Дүкен атауын енгізіңіз."); return; }
-  try{
-    const ref=db.collection("stores").doc(u.uid);
-    const oldSnap=await ref.get();
-    const old=oldSnap.exists?(oldSnap.data()||{}):{};
-    await ref.set({
-      ownerId:u.uid,
-      name:name,
-      description:description,
-      verified:old.verified===true,
-      updatedAt:firebase.firestore.FieldValue.serverTimestamp()
-    },{merge:true});
-    alert("✅ Дүкен сақталды!");
-    await renderSeller();
-  }catch(error){
-    console.error("saveStore",error);
-    alert("❌ Дүкен сақталмады.\n"+(error.code||"")+" "+(error.message||error));
+
+  const name=
+    document.getElementById(
+      "storeName"
+    ).value.trim();
+
+  const description=
+    document.getElementById(
+      "storeDescription"
+    ).value.trim();
+
+
+  if(!name){
+
+    alert(
+      "Дүкен атауын енгізіңіз."
+    );
+
+    return;
+
   }
+
+
+  try{
+
+    await db
+      .collection("stores")
+      .doc(user.uid)
+      .set({
+
+        ownerId:user.uid,
+
+        name,
+
+        description,
+
+        updatedAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp()
+
+      },{
+        merge:true
+      });
+
+
+    alert(
+      "✅ Дүкен сақталды!"
+    );
+
+    renderSeller();
+
+  }catch(error){
+
+    alert(
+      "❌ "+
+      error.message
+    );
+
+  }
+
 }
 
 
 async function saveProduct(){
-  const u=(window.auth&&auth.currentUser)||window.currentUser||user;
-  if(!u){ alert("Алдымен аккаунтқа кіріңіз."); openAuth(); return; }
 
   const title=
     document.getElementById(
@@ -4397,18 +4178,13 @@ async function saveProduct(){
     const storeSnap=
       await db
         .collection("stores")
-        .doc(u.uid)
+        .doc(user.uid)
         .get();
 
     const store=
       storeSnap.exists
       ?storeSnap.data()
       :{};
-
-    if(!storeSnap.exists || store.ownerId!==u.uid){
-      alert("Алдымен дүкенді сақтаңыз.");
-      return;
-    }
 
 
     await db
@@ -4431,18 +4207,18 @@ async function saveProduct(){
 
         description,
 
-        sellerId:u.uid,
+        sellerId:user.uid,
 
         seller:
           store.name||
           profile?.name||
-          u.email||
+          user.email||
           "Сатушы",
 
         sellerName:
           store.name||
           profile?.name||
-          u.email||
+          user.email||
           "Сатушы",
 
         rating:0,
@@ -4705,57 +4481,71 @@ async function init(){
 init();
 
 </script>
+
+
 <!-- SATUGO MOBILE BOTTOM NAV 5 -->
 
+</div>
+
+
+
+
+
 <!-- SatuGo Advanced Features -->
-<section class="sg-admin" id="sgAdvanced" style="display:none">
-<div class="sg-adv-grid">
-<div class="sg-panel"><div class="sg-muted">Сатылым</div><div class="sg-stat" id="sgSalesStat">0 ₸</div></div>
-<div class="sg-panel"><div class="sg-muted">Тапсырыс</div><div class="sg-stat" id="sgOrderStat">0</div></div>
-<div class="sg-panel"><div class="sg-muted">Қойма</div><div class="sg-stat" id="sgStockStat">0</div></div>
-<div class="sg-panel"><div class="sg-muted">Рейтинг</div><div class="sg-stat" id="sgRatingStat">—</div></div>
+<section id="sgAdvanced" class="sg-admin" style="display:none">
+  <div class="sg-adv-grid">
+    <div class="sg-panel"><div class="sg-muted">Сатылым</div><div id="sgSalesStat" class="sg-stat">0 ₸</div></div>
+    <div class="sg-panel"><div class="sg-muted">Тапсырыс</div><div id="sgOrderStat" class="sg-stat">0</div></div>
+    <div class="sg-panel"><div class="sg-muted">Қойма</div><div id="sgStockStat" class="sg-stat">0</div></div>
+    <div class="sg-panel"><div class="sg-muted">Рейтинг</div><div id="sgRatingStat" class="sg-stat">—</div></div>
+  </div>
+</div>
+    <div class="sg-two">
+      <div><label>Жеңілдік %</label><input id="sgPDiscount" class="sg-input" type="number" value="0" min="0" max="99"></div>
+      <div><label>Қала</label><input id="sgPCity" class="sg-input" placeholder="Тараз"></div>
+    </div>
+    <input id="sgPImage" class="sg-input" placeholder="Сурет URL">
+    <textarea id="sgPDesc" class="sg-input" rows="4" placeholder="Сипаттама"></textarea>
+    <button class="sg-btn green" onclick="sgSaveProduct()">💾 Сақтау</button>
+    <button class="sg-btn light" onclick="sgClose('sgProductModal')">Жабу</button>
+  </div>
 </div>
 
-<div class="sg-two">
-<div><label>Жеңілдік %</label><input class="sg-input" id="sgPDiscount" max="99" min="0" type="number" value="0"/></div>
-<div><label>Қала</label><input class="sg-input" id="sgPCity" placeholder="Тараз"/></div>
+<div id="sgPromoModal" class="sg-modal" onclick="if(event.target===this)sgClose('sgPromoModal')">
+  <div class="sg-box">
+    <h2>🏷️ Промокод жасау</h2>
+    <input id="sgPromoCode" class="sg-input" placeholder="Мысалы: SATUGO10">
+    <input id="sgPromoPercent" class="sg-input" type="number" min="1" max="90" placeholder="Жеңілдік %">
+    <button class="sg-btn green" onclick="sgSavePromo()">Сақтау</button>
+    <button class="sg-btn light" onclick="sgClose('sgPromoModal')">Жабу</button>
+  </div>
 </div>
-<input class="sg-input" id="sgPImage" placeholder="Сурет URL"/>
-<textarea class="sg-input" id="sgPDesc" placeholder="Сипаттама" rows="4"></textarea>
-<button class="sg-btn green" onclick="sgSaveProduct()">💾 Сақтау</button>
-<button class="sg-btn light" onclick="sgClose('sgProductModal')">Жабу</button>
 
+<div id="sgStoreModal" class="sg-modal" onclick="if(event.target===this)sgClose('sgStoreModal')">
+  <div class="sg-box">
+    <h2>🏪 Менің дүкенім</h2>
+    <div id="sgStoreContent"></div>
+    <button class="sg-btn light" onclick="sgClose('sgStoreModal')">Жабу</button>
+  </div>
+</div>
 
-<div class="sg-modal" id="sgPromoModal" onclick="if(event.target===this)sgClose('sgPromoModal')">
-<div class="sg-box">
-<h2>🏷️ Промокод жасау</h2>
-<input class="sg-input" id="sgPromoCode" placeholder="Мысалы: SATUGO10"/>
-<input class="sg-input" id="sgPromoPercent" max="90" min="1" placeholder="Жеңілдік %" type="number"/>
-<button class="sg-btn green" onclick="sgSavePromo()">Сақтау</button>
-<button class="sg-btn light" onclick="sgClose('sgPromoModal')">Жабу</button>
+<input id="sgChatInput" class="sg-input" placeholder="Хабарлама...">
+    <button class="sg-btn" onclick="sgSendChat()">Жіберу</button>
+    <button class="sg-btn light" onclick="sgClose('sgChatModal')">Жабу</button>
+  </div>
 </div>
-</div>
-<div class="sg-modal" id="sgStoreModal" onclick="if(event.target===this)sgClose('sgStoreModal')">
-<div class="sg-box">
-<h2>🏪 Менің дүкенім</h2>
-<div id="sgStoreContent"></div>
-<button class="sg-btn light" onclick="sgClose('sgStoreModal')">Жабу</button>
-</div>
-</div>
-<input class="sg-input" id="sgChatInput" placeholder="Хабарлама..."/>
-<button class="sg-btn" onclick="sgSendChat()">Жіберу</button>
-<button class="sg-btn light" onclick="sgClose('sgChatModal')">Жабу</button>
 
-
-<div class="sg-modal" id="sgOrdersModal" onclick="if(event.target===this)sgClose('sgOrdersModal')">
-<div class="sg-box">
-<h2>📦 Менің тапсырыстарым</h2>
-<div id="sgOrdersContent"></div>
-<button class="sg-btn light" onclick="sgClose('sgOrdersModal')">Жабу</button>
+<div id="sgOrdersModal" class="sg-modal" onclick="if(event.target===this)sgClose('sgOrdersModal')">
+  <div class="sg-box">
+    <h2>📦 Менің тапсырыстарым</h2>
+    <div id="sgOrdersContent"></div>
+    <button class="sg-btn light" onclick="sgClose('sgOrdersModal')">Жабу</button>
+  </div>
 </div>
-</div>
-<div class="sg-toast" id="sgToast"></div>
+<div id="sgToast" class="sg-toast"></div>
 <button class="sg-btn sg-float" onclick="sgOpenOrders()">📦 Тапсырыстар</button>
+
+
 <script id="satugo-all-features-js">
 (function(){
   const sg = {
@@ -4892,6 +4682,7 @@ init();
   setInterval(updateDashboard,2500);
 })();
 </script>
+
 <section id="sgV2Dashboard" style="display:none;margin:18px 0">
 <div class="sg-v2-grid">
 <div class="sg-v2-card"><div class="sg-v2-small">Тапсырыстар</div><h2 id="sgV2Orders">0</h2></div>
@@ -4900,20 +4691,23 @@ init();
 <div class="sg-v2-card"><div class="sg-v2-small">Пікірлер</div><h2 id="sgV2Reviews">0</h2></div>
 </div>
 </section>
-<div class="sg-v2-modal" id="sgV2ProductModal" onclick="if(event.target===this)sgV2Close(this.id)"><div class="sg-v2-box">
-<h2>➕ Тауар қосу</h2><input class="sg-v2-input" id="sgV2Name" placeholder="Тауар атауы"/>
-<input class="sg-v2-input" id="sgV2Price" placeholder="Бағасы ₸" type="number"/><input class="sg-v2-input" id="sgV2StockInput" min="0" placeholder="Қойма саны" type="number" value="1"/>
-<input class="sg-v2-input" id="sgV2City" placeholder="Қала"/><input class="sg-v2-input" id="sgV2Image" placeholder="Сурет URL"/>
-<input class="sg-v2-input" id="sgV2Brand" placeholder="Бренд"/><input class="sg-v2-input" id="sgV2Sizes" placeholder="Өлшемдер: S,M,L,XL"/><input class="sg-v2-input" id="sgV2Colors" placeholder="Түстер: Қара,Ақ"/>
-<textarea class="sg-v2-input" id="sgV2Desc" placeholder="Сипаттама" rows="4"></textarea>
+
+<div id="sgV2ProductModal" class="sg-v2-modal" onclick="if(event.target===this)sgV2Close(this.id)"><div class="sg-v2-box">
+<h2>➕ Тауар қосу</h2><input id="sgV2Name" class="sg-v2-input" placeholder="Тауар атауы">
+<input id="sgV2Price" class="sg-v2-input" type="number" placeholder="Бағасы ₸"><input id="sgV2StockInput" class="sg-v2-input" type="number" min="0" value="1" placeholder="Қойма саны">
+<input id="sgV2City" class="sg-v2-input" placeholder="Қала"><input id="sgV2Image" class="sg-v2-input" placeholder="Сурет URL">
+<input id="sgV2Brand" class="sg-v2-input" placeholder="Бренд"><input id="sgV2Sizes" class="sg-v2-input" placeholder="Өлшемдер: S,M,L,XL"><input id="sgV2Colors" class="sg-v2-input" placeholder="Түстер: Қара,Ақ">
+<textarea id="sgV2Desc" class="sg-v2-input" rows="4" placeholder="Сипаттама"></textarea>
 <button class="sg-v2-btn green" onclick="sgV2SaveProduct()">Сақтау</button><button class="sg-v2-btn light" onclick="sgV2Close('sgV2ProductModal')">Жабу</button>
 </div></div>
-<div class="sg-v2-modal" id="sgV2PromoModal" onclick="if(event.target===this)sgV2Close(this.id)"><div class="sg-v2-box">
-<h2>🏷️ Жеңілдік / промокод</h2><input class="sg-v2-input" id="sgV2PromoCode" placeholder="SATUGO10"/><input class="sg-v2-input" id="sgV2PromoPercent" max="90" min="1" placeholder="Жеңілдік %" type="number"/>
+
+<div id="sgV2PromoModal" class="sg-v2-modal" onclick="if(event.target===this)sgV2Close(this.id)"><div class="sg-v2-box">
+<h2>🏷️ Жеңілдік / промокод</h2><input id="sgV2PromoCode" class="sg-v2-input" placeholder="SATUGO10"><input id="sgV2PromoPercent" class="sg-v2-input" type="number" min="1" max="90" placeholder="Жеңілдік %">
 <button class="sg-v2-btn green" onclick="sgV2SavePromo()">Сақтау</button><button class="sg-v2-btn light" onclick="sgV2Close('sgV2PromoModal')">Жабу</button>
 </div></div>
-<div class="sg-v2-modal" id="sgV2StoreModal" onclick="if(event.target===this)sgV2Close(this.id)"><div class="sg-v2-box"><h2>🏪 Менің дүкенім</h2><div id="sgV2StoreContent"></div><button class="sg-v2-btn light" onclick="sgV2Close('sgV2StoreModal')">Жабу</button></div></div>
-<div class="sg-v2-modal" id="sgV2SellerOrdersModal" onclick="if(event.target===this)sgV2Close(this.id)"><div class="sg-v2-box"><h2>📦 Сатушы тапсырыстары</h2><div id="sgV2SellerOrders"></div><button class="sg-v2-btn light" onclick="sgV2Close('sgV2SellerOrdersModal')">Жабу</button></div></div>
+
+<div id="sgV2StoreModal" class="sg-v2-modal" onclick="if(event.target===this)sgV2Close(this.id)"><div class="sg-v2-box"><h2>🏪 Менің дүкенім</h2><div id="sgV2StoreContent"></div><button class="sg-v2-btn light" onclick="sgV2Close('sgV2StoreModal')">Жабу</button></div></div>
+<div id="sgV2SellerOrdersModal" class="sg-v2-modal" onclick="if(event.target===this)sgV2Close(this.id)"><div class="sg-v2-box"><h2>📦 Сатушы тапсырыстары</h2><div id="sgV2SellerOrders"></div><button class="sg-v2-btn light" onclick="sgV2Close('sgV2SellerOrdersModal')">Жабу</button></div></div>
 <div id="sgV2Toast" style="position:fixed;left:50%;bottom:25px;transform:translateX(-50%);background:#111;color:#fff;padding:11px 16px;border-radius:12px;display:none;z-index:100002"></div><script id="satugo-v2-js">
 (function(){
 const K='satugo_v2_data',D=JSON.parse(localStorage.getItem(K)||'{"promos":{},"reviews":[],"sellerOrders":[]}');
@@ -4936,43 +4730,48 @@ window.sgV2UsePromo=(c,t)=>{let p=D.promos[String(c||'').toUpperCase()]||0;retur
 window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсырыс',date:Date.now()});save();update();toast('Тапсырыс сатушыға жіберілді')};
 })();
 </script>
-<div class="sg-core-modal" id="sgCoreProfileModal" onclick="if(event.target===this)sgCoreClose('sgCoreProfileModal')">
-<div class="sg-core-box">
-<h2 class="sg-core-title">👤 Профиль</h2>
-<input class="sg-core-input" id="sgCoreName" placeholder="Аты-жөні"/>
-<input class="sg-core-input" id="sgCorePhone" placeholder="+7 7XX XXX XX XX"/>
-<input class="sg-core-input" id="sgCoreCity" placeholder="Қала"/>
-<input class="sg-core-input" id="sgCoreAddress" placeholder="Мекенжай"/>
-<select class="sg-core-select" id="sgCoreRole">
-<option value="buyer">Сатып алушы</option>
-<option value="seller">Сатушы</option>
-</select>
-<button class="sg-core-btn green" onclick="sgCoreSaveProfile()">Сақтау</button>
-<button class="sg-core-btn light" onclick="sgCoreClose('sgCoreProfileModal')">Жабу</button>
+<div id="sgCoreProfileModal" class="sg-core-modal" onclick="if(event.target===this)sgCoreClose('sgCoreProfileModal')">
+  <div class="sg-core-box">
+    <h2 class="sg-core-title">👤 Профиль</h2>
+    <input id="sgCoreName" class="sg-core-input" placeholder="Аты-жөні">
+    <input id="sgCorePhone" class="sg-core-input" placeholder="+7 7XX XXX XX XX">
+    <input id="sgCoreCity" class="sg-core-input" placeholder="Қала">
+    <input id="sgCoreAddress" class="sg-core-input" placeholder="Мекенжай">
+    <select id="sgCoreRole" class="sg-core-select">
+      <option value="buyer">Сатып алушы</option>
+      <option value="seller">Сатушы</option>
+    </select>
+    <button class="sg-core-btn green" onclick="sgCoreSaveProfile()">Сақтау</button>
+    <button class="sg-core-btn light" onclick="sgCoreClose('sgCoreProfileModal')">Жабу</button>
+  </div>
 </div>
+
+<div id="sgCoreOrdersModal" class="sg-core-modal" onclick="if(event.target===this)sgCoreClose('sgCoreOrdersModal')">
+  <div class="sg-core-box">
+    <h2 class="sg-core-title">📦 Тапсырыстар</h2>
+    <div id="sgCoreOrdersList"></div>
+    <button class="sg-core-btn light" onclick="sgCoreClose('sgCoreOrdersModal')">Жабу</button>
+  </div>
 </div>
-<div class="sg-core-modal" id="sgCoreOrdersModal" onclick="if(event.target===this)sgCoreClose('sgCoreOrdersModal')">
-<div class="sg-core-box">
-<h2 class="sg-core-title">📦 Тапсырыстар</h2>
-<div id="sgCoreOrdersList"></div>
-<button class="sg-core-btn light" onclick="sgCoreClose('sgCoreOrdersModal')">Жабу</button>
+
+<div id="sgCoreCheckoutModal" class="sg-core-modal" onclick="if(event.target===this)sgCoreClose('sgCoreCheckoutModal')">
+  <div class="sg-core-box">
+    <h2 class="sg-core-title">🧾 Тапсырыс рәсімдеу</h2>
+    <input id="sgCoreCheckoutName" class="sg-core-input" placeholder="Аты-жөні">
+    <input id="sgCoreCheckoutPhone" class="sg-core-input" placeholder="+7 7XX XXX XX XX">
+    <input id="sgCoreCheckoutCity" class="sg-core-input" placeholder="Қала">
+    <input id="sgCoreCheckoutAddress" class="sg-core-input" placeholder="Мекенжай">
+    <div class="sg-core-note">Тапсырыс Firebase-ке жіберіліп, сатушы кабинетінде көрінуі үшін қолданушы аккаунтпен кірген болуы керек.</div>
+    <div style="margin-top:12px">
+      <button class="sg-core-btn green" onclick="sgCoreSubmitOrder()">Тапсырысты жіберу</button>
+      <button class="sg-core-btn light" onclick="sgCoreClose('sgCoreCheckoutModal')">Жабу</button>
+    </div>
+  </div>
 </div>
-</div>
-<div class="sg-core-modal" id="sgCoreCheckoutModal" onclick="if(event.target===this)sgCoreClose('sgCoreCheckoutModal')">
-<div class="sg-core-box">
-<h2 class="sg-core-title">🧾 Тапсырыс рәсімдеу</h2>
-<input class="sg-core-input" id="sgCoreCheckoutName" placeholder="Аты-жөні"/>
-<input class="sg-core-input" id="sgCoreCheckoutPhone" placeholder="+7 7XX XXX XX XX"/>
-<input class="sg-core-input" id="sgCoreCheckoutCity" placeholder="Қала"/>
-<input class="sg-core-input" id="sgCoreCheckoutAddress" placeholder="Мекенжай"/>
-<div class="sg-core-note">Тапсырыс Firebase-ке жіберіліп, сатушы кабинетінде көрінуі үшін қолданушы аккаунтпен кірген болуы керек.</div>
-<div style="margin-top:12px">
-<button class="sg-core-btn green" onclick="sgCoreSubmitOrder()">Тапсырысты жіберу</button>
-<button class="sg-core-btn light" onclick="sgCoreClose('sgCoreCheckoutModal')">Жабу</button>
-</div>
-</div>
-</div>
+
 <button class="sg-core-btn sg-core-floating" onclick="sgCoreOpenProfile()">👤 Профиль</button>
+
+
 <script id="satugo-core-flow-js">
 (function(){
   const PROFILE_KEY=()=> 'satugo_core_profile_'+(current()?.uid||'guest');
@@ -5215,26 +5014,35 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   setTimeout(addButtons,700);
 })();
 </script>
-<div class="sg-phone-auth" id="sgPhoneAuth">
-<div class="sg-phone-box">
-<h2>📱 SatuGo-ға кіру</h2>
-<div class="sg-phone-help">Қазақстанның +7 нөміріне SMS-код жіберіледі.</div>
-<div id="sgPhoneStep1">
-<label>Телефон нөмірі</label>
-<input autocomplete="tel" class="sg-phone-input" id="sgPhoneNumber" inputmode="tel" maxlength="17" placeholder="+7 700 123 45 67"/>
-<div class="sg-recaptcha" id="sgRecaptcha"></div>
-<button class="sg-phone-btn green" id="sgSendSmsBtn" onclick="sgSendSms()">📨 SMS код жіберу</button>
+
+
+<div id="sgPhoneAuth" class="sg-phone-auth">
+  <div class="sg-phone-box">
+    <h2>📱 SatuGo-ға кіру</h2>
+    <div class="sg-phone-help">Қазақстанның +7 нөміріне SMS-код жіберіледі.</div>
+
+    <div id="sgPhoneStep1">
+      <label>Телефон нөмірі</label>
+      <input id="sgPhoneNumber" class="sg-phone-input" inputmode="tel" autocomplete="tel"
+             placeholder="+7 700 123 45 67" maxlength="17">
+      <div id="sgRecaptcha" class="sg-recaptcha"></div>
+      <button id="sgSendSmsBtn" class="sg-phone-btn green" onclick="sgSendSms()">📨 SMS код жіберу</button>
+    </div>
+
+    <div id="sgPhoneStep2" style="display:none">
+      <div class="sg-auth-badge">SMS жіберілді</div>
+      <input id="sgPhoneCode" class="sg-phone-input" inputmode="numeric" autocomplete="one-time-code"
+             placeholder="6 таңбалы код" maxlength="6">
+      <button id="sgVerifySmsBtn" class="sg-phone-btn green" onclick="sgVerifySms()">✅ Кодты растау</button>
+      <button class="sg-phone-btn alt" onclick="sgResendSms()">🔄 Қайта жіберу</button>
+    </div>
+
+    <div id="sgPhoneMsg" class="sg-phone-msg"></div>
+    <button class="sg-phone-btn alt" onclick="sgPhoneClose()">Жабу</button>
+  </div>
 </div>
-<div id="sgPhoneStep2" style="display:none">
-<div class="sg-auth-badge">SMS жіберілді</div>
-<input autocomplete="one-time-code" class="sg-phone-input" id="sgPhoneCode" inputmode="numeric" maxlength="6" placeholder="6 таңбалы код"/>
-<button class="sg-phone-btn green" id="sgVerifySmsBtn" onclick="sgVerifySms()">✅ Кодты растау</button>
-<button class="sg-phone-btn alt" onclick="sgResendSms()">🔄 Қайта жіберу</button>
-</div>
-<div class="sg-phone-msg" id="sgPhoneMsg"></div>
-<button class="sg-phone-btn alt" onclick="sgPhoneClose()">Жабу</button>
-</div>
-</div>
+
+
 <script id="satugo-phone-auth-js">
 (function(){
   let confirmationResult=null;
@@ -5379,24 +5187,28 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   setTimeout(addPhoneButton,900);
 })();
 </script>
+
+
 <div id="sgProfileOverlay" onclick="if(event.target===this)sgProfileCloseV3()">
-<div id="sgProfilePanel">
-<button class="sg-p-close" onclick="sgProfileCloseV3()">✕</button>
-<div class="sg-p-head">
-<div class="sg-p-avatar">👤</div>
-<div>
-<div class="sg-p-name" id="sgPName">Менің профилім</div>
-<div class="sg-p-phone" id="sgPPhone">Телефон нөмірі расталмаған</div>
+  <div id="sgProfilePanel">
+    <button class="sg-p-close" onclick="sgProfileCloseV3()">✕</button>
+    <div class="sg-p-head">
+      <div class="sg-p-avatar">👤</div>
+      <div>
+        <div id="sgPName" class="sg-p-name">Менің профилім</div>
+        <div id="sgPPhone" class="sg-p-phone">Телефон нөмірі расталмаған</div>
+      </div>
+    </div>
+    <button class="sg-p-item" onclick="sgProfileActionV3('profile')"><span class="sg-p-icon">✏️</span><span>Профильді өзгерту</span></button>
+    <button class="sg-p-item" onclick="sgProfileActionV3('orders')"><span class="sg-p-icon">📦</span><span>Менің тапсырыстарым</span></button>
+    <button class="sg-p-item" onclick="sgProfileActionV3('seller')"><span class="sg-p-icon">🏪</span><span>Менің дүкенім</span><span class="sg-p-sub">Сатушы</span></button>
+    <button class="sg-p-item" onclick="sgProfileActionV3('cart')"><span class="sg-p-icon">🛒</span><span>Себет</span></button>
+    <button class="sg-p-item" onclick="sgProfileActionV3('phone')"><span class="sg-p-icon">📱</span><span>Телефон арқылы кіру</span></button>
+    <button class="sg-p-item" onclick="sgProfileActionV3('logout')"><span class="sg-p-icon">🚪</span><span>Шығу</span></button>
+  </div>
 </div>
-</div>
-<button class="sg-p-item" onclick="sgProfileActionV3('profile')"><span class="sg-p-icon">✏️</span><span>Профильді өзгерту</span></button>
-<button class="sg-p-item" onclick="sgProfileActionV3('orders')"><span class="sg-p-icon">📦</span><span>Менің тапсырыстарым</span></button>
-<button class="sg-p-item" onclick="sgProfileActionV3('seller')"><span class="sg-p-icon">🏪</span><span>Менің дүкенім</span><span class="sg-p-sub">Сатушы</span></button>
-<button class="sg-p-item" onclick="sgProfileActionV3('cart')"><span class="sg-p-icon">🛒</span><span>Себет</span></button>
-<button class="sg-p-item" onclick="sgProfileActionV3('phone')"><span class="sg-p-icon">📱</span><span>Телефон арқылы кіру</span></button>
-<button class="sg-p-item" onclick="sgProfileActionV3('logout')"><span class="sg-p-icon">🚪</span><span>Шығу</span></button>
-</div>
-</div>
+
+
 <script id="satugo-profile-v3-js">
 (function(){
   function profile(){
@@ -5453,6 +5265,9 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   refresh();
 })();
 </script>
+
+
+
 <!-- SatuGo clean navigation / quick actions -->
 <style id="satugo-clean-layout">
   /* Ескі қосымша панельдер — функциялар сақталған, визуалды блоктар жаңа мәзірге көшірілді. */
@@ -5523,6 +5338,7 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
     .sg-chat-float{right:12px;bottom:74px;padding:11px 14px}
   }
 </style>
+
 <script id="satugo-clean-layout-js">
 (function(){
   function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
@@ -5617,6 +5433,8 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   setTimeout(()=>{install();refresh()},300);
 })();
 </script>
+
+
 <script>
 (function(){
   const money2 = n => new Intl.NumberFormat('kk-KZ').format(Math.round(Number(n)||0)) + ' ₸';
@@ -5713,7 +5531,64 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   setCoins(coins());
 })();
 </script>
-<!-- removed extra bottom feature launcher -->
+
+
+<style id="satugo-unique-launcher-style">
+#sgUniqueLauncher{
+ position:fixed;right:18px;bottom:82px;z-index:99999;
+ border:0;border-radius:999px;padding:14px 18px;
+ background:#111827;color:#fff;font-weight:900;font-size:15px;
+ box-shadow:0 10px 30px #0004;cursor:pointer
+}
+#sgUniquePanel{
+ position:fixed;right:18px;bottom:142px;width:min(380px,calc(100vw - 36px));
+ max-height:70vh;overflow:auto;z-index:99998;background:#fff;
+ border:1px solid #e5e7eb;border-radius:22px;padding:16px;
+ box-shadow:0 20px 60px #0004;display:none
+}
+#sgUniquePanel.open{display:block}
+.sg-up{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.sg-up button{min-height:68px;border:1px solid #e5e7eb;border-radius:15px;background:#f9fafb;cursor:pointer;text-align:left;padding:10px}
+.sg-up b{display:block}.sg-up small{color:#6b7280}
+@media(max-width:520px){
+ #sgUniqueLauncher{right:10px;bottom:72px}
+ #sgUniquePanel{right:10px;bottom:130px}
+}
+</style>
+<button id="sgUniqueLauncher" type="button">🚀 Ерекше SatuGo</button>
+<div id="sgUniquePanel">
+ <div style="display:flex;justify-content:space-between;align-items:center">
+  <div><b style="font-size:19px">SatuGo Exclusive 🚀</b><div style="color:#6b7280;font-size:12px">Жаңа функциялар</div></div>
+  <button type="button" onclick="document.getElementById('sgUniquePanel').classList.remove('open')" style="border:0;background:#f3f4f6;border-radius:50%;width:34px;height:34px">✕</button>
+ </div>
+ <div class="sg-up">
+  <button onclick="sgUniqueAI()"><b>🤖 AI Кеңесші</b><small>Тауар тауып береді</small></button>
+  <button onclick="sgBudgetMode()"><b>💰 Бюджет</b><small>Бюджетке жинау</small></button>
+  <button onclick="sgBundleMode()"><b>🧩 Комплект</b><small>Бірге керек заттар</small></button>
+  <button onclick="sgPriceWatch()"><b>📉 Баға бақылау</b><small>Бағаны есте сақтау</small></button>
+  <button onclick="sgEarnCoins()"><b>🪙 Coins</b><small>+25 ұпай алу</small></button>
+  <button onclick="sgGroupDeal()"><b>👥 Group Deal</b><small>Топтық қызығушылық</small></button>
+ </div>
+ <div style="margin-top:12px;padding:11px;border-radius:14px;background:#f3f4f6">
+  🪙 Coins: <b id="sgCoinBalanceLauncher">0</b>
+ </div>
+</div>
+<script>
+(function(){
+ const btn=document.getElementById('sgUniqueLauncher');
+ const panel=document.getElementById('sgUniquePanel');
+ if(btn&&panel){
+  btn.onclick=()=>panel.classList.toggle('open');
+  setInterval(()=>{
+   const a=document.getElementById('sgCoinBalance');
+   const b=document.getElementById('sgCoinBalanceLauncher');
+   if(a&&b)b.textContent=a.textContent;
+  },500);
+ }
+})();
+</script>
+
+
 <!-- SatuGo Notifications -->
 <style id="sgNotifyStyle">
   .sg-notify-bell{position:fixed;right:18px;bottom:140px;z-index:9998;border:0;border-radius:999px;background:#fff;color:#111827;padding:12px 15px;font-weight:800;cursor:pointer;box-shadow:0 8px 25px #0002;border:1px solid #e5e7eb}
@@ -5725,6 +5600,58 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   .sg-notify-item.unread{background:#f0fdf4;border-color:#bbf7d0}
   .sg-notify-time{font-size:11px;color:#6b7280;margin-top:4px}
 </style>
+
+<script id="sgChatJS">
+(function(){
+  const CHAT='satugo_chats_cache';
+  let activeChat=null, unsubList=null, unsubMsgs=null;
+  const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  function me(){return window.currentUser || window.user || (window.firebase?.auth ? firebase.auth().currentUser : null)}
+  function toast(t){if(window.sgToast)sgToast(t);else alert(t)}
+  function getChatProfile(){
+    const u=me();
+    if(!u) return {};
+    try{
+      const key='satugo_core_profile_'+u.uid;
+      return JSON.parse(localStorage.getItem(key)||'{}');
+    }catch(e){return {}}
+  }
+  function chatId(a,b){return [a,b].sort().join('_')}
+  function panel(){return document.getElementById('sgChatPanel')}
+  function renderShell(){
+    if(document.getElementById('sgChatFab'))return;
+    const fab=document.createElement('button');fab.id='sgChatFab';fab.className='sg-chat-fab';fab.innerHTML='💬 Чат <span id="sgChatBadge" class="sg-chat-badge" style="display:none">0</span>';fab.onclick=sgOpenChat;document.body.appendChild(fab);
+    const p=document.createElement('div');p.id='sgChatPanel';p.className='sg-chat-panel';p.innerHTML=`<div class="sg-chat-head"><b id="sgChatTitle">💬 Чаттар</b><button onclick="sgCloseChat()" style="border:0;background:#f3f4f6;border-radius:9px;padding:6px 10px;cursor:pointer">×</button></div><div id="sgChatBody" class="sg-chat-list"></div>`;document.body.appendChild(p);
+  }
+  window.sgOpenChat=function(){renderShell();const p=panel();p.classList.add('open');showChats();};
+  window.sgCloseChat=function(){panel()?.classList.remove('open'); if(unsubMsgs){unsubMsgs();unsubMsgs=null} activeChat=null;};
+  window.sgStartChat=async function(sellerId,sellerName){
+    const u=me(); if(!u){toast('Чатқа кіру үшін аккаунтқа кіріңіз');return;}
+    if(!sellerId || sellerId===u.uid){toast('Бұл тауардың сатушысы чатқа қолжетімсіз');return;}
+    renderShell(); panel().classList.add('open');
+    const id=chatId(u.uid,sellerId);
+    try{await db.collection('chats').doc(id).set({participants:[u.uid,sellerId],participantNames:{[u.uid]:getChatProfile().name||u.displayName||u.email||'Қолданушы',[sellerId]:sellerName||'Сатушы'},updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}); openChat(id,sellerName||'Сатушы');}
+    catch(e){toast('Чатты ашу мүмкін болмады: '+e.message)}
+  };
+  async function showChats(){
+    const u=me(), body=document.getElementById('sgChatBody'), title=document.getElementById('sgChatTitle'); if(!u){title.textContent='💬 Чаттар';body.innerHTML='<div class="sg-chat-empty">Чат үшін аккаунтқа кіріңіз.</div>';return;}
+    title.textContent='💬 Чаттар'; body.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';
+    try{const snap=await db.collection('chats').where('participants','array-contains',u.uid).limit(30).get(); if(snap.empty){body.innerHTML='<div class="sg-chat-empty">Әзірге чат жоқ.<br>Тауардан «💬 Сатушымен чат» батырмасын басыңыз.</div>';return;} body.innerHTML=snap.docs.map(d=>{const x=d.data(), other=(x.participants||[]).find(id=>id!==u.uid)||'', name=x.participantNames?.[other]||'Қолданушы';return `<div class="sg-chat-row" onclick="sgOpenExistingChat('${d.id}','${esc(name)}')"><b>👤 ${esc(name)}</b><small>Чатты ашу</small></div>`}).join('');}catch(e){body.innerHTML='<div class="sg-chat-empty">Чаттарды жүктеу қатесі.<br>'+esc(e.message)+'</div>'; }
+  }
+  window.sgOpenExistingChat=function(id,name){openChat(id,name)};
+  function openChat(id,name){
+    document.querySelectorAll('.sg-chat-compose').forEach(el=>el.remove());
+    activeChat=id; const u=me(); document.getElementById('sgChatTitle').innerHTML=`<button class="sg-chat-back" onclick="sgBackChats()">←</button> 💬 ${esc(name)}`; const body=document.getElementById('sgChatBody'); body.className='sg-chat-messages'; body.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';
+    if(unsubMsgs)unsubMsgs();
+    unsubMsgs=db.collection('chats').doc(id).collection('messages').orderBy('createdAt','asc').limitToLast(100).onSnapshot(snap=>{body.innerHTML=snap.empty?'<div class="sg-chat-empty">Сәлемдесуден бастаңыз 👋</div>':snap.docs.map(d=>{const x=d.data();return `<div class="sg-msg ${x.senderId===u.uid?'me':'other'}">${esc(x.text)}<div style="font-size:10px;opacity:.6;margin-top:3px">${x.createdAt?.toDate?x.createdAt.toDate().toLocaleString('kk-KZ'):''}</div></div>`}).join('');body.scrollTop=body.scrollHeight;});
+    document.querySelector('.sg-chat-compose')?.remove(); const compose=document.createElement('div');compose.className='sg-chat-compose';compose.innerHTML=`<input id="sgChatInput" placeholder="Хабарлама жазыңыз..." onkeydown="if(event.key==='Enter')sgSendMessage()"><button onclick="sgSendMessage()">Жіберу</button>`; panel().appendChild(compose);
+  }
+  window.sgBackChats=function(){const c=document.querySelector('.sg-chat-compose');if(c)c.remove(); if(unsubMsgs){unsubMsgs();unsubMsgs=null} showChats();};
+  window.sgSendMessage=async function(){const u=me(), inp=document.getElementById('sgChatInput');if(!u||!activeChat||!inp)return;const text=inp.value.trim();if(!text)return;inp.value='';try{await db.collection('chats').doc(activeChat).collection('messages').add({senderId:u.uid,senderName:getChatProfile().name||u.displayName||u.email||'Қолданушы',text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await db.collection('chats').doc(activeChat).set({lastMessage:text,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});}catch(e){toast('Хабарлама жіберілмеді: '+e.message)}};
+  function install(){renderShell();}
+  window.sgChatInstall=install; setTimeout(install,400);
+})();
+</script>
 <script id="sgNotifyJS">
 (function(){
   const KEY='satugo_notifications';
@@ -5754,6 +5681,10 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   setInterval(install,1000); setTimeout(install,300);
 })();
 </script>
+
+
+
+
 <script id="satugo-mobile-nav-5-final-js">
 (function(){
   function active(id){
@@ -5858,54 +5789,364 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   .sg-mobile-nav small{font-size:10px;line-height:1.1}
 }
 </style>
-<!-- SATUGO PHONE BUTTONS CLEAN FIX -->
-<style id="satugo-phone-buttons-clean-fix">
-@media (max-width:700px){
-  html,body{max-width:100%!important;overflow-x:hidden!important}
-  body{padding-bottom:84px!important}
 
-  /* Only one phone bottom navigation */
-  #sgMobileNav,#sgMobileChatBtn,#sgChatFab,#sgUniqueLauncher,
-  .sg-chat-float,.sg-chat-fab,.sg-core-floating,#sgCoreQuickBar{
-    display:none!important;
-    pointer-events:none!important;
+
+<script id="satugo-chat-final-fix">
+(function(){
+  function toast2(t){
+    if(typeof window.toast==='function') window.toast(t);
+    else if(typeof window.sgToast==='function') window.sgToast(t);
+    else alert(t);
   }
+  function user(){
+    return window.currentUser || (window.firebase && firebase.auth && firebase.auth().currentUser) || null;
+  }
+  function profileName(u){
+    try{
+      const p=JSON.parse(localStorage.getItem('satugo_core_profile')||'{}');
+      return p.name || u?.displayName || u?.email || 'Қолданушы';
+    }catch(e){return u?.displayName || u?.email || 'Қолданушы'}
+  }
+  function chatId(a,b){ return [a,b].sort().join('_'); }
 
-  #satugoFinalNav{
-    position:fixed!important;
-    left:0!important;right:0!important;bottom:0!important;
-    width:100%!important;height:72px!important;
+  window.sgStartChat = async function(sellerId,sellerName,sellerEmail){
+    const u=user();
+    if(!u){
+      toast2('Алдымен аккаунтқа кіріңіз');
+      if(typeof window.openAccount==='function') window.openAccount();
+      return;
+    }
+
+    sellerName = sellerName || 'Сатушы';
+
+    // If the product has no seller UID, try to find the seller by email.
+    if(!sellerId && sellerEmail && window.db){
+      try{
+        const q=await db.collection('users').where('email','==',sellerEmail).limit(1).get();
+        if(!q.empty) sellerId=q.docs[0].id;
+      }catch(e){}
+    }
+
+    // Some older products may only have sellerName/storeName.
+    if(!sellerId && sellerName && sellerName!=='Сатушы' && window.db){
+      try{
+        const q=await db.collection('users').where('storeName','==',sellerName).limit(1).get();
+        if(!q.empty) sellerId=q.docs[0].id;
+      }catch(e){}
+    }
+
+    if(!sellerId){
+      toast2('Бұл тауарға сатушы аккаунты байланыстырылмаған. Тауарды сатушы қайта сақтауы керек.');
+      return;
+    }
+
+    if(sellerId===u.uid){
+      toast2('Өз тауарыңызға чат аша алмайсыз');
+      return;
+    }
+
+    if(typeof window.renderShell==='function') window.renderShell();
+    const panel=document.getElementById('sgChatPanel');
+    if(panel) panel.classList.add('open');
+
+    const id=chatId(u.uid,sellerId);
+    try{
+      await db.collection('chats').doc(id).set({
+        participants:[u.uid,sellerId],
+        participantNames:{
+          [u.uid]:profileName(u),
+          [sellerId]:sellerName
+        },
+        sellerId:sellerId,
+        sellerName:sellerName,
+        sellerEmail:sellerEmail||'',
+        updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+      },{merge:true});
+
+      if(typeof window.sgOpenExistingChat==='function'){
+        window.sgOpenExistingChat(id,sellerName);
+      }else{
+        toast2('Чат ашылды');
+      }
+    }catch(e){
+      console.error('SatuGo chat:',e);
+      toast2('Чат ашылмады: '+(e.message||'Firebase қатесі'));
+    }
+  };
+})();
+</script>
+
+
+<style id="satugo-mobile-chat-nav-final">
+@media(max-width:700px){
+  #sgMobileNav{
     display:flex!important;
+    height:66px!important;
+    padding:5px 6px!important;
+    padding-bottom:calc(5px + env(safe-area-inset-bottom))!important;
     background:#fff!important;
     border-top:1px solid #e5e7eb!important;
-    box-shadow:0 -4px 18px rgba(0,0,0,.10)!important;
+    box-shadow:0 -3px 14px rgba(0,0,0,.08)!important;
+  }
+  #sgMobileNav button{
+    flex:1!important;
+    min-width:0!important;
+    min-height:0!important;
+    border:0!important;
+    background:transparent!important;
+    color:#374151!important;
+    cursor:pointer!important;
+    pointer-events:auto!important;
+    position:relative!important;
+    z-index:2147483647!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    flex-direction:column!important;
+    gap:2px!important;
+    padding:3px 2px!important;
+    -webkit-tap-highlight-color:transparent!important;
+  }
+  #sgMobileNav button span{
+    font-size:21px!important;
+    line-height:22px!important;
+  }
+  #sgMobileNav button small{
+    font-size:10px!important;
+    line-height:12px!important;
+    white-space:nowrap!important;
+  }
+  #sgMobileChatBtn{
+    font-weight:700!important;
+  }
+  #sgMobileChatBadge{
+    position:absolute!important;
+    top:3px!important;
+    right:calc(50% - 19px)!important;
+    min-width:8px!important;
+    height:8px!important;
+    border-radius:50%!important;
+    background:#ef4444!important;
+    border:2px solid #fff!important;
+  }
+}
+</style>
+
+
+
+<style id="satugo-phone-final-nav-style">
+@media(max-width:700px){
+  body{padding-bottom:82px!important}
+  #satugoFinalNav{
+    position:fixed!important;left:0!important;right:0!important;bottom:0!important;
+    width:100%!important;height:72px!important;display:flex!important;
+    z-index:2147483647!important;background:#fff!important;
+    border-top:1px solid #ddd!important;box-shadow:0 -3px 16px rgba(0,0,0,.12)!important;
+    pointer-events:auto!important;touch-action:manipulation!important;
+  }
+  #satugoFinalNav button{
+    flex:1 1 20%!important;width:20%!important;height:68px!important;
+    border:0!important;background:#fff!important;padding:3px 0!important;margin:0!important;
+    display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+    color:#222!important;font:600 10px Arial,sans-serif!important;
+    pointer-events:auto!important;touch-action:manipulation!important;
+    -webkit-tap-highlight-color:transparent!important;
+  }
+  #satugoFinalNav button .i{font-size:23px!important;line-height:29px!important}
+  #satugoFinalNav button:active{background:#f2f2f2!important;border-radius:10px!important}
+}
+@media(min-width:701px){#satugoFinalNav{display:none!important}}
+</style>
+<nav id="satugoFinalNav">
+  <button type="button" id="satugoFinalHome"><span class="i">⌂</span><span>Басты бет</span></button>
+  <button type="button" id="satugoFinalSearch"><span class="i">⌕</span><span>Іздеу</span></button>
+  <button type="button" id="satugoFinalFav"><span class="i">♡</span><span>Таңдаулы</span></button>
+  <button type="button" id="satugoFinalChat"><span class="i">💬</span><span>Чаттар</span></button>
+  <button type="button" id="satugoFinalAccount"><span class="i">👤</span><span>Аккаунт</span></button>
+</nav>
+<script id="satugo-phone-final-nav-js">
+(function(){
+  "use strict";
+  function stop(e){
+    if(e){ e.preventDefault(); e.stopPropagation(); }
+  }
+  function call(names){
+    for(var i=0;i<names.length;i++){
+      try{
+        if(typeof window[names[i]]==="function"){
+          window[names[i]]();
+          return true;
+        }
+      }catch(err){}
+    }
+    return false;
+  }
+  function clickIds(ids){
+    for(var i=0;i<ids.length;i++){
+      var el=document.getElementById(ids[i]);
+      if(el){ try{el.click(); return true;}catch(err){} }
+    }
+    return false;
+  }
+
+  function home(e){
+    stop(e);
+    try{ window.scrollTo({top:0,behavior:"smooth"}); }
+    catch(err){ window.scrollTo(0,0); }
+  }
+
+  function search(e){
+    stop(e);
+    var el=document.getElementById("search") ||
+            document.getElementById("heroSearch") ||
+            document.querySelector('input[type="search"]') ||
+            document.querySelector('input[placeholder*="Тауар"]');
+    if(!el){ return; }
+    try{ el.scrollIntoView({behavior:"smooth",block:"center"}); }
+    catch(err){ el.scrollIntoView(); }
+    setTimeout(function(){ try{el.focus();}catch(err){} },180);
+  }
+
+  function favorites(e){
+    stop(e);
+    if(call(["openFavorites","sgOpenFavorites","showFavorites"])) return;
+    clickIds(["favoritesBtn","favoriteBtn","favBtn","favoritesButton"]);
+  }
+
+  function chats(e){
+    stop(e);
+    if(call(["sgOpenChat","openChat","showChats","openChats"])) return;
+    var p=document.getElementById("sgChatPanel");
+    if(p){
+      p.style.display="flex";
+      p.classList.add("open");
+    }
+  }
+
+  function account(e){
+    stop(e);
+    if(typeof window.openAccount === "function"){ window.openAccount(); return; }
+    clickIds(["accountBtn","profileBtn","loginBtn","openAccountBtn","profileButton","accountButton"]);
+  }
+
+  function cleanOldMobileUI(){
+    // Old mobile navigation was superseded by #satugoFinalNav.
+    var old=document.getElementById("sgMobileNav");
+    if(old) old.remove();
+
+    // Only the bottom Chat button should launch chat on phones.
+    document.querySelectorAll(
+      "#sgChatFab,#sgMobileChatBtn,#sgUniqueLauncher,.sg-chat-float,.sg-chat-fab,.sg-core-floating"
+    ).forEach(function(el){
+      if(el && !el.closest("#sgChatPanel")) el.remove();
+    });
+
+    // Closed overlays must never block phone taps.
+    document.querySelectorAll(
+      ".modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),"+
+      ".sg-core-modal:not(.open),#sgProfileOverlay:not(.open),#sgNotifyPanel:not(.open),#sgChatPanel:not(.open)"
+    ).forEach(function(el){
+      el.style.pointerEvents="none";
+    });
+  }
+
+  function bind(){
+    var map={
+      satugoFinalHome:home,
+      satugoFinalSearch:search,
+      satugoFinalFav:favorites,
+      satugoFinalChat:chats,
+      satugoFinalAccount:account
+    };
+    Object.keys(map).forEach(function(id){
+      var b=document.getElementById(id);
+      if(!b || b.dataset.sgBound==="1") return;
+      b.dataset.sgBound="1";
+      b.addEventListener("click",map[id],false);
+    });
+    cleanOldMobileUI();
+  }
+
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",bind);
+  }else{
+    bind();
+  }
+  window.addEventListener("load",bind);
+  setTimeout(bind,400);
+  setTimeout(bind,1200);
+
+  var observer=new MutationObserver(function(){
+    cleanOldMobileUI();
+    bind();
+  });
+  observer.observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
+
+<style id="satugo-clean-account-css">
+#sgAccountModal{display:none;position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.58);padding:14px;box-sizing:border-box;align-items:center;justify-content:center;overflow:auto;pointer-events:none}
+#sgAccountModal.open{display:flex!important;pointer-events:auto!important}
+#sgAccountModal .sg-account-card{width:min(520px,100%);max-height:calc(100dvh - 28px);overflow:auto;background:#fff;border-radius:24px;padding:20px;box-sizing:border-box;position:relative;box-shadow:0 20px 70px rgba(0,0,0,.3);pointer-events:auto}
+#sgAccountClose{position:absolute;right:10px;top:10px;width:42px;height:42px;border:0;border-radius:50%;background:#f1f5f9;font-size:26px;cursor:pointer;z-index:2}
+#sgAccountBody{padding-top:8px;text-align:center}
+.sg-new-account-icon,.sg-new-avatar{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#f1f5f9;font-size:34px;margin:8px auto 12px}
+.sg-new-muted{color:#64748b;line-height:1.5;margin:0 0 16px}
+.sg-new-btn{width:100%;min-height:48px;border:0;border-radius:14px;margin-top:9px;font-size:16px;font-weight:700;cursor:pointer;touch-action:manipulation}
+.sg-new-primary{background:#111827;color:#fff}.sg-new-sms{background:#16a34a;color:#fff}.sg-new-light{background:#f1f5f9;color:#111827}.sg-new-danger{background:#fee2e2;color:#b91c1c}
+.sg-new-auth-box{margin-top:14px;padding:14px;border-radius:18px;background:#f8fafc;text-align:left}.sg-new-auth-box h3{text-align:center;margin:4px 0 12px}
+.sg-new-auth-box input{width:100%;box-sizing:border-box;height:46px;border:1px solid #d1d5db;border-radius:12px;padding:0 13px;margin-top:8px;font-size:15px;outline:none;background:#fff}
+.sg-new-status{min-height:20px;margin:10px 2px;font-size:14px;color:#64748b}.sg-new-status.error{color:#dc2626}.sg-new-status.success{color:#15803d}
+.sg-new-link{display:block;width:100%;border:0;background:none;color:#2563eb;padding:10px 4px;cursor:pointer;font-size:14px}
+.sg-new-profile-head{display:flex;align-items:center;gap:14px;text-align:left;padding:8px 42px 16px 0}.sg-new-profile-head .sg-new-avatar{margin:0;width:58px;height:58px;flex:0 0 58px;font-size:28px}.sg-new-profile-head h2{margin:0 0 5px}.sg-new-profile-head span{font-size:13px;color:#64748b}
+.sg-new-info{background:#f8fafc;border-radius:16px;padding:6px 14px;text-align:left}.sg-new-info div{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #e5e7eb}.sg-new-info div:last-child{border-bottom:0}.sg-new-info span{color:#64748b}.sg-new-info b{text-align:right;word-break:break-word}
+.sg-new-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.sg-new-stats button{border:0;border-radius:14px;background:#f8fafc;padding:11px 5px;cursor:pointer}.sg-new-stats b,.sg-new-stats span{display:block}.sg-new-stats span{font-size:12px;color:#64748b;margin-top:3px}
+.sg-new-menu{width:100%;border:0;background:#f8fafc;border-radius:13px;margin-top:7px;padding:14px;text-align:left;font-size:15px;cursor:pointer}.sg-new-menu span{float:right;font-size:22px;color:#94a3b8}
+@media(max-width:700px){#sgAccountModal{padding:8px;align-items:flex-start}#sgAccountModal .sg-account-card{max-height:calc(100dvh - 16px);border-radius:20px;padding:16px;margin-top:4px}}
+</style>
+<style id="satugo-final-clean-mobile">
+/* One mobile navigation only */
+@media(max-width:700px){
+  html,body{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden!important;
+  }
+
+  /* Hide legacy/duplicate mobile controls */
+  #sgMobileNav,
+  #sgChatFab,
+  #sgMobileChatBtn,
+  #sgUniqueLauncher,
+  .sg-chat-float,
+  .sg-chat-fab,
+  .sg-core-floating,
+  #sgCoreQuickBar{
+    display:none!important;
+  }
+
+  /* The only phone navigation */
+  #satugoFinalNav{
+    position:fixed!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    width:100%!important;
+    height:72px!important;
+    display:flex!important;
     z-index:2147483647!important;
     pointer-events:auto!important;
     touch-action:manipulation!important;
     padding-bottom:env(safe-area-inset-bottom)!important;
   }
   #satugoFinalNav button{
-    flex:1 1 20%!important;
-    width:20%!important;
-    min-width:0!important;
-    height:68px!important;
-    margin:0!important;padding:4px 1px!important;
-    border:0!important;background:#fff!important;
-    color:#374151!important;
-    display:flex!important;flex-direction:column!important;
-    align-items:center!important;justify-content:center!important;
-    gap:2px!important;
-    font:600 10px Arial,sans-serif!important;
-    cursor:pointer!important;
     pointer-events:auto!important;
     touch-action:manipulation!important;
-    -webkit-tap-highlight-color:transparent!important;
+    -webkit-user-select:none!important;
     user-select:none!important;
   }
-  #satugoFinalNav button .i{font-size:22px!important;line-height:25px!important}
-  #satugoFinalNav button:active{background:#f3f4f6!important}
 
-  /* Hidden/closed layers can never steal taps */
+  /* Do not let hidden overlays intercept taps */
   .modal:not(.show),
   .sg-modal:not(.open),
   .sg-v2-modal:not(.open),
@@ -5913,1157 +6154,49 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   #sgProfileOverlay:not(.open),
   #sgNotifyPanel:not(.open),
   #sgChatPanel:not(.open){
-    display:none!important;
     pointer-events:none!important;
-    visibility:hidden!important;
   }
 
-  button,a,input,select,textarea,[role="button"]{
-    touch-action:manipulation!important;
-  }
+  body{padding-bottom:82px!important}
 }
-/* desktop: keep the same 5-button navigation visible */
 </style>
-<!-- SatuGo MOBILE BACK BUTTON FIX — FINAL -->
-<script id="satugo-mobile-back-fix-final">
+<script id="satugo-final-integrity-fix">
 (function(){
   "use strict";
 
-  function isVisible(el){
-    if(!el) return false;
-    var cs=getComputedStyle(el);
-    var r=el.getBoundingClientRect();
-    return cs.display!=="none" && cs.visibility!=="hidden" &&
-           cs.opacity!=="0" && r.width>0 && r.height>0;
-  }
+  function fix(){
+    // Keep only the final navigation if an old block is recreated.
+    var old=document.getElementById("sgMobileNav");
+    if(old) old.remove();
 
-  function getOpenWindow(){
-    var selectors=[
-      "#sgProfileOverlay.open",
-      "#sgChatPanel.open",
-      ".sg-core-modal.open",
-      ".sg-v2-modal.open",
-      ".sg-modal.open",
-      ".modal.show",
-      ".modal.open",
-      ".sg-phone-auth.open"
-    ];
-    for(var i=0;i<selectors.length;i++){
-      var el=document.querySelector(selectors[i]);
-      if(isVisible(el)) return el;
-    }
-    return null;
-  }
-
-  function closeWindow(){
-    var el=getOpenWindow();
-    if(!el) return false;
-
-    var close=el.querySelector(
-      ".close,[data-close],.modal-close,.sg-close,.sg-p-close,"+
-      "button[aria-label*='close' i],button[aria-label*='жаб' i],"+
-      "button[onclick*='closeModal']"
-    );
-
-    if(close){
-      try{ close.click(); }catch(_){}
-    }else{
-      el.classList.remove("open","show");
-      el.style.display="none";
-      el.style.pointerEvents="none";
+    // Remove duplicate floating chat launchers on mobile.
+    if(window.matchMedia && window.matchMedia("(max-width:700px)").matches){
+      document.querySelectorAll("#sgChatFab,#sgMobileChatBtn,#sgUniqueLauncher,.sg-chat-float,.sg-chat-fab,.sg-core-floating")
+        .forEach(function(el){ if(el && !el.closest("#sgChatPanel")) el.remove(); });
     }
 
-    document.body.classList.remove("sg-modal-active");
-    return true;
-  }
+    // Make closed overlays non-blocking.
+    document.querySelectorAll(
+      ".modal:not(.show),.sg-modal:not(.open),.sg-v2-modal:not(.open),"+
+      ".sg-core-modal:not(.open),#sgProfileOverlay:not(.open),#sgNotifyPanel:not(.open),#sgChatPanel:not(.open)"
+    ).forEach(function(el){el.style.pointerEvents="none";});
 
-  function hasAppHistory(){
-    return !!(history.state && history.state.satugoApp);
-  }
-
-  /* Create one safe history point for the SatuGo app. */
-  try{
-    if(!hasAppHistory()){
-      history.replaceState({satugoApp:true,satugoBase:true},"",location.href);
-    }
-  }catch(_){}
-
-  /*
-   * When an in-app window opens, create exactly one extra history point.
-   * Phone/Android Back then returns to the base SatuGo state and closes it.
-   */
-  function markWindowHistory(){
-    setTimeout(function(){
-      var open=getOpenWindow();
-      if(!open) return;
-      if(history.state && history.state.satugoWindow) return;
-
-      try{
-        history.pushState({satugoApp:true,satugoWindow:true},"",location.href);
-      }catch(_){}
-    },60);
-  }
-
-  document.addEventListener("click",function(e){
-    var target=e.target;
-    if(!target || !target.closest) return;
-    var button=target.closest("button,a");
-    if(!button) return;
-
-    /* Do not create history for the Back button itself. */
-    if(button.matches("[data-satugo-back],.satugo-back-btn")) return;
-
-    markWindowHistory();
-  },true);
-
-  /* Android/browser Back. */
-  window.addEventListener("popstate",function(){
-    setTimeout(function(){
-      if(getOpenWindow()){
-        closeWindow();
-      }
-      document.body.classList.remove("sg-modal-active");
-    },20);
-  });
-
-  /* In-app Back buttons can call either function. */
-  window.satugoBack=function(){
-    if(getOpenWindow()){
-      if(history.state && history.state.satugoWindow){
-        history.back();
-      }else{
-        closeWindow();
-      }
-      return;
-    }
-
-    /* If there is a real previous browser page, go there. */
-    if(history.length>1){
-      history.back();
-    }
-  };
-  window.sgGoBack=window.satugoBack;
-
-  document.addEventListener("click",function(e){
-    var target=e.target;
-    if(!target || !target.closest) return;
-    var back=target.closest("[data-satugo-back],.satugo-back-btn");
-    if(!back) return;
-
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    window.satugoBack();
-  },true);
-
-  /*
-   * Prevent accidental page scroll/zoom gestures from making mobile
-   * controls feel unresponsive.
-   */
-  document.addEventListener("touchend",function(e){
-    var target=e.target;
-    if(!target || !target.closest) return;
-    var button=target.closest("button,[role='button'],a");
-    if(!button) return;
-    if(button.disabled) return;
-    button.style.touchAction="manipulation";
-  },{passive:true});
-
-})();
-</script>
-<!-- SATUGO FINAL MOBILE BUTTON CONTROLLER -->
-<style id="satugo-final-mobile-buttons-css">
-@media(max-width:700px){
-  #satugoFinalNav{display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:72px!important;z-index:2147483647!important;pointer-events:auto!important;touch-action:manipulation!important;background:#fff!important}
-  #satugoFinalNav button{display:flex!important;pointer-events:auto!important;touch-action:manipulation!important;position:relative!important;z-index:2147483648!important;-webkit-tap-highlight-color:transparent!important}
-}
-</style>
-<style id="satugo-bottom-clean-fix">
-/* Төменгі навигациядан тыс қалған ескі блоктарды экранға шығармау */
-@media (max-width:700px){
-  #sgAdvanced, #sgV2Dashboard { display:none !important; visibility:hidden !important; }
-  #sgPDiscount, #sgPCity, #sgPImage, #sgPDesc,
-  #sgChatInput, #sgPromoCode, #sgPromoPercent { display:none !important; }
-  button[onclick*="sgSaveProduct"],
-  button[onclick*="sgClose('sgProductModal')"] { display:none !important; }
-}
-/* Тек негізгі 5 төменгі батырма */
-#satugoFinalNav{z-index:100000 !important;}
-</style>
-<style id="sg-clean-bottom-extra">
-/* SatuGo: remove unwanted extra bottom/feature controls */
-#sgUniqueLauncher,#sgUniquePanel,#sgSmartTop{display:none !important;}
-</style>
-<script id="satugo-chat-fixed-final">
-(function(){
-'use strict';
-var activeChat=null, unsubMsgs=null;
-function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
-function user(){return window.currentUser || (window.auth&&window.auth.currentUser) || (window.firebase&&firebase.auth&&firebase.auth().currentUser) || null}
-function toast(t){if(typeof window.sgToast==='function')window.sgToast(t);else alert(t)}
-function chatId(a,b){return [a,b].sort().join('_')}
-function profileName(u){try{var p=JSON.parse(localStorage.getItem('satugo_core_profile_'+u.uid)||localStorage.getItem('satugo_core_profile')||'{}');return p.name||u.displayName||u.email||'Қолданушы'}catch(e){return u.displayName||u.email||'Қолданушы'}}
-function ensurePanel(){
- var p=document.getElementById('sgChatPanel');
- if(!p){p=document.createElement('div');p.id='sgChatPanel';p.className='sg-chat-panel';p.innerHTML='<div class="sg-chat-head"><b id="sgChatTitle">💬 Чаттар</b><button id="sgChatCloseBtn" type="button">×</button></div><div id="sgChatBody" class="sg-chat-list"></div>';document.body.appendChild(p);}
- var c=document.getElementById('sgChatCloseBtn');if(c)c.onclick=window.sgCloseChat;
- return p;
-}
-function openPanel(){var p=ensurePanel();p.classList.add('open');p.style.setProperty('display','flex','important');p.style.visibility='visible';p.style.opacity='1';p.style.pointerEvents='auto';return p}
-function closePanel(){var p=document.getElementById('sgChatPanel');if(p){p.classList.remove('open');p.style.setProperty('display','none','important')}if(unsubMsgs){unsubMsgs();unsubMsgs=null}activeChat=null}
-window.sgCloseChat=closePanel;
-window.sgOpenChat=async function(){
- var u=user();var p=openPanel();var body=document.getElementById('sgChatBody');
- if(!u){body.innerHTML='<div class="sg-chat-empty">Чатқа кіру үшін аккаунтқа кіріңіз.</div>';return;}
- body.className='sg-chat-list';body.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';
- try{
-  if(!window.db)throw new Error('Firebase Firestore қосылмаған');
-  var snap=await db.collection('chats').where('participants','array-contains',u.uid).get();
-  var docs=snap.docs.sort(function(a,b){var at=a.data().updatedAt?.toMillis?a.data().updatedAt.toMillis():0;var bt=b.data().updatedAt?.toMillis?b.data().updatedAt.toMillis():0;return bt-at}).slice(0,50);
-  if(!docs.length){body.innerHTML='<div class="sg-chat-empty">Әзірге чат жоқ.<br>Тауардан «Сатушымен чат» батырмасын басыңыз.</div>';return;}
-  body.innerHTML=docs.map(function(d){var x=d.data(),other=(x.participants||[]).find(function(id){return id!==u.uid})||'',name=(x.participantNames&&x.participantNames[other])||x.sellerName||'Қолданушы';return '<button type="button" class="sg-chat-row" data-chat-id="'+esc(d.id)+'" data-chat-name="'+esc(name)+'"><b>👤 '+esc(name)+'</b><small>'+(x.lastMessage?esc(x.lastMessage):'Чатты ашу')+'</small></button>'}).join('');
-  body.querySelectorAll('[data-chat-id]').forEach(function(b){b.onclick=function(){window.sgOpenExistingChat(b.getAttribute('data-chat-id'),b.getAttribute('data-chat-name'))}});
- }catch(e){body.innerHTML='<div class="sg-chat-empty">Чаттарды жүктеу қатесі.<br>'+esc(e.message)+'</div>'}
-};
-window.sgStartChat=async function(sellerId,sellerName,sellerEmail){
- var u=user();if(!u){toast('Чатқа кіру үшін аккаунтқа кіріңіз');return}
- sellerName=sellerName||'Сатушы';
- try{
-  if(!window.db)throw new Error('Firebase Firestore қосылмаған');
-  if(!sellerId&&sellerEmail){var q=await db.collection('users').where('email','==',sellerEmail).limit(1).get();if(!q.empty)sellerId=q.docs[0].id}
-  if(!sellerId){toast('Бұл тауарға сатушы аккаунты байланыстырылмаған');return}
-  if(sellerId===u.uid){toast('Өз тауарыңызға чат аша алмайсыз');return}
-  openPanel();var id=chatId(u.uid,sellerId);
-  await db.collection('chats').doc(id).set({participants:[u.uid,sellerId],participantNames:(function(){var o={};o[u.uid]=profileName(u);o[sellerId]=sellerName;return o})(),sellerId:sellerId,sellerName:sellerName,sellerEmail:sellerEmail||'',updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
-  window.sgOpenExistingChat(id,sellerName);
- }catch(e){console.error(e);toast('Чат ашылмады: '+(e.message||'Firebase қатесі'))}
-};
-window.sgOpenExistingChat=function(id,name){
- var u=user();if(!u)return;openPanel();activeChat=id;
- var body=document.getElementById('sgChatBody'),title=document.getElementById('sgChatTitle');
- title.innerHTML='<button type="button" id="sgChatBack">←</button> 💬 '+esc(name||'Чат');
- document.getElementById('sgChatBack').onclick=function(){window.sgOpenChat()};
- body.className='sg-chat-messages';body.innerHTML='<div class="sg-chat-empty">Жүктелуде...</div>';
- if(unsubMsgs)unsubMsgs();
- unsubMsgs=db.collection('chats').doc(id).collection('messages').orderBy('createdAt','asc').limitToLast(100).onSnapshot(function(snap){
-  var html=snap.empty?'<div class="sg-chat-empty">Сәлемдесуден бастаңыз 👋</div>':snap.docs.map(function(d){var x=d.data();return '<div class="sg-msg '+(x.senderId===u.uid?'me':'other')+'">'+esc(x.text)+'<div class="sg-msg-time">'+(x.createdAt&&x.createdAt.toDate?x.createdAt.toDate().toLocaleString('kk-KZ'):'')+'</div></div>'}).join('');body.innerHTML=html;body.scrollTop=body.scrollHeight;
- },function(e){body.innerHTML='<div class="sg-chat-empty">Хабарламаларды жүктеу қатесі.<br>'+esc(e.message)+'</div>'});
- var old=document.getElementById('sgChatCompose');if(old)old.remove();
- var compose=document.createElement('div');compose.id='sgChatCompose';compose.className='sg-chat-compose';compose.innerHTML='<input id="sgChatInput" type="text" autocomplete="off" placeholder="Хабарлама жазыңыз..."><button id="sgChatSend" type="button">Жіберу</button>';document.getElementById('sgChatPanel').appendChild(compose);
- document.getElementById('sgChatSend').onclick=window.sgSendMessage;document.getElementById('sgChatInput').onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();window.sgSendMessage()}};
-};
-window.sgSendMessage=async function(){var u=user(),inp=document.getElementById('sgChatInput');if(!u||!activeChat||!inp)return;var text=inp.value.trim();if(!text)return;inp.value='';try{await db.collection('chats').doc(activeChat).collection('messages').add({senderId:u.uid,senderName:profileName(u),text:text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await db.collection('chats').doc(activeChat).set({lastMessage:text,lastSenderId:u.uid,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})}catch(e){inp.value=text;toast('Хабарлама жіберілмеді: '+(e.message||'Firebase қатесі'))}};
-var st=document.createElement('style');st.textContent='@media(max-width:700px){#sgChatPanel{z-index:2147483000!important;position:fixed!important;left:8px!important;right:8px!important;bottom:78px!important;max-height:calc(100vh - 95px)!important;background:#fff!important;border-radius:18px!important;overflow:hidden!important;box-shadow:0 10px 40px rgba(0,0,0,.2)!important}#sgChatPanel.open{display:flex!important;flex-direction:column!important}#sgChatPanel #sgChatBody{min-height:180px;overflow:auto}#sgChatPanel .sg-chat-row{width:100%;text-align:left;border:0;background:#fff;padding:14px;border-bottom:1px solid #eee;display:flex;flex-direction:column;gap:4px}#sgChatPanel .sg-chat-compose{display:flex!important;padding:8px;border-top:1px solid #eee;gap:6px;background:#fff}#sgChatPanel .sg-chat-compose input{flex:1;min-width:0;padding:11px;border:1px solid #ddd;border-radius:10px}#sgChatPanel .sg-chat-compose button{padding:10px 14px;border:0;border-radius:10px;background:#111;color:#fff}#sgChatPanel #sgChatCloseBtn,#sgChatPanel #sgChatBack{cursor:pointer;border:0;background:#f3f4f6;border-radius:8px;padding:6px 10px}.sg-msg{max-width:82%;padding:9px 11px;margin:6px 10px;border-radius:12px;word-break:break-word}.sg-msg.me{margin-left:auto;background:#111;color:#fff}.sg-msg.other{margin-right:auto;background:#f1f3f5}.sg-msg-time{font-size:9px;opacity:.6;margin-top:3px}}';document.head.appendChild(st);
-setTimeout(ensurePanel,300);
-})();
-</script>
-<style id="satugo-final-layout-clean">
-/* FINAL CLEANUP: seller statistics/features must not leak into the main page */
-#sgAdvanced,
-#sgV2Dashboard,
-#sgUniqueLauncher,
-#sgUniquePanel,
-#sgSmartTop { display:none !important; visibility:hidden !important; }
-
-/* Product/promo/store UI is an overlay only when explicitly opened */
-.sg-modal:not(.open),
-.sg-v2-modal:not(.open),
-.sg-core-modal:not(.open),
-#sgProfileOverlay:not(.open) { display:none !important; visibility:hidden !important; }
-
-/* Only the bottom 5-nav is allowed as the mobile navigation */
-#satugoFinalNav { z-index:2147483646 !important; }
-
-/* Do not show the old floating chat launcher; Chat is opened from the 5-nav */
-#sgChatFab { display:none !important; }
-
-/* Keep the real chat panel available when opened */
-#sgChatPanel.sg-chat-panel.open {
-  display:flex !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  pointer-events:auto !important;
-  z-index:2147483645 !important;
-}
-#sgChatPanel.sg-chat-panel:not(.open) {
-  display:none !important;
-  visibility:hidden !important;
-  pointer-events:none !important;
-}
-</style>
-<!-- SATUGO FINAL 5 NAV VISIBILITY FIX -->
-<style id="satugo-final-5nav-visibility-fix">
-#satugoFinalNav{
-  position:fixed!important;
-  left:0!important;
-  right:0!important;
-  bottom:0!important;
-  width:100%!important;
-  height:72px!important;
-  display:flex!important;
-  visibility:visible!important;
-  opacity:1!important;
-  pointer-events:auto!important;
-  z-index:2147483647!important;
-  background:#fff!important;
-  border-top:1px solid #e5e7eb!important;
-  box-shadow:0 -4px 18px rgba(0,0,0,.10)!important;
-}
-#satugoFinalNav button{
-  flex:1 1 20%!important;
-  width:20%!important;
-  min-width:0!important;
-  height:72px!important;
-  display:flex!important;
-  visibility:visible!important;
-  opacity:1!important;
-  pointer-events:auto!important;
-  position:relative!important;
-  align-items:center!important;
-  justify-content:center!important;
-  flex-direction:column!important;
-  gap:2px!important;
-  border:0!important;
-  background:#fff!important;
-  color:#374151!important;
-  font:600 11px Arial,sans-serif!important;
-  touch-action:manipulation!important;
-  cursor:pointer!important;
-}
-#satugoFinalNav button .i{font-size:22px!important;line-height:25px!important}
-#satugoFinalNav button:active{background:#f3f4f6!important}
-body{padding-bottom:78px!important}
-</style>
-<style id="satugo-final-nav-always-visible">
-#satugoFinalNav{display:flex!important;visibility:visible!important;opacity:1!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:72px!important;z-index:2147483647!important;pointer-events:auto!important;background:#fff!important;}
-#satugoFinalNav button{display:flex!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;flex:1 1 20%!important;width:20%!important;height:72px!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;}
-body{padding-bottom:80px!important;}
-</style>
-<!-- SATUGO FINAL MARKETPLACE PATCH -->
-<style id="satugo-final-marketplace-css">
-#sgAuthModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:2147483646;padding:14px;align-items:center;justify-content:center}
-#sgAuthModal.open{display:flex}
-.sg-auth-card{width:min(440px,100%);max-height:92dvh;overflow:auto;background:#fff;border-radius:22px;padding:20px;box-shadow:0 20px 70px rgba(0,0,0,.25);position:relative}
-.sg-auth-close{position:absolute;right:12px;top:12px;border:0;background:#f3f4f6;border-radius:50%;width:36px;height:36px;font-size:20px}
-.sg-auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:15px 0}
-.sg-auth-tabs button{border:0;border-radius:11px;padding:11px;font-weight:800;background:#f3f4f6}
-.sg-auth-tabs button.active{background:#15803d;color:#fff}
-.sg-auth-panel{display:none}.sg-auth-panel.active{display:block}
-.sg-auth-card input{margin:5px 0 9px}.sg-auth-status{min-height:20px;font-size:12px;margin:7px 0}
-.sg-auth-phone{border-top:1px solid #eee;margin-top:15px;padding-top:15px}
-.sg-seller-orders{margin-top:16px;border-top:1px solid #eee;padding-top:14px}
-.sg-seller-order{border:1px solid #e5e7eb;border-radius:14px;padding:12px;margin:9px 0;background:#fff}
-.sg-seller-order-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-@media(max-width:600px){#sgAuthModal{padding:8px}.sg-auth-card{border-radius:18px;padding:15px}.sg-seller-order-head{flex-direction:column}}
-</style>
-<div aria-hidden="true" id="sgAuthModal">
-<div class="sg-auth-card">
-<button class="sg-auth-close" onclick="sgCloseAuth()" type="button">×</button>
-<h2 style="margin:0">🔐 SatuGo аккаунты</h2>
-<p class="muted" style="margin:5px 0 0">Телефон арқылы SMS немесе Email арқылы кіріңіз.</p>
-<div class="sg-auth-tabs">
-<button id="sgAuthTabPhone" onclick="sgAuthTab('phone')" type="button">📱 SMS</button>
-<button id="sgAuthTabEmail" onclick="sgAuthTab('email')" type="button">📧 Email</button>
-</div>
-<div class="sg-auth-panel" id="sgAuthPhonePanel">
-<p class="muted" style="font-size:12px">Қазақстанның +7 нөміріне SMS-код жіберіледі.</p>
-<button class="btn btn-primary" onclick="sgPhoneOpen()" style="width:100%" type="button">📨 SMS арқылы кіру / тіркелу</button>
-<div class="sg-auth-phone"><b>Ескерту</b><div class="muted" style="font-size:12px;margin-top:4px">SMS авторизациясы Firebase Console ішінде Phone provider және reCAPTCHA үшін домен бапталған кезде жұмыс істейді.</div></div>
-</div>
-<div class="sg-auth-panel" id="sgAuthEmailPanel">
-<div class="sg-auth-tabs" style="margin-top:0">
-<button id="sgEmailLoginTab" onclick="sgEmailMode('login')" type="button">Кіру</button>
-<button id="sgEmailRegisterTab" onclick="sgEmailMode('register')" type="button">Тіркелу</button>
-</div>
-<div id="sgEmailRegisterFields" style="display:none">
-<label>Атыңыз</label><input autocomplete="name" id="authName" placeholder="Аты-жөніңіз"/>
-</div>
-<label>Email</label><input autocomplete="email" id="authEmail" placeholder="example@mail.com" type="email"/>
-<label>Құпиясөз</label><input autocomplete="current-password" id="authPassword" placeholder="Кемінде 6 таңба" type="password"/>
-<div class="sg-auth-status" id="authStatus"></div>
-<button class="btn btn-primary" id="sgEmailSubmit" onclick="sgEmailSubmit()" style="width:100%" type="button">Кіру</button>
-<button class="btn btn-light" id="sgResetBtn" onclick="resetPassword()" style="width:100%;margin-top:7px" type="button">Құпиясөзді ұмыттым</button>
-</div>
-</div>
-</div>
-<script id="satugo-final-marketplace-js">
-(function(){
-  'use strict';
-  let emailMode='login';
-  window.sgAuthTab=function(mode){
-    document.getElementById('sgAuthTabPhone').classList.toggle('active',mode==='phone');
-    document.getElementById('sgAuthTabEmail').classList.toggle('active',mode==='email');
-    document.getElementById('sgAuthPhonePanel').classList.toggle('active',mode==='phone');
-    document.getElementById('sgAuthEmailPanel').classList.toggle('active',mode==='email');
-  };
-  window.sgEmailMode=function(mode){
-    emailMode=mode;
-    document.getElementById('sgEmailLoginTab').classList.toggle('active',mode==='login');
-    document.getElementById('sgEmailRegisterTab').classList.toggle('active',mode==='register');
-    document.getElementById('sgEmailRegisterFields').style.display=mode==='register'?'block':'none';
-    document.getElementById('sgEmailSubmit').textContent=mode==='register'?'Тіркелу':'Кіру';
-    document.getElementById('sgResetBtn').style.display=mode==='register'?'none':'block';
-    document.getElementById('authStatus').textContent='';
-  };
-  window.openAuth=function(){
-    const m=document.getElementById('sgAuthModal'); if(!m)return;
-    m.classList.add('open');m.setAttribute('aria-hidden','false');
-    sgAuthTab('phone');
-  };
-  window.sgCloseAuth=function(){
-    const m=document.getElementById('sgAuthModal');if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true')}
-  };
-  window.sgEmailSubmit=async function(){
-    const msg=document.getElementById('authStatus');
-    const email=(document.getElementById('authEmail')?.value||'').trim().toLowerCase();
-    const password=document.getElementById('authPassword')?.value||'';
-    const name=(document.getElementById('authName')?.value||'').trim();
-    if(!email){msg.textContent='Email енгізіңіз.';msg.style.color='#dc2626';return}
-    if(password.length<6){msg.textContent='Құпиясөз кемінде 6 таңба болуы керек.';msg.style.color='#dc2626';return}
-    try{
-      msg.textContent='⏳ Күтіңіз...';msg.style.color='#6b7280';
-      let result;
-      if(emailMode==='register'){
-        if(!name){msg.textContent='Атыңызды енгізіңіз.';msg.style.color='#dc2626';return}
-        result=await auth.createUserWithEmailAndPassword(email,password);
-        await result.user.updateProfile({displayName:name}).catch(function(){});
-        await db.collection('users').doc(result.user.uid).set({uid:result.user.uid,name:name,email:email,role:'buyer',createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
-        await result.user.sendEmailVerification().catch(function(){});
-        msg.textContent='✅ Аккаунт құрылды.';msg.style.color='#15803d';
-      }else{
-        result=await auth.signInWithEmailAndPassword(email,password);
-        msg.textContent='✅ Кіру сәтті.';msg.style.color='#15803d';
-      }
-      window.currentUser=result.user; user=result.user;
-      await loadProfile(); renderAccount(); updateCounts();
-      setTimeout(sgCloseAuth,500);
-    }catch(e){
-      const map={'auth/email-already-in-use':'Бұл Email бұрын тіркелген.','auth/invalid-credential':'Email немесе құпиясөз дұрыс емес.','auth/invalid-email':'Email дұрыс емес.','auth/weak-password':'Құпиясөз әлсіз.','auth/too-many-requests':'Тым көп әрекет. Кейін қайталап көріңіз.','auth/network-request-failed':'Интернет байланысын тексеріңіз.','auth/operation-not-allowed':'Firebase Console-де бұл авторизация түрі қосылмаған.'};
-      msg.textContent='❌ '+(map[e.code]||e.message||'Кіру қатесі');msg.style.color='#dc2626';
-    }
-  };
-  document.getElementById('sgAuthModal').addEventListener('click',function(e){if(e.target===this)sgCloseAuth()});
-  sgEmailMode('login');
-  sgAuthTab('phone');
-
-  // Keep all old and new auth code on one user reference.
-  if(window.auth) auth.onAuthStateChanged(function(u){window.currentUser=u||null;user=u||null;if(u){loadProfile().then(function(){renderAccount();updateCounts()})}else{profile=null;renderAccount();updateCounts()}});
-
-  // No demo/local fake products: marketplace catalog is Firebase only.
-  window.loadProducts=async function(){
-    products=[];
-    try{
-      const snap=await db.collection('products').get();
-      snap.forEach(function(doc){
-        const x=doc.data()||{};
-        products.push({id:doc.id,title:x.title||x.name||'Тауар',name:x.name||x.title||'Тауар',price:Number(x.price||0),cat:x.cat||x.category||'Үй',category:x.category||x.cat||'Үй',rating:Number(x.rating||0),city:x.city||'Қазақстан',seller:x.seller||x.sellerName||'Сатушы',sellerName:x.sellerName||x.seller||'Сатушы',sellerId:x.sellerId||'',sellerEmail:x.sellerEmail||'',image:x.image||'',emoji:x.emoji||'🛍️',description:x.description||'',stock:Number(x.stock??x.quantity??0),featured:!!x.featured,discount:Number(x.discount||0),createdAt:x.createdAt||null});
+    var nav=document.getElementById("satugoFinalNav");
+    if(nav){
+      nav.style.pointerEvents="auto";
+      nav.querySelectorAll("button").forEach(function(b){
+        b.style.pointerEvents="auto";
+        b.style.touchAction="manipulation";
       });
-    }catch(e){console.error('Firebase products',e);}
-    renderProducts();renderDeals();renderTrusted();updateCounts();
-  };
-
-  // Reliable checkout: writes buyerId + sellerIds so seller cabinets receive the order.
-  window.checkout=async function(){
-    const u=auth.currentUser||user||window.currentUser;
-    if(!u){closeModal('cartModal');openAuth();return}
-    const raw=Array.isArray(cart)?cart:[];
-    const items=raw.map(function(ci){const p=getProduct(ci.id);if(!p)return null;return {productId:p.id,title:p.title,price:Number(p.price||0),qty:Number(ci.qty||1),sellerId:p.sellerId||'',sellerName:p.sellerName||p.seller||'Сатушы'};}).filter(Boolean);
-    if(!items.length){alert('🛒 Себет бос.');return}
-    const phone=(document.getElementById('checkoutPhone')?.value||'').trim() || profile?.phone || u.phoneNumber || '';
-    const city=(document.getElementById('checkoutCity')?.value||'').trim() || profile?.city || '';
-    const address=(document.getElementById('checkoutAddress')?.value||'').trim() || profile?.address || '';
-    if(!phone||!city||!address){alert('📍 Телефон, қала және мекенжайды толтырыңыз.');return}
-    const sellerIds=[...new Set(items.map(x=>x.sellerId).filter(Boolean))];
-    if(!sellerIds.length){alert('Бұл тауардың сатушысы дұрыс байланыстырылмаған.');return}
-    const total=items.reduce((s,x)=>s+x.price*x.qty,0);
-    try{
-      const orderRef=db.collection('orders').doc();
-      await db.runTransaction(async function(tx){
-        const productRefs=items.map(x=>db.collection('products').doc(x.productId));
-        const snaps=[];for(const ref of productRefs)snaps.push(await tx.get(ref));
-        snaps.forEach(function(snap,i){if(!snap.exists)throw new Error('Тауар табылмады: '+items[i].title);const st=Number(snap.data().stock??snap.data().quantity??0);if(st<items[i].qty)throw new Error(items[i].title+' үшін қоймада жеткіліксіз қалдық бар.');});
-        snaps.forEach(function(snap,i){const d=snap.data(),st=Number(d.stock??d.quantity??0);tx.update(productRefs[i],{stock:st-items[i].qty,quantity:st-items[i].qty});});
-        tx.set(orderRef,{buyerId:u.uid,buyerEmail:u.email||'',customerId:u.uid,customerName:profile?.name||u.displayName||u.phoneNumber||'Клиент',delivery:{phone,city,address},items,sellerIds,total,subtotal:total,deliveryFee:0,status:'Жаңа тапсырыс',paymentMethod:'Қолма-қол/келісім',createdAt:firebase.firestore.FieldValue.serverTimestamp(),createdAtLocal:Date.now()});
-      });
-      cart=[];saveCart();updateCounts();renderCart();closeModal('cartModal');alert('✅ Тапсырыс сатушыға жіберілді!');
-    }catch(e){alert('❌ Тапсырыс жіберілмеді:\n'+(e.message||e))}
-  };
-
-  // Buyer order history reads both old and new order fields.
-  window.openOrders=async function(){
-    if(!user){openAuth();return}
-    openModal('ordersModal');const box=document.getElementById('ordersList');box.innerHTML='⏳ Жүктелуде...';
-    try{
-      let snap=await db.collection('orders').where('buyerId','==',user.uid).get();
-      if(snap.empty)snap=await db.collection('orders').where('customerId','==',user.uid).get();
-      const orders=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAtLocal||0)-(a.createdAtLocal||0));
-      if(!orders.length){box.innerHTML='<div class="empty">📦 Әзірге тапсырыс жоқ.</div>';return}
-      box.innerHTML=orders.map(function(o){const items=(o.items||[]).map(i=>esc(i.title)+' × '+Number(i.qty||1)).join('<br>');const del=o.delivery||{};return '<div class="order"><div class="order-row"><b>№ '+esc(o.id.slice(-8))+'</b><span class="tag">'+esc(o.status||'Жаңа тапсырыс')+'</span></div><div style="margin-top:8px">'+items+'</div><div class="muted" style="margin-top:8px">'+money(o.total||0)+'</div><div class="muted">📍 '+esc(del.city||'')+', '+esc(del.address||'')+'</div></div>'}).join('');
-    }catch(e){box.innerHTML='<div class="empty">❌ Тапсырыстарды жүктеу қатесі.<br>'+esc(e.message)+'</div>'}
-  };
-
-  // Seller cabinet: store + products + real Firebase orders.
-  window.renderSeller=async function(){
-    const box=document.getElementById('seller');if(!box||!user)return;box.innerHTML='⏳ Жүктелуде...';
-    let store={};let mine=[];let orders=[];
-    try{const st=await db.collection('stores').doc(user.uid).get();if(st.exists)store=st.data()||{}}catch(e){}
-    try{const ps=await db.collection('products').where('sellerId','==',user.uid).get();ps.forEach(d=>{const x=d.data()||{};mine.push({id:d.id,title:x.title||x.name||'Тауар',price:Number(x.price||0),stock:Number(x.stock??x.quantity??0)})})}catch(e){}
-    try{const os=await db.collection('orders').where('sellerIds','array-contains',user.uid).get();os.forEach(d=>orders.push({id:d.id,...d.data()}));orders.sort((a,b)=>(b.createdAtLocal||0)-(a.createdAtLocal||0))}catch(e){}
-    const stock=mine.reduce((s,p)=>s+p.stock,0),sales=orders.reduce((s,o)=>s+(o.items||[]).filter(i=>i.sellerId===user.uid).reduce((z,i)=>z+Number(i.price||0)*Number(i.qty||1),0),0);
-    box.innerHTML='<div class="stats"><div class="stat">Тауар<strong>'+mine.length+'</strong></div><div class="stat">Қойма<strong>'+stock+'</strong></div><div class="stat">Тапсырыс<strong>'+orders.length+'</strong></div><div class="stat">Сатылым<strong>'+money(sales)+'</strong></div></div>'+
-      '<h3>🏪 Дүкен ақпараты</h3><input id="storeName" value="'+esc(store.name||'')+'" placeholder="Дүкен атауы"><textarea id="storeDescription" placeholder="Дүкен сипаттамасы">'+esc(store.description||'')+'</textarea><button class="btn btn-primary" style="width:100%;margin-bottom:12px" onclick="saveStore()">💾 Дүкенді сақтау</button>'+ 
-      '<hr><h3>➕ Тауар қосу</h3><input id="newProductTitle" placeholder="Тауар атауы"><input id="newProductPrice" type="number" min="1" placeholder="Бағасы"><input id="newProductStock" type="number" min="0" value="1" placeholder="Қоймадағы саны"><select id="newProductCategory"><option>Киім</option><option>Аяқ киім</option><option>Электроника</option><option>Косметика</option><option>Үй</option></select><input id="newProductImage" placeholder="Сурет URL"><textarea id="newProductDescription" placeholder="Сипаттама"></textarea><button class="btn btn-primary" style="width:100%" onclick="saveProduct()">➕ Тауарды жариялау</button>'+ 
-      '<h3>🛍️ Менің тауарларым</h3>'+(mine.length?mine.map(p=>'<div class="seller-product"><div><b>'+esc(p.title)+'</b><div class="muted">'+money(p.price)+' · Қалдық: '+p.stock+' дана</div></div><button class="btn btn-danger" onclick="deleteProduct(\''+esc(p.id)+'\')">Өшіру</button></div>').join(''):'<p class="muted">Әзірге тауар жоқ.</p>')+
-      '<div class="sg-seller-orders"><h3>📦 Маған түскен тапсырыстар</h3>'+(orders.length?orders.map(function(o){const own=(o.items||[]).filter(i=>i.sellerId===user.uid);const ownTotal=own.reduce((s,i)=>s+Number(i.price||0)*Number(i.qty||1),0);const c=o.delivery||{};return '<div class="sg-seller-order"><div class="sg-seller-order-head"><div><b>№ '+esc(o.id.slice(-8))+'</b><div class="muted">'+esc(o.customerName||o.customer?.name||'Клиент')+' · '+esc(c.phone||'')+'</div><div class="muted">📍 '+esc(c.city||'')+', '+esc(c.address||'')+'</div></div><span class="tag">'+esc(o.status||'Жаңа тапсырыс')+'</span></div><div style="margin-top:8px">'+own.map(i=>esc(i.title)+' × '+Number(i.qty||1)).join('<br>')+'</div><b style="display:block;margin-top:8px">'+money(ownTotal)+'</b><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:9px"><button class="btn btn-light" onclick="sgSellerStatus(\''+esc(o.id)+'\',\'Қабылданды\')">Қабылдау</button><button class="btn btn-light" onclick="sgSellerStatus(\''+esc(o.id)+'\',\'Дайындалуда\')">Дайындау</button><button class="btn btn-light" onclick="sgSellerStatus(\''+esc(o.id)+'\',\'Жолда\')">Жолда</button><button class="btn btn-light" onclick="sgSellerStatus(\''+esc(o.id)+'\',\'Жеткізілді\')">Жеткізілді</button><button class="btn btn-danger" onclick="sgSellerStatus(\''+esc(o.id)+'\',\'Бас тартылды\')">Бас тарту</button></div></div>'}).join(''):'<p class="muted">Әзірге тапсырыс түскен жоқ.</p>')+'</div>';
-  };
-  window.sgSellerStatus=async function(id,status){try{await db.collection('orders').doc(id).set({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});alert('✅ Статус өзгерді');renderSeller()}catch(e){alert('❌ '+e.message)}};
-
-  // Ensure account opens the working auth dialog for logged-out users.
-  const oldOpenAccount=window.openAccount;
-  window.openAccount=function(){
-    if(auth.currentUser||user){renderAccount();openModal('accountModal')}
-    else openAuth();
-  };
-
-  // Hide the old phone header button and let Account handle auth in one place.
-  const oldBtn=document.getElementById('sgPhoneLoginButton');if(oldBtn)oldBtn.style.display='none';
-})();
-</script>
-
-<!-- SATUGO CLEAN STABLE INTERACTION LAYER -->
-<style id="satugo-clean-stable-style">
-  #sgStableAccountOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2147483000;padding:12px;overflow:auto;box-sizing:border-box}
-  #sgStableAccountOverlay.open{display:block}
-  #sgStableAccountBox{max-width:680px;width:100%;margin:20px auto 90px;background:#fff;border-radius:22px;min-height:200px;box-shadow:0 20px 70px rgba(0,0,0,.25);position:relative;padding:18px;box-sizing:border-box}
-  #sgStableAccountClose{position:absolute;right:10px;top:10px;width:42px;height:42px;border:0;border-radius:50%;background:#f3f4f6;font-size:25px;cursor:pointer;z-index:3}
-  @media(max-width:700px){
-    #sgStableAccountOverlay{padding:8px;padding-bottom:88px;touch-action:auto;overscroll-behavior:contain}
-    #sgStableAccountBox{margin:8px auto 0;min-height:calc(100dvh - 94px);border-radius:18px;padding:14px}
-    #satugoFinalNav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:2147482000!important;display:flex!important;pointer-events:auto!important}
-    #satugoFinalNav button{pointer-events:auto!important;touch-action:manipulation!important}
-  }
-</style>
-<script id="satugo-clean-stable-js">
-(function(){
- 'use strict';
- var accountOpen=false;
- var overlayIds=['sellerModal','ordersModal','favoritesModal','accountModal','sgAuthModal','sgPhoneAuth','sgNextOverlay','sgProfileOverlay','sgMarketOverlay','sgPlusOverlay'];
- function byId(id){return document.getElementById(id)}
- function closeOldOverlays(except){
-   overlayIds.forEach(function(id){
-     if(id===except)return;
-     var e=byId(id); if(!e)return;
-     e.classList.remove('show','open','active');
-     if(e.id!=='accountModal') e.style.removeProperty('display');
-   });
- }
- function stableAccount(){
-   closeOldOverlays('accountModal');
-   var old=byId('accountModal');
-   if(old) old.classList.remove('show');
-   var ov=byId('sgStableAccountOverlay');
-   var box=byId('sgStableAccountContent');
-   if(!ov||!box)return;
-   try{
-     if(typeof window.renderAccount==='function') window.renderAccount();
-     var source=byId('account');
-     box.innerHTML=source ? source.innerHTML : '<div style="padding:30px;text-align:center">Аккаунт жүктелуде...</div>';
-   }catch(e){box.innerHTML='<div style="padding:30px;text-align:center">Аккаунтты ашу қатесі.<br>'+String(e.message||e)+'</div>';}
-   ov.classList.add('open'); accountOpen=true;
-   document.body.classList.add('sg-stable-account-open');
- }
- function closeStable(){var ov=byId('sgStableAccountOverlay');if(ov)ov.classList.remove('open');accountOpen=false;document.body.classList.remove('sg-stable-account-open')}
- function installOverlay(){
-   if(byId('sgStableAccountOverlay'))return;
-   var ov=document.createElement('div');ov.id='sgStableAccountOverlay';
-   ov.innerHTML='<div id="sgStableAccountBox"><button id="sgStableAccountClose" type="button" aria-label="Жабу">×</button><div id="sgStableAccountContent"></div></div>';
-   document.body.appendChild(ov);
-   byId('sgStableAccountClose').addEventListener('click',function(e){e.preventDefault();e.stopPropagation();closeStable()});
-   ov.addEventListener('click',function(e){
-     if(e.target===ov){closeStable();return}
-     var el=e.target.closest && e.target.closest('[onclick]');
-     if(!el)return;
-     var code=el.getAttribute('onclick')||'';
-     var actions=['openAuth','openOrders','openFavorites','openOffers','openRequest','openSeller','openCart','sgCoreOpenProfile','resendVerification','logout'];
-     var hit=null;
-     for(var i=0;i<actions.length;i++){if(code.indexOf(actions[i]+'(')>=0){hit=actions[i];break}}
-     if(!hit)return;
-     e.preventDefault();e.stopPropagation();
-     closeStable();
-     setTimeout(function(){
-       try{
-         if(hit==='openAuth'){
-           if(typeof window.openAuth==='function') window.openAuth();
-           else if(typeof window.sgPhoneOpen==='function') window.sgPhoneOpen();
-           return;
-         }
-         if(typeof window[hit]==='function') window[hit]();
-       }catch(err){alert('Бөлімді ашу қатесі: '+(err.message||err));}
-     },80);
-   });
- }
- function account(){stableAccount()}
- function chats(){
-   closeStable(); closeOldOverlays('sgChatPanel');
-   try{
-     if(typeof window.sgOpenChats==='function'){window.sgOpenChats();return}
-     if(typeof window.sgOpenChat==='function'){window.sgOpenChat();return}
-     if(typeof window.openChats==='function'){window.openChats();return}
-   }catch(e){alert('Чатты ашу қатесі: '+(e.message||e))}
- }
- function home(){closeStable();try{if(typeof window.goHome==='function')window.goHome();else window.scrollTo({top:0,behavior:'smooth'})}catch(e){}}
- function search(){closeStable();try{if(typeof window.openSearch==='function'){window.openSearch();}else{var x=document.querySelector('.search-wrap input,.hero-search input,input[placeholder*="Тауар"]');if(x){x.focus();x.scrollIntoView({behavior:'smooth',block:'center'});}}}catch(e){}}
- function fav(){closeStable();try{if(typeof window.openFavorites==='function')window.openFavorites();else if(typeof window.openModal==='function')window.openModal('favoritesModal')}catch(e){}}
- function navAction(id){
-   if(id==='satugoFinalAccount')return account();
-   if(id==='satugoFinalChat')return chats();
-   if(id==='satugoFinalHome')return home();
-   if(id==='satugoFinalSearch')return search();
-   if(id==='satugoFinalFav')return fav();
- }
- function bindNav(){
-   var nav=byId('satugoFinalNav');if(!nav)return;
-   if(nav.dataset.stableBound==='1')return;nav.dataset.stableBound='1';
-   nav.addEventListener('click',function(e){
-     var b=e.target.closest('button');if(!b||!nav.contains(b))return;
-     var id=b.id;if(!id)return;
-     e.preventDefault();e.stopPropagation();
-     navAction(id);
-   },true);
- }
- function bindGlobal(){
-   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&accountOpen){e.preventDefault();closeStable()}});
-   var heads=document.querySelectorAll('[onclick*="openAccount"], [onclick*="sgProfileOpenV3"]');
-   for(var i=0;i<heads.length;i++){
-     if(heads[i].dataset.sgAccountDirectBound==='1') continue;
-     heads[i].dataset.sgAccountDirectBound='1';
-     heads[i].addEventListener('click',function(e){e.preventDefault();e.stopPropagation();account();},false);
-     heads[i].addEventListener('touchend',function(e){e.preventDefault();account();},{passive:false});
-   }
- }
- function ready(){installOverlay();bindNav();bindGlobal()}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
- window.addEventListener('load',ready,{once:true});
- window.sgStableOpenAccount=account;
- window.sgStableCloseAccount=closeStable;
-})();
-</script>
-
-<!-- SATUGO ACCOUNT CLEAN FINAL LAUNCHER -->
-<style id="satugo-account-clean-final-css">
-#satugoFinalNav{z-index:2147482000!important;pointer-events:auto!important}
-#satugoFinalAccount{position:relative!important;z-index:2147482001!important;pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important}
-#sgStableAccountOverlay{z-index:2147483640!important}
-#sgStableAccountOverlay.open{pointer-events:auto!important}
-</style>
-<script id="satugo-account-clean-final-js">
-(function(){
-  function bind(){
-    var b=document.getElementById('satugoFinalAccount');
-    if(!b || b.dataset.sgCleanFinal==='1') return;
-    b.dataset.sgCleanFinal='1';
-    b.onclick=function(e){e.preventDefault();e.stopPropagation();if(window.sgStableOpenAccount)window.sgStableOpenAccount();return false;};
-    b.addEventListener('touchend',function(e){e.preventDefault();e.stopPropagation();if(window.sgStableOpenAccount)window.sgStableOpenAccount();},{passive:false});
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind,{once:true}); else bind();
-  window.addEventListener('load',bind,{once:true});
-  setTimeout(bind,300); setTimeout(bind,1000);
-})();
-</script>
-
-<!-- FINAL ACCOUNT LOGIN CLICK FIX -->
-<script id="satugo-final-account-login-fix">
-(function(){
-  function bind(){
-    var root=document.getElementById('sgStableAccountOverlay');
-    if(!root || root.dataset.loginFix==='1') return;
-    root.dataset.loginFix='1';
-    root.addEventListener('click',function(e){
-      var b=e.target && e.target.closest ? e.target.closest('button') : null;
-      if(!b) return;
-      var txt=(b.textContent||'').replace(/\s+/g,' ').trim();
-      if(txt.indexOf('Аккаунтқа кіру')===-1 && txt.indexOf('Кіру')===-1) return;
-      e.preventDefault(); e.stopPropagation();
-      try{ if(window.sgStableCloseAccount) window.sgStableCloseAccount(); }catch(_){}
-      setTimeout(function(){
-        try{ if(window.openAuth) window.openAuth(); else if(window.sgPhoneOpen) window.sgPhoneOpen(); }catch(err){ alert('Кіру терезесін ашу қатесі: '+(err.message||err)); }
-      },100);
-    },true);
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind,{once:true}); else bind();
-  window.addEventListener('load',bind,{once:true});
-  setTimeout(bind,500);
-})();
-</script>
-
-<!-- SATUGO HARD LOGIN WINDOW -->
-<style id="satugo-hard-login-css">
-#sgHardLogin{
-  display:none;position:fixed;inset:0;z-index:2147483647;
-  background:rgba(0,0,0,.65);padding:12px;
-  align-items:center;justify-content:center;
-}
-#sgHardLogin.open{display:flex!important}
-#sgHardLogin .box{
-  width:min(430px,100%);background:#fff;border-radius:20px;
-  padding:20px;box-shadow:0 20px 80px rgba(0,0,0,.35);
-  position:relative;max-height:92vh;overflow:auto;
-}
-#sgHardLogin .close{
-  position:absolute;right:10px;top:10px;width:38px;height:38px;
-  border:0;border-radius:50%;background:#f1f1f1;font-size:22px;
-}
-#sgHardLogin input{
-  width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;
-  margin:6px 0 10px;box-sizing:border-box;
-}
-#sgHardLogin button.action{
-  width:100%;padding:12px;border:0;border-radius:11px;
-  background:#15803d;color:#fff;font-weight:800;margin-top:7px;
-}
-#sgHardLogin button.sms{
-  background:#2563eb;
-}
-#sgHardLogin .msg{min-height:20px;font-size:13px;margin:7px 0}
-</style>
-
-<div id="sgHardLogin" aria-hidden="true">
-  <div class="box">
-    <button class="close" id="sgHardLoginClose" type="button">×</button>
-    <h2 style="margin:0 0 5px">🔐 SatuGo-ға кіру</h2>
-    <p style="margin:0 0 15px;color:#666;font-size:13px">
-      Аккаунтыңызға Email/құпиясөз немесе SMS арқылы кіріңіз.
-    </p>
-
-    <label>Email</label>
-    <input id="sgHardEmail" type="email" autocomplete="email" placeholder="example@mail.com">
-
-    <label>Құпиясөз</label>
-    <input id="sgHardPassword" type="password" autocomplete="current-password" placeholder="Кемінде 6 таңба">
-
-    <div id="sgHardMsg" class="msg"></div>
-
-    <button id="sgHardEmailLogin" class="action" type="button">🔑 Email арқылы кіру</button>
-    <button id="sgHardSmsLogin" class="action sms" type="button">📱 SMS арқылы кіру / тіркелу</button>
-  </div>
-</div>
-
-<script id="satugo-hard-login-js">
-(function(){
-  function q(id){return document.getElementById(id)}
-  function openHard(){
-    var m=q('sgHardLogin');
-    if(!m)return;
-    m.classList.add('open');
-    m.setAttribute('aria-hidden','false');
-    var msg=q('sgHardMsg'); if(msg)msg.textContent='';
-  }
-  function closeHard(){
-    var m=q('sgHardLogin');
-    if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true')}
-  }
-  window.sgHardOpenLogin=openHard;
-  window.sgHardCloseLogin=closeHard;
-
-  function isLoginButton(el){
-    if(!el)return false;
-    var t=(el.textContent||'').replace(/\s+/g,' ').trim();
-    return t.indexOf('Аккаунтқа кіру')!==-1 || t==='Кіру' || t.indexOf('🔐 Аккаунтқа кіру')!==-1;
-  }
-
-  function install(){
-    var m=q('sgHardLogin');
-    if(!m)return;
-
-    q('sgHardLoginClose').onclick=function(e){
-      e.preventDefault();e.stopPropagation();closeHard();
-    };
-
-    m.onclick=function(e){
-      if(e.target===m)closeHard();
-    };
-
-    q('sgHardEmailLogin').onclick=async function(){
-      var msg=q('sgHardMsg');
-      var email=(q('sgHardEmail').value||'').trim().toLowerCase();
-      var password=q('sgHardPassword').value||'';
-      if(!email || !password){
-        msg.textContent='Email және құпиясөзді енгізіңіз.';
-        msg.style.color='#dc2626'; return;
-      }
-      if(!window.auth || !auth.signInWithEmailAndPassword){
-        msg.textContent='Firebase Auth қосылмаған.';
-        msg.style.color='#dc2626'; return;
-      }
-      msg.textContent='⏳ Кіру...';msg.style.color='#555';
-      try{
-        var result=await auth.signInWithEmailAndPassword(email,password);
-        window.currentUser=result.user;
-        if(typeof loadProfile==='function') await loadProfile();
-        if(typeof renderAccount==='function') renderAccount();
-        if(typeof updateCounts==='function') updateCounts();
-        msg.textContent='✅ Кіру сәтті!';
-        msg.style.color='#15803d';
-        setTimeout(closeHard,500);
-      }catch(e){
-        var map={
-          'auth/invalid-credential':'Email немесе құпиясөз дұрыс емес.',
-          'auth/invalid-email':'Email дұрыс емес.',
-          'auth/user-not-found':'Бұл Email тіркелмеген.',
-          'auth/wrong-password':'Құпиясөз дұрыс емес.',
-          'auth/too-many-requests':'Тым көп әрекет. Кейін қайталап көріңіз.',
-          'auth/network-request-failed':'Интернет байланысын тексеріңіз.'
-        };
-        msg.textContent='❌ '+(map[e.code]||e.message||'Кіру қатесі');
-        msg.style.color='#dc2626';
-      }
-    };
-
-    q('sgHardSmsLogin').onclick=function(e){
-      e.preventDefault();e.stopPropagation();
-      closeHard();
-      setTimeout(function(){
-        if(typeof window.sgPhoneOpen==='function') window.sgPhoneOpen();
-        else if(typeof window.openAuth==='function') window.openAuth();
-        else alert('SMS кіру жүйесі табылмады.');
-      },50);
-    };
-
-    document.addEventListener('click',function(e){
-      var el=e.target && e.target.closest ? e.target.closest('button,a') : null;
-      if(!el || !isLoginButton(el))return;
-
-      /* Ескі аккаунт терезелерін жаппай, алдымен жаңа кіру терезесін ашамыз. */
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      openHard();
-    },true);
-  }
-
-  if(document.readyState==='loading')
-    document.addEventListener('DOMContentLoaded',install,{once:true});
-  else install();
-})();
-</script>
-
-
-<!-- SATUGO ACCOUNT BUTTON REAL INPUT FIX -->
-<style id="satugo-account-real-input-fix">
-#satugoFinalAccount,
-#sgAccountHardNav,
-#sgAccountHardLogin{
-  pointer-events:auto!important;
-  touch-action:manipulation!important;
-  cursor:pointer!important;
-}
-</style>
-<script id="satugo-account-real-input-fix-js">
-(function(){
-  "use strict";
-
-  function openLogin(){
-    try{
-      if(typeof window.sgHardOpenLogin==="function"){
-        window.sgHardOpenLogin();
-        return;
-      }
-      var m=document.getElementById("sgHardLogin");
-      if(m){
-        m.classList.add("open");
-        m.setAttribute("aria-hidden","false");
-      }
-    }catch(e){
-      console.error("SatuGo account open:",e);
     }
   }
 
-  function bind(){
-    var b=document.getElementById("satugoFinalAccount");
-    if(!b || b.dataset.sgRealAccountBound==="1") return;
-    b.dataset.sgRealAccountBound="1";
-
-    /* pointerdown/touchstart works before the old click handlers */
-    function go(e){
-      if(e && e.cancelable) e.preventDefault();
-      openLogin();
-    }
-
-    b.addEventListener("pointerdown",go,{capture:true,passive:false});
-    b.addEventListener("touchstart",go,{capture:true,passive:false});
-    b.addEventListener("mousedown",go,{capture:true});
-  }
-
-  if(document.readyState==="loading"){
-    document.addEventListener("DOMContentLoaded",bind,{once:true});
-  }else{
-    bind();
-  }
-
-  window.addEventListener("load",bind,{once:true});
-  setTimeout(bind,300);
-  setTimeout(bind,1000);
-})();
-</script>
-
-
-<!-- SATUGO FINAL ACCOUNT CLICK FIX -->
-<style id="satugo-final-account-click-fix">
-/* Old account layers must never block the real button */
-#accountModal,
-#sgStableAccountOverlay,
-#sgFinalAccountOverlay,
-#sgHardAccount,
-#sgFinalAccountClean,
-#sgCleanAuth,
-#sgCleanProfile,
-#sgProfileOverlay,
-#sgMarketOverlay,
-#sgPlusOverlay,
-#sgNextOverlay{
-  pointer-events:none!important;
-}
-#sgHardLogin.open{
-  pointer-events:auto!important;
-}
-#satugoFinalAccount,
-#sgAccountHardNav{
-  position:relative!important;
-  z-index:2147483646!important;
-  pointer-events:auto!important;
-  touch-action:manipulation!important;
-}
-</style>
-<script id="satugo-final-account-click-fix-js">
-(function(){
-  "use strict";
-
-  var blocked=[
-    "accountModal","sgStableAccountOverlay","sgFinalAccountOverlay",
-    "sgHardAccount","sgFinalAccountClean","sgCleanAuth","sgCleanProfile",
-    "sgProfileOverlay","sgMarketOverlay","sgPlusOverlay","sgNextOverlay"
-  ];
-
-  function hideOld(){
-    blocked.forEach(function(id){
-      var x=document.getElementById(id);
-      if(!x)return;
-      if(id==="accountModal" || !x.classList.contains("open")){
-        x.style.setProperty("pointer-events","none","important");
-      }
-    });
-  }
-
-  function open(){
-    hideOld();
-
-    var m=document.getElementById("sgHardLogin");
-    if(m){
-      m.style.setProperty("display","flex","important");
-      m.style.setProperty("pointer-events","auto","important");
-      m.classList.add("open");
-      m.setAttribute("aria-hidden","false");
-      var e=document.getElementById("sgHardEmail");
-      if(e)setTimeout(function(){try{e.focus()}catch(_){}},50);
-      return;
-    }
-
-    /* fallback: existing SMS/auth window */
-    try{
-      if(typeof window.sgPhoneOpen==="function"){
-        window.sgPhoneOpen();
-        return;
-      }
-      if(typeof window.openAuth==="function"){
-        window.openAuth();
-      }
-    }catch(e){console.error(e)}
-  }
-
-  function bind(){
-    hideOld();
-
-    var b=document.getElementById("satugoFinalAccount") ||
-          document.getElementById("sgAccountHardNav");
-
-    if(!b)return;
-    b.style.setProperty("pointer-events","auto","important");
-
-    if(b.dataset.sgFinalBound==="1")return;
-    b.dataset.sgFinalBound="1";
-
-    ["click","pointerup","touchend"].forEach(function(type){
-      b.addEventListener(type,function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        try{e.stopImmediatePropagation()}catch(_){}
-        open();
-      },true);
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded",bind,{once:true});
-  window.addEventListener("load",bind);
-  setInterval(function(){
-    hideOld();
-    bind();
-  },1000);
-})();
-</script>
-
-
-<!-- SATUGO: ACCOUNT CLEAN REBUILD -->
-<style id="satugo-account-clean-rebuild-css">
-#sgCleanAccountNav{
-  position:fixed!important;
-  left:0!important;right:0!important;bottom:0!important;
-  height:72px!important;
-  z-index:2147483647!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-around!important;
-  background:#fff!important;
-  border-top:1px solid #ddd!important;
-  box-shadow:0 -4px 18px rgba(0,0,0,.10)!important;
-  pointer-events:auto!important;
-  touch-action:manipulation!important;
-}
-#sgCleanAccountNav button{
-  appearance:none!important;
-  border:0!important;
-  background:transparent!important;
-  color:#222!important;
-  font:600 13px Arial,sans-serif!important;
-  min-width:90px!important;
-  height:60px!important;
-  border-radius:14px!important;
-  cursor:pointer!important;
-  pointer-events:auto!important;
-  touch-action:manipulation!important;
-}
-#sgCleanAccountNav button:active{transform:scale(.96)!important}
-#sgCleanAccountModal{
-  position:fixed!important;inset:0!important;
-  z-index:2147483647!important;
-  display:none!important;
-  align-items:center!important;justify-content:center!important;
-  padding:18px!important;
-  background:rgba(0,0,0,.58)!important;
-  pointer-events:auto!important;
-}
-#sgCleanAccountModal.open{display:flex!important}
-#sgCleanAccountBox{
-  width:min(420px,100%)!important;
-  background:#fff!important;
-  border-radius:22px!important;
-  padding:24px!important;
-  box-sizing:border-box!important;
-  box-shadow:0 20px 60px rgba(0,0,0,.25)!important;
-  pointer-events:auto!important;
-}
-#sgCleanAccountBox button{
-  width:100%!important;height:50px!important;
-  border:0!important;border-radius:13px!important;
-  margin-top:10px!important;
-  font-size:16px!important;font-weight:700!important;
-  cursor:pointer!important;touch-action:manipulation!important;
-}
-#sgCleanAccountClose{
-  width:42px!important;height:42px!important;
-  margin:0 0 8px auto!important;
-  display:block!important;
-  border-radius:50%!important;
-  background:#eee!important;
-}
-</style>
-
-<div id="sgCleanAccountNav">
-  <button id="sgCleanAccountButton" type="button">
-    <div style="font-size:25px;line-height:28px">👤</div>
-    <div>Аккаунт</div>
-  </button>
-</div>
-
-<div id="sgCleanAccountModal" aria-hidden="true">
-  <div id="sgCleanAccountBox">
-    <button id="sgCleanAccountClose" type="button">×</button>
-    <div style="font-size:48px;text-align:center">👤</div>
-    <h2 style="text-align:center;margin:8px 0">Жеке кабинет</h2>
-    <p id="sgCleanAccountText" style="text-align:center;color:#666">
-      Аккаунтқа кіріңіз немесе тіркеліңіз.
-    </p>
-    <button id="sgCleanLogin" type="button" style="background:#111;color:#fff">
-      🔐 Аккаунтқа кіру
-    </button>
-    <button id="sgCleanSms" type="button" style="background:#f2c200;color:#111">
-      📱 +7 SMS арқылы кіру
-    </button>
-  </div>
-</div>
-
-<script id="satugo-account-clean-rebuild-js">
-(function(){
-  "use strict";
-  var nav=document.getElementById("sgCleanAccountNav");
-  var btn=document.getElementById("sgCleanAccountButton");
-  var modal=document.getElementById("sgCleanAccountModal");
-  var close=document.getElementById("sgCleanAccountClose");
-  var login=document.getElementById("sgCleanLogin");
-  var sms=document.getElementById("sgCleanSms");
-
-  function openModal(){
-    if(!modal)return;
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden","false");
-  }
-  function closeModal(){
-    if(!modal)return;
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden","true");
-  }
-
-  if(btn) btn.onclick=function(e){
-    e.preventDefault(); e.stopPropagation(); openModal(); return false;
-  };
-  if(close) close.onclick=function(e){
-    e.preventDefault(); e.stopPropagation(); closeModal(); return false;
-  };
-  if(modal) modal.addEventListener("click",function(e){
-    if(e.target===modal) closeModal();
-  });
-  if(login) login.onclick=function(e){
-    e.preventDefault(); e.stopPropagation();
-    closeModal();
-    setTimeout(function(){
-      if(typeof window.sgHardOpenLogin==="function") window.sgHardOpenLogin();
-      else if(typeof window.openAuth==="function") window.openAuth();
-      else alert("Кіру терезесі табылмады.");
-    },50);
-  };
-  if(sms) sms.onclick=function(e){
-    e.preventDefault(); e.stopPropagation();
-    closeModal();
-    setTimeout(function(){
-      if(typeof window.sgPhoneOpen==="function") window.sgPhoneOpen();
-      else if(typeof window.openAuth==="function") window.openAuth();
-      else alert("SMS кіру жүйесі табылмады.");
-    },50);
-  };
-
-  /* Remove every old account bottom button so it cannot interfere. */
-  function removeOld(){
-    [
-      "satugoFinalAccount","sgAccountHardNav",
-      "sgAccountHardLogin"
-    ].forEach(function(id){
-      var x=document.getElementById(id);
-      if(x && x!==btn && x!==nav){
-        try{x.remove()}catch(_){x.style.display="none"}
-      }
-    });
-  }
-  removeOld();
-  setTimeout(removeOld,100);
-  setTimeout(removeOld,500);
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",fix);
+  else fix();
+  window.addEventListener("load",fix);
+  setTimeout(fix,300);
+  setTimeout(fix,1000);
+  setInterval(fix,2000);
 })();
 </script>
 
