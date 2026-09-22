@@ -6312,5 +6312,148 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
   setTimeout(cleanLegacySellerUI,1200);
 })();
 </script>
+
+<!-- SATUGO PRODUCT OPEN/BACK HARD FIX -->
+<style id="satugo-product-back-fix-css">
+#sgProductSafeLayer{
+  display:none;position:fixed;inset:0;z-index:2147483640;
+  background:#fff;overflow:auto;-webkit-overflow-scrolling:touch;
+}
+#sgProductSafeLayer.open{display:block!important}
+#sgProductSafeLayer .sgp-head{
+  position:sticky;top:0;z-index:2;background:#fff;
+  border-bottom:1px solid #eee;padding:10px 14px;
+  display:flex;align-items:center;gap:10px;
+}
+#sgProductSafeLayer .sgp-back{
+  width:42px;height:42px;border:0;border-radius:50%;
+  background:#f1f1f1;font-size:22px;cursor:pointer;
+}
+#sgProductSafeLayer .sgp-body{padding:18px;max-width:700px;margin:auto}
+</style>
+
+<div id="sgProductSafeLayer" aria-hidden="true">
+  <div class="sgp-head">
+    <button class="sgp-back" id="sgpBack" type="button">←</button>
+    <strong id="sgpTitle">Тауар</strong>
+  </div>
+  <div class="sgp-body" id="sgpBody"></div>
+</div>
+
+<script id="satugo-product-back-fix-js">
+(function(){
+  "use strict";
+
+  var layer=document.getElementById("sgProductSafeLayer");
+  var body=document.getElementById("sgpBody");
+  var title=document.getElementById("sgpTitle");
+  var back=document.getElementById("sgpBack");
+  var previousScroll=0;
+
+  function closeProduct(){
+    if(!layer)return;
+    layer.classList.remove("open");
+    layer.setAttribute("aria-hidden","true");
+    document.body.style.overflow="";
+    window.scrollTo(0,previousScroll);
+  }
+
+  function openProduct(card){
+    if(!card || !layer || !body)return;
+
+    previousScroll=window.scrollY||document.documentElement.scrollTop||0;
+
+    var name=(card.dataset.name || card.querySelector(".product-name,.product-title,h3,h2")?.textContent || "Тауар").trim();
+    var price=(card.dataset.price || card.querySelector(".price,.product-price")?.textContent || "").trim();
+    var img=card.querySelector("img");
+    var src=img ? img.src : "";
+
+    title.textContent=name;
+
+    body.innerHTML="";
+    var wrap=document.createElement("div");
+    wrap.style.cssText="text-align:center";
+
+    if(src){
+      var image=document.createElement("img");
+      image.src=src;
+      image.alt=name;
+      image.style.cssText="width:100%;max-width:500px;max-height:55vh;object-fit:contain;border-radius:16px";
+      wrap.appendChild(image);
+    }
+
+    var h=document.createElement("h2");
+    h.textContent=name;
+    h.style.margin="18px 0 8px";
+    wrap.appendChild(h);
+
+    if(price){
+      var p=document.createElement("div");
+      p.textContent=price;
+      p.style.cssText="font-size:24px;font-weight:800;margin-bottom:18px";
+      wrap.appendChild(p);
+    }
+
+    var add=document.createElement("button");
+    add.type="button";
+    add.textContent="🛒 Себетке қосу";
+    add.style.cssText="width:100%;max-width:500px;padding:14px;border:0;border-radius:12px;background:#111;color:#fff;font-weight:800;font-size:16px";
+    add.onclick=function(e){
+      e.preventDefault();e.stopPropagation();
+      var original=card.querySelector("button");
+      if(original) original.click();
+      else alert("Тауар себетке қосылды.");
+    };
+    wrap.appendChild(add);
+
+    body.appendChild(wrap);
+
+    layer.classList.add("open");
+    layer.setAttribute("aria-hidden","false");
+    document.body.style.overflow="hidden";
+    layer.scrollTop=0;
+  }
+
+  back.onclick=function(e){
+    e.preventDefault();e.stopPropagation();closeProduct();
+  };
+
+  /* Intercept only product-card clicks. Do not touch bottom navigation. */
+  document.addEventListener("click",function(e){
+    var card=e.target.closest && e.target.closest(".product-card,.product,.product-item,[data-product-id]");
+    if(!card)return;
+
+    if(e.target.closest("button,a,input,select,textarea"))return;
+
+    /* Let explicitly marked controls behave normally. */
+    if(card.dataset && card.dataset.noProductOpen==="1")return;
+
+    e.preventDefault();
+    e.stopPropagation();
+    try{e.stopImmediatePropagation()}catch(_){}
+    openProduct(card);
+  },true);
+
+  /* Prevent stale full-screen product overlays from blocking the page. */
+  function neutralizeOldProductLayers(){
+    var ids=[
+      "productModal","productDetail","productOverlay",
+      "productDetailsModal","productViewModal","productDetailModal"
+    ];
+    ids.forEach(function(id){
+      var x=document.getElementById(id);
+      if(x && x!==layer){
+        x.style.setProperty("pointer-events","none","important");
+        x.setAttribute("aria-hidden","true");
+      }
+    });
+  }
+
+  neutralizeOldProductLayers();
+  setTimeout(neutralizeOldProductLayers,300);
+  setTimeout(neutralizeOldProductLayers,1000);
+})();
+</script>
+
 </body>
 </html>
