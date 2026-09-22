@@ -6200,5 +6200,117 @@ window.sgV2AddOrder=o=>{D.sellerOrders.push({...o,status:'Жаңа тапсыр�
 })();
 </script>
 
+
+
+<!-- SATUGO SELLER SURGICAL FIX 2026-09-22 -->
+<style id="satugo-seller-surgical-fix-css">
+/* Hide legacy seller dashboards / floating controls that leaked into the page. */
+#sgAdvanced,
+#sgV2Dashboard,
+#sgFeatureStrip,
+#sgCoreQuickBar,
+.sg-core-floating,
+.sg-float,
+#sgStoreModal,
+#sgV2StoreModal,
+#sgV2SellerOrdersModal {
+  display:none !important;
+}
+/* The real seller modal remains the single seller UI. */
+#sellerModal.show{display:flex !important;pointer-events:auto !important;z-index:2147482500 !important}
+#sellerModal .modal-box{max-height:calc(100dvh - 24px);overflow:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:700px){
+  #sellerModal{padding:8px !important;align-items:flex-start !important}
+  #sellerModal .modal-box{width:100% !important;max-height:calc(100dvh - 16px) !important;margin-top:4px}
+}
+</style>
+<script id="satugo-seller-surgical-fix-js">
+(function(){
+  'use strict';
+  function byId(id){return document.getElementById(id)}
+  function esc2(v){return String(v==null?'':v).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]})}
+  function money2(v){return Number(v||0).toLocaleString('kk-KZ')+' ₸'}
+
+  function cleanLegacySellerUI(){
+    ['sgAdvanced','sgV2Dashboard','sgFeatureStrip','sgCoreQuickBar'].forEach(function(id){var e=byId(id);if(e)e.style.display='none'});
+    document.querySelectorAll('.sg-core-floating,.sg-float').forEach(function(e){e.style.display='none'});
+
+    // Remove only leaked legacy action buttons that are sitting directly on the page.
+    document.querySelectorAll('body > button, body > a').forEach(function(el){
+      if(el.closest && el.closest('#satugoFinalNav')) return;
+      var t=(el.textContent||'').replace(/\s+/g,' ').trim();
+      if(['Сақтау','Жабу','Сатылым','Тапсырыстар','📦 Тапсырыстар'].indexOf(t)>=0){el.remove()}
+    });
+  }
+
+  window.openSeller=function(){
+    var u=window.user || (window.firebase && firebase.auth && firebase.auth().currentUser) || null;
+    if(!u){
+      if(typeof window.openAccount==='function') window.openAccount();
+      setTimeout(function(){alert('Дүкен ашу үшін аккаунтқа кіріңіз.');},0);
+      return;
+    }
+    window.user=u;
+    var m=byId('sellerModal');
+    if(!m) return;
+    m.classList.add('show');
+    m.style.pointerEvents='auto';
+    document.body.classList.add('sg-modal-active');
+    window.renderSellerClean();
+  };
+
+  window.renderSellerClean=function(){
+    var box=byId('seller');
+    if(!box) return;
+    var u=window.user || (window.firebase && firebase.auth && firebase.auth().currentUser) || null;
+    if(!u){box.innerHTML='<p class="muted">Аккаунтқа кіріңіз.</p>';return}
+
+    var ps=Array.isArray(window.products)?window.products:[];
+    var mine=ps.filter(function(p){return p && (p.sellerId===u.uid || p.ownerId===u.uid || p.sellerUid===u.uid || (u.email && p.sellerEmail===u.email))});
+    var stock=mine.reduce(function(a,p){return a+Number(p.stock||p.quantity||0)},0);
+    var sales=mine.reduce(function(a,p){return a+Number(p.sales||0)},0);
+
+    function draw(store){
+      store=store||{};
+      box.innerHTML=''
+        +'<div class="stats">'
+        +'<div class="stat">Тауар<strong>'+mine.length+'</strong></div>'
+        +'<div class="stat">Қойма<strong>'+stock+'</strong></div>'
+        +'<div class="stat">Сатылым<strong>'+sales+'</strong></div>'
+        +'</div>'
+        +'<h3>🏪 Дүкен ақпараты</h3>'
+        +'<input id="storeName" value="'+esc2(store.name||'')+'" placeholder="Дүкен атауы">'
+        +'<textarea id="storeDescription" placeholder="Дүкен сипаттамасы">'+esc2(store.description||'')+'</textarea>'
+        +'<button class="btn btn-blue" onclick="saveStore()">Дүкенді сақтау</button>'
+        +'<hr><h3>➕ Тауар қосу</h3>'
+        +'<input id="newProductTitle" placeholder="Тауар атауы">'
+        +'<input id="newProductPrice" type="number" placeholder="Бағасы">'
+        +'<input id="newProductStock" type="number" min="0" value="1" placeholder="Қоймадағы саны">'
+        +'<select id="newProductCategory"><option>Киім</option><option>Аяқ киім</option><option>Электроника</option><option>Косметика</option><option>Үй</option></select>'
+        +'<input id="newProductImage" placeholder="Сурет URL">'
+        +'<textarea id="newProductDescription" placeholder="Сипаттама"></textarea>'
+        +'<button class="btn btn-primary" style="width:100%" onclick="saveProduct()">➕ Тауарды жариялау</button>'
+        +'<h3>🛍️ Менің тауарларым</h3>'
+        +(mine.length ? mine.map(function(p){return '<div class="seller-product"><div><b>'+esc2(p.title||p.name||'Тауар')+'</b><div class="muted">'+money2(p.price)+' · Қалдық: '+Number(p.stock||p.quantity||0)+' дана</div></div><button class="btn btn-danger" onclick="deleteProduct(\''+String(p.id||'').replace(/'/g,"\\'")+'\')">Өшіру</button></div>'}).join('') : '<p class="muted">Әзірге тауар жоқ.</p>');
+    }
+
+    draw({});
+    try{
+      if(window.db && db.collection){
+        db.collection('stores').doc(u.uid).get().then(function(snap){if(snap && snap.exists) draw(snap.data()||{})}).catch(function(){});
+      }
+    }catch(e){}
+  };
+
+  // Ensure the old async renderer can no longer lock this screen.
+  window.renderSeller=window.renderSellerClean;
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',cleanLegacySellerUI);
+  else cleanLegacySellerUI();
+  window.addEventListener('load',cleanLegacySellerUI);
+  setTimeout(cleanLegacySellerUI,300);
+  setTimeout(cleanLegacySellerUI,1200);
+})();
+</script>
 </body>
 </html>
