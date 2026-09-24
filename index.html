@@ -159,7 +159,11 @@ document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>{
     app.innerHTML='<div class="sectionhead"><h2>Чаттар</h2></div><div class="empty">Чаттар жүктелуде...</div>';
     try{
       const snap=await sgDb().collection('chats').where('participants','array-contains',uid).get();
-      const arr=snap.docs.map(d=>({id:d.id,...d.data()}));
+      const arr=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>{
+        const ta=a.updatedAt&&a.updatedAt.toMillis?a.updatedAt.toMillis():0;
+        const tb=b.updatedAt&&b.updatedAt.toMillis?b.updatedAt.toMillis():0;
+        return tb-ta;
+      });
       state.chats=arr;
       updateBadges();
       app.innerHTML='<div class="sectionhead"><h2>Чаттар</h2></div>'+(
