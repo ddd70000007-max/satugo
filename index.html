@@ -158,7 +158,7 @@ document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>{
     if(!uid){app.innerHTML='<div class="empty">Чаттарды көру үшін аккаунтқа кіріңіз.</div>';return}
     app.innerHTML='<div class="sectionhead"><h2>Чаттар</h2></div><div class="empty">Чаттар жүктелуде...</div>';
     try{
-      const snap=await sgDb().collection('chats').where('participants','array-contains',uid).orderBy('updatedAt','desc').get();
+      const snap=await sgDb().collection('chats').where('participants','array-contains',uid).get();
       const arr=snap.docs.map(d=>({id:d.id,...d.data()}));
       state.chats=arr;
       updateBadges();
