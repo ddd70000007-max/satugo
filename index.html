@@ -249,7 +249,6 @@ async function startChat(p){
     if(!snap.exists){
       await ref.set({buyerId:uid,buyerName:state.currentUser.name,sellerId:p.sellerId,sellerName:p.sellerName||'Сатушы',participants:[uid,p.sellerId],lastMessage:'',unread:{[uid]:0,[p.sellerId]:0},updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
     }
-    await syncCloud();
     closeModal();
     openChat(chatId);
   }catch(e){console.error(e);toast('Чатты ашу қатесі: '+(e.code||'Firebase'));}
@@ -264,20 +263,28 @@ async function openChat(id){
     const c={id:snap.id,...snap.data()};
     if(!Array.isArray(c.participants)||!c.participants.includes(uid)){toast('Чатқа рұқсат жоқ');return}
     activeChat=id;
-    const unread={...(c.unread||{})}; unread[uid]=0;
-    await fbDb.collection('chats').doc(id).update({unread});
     openModal(`<div class="modaltop"><h2>💬 ${esc(c.buyerId===uid?c.sellerName:c.buyerName)}</h2><button class="close" id="close">×</button></div><div class="chatbox"><div class="msgs" id="msgs"><div class="muted">Жүктелуде...</div></div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..."><button class="primary" id="sendChat">Жіберу</button></div></div>`);
+    try{
+      const unread={...(c.unread||{})}; unread[uid]=0;
+      await fbDb.collection('chats').doc(id).update({unread});
+    }catch(e){console.warn('Unread update:',e)}
     document.getElementById('close').onclick=closeModal;
     document.getElementById('sendChat').onclick=sendChat;
     document.getElementById('chatText').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
     if(chatUnsub)chatUnsub();
-    chatUnsub=fbDb.collection('chats').doc(id).collection('messages').orderBy('createdAt','asc').onSnapshot(q=>{
+    chatUnsub=fbDb.collection('chats').doc(id).collection('messages').onSnapshot(q=>{
       const box=document.getElementById('msgs');
       if(!box)return;
       if(q.empty){box.innerHTML='<div class="muted">Хабарлама жоқ.</div>';return}
-      box.innerHTML=q.docs.map(d=>{const m=d.data();return `<div class="msg ${m.senderId===uid?'mine':'theirs'}">${esc(m.text)}</div>`}).join('');
+      const docs=q.docs.map(d=>({id:d.id,...d.data()}));
+      docs.sort((a,b)=>{
+        const ta=a.createdAt?.toMillis?a.createdAt.toMillis():0;
+        const tb=b.createdAt?.toMillis?b.createdAt.toMillis():0;
+        return ta-tb;
+      });
+      box.innerHTML=docs.map(m=>`<div class="msg ${m.senderId===uid?'mine':'theirs'}">${esc(m.text)}</div>`).join('');
       box.scrollTop=box.scrollHeight;
-    },e=>{console.error(e);toast('Хабарламаларды жүктеу қатесі')});
+    },e=>{console.error(e);const box=document.getElementById('msgs');if(box)box.innerHTML='<div class="muted">Хабарламаларды жүктеу мүмкін болмады.</div>';toast('Хабарламаларды жүктеу қатесі: '+(e.code||'Firebase'))});
   }catch(e){console.error(e);toast('Чатты ашу қатесі: '+(e.code||'Firebase'));}
 }
 
