@@ -24,7 +24,7 @@
 
 const firebaseConfig={apiKey:'AIzaSyCj7VBpb0u5YgFqz2Mm8NhvbytX_Fs5tJE',authDomain:'satugo-c3b7c.firebaseapp.com',projectId:'satugo-c3b7c',storageBucket:'satugo-c3b7c.firebasestorage.app',messagingSenderId:'32133349747',appId:'1:32133349747:web:8df062f6428b4eb7ed8506',measurementId:'G-4PF4DV016B'};
 let fbReady=false,fbAuth=null,fbDb=null,phoneConfirmation=null,recaptchaVerifier=null;
-try{firebase.initializeApp(firebaseConfig);fbAuth=firebase.auth();fbDb=firebase.firestore();fbReady=true;fbAuth.onAuthStateChanged(async u=>{if(!u){state.currentUser=null;save();render();return}try{const ref=fbDb.collection('users').doc(u.uid);const snap=await ref.get();const d=snap.exists?snap.data():{};state.currentUser={id:u.uid,name:d.name||u.displayName||'Пайдаланушы',phone:u.phoneNumber||d.phone||'',firebase:true,role:d.role||'buyer'};if(!snap.exists)await ref.set({name:state.currentUser.name,phone:state.currentUser.phone,role:'buyer',createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});await syncCloud();}catch(e){console.error(e);toast('Firebase деректерін жүктеу қатесі')}save();render()})}catch(e){console.warn('Firebase:',e);fbReady=false}
+try{firebase.initializeApp(firebaseConfig);fbAuth=firebase.auth();fbDb=firebase.firestore();fbReady=true;fbAuth.onAuthStateChanged(async u=>{if(!u){state.currentUser=null;save();render();return}try{const ref=fbDb.collection('users').doc(u.uid);const snap=await ref.get();const d=snap.exists?snap.data():{};state.currentUser={id:u.uid,name:d.name||u.displayName||'Пайдаланушы',phone:u.phoneNumber||d.phone||'',firebase:true,role:d.role||'buyer'};if(!snap.exists)await ref.set({uid:u.uid,name:state.currentUser.name,phone:state.currentUser.phone,role:d.role||'buyer',createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});await syncCloud();}catch(e){console.error(e);toast('Firebase деректерін жүктеу қатесі')}save();render()})}catch(e){console.warn('Firebase:',e);fbReady=false}
 const KEY='satugo_from_zero_v1';
 const defaults=[
 {id:'p1',name:'Nike Air Max',price:39990,cat:'Аяқ киім',image:'',sellerId:'platform',sellerName:'SatuGo'},
@@ -306,7 +306,7 @@ async function sendChat(){
     if(other)unread[other]=(unread[other]||0)+1;
     await chatRef.update({lastMessage:text,lastSenderId:uid,unread,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
     input.value='';
-    await syncCloud();
+    try{ await syncCloud(); }catch(syncErr){ console.warn('Chat sync after send:',syncErr); }
   }catch(e){console.error(e);toast('Хабарлама жіберу қатесі: '+(e.code||'Firebase'));}
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
