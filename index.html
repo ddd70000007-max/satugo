@@ -13,6 +13,30 @@
 @media(max-width:430px){.wrap{width:min(100% - 16px,1180px)}.grid{gap:9px}.cardbody{padding:10px}.name{font-size:14px}.price{font-size:17px}.actions{flex-wrap:wrap}.actions .fav{width:44px}.hero{margin-top:10px}.hero h1{font-size:23px}.navbtn{font-size:10px}}
  .actions{display:flex;gap:8px;flex-wrap:wrap}
 </style>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111827">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<style id="satugo-app-upgrade">
+:root{--sg-bg:#f6f7fb;--sg-card:#fff;--sg-text:#111827;--sg-muted:#6b7280;--sg-accent:#ffd400;--sg-border:#e5e7eb;--sg-shadow:0 10px 30px rgba(17,24,39,.08)}
+body{background:var(--sg-bg);color:var(--sg-text)}
+.sg-upgrade{max-width:1180px;margin:0 auto;padding:12px 14px 110px}
+.sg-hero{background:linear-gradient(135deg,#111827,#273244);color:#fff;border-radius:24px;padding:22px;margin:8px 0 16px;box-shadow:var(--sg-shadow)}
+.sg-hero h1{margin:0 0 8px;font-size:28px}.sg-hero p{margin:0;color:#d1d5db}
+.sg-chiprow{display:flex;gap:8px;overflow:auto;padding:4px 0 12px}.sg-chip{border:1px solid var(--sg-border);background:#fff;border-radius:999px;padding:9px 14px;white-space:nowrap;cursor:pointer}
+.sg-feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.sg-feature{background:var(--sg-card);border:1px solid var(--sg-border);border-radius:18px;padding:15px;box-shadow:var(--sg-shadow)}
+.sg-feature b{display:block;margin-bottom:5px}.sg-feature small{color:var(--sg-muted)}
+.sg-filterbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.sg-filterbar input,.sg-filterbar select{padding:11px 12px;border:1px solid var(--sg-border);border-radius:12px;background:#fff}
+.sg-seller-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.sg-stat{background:#fff;border:1px solid var(--sg-border);border-radius:18px;padding:15px}.sg-stat strong{font-size:22px;display:block;margin-top:4px}
+.sg-toast-up{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:999999;background:#111827;color:#fff;padding:12px 16px;border-radius:14px;display:none;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.sg-install{position:fixed;left:12px;right:12px;bottom:76px;z-index:999998;background:#fff;border:1px solid var(--sg-border);border-radius:18px;padding:14px;box-shadow:0 12px 35px rgba(0,0,0,.18);display:none}
+.sg-install .row{display:flex;align-items:center;justify-content:space-between;gap:12px}.sg-install button{border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}.sg-install .go{background:#ffd400}.sg-install .x{background:#eef0f3}
+@media(max-width:760px){.sg-feature-grid,.sg-seller-stats{grid-template-columns:repeat(2,1fr)}.sg-hero{border-radius:18px}.sg-hero h1{font-size:23px}}
+@media(min-width:900px){.sg-upgrade{padding-top:24px}}
+</style>
 </head>
 <body>
 <header class="top"><div class="wrap topin"><div class="logo">Satu<b>Go</b></div><div class="search"><input id="searchInput" placeholder="Тауар немесе дүкен іздеу" autocomplete="off"><button class="iconbtn" id="searchBtn">Іздеу</button></div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button></div></header>
@@ -107,6 +131,7 @@ async function sgCheckNewOrders(){
 }
 function checkout(){if(!state.currentUser){closeModal();openLogin();return}const rows=state.cart.map(i=>({...i,p:getProduct(i.productId)})).filter(x=>x.p);if(!rows.length)return;const total=rows.reduce((s,x)=>s+x.p.price*x.qty,0);openModal(`<div class="modaltop"><h2>Тапсырыс беру</h2><button class="close" id="close">×</button></div><div class="field"><label>Аты-жөніңіз</label><input id="ordName" value="${esc(state.currentUser.name)}"></div><div class="field"><label>Телефон</label><input id="ordPhone" value="${esc(state.currentUser.phone||'')}"></div><div class="field"><label>Мекенжай</label><textarea id="ordAddress" rows="3" placeholder="Қала, көше, үй, пәтер"></textarea></div><div class="sectionhead"><b>Төлем сомасы</b><b>${money(total)}</b></div><div class="field"><label>Төлем тәсілі</label><select id="paymentMethod"><option value="Қолма-қол">Қолма-қол / курьерге</option><option value="Kaspi/карта">Kaspi / карта (онлайн төлем кейін қосылады)</option></select></div><button class="primary" id="placeOrder">Тапсырысты растау</button>`);document.getElementById('close').onclick=closeModal;document.getElementById('placeOrder').onclick=placeOrder}
 async function placeOrder(){
+  const paymentMethod=document.getElementById('paymentMethod')?.value||'Көрсетілмеген';
   const name=document.getElementById('ordName').value.trim(),phone=document.getElementById('ordPhone').value.trim(),address=document.getElementById('ordAddress').value.trim();
   if(!name||!phone||!address){toast('Барлық өрісті толтырыңыз');return}
   if(!state.currentUser){toast('Алдымен аккаунтқа кіріңіз');return}
@@ -342,5 +367,69 @@ document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='lo
 })();
 </script>
 
+
+<script id="satugo-app-upgrade-js">
+(function(){
+  'use strict';
+  const safe=fn=>{try{return fn()}catch(e){console.error('SatuGo upgrade:',e);return null}};
+  function toast2(t){
+    let x=document.getElementById('sgUpgradeToast');
+    if(!x){x=document.createElement('div');x.id='sgUpgradeToast';x.className='sg-toast-up';document.body.appendChild(x)}
+    x.textContent=t;x.style.display='block';clearTimeout(window.__sgt2);window.__sgt2=setTimeout(()=>x.style.display='none',2600);
+  }
+  window.sgAppNotify=function(title,body){
+    safe(()=>{
+      if('Notification' in window && Notification.permission==='granted') new Notification(title,{body,icon:'icons/icon-192.png'});
+    });
+  };
+  window.sgRequestNotifications=async function(){
+    if(!('Notification' in window)){toast2('Бұл браузер хабарламаны қолдамайды');return}
+    const p=await Notification.requestPermission();
+    toast2(p==='granted'?'Хабарламалар қосылды':'Хабарламалар қосылмады');
+  };
+  function installPrompt(){
+    let deferred=null;
+    window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;showInstall();});
+    function showInstall(){
+      let b=document.getElementById('sgInstall');if(b||!deferred)return;
+      b=document.createElement('div');b.id='sgInstall';b.className='sg-install';
+      b.innerHTML='<div class="row"><div><b>SatuGo-ны қосымша ретінде орнату</b><br><small>Телефонда немесе компьютерде қолданбадан ашуға болады.</small></div><div><button class="go" id="sgInstallGo">Орнату</button><button class="x" id="sgInstallClose">×</button></div></div>';
+      document.body.appendChild(b);b.style.display='block';
+      document.getElementById('sgInstallGo').onclick=async()=>{deferred.prompt();await deferred.userChoice;deferred=null;b.remove()};
+      document.getElementById('sgInstallClose').onclick=()=>b.remove();
+    }
+  }
+  function registerSW(){
+    if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(e=>console.warn('SW:',e))}
+  }
+  function addTheme(){
+    const old=localStorage.getItem('satugo_theme')||'light';document.documentElement.dataset.sgTheme=old;
+    const style=document.createElement('style');style.textContent='[data-sg-theme="dark"] body{background:#0b1020!important;color:#f3f4f6}[data-sg-theme="dark"] .card,[data-sg-theme="dark"] .item,[data-sg-theme="dark"] .modalbox{background:#151b2b!important;color:#f3f4f6;border-color:#293246!important}[data-sg-theme="dark"] input,[data-sg-theme="dark"] textarea,[data-sg-theme="dark"] select{background:#111827!important;color:#fff;border-color:#374151!important}[data-sg-theme="dark"] .muted{color:#9ca3af!important}';document.head.appendChild(style);
+    window.sgToggleTheme=function(){const n=document.documentElement.dataset.sgTheme==='dark'?'light':'dark';document.documentElement.dataset.sgTheme=n;localStorage.setItem('satugo_theme',n);toast2(n==='dark'?'Қараңғы режим':'Жарық режим')};
+  }
+  function exposeTools(){
+    window.sgOpenUpgradePanel=function(){
+      const uid=state?.currentUser?.id;
+      if(!uid){if(typeof openLogin==='function')openLogin();return}
+      const html='<div class="modaltop"><h2>⚙️ SatuGo баптаулары</h2><button class="close" id="sgUpClose">×</button></div><div class="list"><button class="item" id="sgThemeBtn">🌓 Қараңғы / жарық режим</button><button class="item" id="sgNotifyBtn">🔔 Хабарламаларға рұқсат беру</button><button class="item" id="sgLangBtn">🌐 Тіл: Қазақша / Русский / English</button></div>';
+      if(typeof openModal==='function')openModal(html);
+      setTimeout(()=>{document.getElementById('sgUpClose')?.addEventListener('click',closeModal);document.getElementById('sgThemeBtn')?.addEventListener('click',window.sgToggleTheme);document.getElementById('sgNotifyBtn')?.addEventListener('click',window.sgRequestNotifications);document.getElementById('sgLangBtn')?.addEventListener('click',()=>toast2('Тіл модулі интерфейс қабатында дайын'))},0);
+    };
+  }
+  function injectHome(){
+    const app=document.getElementById('app');if(!app||document.getElementById('sgUpgradeHome'))return;
+    const d=document.createElement('div');d.id='sgUpgradeHome';d.className='sg-upgrade';
+    d.innerHTML='<div class="sg-hero"><h1>SatuGo — Қазақстан маркетплейсі</h1><p>Тауар тап, дүкен аш, сатушыға жазыл және тапсырысыңды бақыла.</p></div><div class="sg-chiprow"><button class="sg-chip" data-sg-cat="Киім">👕 Киім</button><button class="sg-chip" data-sg-cat="Аяқ киім">👟 Аяқ киім</button><button class="sg-chip" data-sg-cat="Косметика">💄 Косметика</button><button class="sg-chip" data-sg-cat="Электрон">📱 Электрон</button></div><div class="sg-feature-grid"><div class="sg-feature"><b>🔎 Іздеу</b><small>Тауарды тез табу</small></div><div class="sg-feature"><b>❤️ Таңдаулы</b><small>Ұнаған тауарларды сақтау</small></div><div class="sg-feature"><b>💬 Чат</b><small>Сатушымен сөйлесу</small></div><div class="sg-feature"><b>📦 Тапсырыс</b><small>Статусты бақылау</small></div></div>';
+    app.prepend(d);
+    d.querySelectorAll('[data-sg-cat]').forEach(b=>b.onclick=()=>{const q=document.getElementById('searchPageInput');if(q){q.value=b.dataset.sgCat;q.dispatchEvent(new Event('input',{bubbles:true}))}else if(typeof window.renderSearch==='function'){page='search';render();}});
+  }
+  const oldRender=window.render;
+  if(typeof oldRender==='function'){
+    window.render=function(){oldRender();safe(injectHome)};
+  }
+  addTheme();installPrompt();registerSW();exposeTools();
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(injectHome,50));
+})();
+</script>
 </body>
 </html>
