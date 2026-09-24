@@ -40,20 +40,26 @@ function cloud(){return fbReady&&fbAuth?.currentUser&&fbDb}
 async function syncCloud(){
   if(!cloud()||!state.currentUser)return;
   const uid=state.currentUser.id;
-  const [storeSnap,prodSnap,buyerOrders, sellerOrders, chatSnap]=await Promise.all([
-    fbDb.collection('stores').doc(uid).get(),
-    fbDb.collection('products').get(),
-    fbDb.collection('orders').where('buyerId','==',uid).get(),
-    fbDb.collection('orders').where('sellerIds','array-contains',uid).get(),
-    fbDb.collection('chats').where('participants','array-contains',uid).get()
-  ]);
-  state.store=storeSnap.exists?{id:storeSnap.id,...storeSnap.data()}:null;
-  const cloudProducts=prodSnap.docs.map(d=>({id:d.id,...d.data()}));
-  state.products=[...defaults,...cloudProducts.filter(p=>!defaults.some(x=>String(x.id)===String(p.id)))];
-  const map=new Map();
-  [...buyerOrders.docs,...sellerOrders.docs].forEach(d=>map.set(d.id,{id:d.id,...d.data()}));
-  state.orders=[...map.values()];
-  state.chats=chatSnap.docs.map(d=>({id:d.id,...d.data()})).filter(c=>Array.isArray(c.participants));
+  // Бір коллекциядағы permission қатесі бүкіл сайтты тоқтатпау үшін бөлек жүктейміз.
+  try{
+    const s=await fbDb.collection('stores').doc(uid).get();
+    state.store=s.exists?{id:s.id,...s.data()}:null;
+  }catch(e){console.warn('Store sync:',e.code||e)}
+  try{
+    const p=await fbDb.collection('products').get();
+    const cloudProducts=p.docs.map(d=>({id:d.id,...d.data()}));
+    state.products=[...defaults,...cloudProducts.filter(x=>!defaults.some(y=>String(x.id)===String(y.id)))];
+  }catch(e){console.warn('Product sync:',e.code||e)}
+  try{
+    const b=await fbDb.collection('orders').where('buyerId','==',uid).get();
+    const s=await fbDb.collection('orders').where('sellerIds','array-contains',uid).get();
+    const map=new Map(); [...b.docs,...s.docs].forEach(d=>map.set(d.id,{id:d.id,...d.data()}));
+    state.orders=[...map.values()];
+  }catch(e){console.warn('Order sync:',e.code||e)}
+  try{
+    const c=await fbDb.collection('chats').where('participants','array-contains',uid).get();
+    state.chats=c.docs.map(d=>({id:d.id,...d.data()})).filter(x=>Array.isArray(x.participants));
+  }catch(e){console.warn('Chat list sync:',e.code||e)}
   save();
 }
 
@@ -270,7 +276,7 @@ async function startChat(p){
     }
     closeModal();
     openChat(chatId);
-  }catch(e){console.error(e);toast('Чатты ашу қатесі: '+(e.code||'Firebase'));}
+  }catch(e){console.error('startChat',e);toast('Чатты ашу қатесі: '+(e.code||'Firebase')+' — Firebase Rules-ті тексеріңіз');}
 }
 
 async function openChat(id){
