@@ -216,7 +216,7 @@ document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='lo
   let sgChatUnsub=null;
   function sgUid(){return state.currentUser?.id || fbAuth?.currentUser?.uid || null}
   function sgDb(){return fbDb}
-  function sgChatId(a,b){return 'chat_'+[a,b].sort().join('_')}
+  function sgChatId(a,b,productId){return 'chat_'+[a,b].sort().join('_')+'_'+String(productId||'store').replace(/[^a-zA-Z0-9_-]/g,'_')}
   function sgName(){return state.currentUser?.name || fbAuth?.currentUser?.displayName || 'Пайдаланушы'}
 
   window.startChat=async function(p){
@@ -227,7 +227,7 @@ document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='lo
     }
     if(p.sellerId===uid){toast('Өз тауарыңызға чат аша алмайсыз');return}
     if(!sgDb()){toast('Firebase Firestore қосылмаған');return}
-    const id=sgChatId(uid,p.sellerId);
+    const id=sgChatId(uid,p.sellerId,p.id);
     const data={
       participants:[uid,p.sellerId],
       participantNames:{[uid]:sgName(),[p.sellerId]:p.sellerName||'Сатушы'},
@@ -235,6 +235,10 @@ document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='lo
       buyerName:sgName(),
       sellerId:p.sellerId,
       sellerName:p.sellerName||'Сатушы',
+      productId:p.id||'',
+      productName:p.name||p.title||'Тауар',
+      productPrice:Number(p.price||0),
+      productImage:p.image||'',
       lastMessage:'',
       unread:{[uid]:0,[p.sellerId]:0},
       updatedAt:firebase.firestore.FieldValue.serverTimestamp()
@@ -262,7 +266,8 @@ document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='lo
         arr.length?'<div class="list">'+arr.map(c=>{
           const other=(c.participantNames&&c.participantNames[uid])?(c.participantNames[Object.keys(c.participantNames).find(x=>x!==uid)]||'Сатушы'):(c.buyerId===uid?(c.sellerName||'Сатушы'):(c.buyerName||'Сатып алушы'));
           const unread=(c.unread&&c.unread[uid])||0;
-          return '<button class="item" data-chat="'+esc(c.id)+'" style="text-align:left;border:1px solid #e5e7eb"><b>'+esc(other)+'</b><div class="muted">'+esc(c.lastMessage||'Чат ашылды')+(unread?' <span class="badge">'+unread+'</span>':'')+'</div></button>';
+          const product=c.productName||'Тауар көрсетілмеген';
+          return '<button class="item" data-chat="'+esc(c.id)+'" style="text-align:left;border:1px solid #e5e7eb"><b>🏪 '+esc(other)+'</b><div style="margin-top:5px;font-weight:700">🛍️ '+esc(product)+'</div><div class="muted">'+esc(c.lastMessage||'Чат ашылды')+(unread?' <span class="badge">'+unread+'</span>':'')+'</div></button>';
         }).join('')+'</div>':'<div class="empty">Әзірге чат жоқ.<br>Тауарды ашып, «Сатушымен чат» батырмасын басыңыз.</div>'
       );
     }catch(e){
@@ -282,8 +287,12 @@ document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='lo
       activeChat=id;
       const otherId=c.participants.find(x=>x!==uid);
       const title=(c.participantNames&&c.participantNames[otherId])||(c.buyerId===uid?c.sellerName:c.buyerName)||'Чат';
+      const productTitle=c.productName||'Тауар көрсетілмеген';
+      const productPrice=Number(c.productPrice||0);
+      const productImage=c.productImage||'';
+      const productBox='<div class="item" style="margin:10px 0;background:#f8fafc"><div style="display:flex;gap:10px;align-items:center">'+(productImage?'<img src="'+esc(productImage)+'" style="width:58px;height:58px;object-fit:cover;border-radius:10px">':'<div style="width:58px;height:58px;border-radius:10px;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:25px">🛍️</div>')+'<div><div class="muted">Осы тауар туралы чат</div><b>'+esc(productTitle)+'</b>'+(productPrice?'<div class="price" style="font-size:16px;margin:3px 0 0">'+money(productPrice)+'</div>':'')+'</div></div></div>';
       await ref.set({unread:{...(c.unread||{}),[uid]:0},updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
-      openModal('<div class="modaltop"><h2>💬 '+esc(title)+'</h2><button class="close" id="close">×</button></div><div class="chatbox"><div class="msgs" id="msgs"><div class="muted">Жүктелуде...</div></div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..."><button class="primary" id="sendChat">Жіберу</button></div></div>');
+      openModal('<div class="modaltop"><h2>💬 '+esc(title)+'</h2><button class="close" id="close">×</button></div>'+productBox+'<div class="chatbox"><div class="msgs" id="msgs"><div class="muted">Жүктелуде...</div></div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..."><button class="primary" id="sendChat">Жіберу</button></div></div>');
       document.getElementById('close').onclick=closeModal;
       document.getElementById('sendChat').onclick=window.sendChat;
       document.getElementById('chatText').addEventListener('keydown',e=>{if(e.key==='Enter')window.sendChat()});
