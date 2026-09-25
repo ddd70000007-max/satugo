@@ -8,7 +8,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <style>
-*{box-sizing:border-box}html,body{margin:0;padding:0;font-family:Arial,sans-serif;background:#f5f6f8;color:#111827}body{padding-bottom:82px}.wrap{width:min(1180px,calc(100% - 24px));margin:auto}.top{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #e5e7eb}.topin{height:64px;display:flex;align-items:center;gap:12px}.logo{font-size:24px;font-weight:900;white-space:nowrap}.logo b{color:#f5b400}.search{flex:1;display:flex;gap:8px}.search input{width:100%;padding:12px 15px;border:1px solid #d7dbe2;border-radius:13px;outline:none}.iconbtn,.primary,.secondary,.danger{border:0;border-radius:12px;padding:11px 14px}.iconbtn{background:#f3f4f6}.primary{background:#111827;color:#fff}.secondary{background:#eef0f3}.danger{background:#fee2e2;color:#991b1b}.hero{margin:18px 0;background:linear-gradient(135deg,#111827,#374151);color:#fff;border-radius:22px;padding:28px}.hero h1{margin:0 0 8px;font-size:32px}.hero p{margin:0;color:#d1d5db}.cats{display:flex;gap:8px;overflow:auto;padding:4px 0 16px}.cat{border:1px solid #ddd;background:#fff;border-radius:999px;padding:9px 14px;white-space:nowrap}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:14px 0}.sectionhead h2{margin:0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;overflow:hidden;box-shadow:0 2px 8px #00000008}.pic{height:190px;background:#eef0f3;display:flex;align-items:center;justify-content:center;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover}.pic span{font-size:52px}.cardbody{padding:13px}.name{font-weight:700;min-height:40px}.price{font-size:19px;font-weight:900;margin:8px 0}.muted{color:#6b7280;font-size:13px}.actions{display:flex;gap:8px;margin-top:10px}.actions button{flex:1}.fav{width:44px}.empty{padding:30px;background:#fff;border-radius:18px;text-align:center;color:#6b7280}.bottom{position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(5,1fr);padding:7px 5px calc(7px + env(safe-area-inset-bottom))}.navbtn{border:0;background:none;padding:7px 2px;color:#6b7280;font-size:11px}.navbtn b{display:block;font-size:20px;margin-bottom:2px}.navbtn.active{color:#111827;font-weight:800}.badge{display:inline-flex;min-width:18px;height:18px;align-items:center;justify-content:center;border-radius:9px;background:#ef4444;color:#fff;font-size:10px;padding:0 4px;vertical-align:top}.modal{position:fixed;inset:0;background:#0008;z-index:100000;display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{background:#fff;width:min(760px,100%);max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:20px}.modaltop{display:flex;justify-content:space-between;align-items:center;gap:10px}.modaltop h2{margin:0}.close{border:0;background:#f3f4f6;border-radius:50%;width:38px;height:38px}.field{margin:10px 0}.field label{display:block;font-size:13px;color:#6b7280;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #d7dbe2;border-radius:12px;outline:none}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.list{display:grid;gap:10px}.item{border:1px solid #e5e7eb;border-radius:14px;padding:12px;background:#fff}.productdetail{display:grid;grid-template-columns:1fr 1fr;gap:20px}.bigpic{height:330px;background:#eef0f3;border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}.bigpic img{width:100%;height:100%;object-fit:cover}.bigpic span{font-size:80px}.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#111827;color:#fff;padding:12px 18px;border-radius:12px;z-index:100001;display:none}.toast.show{display:block}.hidden{display:none!important}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f8fafc;border-radius:14px;padding:14px;text-align:center}.stat strong{display:block;font-size:22px}.review{padding:10px 0;border-bottom:1px solid #eee}.stars{color:#f59e0b}.chatbox{height:330px;border:1px solid #ddd;border-radius:14px;display:flex;flex-direction:column}.msgs{flex:1;overflow:auto;padding:12px;background:#f8fafc}.msg{max-width:80%;padding:9px 12px;border-radius:14px;margin:5px 0}.mine{margin-left:auto;background:#111827;color:#fff}.theirs{background:#fff;border:1px solid #ddd}.chatinput{display:flex;gap:8px;padding:8px;border-top:1px solid #ddd}.chatinput input{flex:1;border:1px solid #ddd;border-radius:12px;padding:11px}
+*{box-sizing:border-box}html,body{margin:0;padding:0;font-family:Arial,sans-serif;background:#f5f6f8;color:#111827}body{padding-bottom:82px}.wrap{width:min(1180px,calc(100% - 24px));margin:auto}.top{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #e5e7eb}.topin{height:64px;display:flex;align-items:center;gap:12px}.logo{font-size:24px;font-weight:900;white-space:nowrap}.logo b{color:#f5b400}.search{flex:1;display:flex;gap:8px}.search input{width:100%;padding:12px 15px;border:1px solid #d7dbe2;border-radius:13px;outline:none}.iconbtn,.primary,.secondary,.danger{border:0;border-radius:12px;padding:11px 14px}.iconbtn{background:#f3f4f6}.primary{background:#111827;color:#fff}.secondary{background:#eef0f3}.danger{background:#fee2e2;color:#991b1b}.hero{margin:18px 0;background:linear-gradient(135deg,#111827,#374151);color:#fff;border-radius:22px;padding:28px}.hero h1{margin:0 0 8px;font-size:32px}.hero p{margin:0;color:#d1d5db}.cats{display:flex;gap:8px;overflow:auto;padding:4px 0 16px}.cat{border:1px solid #ddd;background:#fff;border-radius:999px;padding:9px 14px;white-space:nowrap}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:14px 0}.sectionhead h2{margin:0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;overflow:hidden;box-shadow:0 2px 8px #00000008}.pic{height:190px;background:#eef0f3;display:flex;align-items:center;justify-content:center;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover}.pic span{font-size:52px}.cardbody{padding:13px}.name{font-weight:700;min-height:40px}.price{font-size:19px;font-weight:900;margin:8px 0}.muted{color:#6b7280;font-size:13px}.actions{display:flex;gap:8px;margin-top:10px}.actions button{flex:1}.fav{width:44px}.empty{padding:30px;background:#fff;border-radius:18px;text-align:center;color:#6b7280}.bottom{position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(5,1fr);padding:7px 5px calc(7px + env(safe-area-inset-bottom))}.navbtn{border:0;background:none;padding:7px 2px;color:#6b7280;font-size:11px}.navbtn b{display:block;font-size:20px;margin-bottom:2px}.navbtn.active{color:#111827;font-weight:800}.badge{display:inline-flex;min-width:18px;height:18px;align-items:center;justify-content:center;border-radius:9px;background:#ef4444;color:#fff;font-size:10px;padding:0 4px;vertical-align:top}.modal{position:fixed;inset:0;background:#0008;z-index:100;display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{background:#fff;width:min(760px,100%);max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:20px}.modaltop{display:flex;justify-content:space-between;align-items:center;gap:10px}.modaltop h2{margin:0}.close{border:0;background:#f3f4f6;border-radius:50%;width:38px;height:38px}.field{margin:10px 0}.field label{display:block;font-size:13px;color:#6b7280;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #d7dbe2;border-radius:12px;outline:none}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.list{display:grid;gap:10px}.item{border:1px solid #e5e7eb;border-radius:14px;padding:12px;background:#fff}.productdetail{display:grid;grid-template-columns:1fr 1fr;gap:20px}.bigpic{height:330px;background:#eef0f3;border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}.bigpic img{width:100%;height:100%;object-fit:cover}.bigpic span{font-size:80px}.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#111827;color:#fff;padding:12px 18px;border-radius:12px;z-index:200;display:none}.toast.show{display:block}.hidden{display:none!important}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f8fafc;border-radius:14px;padding:14px;text-align:center}.stat strong{display:block;font-size:22px}.review{padding:10px 0;border-bottom:1px solid #eee}.stars{color:#f59e0b}.chatbox{height:330px;border:1px solid #ddd;border-radius:14px;display:flex;flex-direction:column}.msgs{flex:1;overflow:auto;padding:12px;background:#f8fafc}.msg{max-width:80%;padding:9px 12px;border-radius:14px;margin:5px 0}.mine{margin-left:auto;background:#111827;color:#fff}.theirs{background:#fff;border:1px solid #ddd}.chatinput{display:flex;gap:8px;padding:8px;border-top:1px solid #ddd}.chatinput input{flex:1;border:1px solid #ddd;border-radius:12px;padding:11px}
 @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.topin{height:auto;flex-wrap:wrap;padding:8px 0}.logo{font-size:21px}.search{order:3;flex-basis:100%}.hero{padding:22px}.hero h1{font-size:26px}.pic{height:155px}.productdetail{grid-template-columns:1fr}.bigpic{height:260px}.row{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr 1fr}.sheet{max-height:94vh}}
 @media(max-width:430px){.wrap{width:min(100% - 16px,1180px)}.grid{gap:9px}.cardbody{padding:10px}.name{font-size:14px}.price{font-size:17px}.actions{flex-wrap:wrap}.actions .fav{width:44px}.hero{margin-top:10px}.hero h1{font-size:23px}.navbtn{font-size:10px}}
 
@@ -222,7 +222,6 @@ let state=load(); let page='home'; let selectedProduct=null; let activeChat=null
 function load(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&x.products)return {...fresh(),...x,products:x.products.map(p=>({...p,special:Boolean(p.special),specialType:p.specialType||'interesting'}))};}catch(e){}return fresh()}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));updateBadges()}
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function avatarHtml(u={}){const name=String(u.name||'Пайдаланушы').trim()||'Пайдаланушы';const initials=name.split(/\s+/).map(x=>x[0]||'').join('').slice(0,2).toUpperCase();const photo=u.photo||'';return photo?`<div class="account-avatar"><img src="${esc(photo)}" alt="" onerror="this.parentElement.innerHTML='${initials}'"></div>`:`<div class="account-avatar">${esc(initials)}</div>`}
 function money(n){return Number(n||0).toLocaleString('kk-KZ')+' ₸'}
 function toast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');clearTimeout(window._t);window._t=setTimeout(()=>x.classList.remove('show'),1800)}
 function img(url,emoji='🛍️',cls='pic'){return url?`<div class="${cls}"><img src="${esc(url)}" alt=""></div>`:`<div class="${cls}"><span>${emoji}</span></div>`}
@@ -394,67 +393,238 @@ ${tags.length?`<div class="smart-tags">${tags.map(t=>`<span class="smart-tag">${
 }
 
 function renderFav(){const arr=state.products.filter(p=>state.favorites.includes(p.id));return `<div class="sectionhead"><h2>Таңдаулы</h2></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Таңдаулы тауар жоқ.<br>Ұнаған тауардағы ♡ батырмасын басыңыз.</div>'}`}
+let chatListUnsubscribe=null;
+let chatUnsubscribe=null;
+
 function renderChats(){
   const app=document.getElementById('app');
-  const uid=fbAuth?.currentUser?.uid||state.currentUser?.id;
-  if(!uid){app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттарды көру үшін аккаунтқа кіріңіз.</div>';return}
-  if(!fbReady||!fbDb){app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Firebase қосылмаған.</div>';return}
+  const uid=state.currentUser?.id||fbAuth?.currentUser?.uid;
+
+  if(chatListUnsubscribe){
+    chatListUnsubscribe();
+    chatListUnsubscribe=null;
+  }
+
+  if(!uid){
+    app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттарды көру үшін аккаунтқа кіріңіз.</div>';
+    return;
+  }
+
+  if(!fbReady||!fbDb){
+    app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Firebase қосылмаған.</div>';
+    return;
+  }
+
   app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттар жүктелуде...</div>';
-  if(window._chatListUnsubscribe){try{window._chatListUnsubscribe()}catch(_){}}
-  window._chatListUnsubscribe=fbDb.collection('chats').where('participants','array-contains',uid).onSnapshot(snap=>{
-    const arr=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.updatedAt?.toMillis?.()||0)-(a.updatedAt?.toMillis?.()||0));
-    state.chats=arr;
-    try{save()}catch(_){}
-    app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2><span class="muted">'+arr.length+'</span></div>'+(arr.length?'<div class="list">'+arr.map(c=>{const otherId=(c.participants||[]).find(x=>x!==uid);const other=c.participantNames?.[otherId]||(c.buyerId===uid?c.sellerName:c.buyerName)||'Сатушы';const unread=c.unread?.[uid]||0;return '<button class="item" data-chat="'+esc(c.id)+'" style="text-align:left;border:1px solid #e5e7eb"><b>💬 '+esc(other)+'</b><div class="muted">'+esc(c.lastMessage||'Чат ашылды')+(unread?' <span class="badge">'+unread+'</span>':'')+'</div></button>'}).join('')+'</div>':'<div class="empty">Әзірге чат жоқ.<br>Тауарды ашып, «Сатушымен чат» батырмасын басыңыз.</div>');
-    updateBadges();
-  },e=>{console.error(e);app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттарды жүктеу қатесі:<br>'+esc(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message)+'</div>'});
+
+  chatListUnsubscribe=fbDb.collection('chats')
+    .where('participants','array-contains',uid)
+    .onSnapshot(snap=>{
+      const arr=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>{
+        const ta=a.updatedAt?.toMillis?.()||0;
+        const tb=b.updatedAt?.toMillis?.()||0;
+        return tb-ta;
+      });
+
+      state.chats=arr;
+      save();
+
+      app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2><span class="muted">'+arr.length+'</span></div>'+
+        (arr.length
+          ? '<div class="list">'+arr.map(c=>{
+              const otherId=(c.participants||[]).find(x=>x!==uid);
+              const other=(c.participantNames&&c.participantNames[otherId])||
+                (c.buyerId===uid?c.sellerName:c.buyerName)||'Сатушы';
+              const unread=(c.unread&&c.unread[uid])||0;
+              return '<button class="item chat-list-item" data-chat="'+esc(c.id)+'" style="width:100%;text-align:left;border:1px solid #e5e7eb;cursor:pointer">'+
+                '<b>💬 '+esc(other)+'</b>'+ 
+                '<div class="muted">'+esc(c.lastMessage||'Чат ашылды')+(unread?' <span class="badge">'+unread+'</span>':'')+'</div>'+ 
+              '</button>';
+            }).join('')+'</div>'
+          : '<div class="empty">Әзірге чат жоқ.<br>Тауарды ашып, «Сатушымен чат» батырмасын басыңыз.</div>');
+
+      app.querySelectorAll('[data-chat]').forEach(btn=>{
+        btn.onclick=()=>openChat(btn.getAttribute('data-chat'));
+      });
+      updateBadges();
+    },e=>{
+      console.error('Chat list error:',e);
+      app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттарды жүктеу қатесі:<br>'+
+        esc(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message)+'</div>';
+    });
 }
 
 async function startChat(p){
-  const uid=fbAuth?.currentUser?.uid||state.currentUser?.id;
-  if(!uid){closeModal();openLogin();return}
-  if(!p||!p.sellerId||p.sellerId==='platform'){toast('Бұл тауардың жеке сатушысы жоқ');return}
-  if(p.sellerId===uid){toast('Өз тауарыңызға чат аша алмайсыз');return}
-  if(!fbReady||!fbDb){toast('Firebase Firestore қосылмаған');return}
-  const id='chat_'+[uid,p.sellerId].sort().join('_');
+  const uid=state.currentUser?.id||fbAuth?.currentUser?.uid;
+  if(!uid){closeModal();openLogin();return;}
+  if(!p){toast('Тауар табылмады');return;}
+  if(!fbReady||!fbDb){toast('Firebase Firestore қосылмаған');return;}
+
+  // sellerId must be the Firebase Auth UID of the seller.
+  const sellerId=String(p.sellerId||p.sellerUid||p.ownerId||'').trim();
+
+  if(!sellerId||sellerId==='platform'||sellerId==='undefined'||sellerId==='null'){
+    toast('Бұл тауардың жеке сатушысы жоқ');
+    return;
+  }
+  if(sellerId===String(uid)){
+    toast('Өз тауарыңызға чат аша алмайсыз');
+    return;
+  }
+
+  const buyerName=state.currentUser?.name||'Пайдаланушы';
+  const sellerName=p.sellerName||p.seller||'Сатушы';
+  const participants=[String(uid),sellerId].sort();
+  const id='chat_'+participants.join('_');
+
   try{
-    await fbDb.collection('chats').doc(id).set({participants:[uid,p.sellerId],participantNames:{[uid]:state.currentUser?.name||'Пайдаланушы',[p.sellerId]:p.sellerName||'Сатушы'},buyerId:uid,buyerName:state.currentUser?.name||'Пайдаланушы',sellerId:p.sellerId,sellerName:p.sellerName||'Сатушы',lastMessage:'',unread:{[uid]:0,[p.sellerId]:0},updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
-    closeModal();await openChat(id);
-  }catch(e){console.error(e);toast('Чатты ашу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}
+    // Create/update the same chat document for both sides.
+    await fbDb.collection('chats').doc(id).set({
+      participants:participants,
+      participantNames:{
+        [String(uid)]:buyerName,
+        [sellerId]:sellerName
+      },
+      buyerId:String(uid),
+      buyerName:buyerName,
+      sellerId:sellerId,
+      sellerName:sellerName,
+      productId:p.id||'',
+      productName:p.name||p.title||'',
+      lastMessage:'',
+      lastSenderId:'',
+      unread:{
+        [String(uid)]:0,
+        [sellerId]:0
+      },
+      updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+    },{merge:true});
+
+    closeModal();
+    await openChat(id);
+  }catch(e){
+    console.error('startChat:',e);
+    toast('Чатты ашу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message));
+  }
 }
-let chatUnsubscribe=null;
+
 async function openChat(id){
-  const uid=fbAuth?.currentUser?.uid||state.currentUser?.id;
-  if(!uid){openLogin();return}
-  if(!fbReady||!fbDb){toast('Firebase Firestore қосылмаған');return}
+  const uid=String(state.currentUser?.id||fbAuth?.currentUser?.uid||'');
+  if(!uid){openLogin();return;}
+  if(!fbReady||!fbDb){toast('Firebase Firestore қосылмаған');return;}
+
   try{
-    const ref=fbDb.collection('chats').doc(id),snap=await ref.get();
-    if(!snap.exists){toast('Чат табылмады');return}
+    const ref=fbDb.collection('chats').doc(id);
+    const snap=await ref.get();
+
+    if(!snap.exists){toast('Чат табылмады');return;}
+
     const c={id:snap.id,...snap.data()};
-    if(!(c.participants||[]).includes(uid)){toast('Чатқа рұқсат жоқ');return}
+    const participants=(c.participants||[]).map(String);
+    if(!participants.includes(uid)){
+      toast('Чатқа рұқсат жоқ');
+      return;
+    }
+
     activeChat=id;
-    const otherId=c.participants.find(x=>x!==uid);
-    const title=c.participantNames?.[otherId]||(c.buyerId===uid?c.sellerName:c.buyerName)||'Чат';
-    await ref.set({unread:{...(c.unread||{}),[uid]:0}},{merge:true});
-    openModal('<div class="modaltop"><h2>💬 '+esc(title)+'</h2><button class="close" id="close">×</button></div><div class="chatbox"><div class="msgs" id="msgs"><div class="muted">Жүктелуде...</div></div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..." autocomplete="off"><button class="primary" id="sendChat">Жіберу</button></div></div>');
+    const otherId=participants.find(x=>x!==uid)||'';
+    const title=(c.participantNames&&c.participantNames[otherId])||
+      (c.buyerId===uid?c.sellerName:c.buyerName)||'Чат';
+
+    const unread={...(c.unread||{})};
+    unread[uid]=0;
+    await ref.set({unread},{merge:true});
+
+    if(chatUnsubscribe){
+      chatUnsubscribe();
+      chatUnsubscribe=null;
+    }
+
+    openModal('<div class="modaltop"><h2>💬 '+esc(title)+'</h2><button class="close" id="close">×</button></div>'+ 
+      '<div class="chatbox"><div class="msgs" id="msgs"><div class="muted">Жүктелуде...</div></div>'+ 
+      '<div class="chatinput"><input id="chatText" placeholder="Хабарлама..." autocomplete="off"><button class="primary" id="sendChat">Жіберу</button></div></div>');
+
     document.getElementById('close').onclick=closeModal;
     document.getElementById('sendChat').onclick=sendChat;
-    document.getElementById('chatText').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();sendChat()}});
-    if(chatUnsubscribe)chatUnsubscribe();
-    chatUnsubscribe=ref.collection('messages').orderBy('createdAt','asc').limitToLast(100).onSnapshot(s=>{const box=document.getElementById('msgs');if(!box)return;box.innerHTML=s.empty?'<div class="muted">Хабарлама жоқ.</div>':s.docs.map(d=>{const m=d.data()||{};return '<div class="msg '+(m.senderId===uid?'mine':'theirs')+'">'+esc(m.text||'')+'</div>'}).join('');box.scrollTop=box.scrollHeight},e=>{const box=document.getElementById('msgs');if(box)box.innerHTML='<div class="muted">Хабарламаларды ашу қатесі: '+esc(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message)+'</div>'});
-  }catch(e){console.error(e);toast('Чатты ашу қатесі: '+e.message)}
+    document.getElementById('chatText').addEventListener('keydown',e=>{
+      if(e.key==='Enter'){
+        e.preventDefault();
+        sendChat();
+      }
+    });
+
+    chatUnsubscribe=ref.collection('messages')
+      .orderBy('createdAt','asc')
+      .limitToLast(100)
+      .onSnapshot(s=>{
+        const box=document.getElementById('msgs');
+        if(!box)return;
+        box.innerHTML=s.empty
+          ? '<div class="muted">Хабарлама жоқ.</div>'
+          : s.docs.map(d=>{
+              const m=d.data()||{};
+              return '<div class="msg '+(String(m.senderId)===uid?'mine':'theirs')+'">'+esc(m.text||'')+'</div>';
+            }).join('');
+        box.scrollTop=box.scrollHeight;
+      },e=>{
+        console.error('Message listener:',e);
+        const box=document.getElementById('msgs');
+        if(box)box.innerHTML='<div class="muted">Хабарламаларды ашу қатесі: '+
+          esc(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message)+'</div>';
+      });
+  }catch(e){
+    console.error('openChat:',e);
+    toast('Чатты ашу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message));
+  }
 }
+
 async function sendChat(){
-  const input=document.getElementById('chatText'),text=input?.value.trim(),uid=fbAuth?.currentUser?.uid||state.currentUser?.id;
+  const input=document.getElementById('chatText');
+  const text=input?.value.trim();
+  const uid=String(state.currentUser?.id||fbAuth?.currentUser?.uid||'');
+
   if(!text||!activeChat||!uid||!fbReady||!fbDb)return;
+
   try{
-    const ref=fbDb.collection('chats').doc(activeChat),snap=await ref.get();
-    if(!snap.exists){toast('Чат табылмады');return}
-    const c=snap.data();if(!(c.participants||[]).includes(uid)){toast('Чатқа рұқсат жоқ');return}
-    await ref.collection('messages').add({senderId:uid,senderName:state.currentUser?.name||'Пайдаланушы',text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-    const unread={...(c.unread||{})},other=(c.participants||[]).find(x=>x!==uid);if(other)unread[other]=(unread[other]||0)+1;
-    await ref.set({lastMessage:text,lastSenderId:uid,unread,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});input.value='';
-  }catch(e){console.error(e);toast('Хабарлама жіберу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}
+    const ref=fbDb.collection('chats').doc(activeChat);
+    const snap=await ref.get();
+    if(!snap.exists){toast('Чат табылмады');return;}
+
+    const c=snap.data()||{};
+    const participants=(c.participants||[]).map(String);
+    if(!participants.includes(uid)){
+      toast('Чатқа рұқсат жоқ');
+      return;
+    }
+
+    const other=participants.find(x=>x!==uid);
+    if(!other){toast('Сатушы табылмады');return;}
+
+    // First save the message.
+    await ref.collection('messages').add({
+      senderId:uid,
+      senderName:state.currentUser?.name||'Пайдаланушы',
+      text:text,
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // Then update the common chat document so the seller gets the chat/unread badge.
+    const unread={...(c.unread||{})};
+    unread[uid]=0;
+    unread[other]=(Number(unread[other])||0)+1;
+
+    await ref.set({
+      lastMessage:text,
+      lastSenderId:uid,
+      unread:unread,
+      updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+    },{merge:true});
+
+    input.value='';
+  }catch(e){
+    console.error('sendChat:',e);
+    toast('Хабарлама жіберу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message));
+  }
 }
 
 function renderAccount(){
@@ -502,25 +672,7 @@ function toggleFav(id){const i=state.favorites.indexOf(id);if(i>=0)state.favorit
 function openCart(){const rows=state.cart.map(i=>({...i,p:getProduct(i.productId)})).filter(x=>x.p);const total=rows.reduce((s,x)=>s+x.p.price*x.qty,0);openModal(`<div class="modaltop"><h2>🛒 Себет</h2><button class="close" id="close">×</button></div>${rows.length?`<div class="list">${rows.map(x=>`<div class="item"><b>${esc(x.p.name)}</b><div>${money(x.p.price)} × ${x.qty}</div><div class="actions"><button class="secondary" data-minus="${x.p.id}">−</button><button class="secondary" data-plus="${x.p.id}">+</button><button class="danger" data-remove="${x.p.id}">Жою</button></div></div>`).join('')}</div><div class="sectionhead"><b>Барлығы</b><b>${money(total)}</b></div><button class="primary" id="checkoutBtn">Тапсырыс беру</button>`:'<div class="empty">Себет бос.</div>'}`);document.getElementById('close').onclick=closeModal;document.getElementById('checkoutBtn')?.addEventListener('click',checkout);document.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.plus,1));document.querySelectorAll('[data-minus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.minus,-1));document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{state.cart=state.cart.filter(x=>x.productId!==b.dataset.remove);save();openCart()})}
 function changeQty(id,d){const x=state.cart.find(i=>i.productId===id);if(!x)return;x.qty+=d;if(x.qty<1)state.cart=state.cart.filter(i=>i!==x);save();openCart()}
 function checkout(){if(!state.currentUser){closeModal();openLogin();return}const rows=state.cart.map(i=>({...i,p:getProduct(i.productId)})).filter(x=>x.p);if(!rows.length)return;const total=rows.reduce((s,x)=>s+x.p.price*x.qty,0);openModal(`<div class="modaltop"><h2>Тапсырыс беру</h2><button class="close" id="close">×</button></div><div class="field"><label>Аты-жөніңіз</label><input id="ordName" value="${esc(state.currentUser.name)}"></div><div class="field"><label>Телефон</label><input id="ordPhone" value="${esc(state.currentUser.phone||'')}"></div><div class="field"><label>Мекенжай</label><textarea id="ordAddress" rows="3" placeholder="Қала, көше, үй, пәтер"></textarea></div><div class="sectionhead"><b>Төлем сомасы</b><b>${money(total)}</b></div><button class="primary" id="placeOrder">Тапсырысты растау</button>`);document.getElementById('close').onclick=closeModal;document.getElementById('placeOrder').onclick=placeOrder}
-async function placeOrder(){
-  const name=document.getElementById('ordName').value.trim(),phone=document.getElementById('ordPhone').value.trim(),address=document.getElementById('ordAddress').value.trim();
-  if(!name||!phone||!address){toast('Барлық өрісті толтырыңыз');return}
-  const items=state.cart.map(i=>({...i,p:getProduct(i.productId)})).filter(x=>x.p);
-  if(!items.length){toast('Себет бос');return}
-  const total=items.reduce((sum,x)=>sum+x.p.price*x.qty,0);
-  const sellerIds=[...new Set(items.map(x=>x.p.sellerId).filter(x=>x&&x!=='platform'))];
-  const o={id:'o_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),buyerId:state.currentUser?.id||'guest',buyerName:name,phone,address,items:items.map(x=>({productId:x.p.id,name:x.p.name,price:Number(x.p.price||0),qty:Number(x.qty||1),sellerId:x.p.sellerId||'platform'})),sellerIds,total,status:'Жаңа тапсырыс',createdAt:Date.now()};
-  try{
-    if(fbReady&&fbDb&&state.currentUser?.firebase&&state.currentUser.id!=='guest'){
-      const ref=fbDb.collection('orders').doc(o.id);
-      await ref.set({...o,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-    }
-    state.orders=[o,...state.orders.filter(x=>x.id!==o.id)];
-    state.currentUser={...(state.currentUser||{}),name,phone};
-    state.cart=[];save();closeModal();toast('Тапсырыс қабылданды');
-    if(fbReady)await syncFirebaseData();else render();
-  }catch(e){console.error(e);toast('Тапсырысты сақтау сәтсіз болды: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}
-}
+function placeOrder(){const name=document.getElementById('ordName').value.trim(),phone=document.getElementById('ordPhone').value.trim(),address=document.getElementById('ordAddress').value.trim();if(!name||!phone||!address){toast('Барлық өрісті толтырыңыз');return}const items=state.cart.map(i=>({...i,p:getProduct(i.productId)})).filter(x=>x.p);const total=items.reduce((s,x)=>s+x.p.price*x.qty,0);const sellerIds=[...new Set(items.map(x=>x.p.sellerId).filter(x=>x&&x!=='platform'))];const o={id:'o_'+Date.now(),buyerId:state.currentUser.id,buyerName:name,phone,address,items:items.map(x=>({productId:x.p.id,name:x.p.name,price:x.p.price,qty:x.qty,sellerId:x.p.sellerId})),sellerIds,total,status:'Жаңа тапсырыс',createdAt:Date.now()};state.orders.unshift(o);state.currentUser.name=name;state.currentUser.phone=phone;state.cart=[];save();closeModal();toast('Тапсырыс қабылданды');render()}
 function normalizePhone(v){let x=String(v||'').replace(/[^0-9+]/g,'');if(x.startsWith('8'))x='+7'+x.slice(1);if(!x.startsWith('+7')&&x.startsWith('7'))x='+'+x;return x}
 async function passHash(v){const data=new TextEncoder().encode(String(v));const buf=await crypto.subtle.digest('SHA-256',data);return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('')}
 function validPhone(v){return /^\+7\d{10}$/.test(normalizePhone(v))}
@@ -626,30 +778,45 @@ function editProfile(){
   };
 }
 
-async function openSeller(){
+function openSeller(){
   if(!state.currentUser){openLogin();return}
   const uid=state.currentUser.id;
-  if(fbReady&&fbDb&&state.currentUser.firebase) await syncFirebaseData(true);
   const mine=state.products.filter(p=>p.sellerId===uid);
   const orders=state.orders.filter(o=>(o.sellerIds||[]).includes(uid));
-  const storeName=state.store?.ownerId===uid?state.store.name:'';
   openModal(`<div class="modaltop"><h2>🏪 Менің дүкенім</h2><button class="close" id="close">×</button></div>
-  <div class="field"><label>Дүкен атауы</label><input id="storeName" value="${esc(storeName)}" placeholder="AIDANA FASHION"></div>
+  <div class="field"><label>Дүкен атауы</label><input id="storeName" value="${esc(state.store?.ownerId===uid?state.store.name:'')}" placeholder="AIDANA FASHION"></div>
   <button class="secondary" id="saveStore">Дүкенді сақтау</button>
   <hr><h3>➕ Тауар қосу</h3>
   <div class="field"><input id="pnm" placeholder="Тауар атауы"></div>
   <div class="row"><div class="field"><input id="pprice" type="number" min="1" placeholder="Бағасы"></div><div class="field"><input id="pstock" type="number" min="0" value="0" placeholder="Қойма саны"></div></div>
-  <div class="field"><input id="pcat" placeholder="Категория"></div><div class="field"><input id="pimg" placeholder="Сурет URL (міндетті емес)"></div><div class="field"><textarea id="pdesc" rows="3" placeholder="Тауар сипаттамасы"></textarea></div>
-  <div class="row"><div class="field"><label>Размер / өлшемдер</label><input id="pSizes" placeholder="S, M, L, XL немесе 42"></div><div class="field"><label>Түс / түстер</label><input id="pColors" placeholder="Қара, Ақ, Көк"></div></div>
+  <div class="field"><input id="pcat" placeholder="Категория"></div>
+  <div class="field"><input id="pimg" placeholder="Сурет URL (міндетті емес)"></div>
+  <div class="field"><textarea id="pdesc" rows="3" placeholder="Тауар сипаттамасы"></textarea></div>
+  <div class="row">
+    <div class="field"><label>Размер / өлшемдер</label><input id="pSizes" placeholder="S, M, L, XL немесе 42"></div>
+    <div class="field"><label>Түс / түстер</label><input id="pColors" placeholder="Қара, Ақ, Көк"></div>
+  </div>
   <div class="field"><label>Кімге арналған</label><select id="pGender"><option value="">Көрсетілмеген</option><option value="Әйелдер">Әйелдер</option><option value="Ерлер">Ерлер</option><option value="Балалар">Балалар</option><option value="Unisex">Unisex</option></select></div>
-  <div class="field"><label class="special-check"><input id="pSpecial" type="checkbox"><span>✨ Ерекше заттарға шығару</span></label></div><div class="field"><label>Ерекше зат түрі</label><select id="pSpecialType"><option value="interesting">🤯 Қызық зат</option><option value="eye">👀 Көзге түсетін</option><option value="gift">🎁 Сыйлық</option></select></div>
+  <div class="field"><label class="special-check"><input id="pSpecial" type="checkbox"><span>✨ Ерекше заттарға шығару</span></label></div>
+  <div class="field"><label>Ерекше зат түрі</label><select id="pSpecialType"><option value="interesting">🤯 Қызық зат</option><option value="eye">👀 Көзге түсетін</option><option value="gift">🎁 Сыйлық</option></select></div>
   <button class="primary" id="addProduct">➕ Тауарды қосу</button>
-  <h3>Менің тауарларым</h3>${mine.length?`<div class="list">${mine.map(p=>`<div class="item"><b>${esc(p.name)}</b><div>${money(p.price)}</div>${p.special?`<div class="special-label">✨ ${specialTitle(p.specialType||'interesting')}</div>`:''}</div>`).join('')}</div>`:'<div class="muted">Тауар жоқ.</div>'}
-  <h3>Менің тапсырыстарым</h3>${orders.length?`<div class="list">${orders.map(o=>{const myItems=(o.items||[]).filter(i=>i.sellerId===uid);return `<div class="item"><b>#${esc(String(o.id).slice(-6))}</b><div>${money(o.total)} · <b>${esc(o.status||'Жаңа тапсырыс')}</b></div><div class="muted">${esc(o.buyerName||'Клиент')} · ${esc(o.phone||'')} · ${esc(o.address||'')}</div><div class="orderitems">${myItems.map(i=>`${esc(i.name)} × ${i.qty}`).join('<br>')}</div>${o.status==='Жаңа тапсырыс'?`<div class="row"><button class="primary" data-status="${esc(o.id)}" data-newstatus="Қабылданды">Қабылдау</button><button class="secondary" data-status="${esc(o.id)}" data-newstatus="Бас тартылды">Бас тарту</button></div>`:''}</div>`}).join('')}</div>`:'<div class="muted">Тапсырыс жоқ.</div>'}`);
+  <h3>Менің тауарларым</h3>
+  ${mine.length?`<div class="list">${mine.map(p=>`<div class="item"><b>${esc(p.name)}</b><div>${money(p.price)}</div>${p.special?`<div class="special-label">✨ ${specialTitle(p.specialType||'interesting')}</div>`:''}</div>`).join('')}</div>`:'<div class="muted">Тауар жоқ.</div>'}
+  <h3>Менің тапсырыстарым</h3>
+  ${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>#${esc(o.id.slice(-6))}</b><div>${money(o.total)} · <b>${esc(o.status||'Жаңа тапсырыс')}</b></div><div class="muted">${esc(o.buyerName||'Клиент')} · ${esc(o.phone||'')} · ${esc(o.address||'')}</div><div class="orderitems">${(o.items||[]).filter(i=>i.sellerId===uid).map(i=>`${esc(i.name)} × ${i.qty}`).join('<br>')}</div>${o.status==='Жаңа тапсырыс'?`<button class="primary" data-status="${esc(o.id)}">Қабылдау</button>`:''}</div>`).join('')}</div>`:'<div class="muted">Тапсырыс жоқ.</div>'}`);
   document.getElementById('close').onclick=closeModal;
-  document.getElementById('saveStore').onclick=async()=>{const n=document.getElementById('storeName').value.trim();if(!n){toast('Дүкен атауын енгізіңіз');return}try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('stores').doc(uid).set({ownerId:uid,name:n,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});state.store={...(state.store||{}),ownerId:uid,name:n};save();toast('Дүкен сақталды')}catch(e){toast('Дүкенді сақтау сәтсіз болды: '+e.message)}};
+  document.getElementById('saveStore').onclick=async()=>{
+    const n=document.getElementById('storeName').value.trim();
+    if(!n){toast('Дүкен атауын енгізіңіз');return}
+    try{
+      if(fbReady&&fbDb&&state.currentUser.firebase){
+        await fbDb.collection('stores').doc(uid).set({ownerId:uid,name:n,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+      }
+      state.store={...(state.store||{}),ownerId:uid,name:n};save();toast('Дүкен сақталды');
+    }catch(e){toast('Дүкенді сақтау сәтсіз болды: '+e.message)}
+  };
   document.getElementById('addProduct').onclick=saveSellerProduct;
-  document.querySelectorAll('[data-status]').forEach(b=>b.onclick=async()=>{const id=b.dataset.status,status=b.dataset.newstatus;try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('orders').doc(id).update({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});const o=state.orders.find(x=>x.id===id);if(o)o.status=status;save();openSeller();toast(status==='Қабылданды'?'Тапсырыс қабылданды':'Тапсырыс бас тартылды')}catch(e){toast('Тапсырыс мәртебесін өзгерту сәтсіз болды: '+e.message)}});
+  document.querySelectorAll('[data-status]').forEach(b=>b.onclick=()=>{const o=state.orders.find(x=>x.id===b.dataset.status);if(o){o.status='Қабылданды';save();openSeller();toast('Тапсырыс қабылданды')}});
 }
 
 async function saveSellerProduct(){
@@ -1011,19 +1178,20 @@ document.getElementById('cartBtn').onclick=openCart;document.getElementById('sea
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
 document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='accountOrders'){page='account';render();setTimeout(()=>document.getElementById('accountOrderSection')?.scrollIntoView({behavior:'smooth'}),0);}if(e.target.id==='accountFavorites'){page='favorites';render()}if(e.target.id==='accountChats'){page='chats';render()}if(e.target.id==='accountSecurity'){openSecurity();}if(e.target.id==='searchPageInput'){}}
 );render();applyLanguage();
-async function syncFirebaseData(silent=false){
- if(!fbReady||!fbDb)return;
+async function syncFirebaseData(){
+ if(!fbReady)return;
  try{
   const ps=await fbDb.collection('products').get();
   const remote=ps.docs.map(d=>{const x=d.data()||{};return {id:d.id,...x,name:x.name||x.title||'Тауар',price:Number(x.price||0),cat:x.cat||x.category||'Басқа',category:x.category||x.cat||'Басқа',sellerName:x.sellerName||x.seller||'Сатушы',special:Boolean(x.special),specialType:x.specialType||'interesting',sizes:x.sizes||x.sizesText||'',colors:x.colors||x.colorsText||'',gender:x.gender||''};});
-  const ids=new Set(remote.map(x=>String(x.id)));const localSpecial=specialStarter.filter(x=>!ids.has(String(x.id)));state.products=[...localSpecial,...remote];
-  if(state.currentUser?.id){const uid=state.currentUser.id;
-    try{const us=await fbDb.collection('stores').doc(uid).get();if(us.exists)state.store={ownerId:uid,...us.data()}}catch(e){console.warn('store load',e.message)}
-    try{const [buyerSnap,sellerSnap]=await Promise.all([fbDb.collection('orders').where('buyerId','==',uid).get(),fbDb.collection('orders').where('sellerIds','array-contains',uid).get()]);const map=new Map();[...buyerSnap.docs,...sellerSnap.docs].forEach(d=>{const x=d.data()||{};map.set(d.id,{id:d.id,...x,createdAt:x.createdAt?.toMillis?x.createdAt.toMillis():x.createdAt||Date.now()})});state.orders=[...map.values()].sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0))}catch(e){console.warn('orders load',e.message)}
-  }
-  save();if(!silent)render();
- }catch(e){console.warn('Firebase sync',e.message);if(!silent)render()}
+  const ids=new Set(remote.map(x=>String(x.id)));
+  const localSpecial=specialStarter.filter(x=>!ids.has(String(x.id)));
+  state.products=[...localSpecial,...remote];
+  save();
+  render();
+ }catch(e){console.warn('products load',e.message)}
 }
+if(fbReady) setTimeout(syncFirebaseData,300);
+
 function openSecurity(){
   openModal(`<div class="modaltop"><h2>🔐 Қауіпсіздік</h2><button class="close" id="close">×</button></div>
   <div class="item"><b>Телефон арқылы кіру</b><div class="muted" style="margin-top:5px">${esc(state.currentUser?.phone||'Телефон көрсетілмеген')}</div></div>
