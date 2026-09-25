@@ -8,7 +8,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <style>
-*{box-sizing:border-box}html,body{margin:0;padding:0;font-family:Arial,sans-serif;background:#f5f6f8;color:#111827}body{padding-bottom:82px}.wrap{width:min(1180px,calc(100% - 24px));margin:auto}.top{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #e5e7eb}.topin{height:64px;display:flex;align-items:center;gap:12px}.logo{font-size:24px;font-weight:900;white-space:nowrap}.logo b{color:#f5b400}.search{flex:1;display:flex;gap:8px}.search input{width:100%;padding:12px 15px;border:1px solid #d7dbe2;border-radius:13px;outline:none}.iconbtn,.primary,.secondary,.danger{border:0;border-radius:12px;padding:11px 14px}.iconbtn{background:#f3f4f6}.primary{background:#111827;color:#fff}.secondary{background:#eef0f3}.danger{background:#fee2e2;color:#991b1b}.hero{margin:18px 0;background:linear-gradient(135deg,#111827,#374151);color:#fff;border-radius:22px;padding:28px}.hero h1{margin:0 0 8px;font-size:32px}.hero p{margin:0;color:#d1d5db}.cats{display:flex;gap:8px;overflow:auto;padding:4px 0 16px}.cat{border:1px solid #ddd;background:#fff;border-radius:999px;padding:9px 14px;white-space:nowrap}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:14px 0}.sectionhead h2{margin:0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;overflow:hidden;box-shadow:0 2px 8px #00000008}.pic{height:190px;background:#eef0f3;display:flex;align-items:center;justify-content:center;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover}.pic span{font-size:52px}.cardbody{padding:13px}.name{font-weight:700;min-height:40px}.price{font-size:19px;font-weight:900;margin:8px 0}.muted{color:#6b7280;font-size:13px}.actions{display:flex;gap:8px;margin-top:10px}.actions button{flex:1}.fav{width:44px}.empty{padding:30px;background:#fff;border-radius:18px;text-align:center;color:#6b7280}.bottom{position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(5,1fr);padding:7px 5px calc(7px + env(safe-area-inset-bottom))}.navbtn{border:0;background:none;padding:7px 2px;color:#6b7280;font-size:11px}.navbtn b{display:block;font-size:20px;margin-bottom:2px}.navbtn.active{color:#111827;font-weight:800}.badge{display:inline-flex;min-width:18px;height:18px;align-items:center;justify-content:center;border-radius:9px;background:#ef4444;color:#fff;font-size:10px;padding:0 4px;vertical-align:top}.modal{position:fixed;inset:0;background:#0008;z-index:100;display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{background:#fff;width:min(760px,100%);max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:20px}.modaltop{display:flex;justify-content:space-between;align-items:center;gap:10px}.modaltop h2{margin:0}.close{border:0;background:#f3f4f6;border-radius:50%;width:38px;height:38px}.field{margin:10px 0}.field label{display:block;font-size:13px;color:#6b7280;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #d7dbe2;border-radius:12px;outline:none}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.list{display:grid;gap:10px}.item{border:1px solid #e5e7eb;border-radius:14px;padding:12px;background:#fff}.productdetail{display:grid;grid-template-columns:1fr 1fr;gap:20px}.bigpic{height:330px;background:#eef0f3;border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}.bigpic img{width:100%;height:100%;object-fit:cover}.bigpic span{font-size:80px}.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#111827;color:#fff;padding:12px 18px;border-radius:12px;z-index:200;display:none}.toast.show{display:block}.hidden{display:none!important}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f8fafc;border-radius:14px;padding:14px;text-align:center}.stat strong{display:block;font-size:22px}.review{padding:10px 0;border-bottom:1px solid #eee}.stars{color:#f59e0b}.chatbox{height:330px;border:1px solid #ddd;border-radius:14px;display:flex;flex-direction:column}.msgs{flex:1;overflow:auto;padding:12px;background:#f8fafc}.msg{max-width:80%;padding:9px 12px;border-radius:14px;margin:5px 0}.mine{margin-left:auto;background:#111827;color:#fff}.theirs{background:#fff;border:1px solid #ddd}.chatinput{display:flex;gap:8px;padding:8px;border-top:1px solid #ddd}.chatinput input{flex:1;border:1px solid #ddd;border-radius:12px;padding:11px}
+*{box-sizing:border-box}html,body{margin:0;padding:0;font-family:Arial,sans-serif;background:#f5f6f8;color:#111827}body{padding-bottom:82px}.wrap{width:min(1180px,calc(100% - 24px));margin:auto}.top{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #e5e7eb}.topin{height:64px;display:flex;align-items:center;gap:12px}.logo{font-size:24px;font-weight:900;white-space:nowrap}.logo b{color:#f5b400}.search{flex:1;display:flex;gap:8px}.search input{width:100%;padding:12px 15px;border:1px solid #d7dbe2;border-radius:13px;outline:none}.iconbtn,.primary,.secondary,.danger{border:0;border-radius:12px;padding:11px 14px}.iconbtn{background:#f3f4f6}.primary{background:#111827;color:#fff}.secondary{background:#eef0f3}.danger{background:#fee2e2;color:#991b1b}.hero{margin:18px 0;background:linear-gradient(135deg,#111827,#374151);color:#fff;border-radius:22px;padding:28px}.hero h1{margin:0 0 8px;font-size:32px}.hero p{margin:0;color:#d1d5db}.cats{display:flex;gap:8px;overflow:auto;padding:4px 0 16px}.cat{border:1px solid #ddd;background:#fff;border-radius:999px;padding:9px 14px;white-space:nowrap}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:14px 0}.sectionhead h2{margin:0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;overflow:hidden;box-shadow:0 2px 8px #00000008}.pic{height:190px;background:#eef0f3;display:flex;align-items:center;justify-content:center;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover}.pic span{font-size:52px}.cardbody{padding:13px}.name{font-weight:700;min-height:40px}.price{font-size:19px;font-weight:900;margin:8px 0}.muted{color:#6b7280;font-size:13px}.actions{display:flex;gap:8px;margin-top:10px}.actions button{flex:1}.fav{width:44px}.empty{padding:30px;background:#fff;border-radius:18px;text-align:center;color:#6b7280}.bottom{position:fixed;left:0;right:0;bottom:0;z-index:80;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(5,1fr);padding:7px 5px calc(7px + env(safe-area-inset-bottom))}.navbtn{border:0;background:none;padding:7px 2px;color:#6b7280;font-size:11px}.navbtn b{display:block;font-size:20px;margin-bottom:2px}.navbtn.active{color:#111827;font-weight:800}.badge{display:inline-flex;min-width:18px;height:18px;align-items:center;justify-content:center;border-radius:9px;background:#ef4444;color:#fff;font-size:10px;padding:0 4px;vertical-align:top}.modal{position:fixed;inset:0;background:#0008;z-index:100;display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{background:#fff;width:min(760px,100%);max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:20px}.modaltop{display:flex;justify-content:space-between;align-items:center;gap:10px}.modaltop h2{margin:0}.close{border:0;background:#f3f4f6;border-radius:50%;width:38px;height:38px}.field{margin:10px 0}.field label{display:block;font-size:13px;color:#6b7280;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #d7dbe2;border-radius:12px;outline:none}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.list{display:grid;gap:10px}.item{border:1px solid #e5e7eb;border-radius:14px;padding:12px;background:#fff}.productdetail{display:grid;grid-template-columns:1fr 1fr;gap:20px}.bigpic{height:330px;background:#eef0f3;border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}.bigpic img{width:100%;height:100%;object-fit:cover}.bigpic span{font-size:80px}.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#111827;color:#fff;padding:12px 18px;border-radius:12px;z-index:200;display:none}.toast.show{display:block}.hidden{display:none!important}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f8fafc;border-radius:14px;padding:14px;text-align:center}.stat strong{display:block;font-size:22px}.review{padding:10px 0;border-bottom:1px solid #eee}.stars{color:#f59e0b}.chatbox{height:330px;border:1px solid #ddd;border-radius:14px;display:flex;flex-direction:column}.msgs{flex:1;overflow:auto;padding:12px;background:#f8fafc}.msg{max-width:80%;padding:9px 12px;border-radius:14px;margin:5px 0}.mine{margin-left:auto;background:#111827;color:#fff}.theirs{background:#fff;border:1px solid #ddd}.chatinput{display:flex;gap:8px;padding:8px;border-top:1px solid #ddd}.chatinput input{flex:1;border:1px solid #ddd;border-radius:12px;padding:11px}
 @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.topin{height:auto;flex-wrap:wrap;padding:8px 0}.logo{font-size:21px}.search{order:3;flex-basis:100%}.hero{padding:22px}.hero h1{font-size:26px}.pic{height:155px}.productdetail{grid-template-columns:1fr}.bigpic{height:260px}.row{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr 1fr}.sheet{max-height:94vh}}
 @media(max-width:430px){.wrap{width:min(100% - 16px,1180px)}.grid{gap:9px}.cardbody{padding:10px}.name{font-size:14px}.price{font-size:17px}.actions{flex-wrap:wrap}.actions .fav{width:44px}.hero{margin-top:10px}.hero h1{font-size:23px}.navbtn{font-size:10px}}
 
@@ -152,26 +152,6 @@
 
 
 .langbtn{border:1px solid #d7dbe2;background:#fff;border-radius:12px;padding:10px 12px;font-weight:800;cursor:pointer;white-space:nowrap}.langbtn:hover{background:#f8fafc}@media(max-width:430px){.langbtn{padding:9px 10px;font-size:12px}}
-/* =========================
-   АККАУНТ 2.0
-========================= */
-.account-hero{display:flex;align-items:center;gap:16px;padding:18px;border-radius:20px;background:#fff;border:1px solid #e5e7eb;margin-bottom:12px}
-.account-avatar{width:82px;height:82px;min-width:82px;border-radius:50%;overflow:hidden;background:#eef0f3;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900}
-.account-avatar img{width:100%;height:100%;object-fit:cover}
-.account-main{min-width:0;flex:1}.account-name{font-size:21px;font-weight:900}.account-phone{color:#6b7280;margin-top:4px}
-.account-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
-.account-menu{display:grid;gap:9px;margin-top:12px}
-.account-menu button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px;border:1px solid #e5e7eb;background:#fff;border-radius:15px;cursor:pointer}
-.account-menu button:hover{background:#f8fafc}.account-menu .mi{font-size:22px;width:30px;text-align:center}
-.profile-preview{display:flex;align-items:center;gap:12px;padding:12px;background:#f8fafc;border-radius:15px;margin-bottom:12px}
-.profile-preview .account-avatar{width:62px;height:62px;min-width:62px;font-size:25px}
-.avatar-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.avatar-actions button{cursor:pointer}
-.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.account-statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-.account-stat{padding:12px;background:#f8fafc;border-radius:13px;text-align:center}.account-stat b{display:block;font-size:19px}
-@media(max-width:600px){.account-hero{align-items:flex-start}.account-actions{grid-template-columns:1fr}.profile-grid{grid-template-columns:1fr}}
-
 </style>
 </head>
 <body>
@@ -185,7 +165,7 @@
 <button class="iconbtn" id="searchBtn">Іздеу</button>
 </div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button><button class="langbtn" id="languageBtn" type="button">Русский</button></div></header>
 <main class="wrap" id="app"></main>
-<nav class="bottom" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
+<nav class="bottom"><button class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button class="navbtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
 <div class="toast" id="toast"></div>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 <script>
@@ -193,7 +173,7 @@
 
 const firebaseConfig={apiKey:'AIzaSyCj7VBpb0u5YgFqz2Mm8NhvbytX_Fs5tJE',authDomain:'satugo-c3b7c.firebaseapp.com',projectId:'satugo-c3b7c',storageBucket:'satugo-c3b7c.firebasestorage.app',messagingSenderId:'32133349747',appId:'1:32133349747:web:8df062f6428b4eb7ed8506',measurementId:'G-4PF4DV016B'};
 let fbReady=false,fbAuth=null,fbDb=null,phoneConfirmation=null,recaptchaVerifier=null;
-try{firebase.initializeApp(firebaseConfig);fbAuth=firebase.auth();fbDb=firebase.firestore();fbReady=true;fbAuth.onAuthStateChanged(async u=>{try{if(!u){state.currentUser=null;save();render();return}const ref=fbDb.collection('users').doc(u.uid);let d={};try{const snap=await ref.get();d=snap.exists?(snap.data()||{}):{};if(!snap.exists){try{await ref.set({name:u.displayName||'Пайдаланушы',phone:u.phoneNumber||'',role:'buyer',createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})}catch(e){console.warn('User create:',e)}}}catch(e){console.warn('User profile read:',e)}state.currentUser={id:u.uid,name:d.name||u.displayName||'Пайдаланушы',phone:u.phoneNumber||d.phone||'',username:d.username||'',email:d.email||u.email||'',city:d.city||'',gender:d.gender||'',birthDate:d.birthDate||'',postalCode:d.postalCode||'',address:d.address||'',photo:d.photo||u.photoURL||'',firebase:true};save();render()}catch(e){console.error('Auth state:',e);render()}})}catch(e){console.warn('Firebase:',e);fbReady=false}
+try{firebase.initializeApp(firebaseConfig);fbAuth=firebase.auth();fbDb=firebase.firestore();fbReady=true;fbAuth.onAuthStateChanged(async u=>{if(!u)return;const ref=fbDb.collection('users').doc(u.uid);const snap=await ref.get();const d=snap.exists?snap.data():{};state.currentUser={id:u.uid,name:d.name||u.displayName||'Пайдаланушы',phone:u.phoneNumber||d.phone||'',firebase:true};if(!snap.exists)await ref.set({name:state.currentUser.name,phone:state.currentUser.phone,role:'buyer',createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});save();render()})}catch(e){console.warn('Firebase:',e);fbReady=false}
 const KEY='satugo_from_zero_v1';
 const specialStarter=[
 {id:'sp1',name:'Портативті мини-проектор',price:24990,cat:'Электрон',image:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.8,city:'Алматы',stock:25,brand:'SatuGo',color:'Ақ',colors:['Ақ'],tags:['проектор','үй кинотеатры','презентация'],keywords:['портативті','мини'],description:'Үйде фильм, мультфильм және презентация көруге арналған ықшам проектор. Жеңіл корпусымен алып жүруге ыңғайлы. Үй кинотеатрына және жұмысқа қолдануға арналған қызықты құрылғы.'},
@@ -451,41 +431,7 @@ async function sendChat(){
   }catch(e){console.error(e);toast('Хабарлама жіберу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}
 }
 
-function renderAccount(){
-  if(!state.currentUser){
-    return `<div class="sectionhead"><h2>Аккаунт</h2></div>
-    <div class="item"><h3>Кіру / тіркелу</h3>
-    <p class="muted">Телефон нөміріңізбен кіріп, аккаунтыңызды телефонда да, ноутбукта да пайдаланыңыз.</p>
-    <button type="button" class="primary" id="loginBtn">Кіру / тіркелу</button></div>`;
-  }
-  const u=state.currentUser;
-  const orders=state.orders.filter(o=>o.buyerId===u.id);
-  const favs=state.favorites.length;
-  const chats=state.chats.length;
-  return `<div class="sectionhead"><h2>Аккаунт</h2><button type="button" class="secondary" id="logoutBtn">Шығу</button></div>
-    <div class="account-hero">
-      ${avatarHtml(u)}
-      <div class="account-main"><div class="account-name">${esc(u.name||'Пайдаланушы')}</div><div class="account-phone">${esc(u.phone||'Телефон көрсетілмеген')}</div>
-      <div class="muted">${esc(u.city||'')} ${u.email?'· '+esc(u.email):''}</div></div>
-    </div>
-    <div class="account-actions">
-      <button type="button" class="primary" id="editProfile">✏️ Жеке мәліметтерді өзгерту</button>
-      <button type="button" class="secondary" id="sellerBtn">🏪 Менің дүкенім</button>
-    </div>
-    <div class="account-statgrid">
-      <div class="account-stat"><b>${orders.length}</b><span class="muted">Тапсырыс</span></div>
-      <div class="account-stat"><b>${favs}</b><span class="muted">Таңдаулы</span></div>
-      <div class="account-stat"><b>${chats}</b><span class="muted">Чат</span></div>
-    </div>
-    <div class="account-menu">
-      <button type="button" id="accountOrders"><span class="mi">📦</span><span><b>Менің тапсырыстарым</b><br><span class="muted">Тапсырыстарыңыздың тарихы</span></span></button>
-      <button type="button" id="accountFavorites"><span class="mi">♡</span><span><b>Таңдаулылар</b><br><span class="muted">Сақталған тауарлар</span></span></button>
-      <button type="button" id="accountChats"><span class="mi">💬</span><span><b>Чаттар</b><br><span class="muted">Сатушылармен сөйлесу</span></span></button>
-      <button type="button" id="accountSecurity"><span class="mi">🔐</span><span><b>Қауіпсіздік</b><br><span class="muted">Аккаунт және телефон арқылы кіру</span></span></button>
-    </div>
-    <div class="sectionhead"><h2>Менің тапсырыстарым</h2></div>
-    ${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>Тапсырыс #${esc(o.id.slice(-6))}</b><div>${money(o.total)} · ${esc(o.status)}</div><div class="muted">${esc(o.address)}</div></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`;
-}
+function renderAccount(){if(!state.currentUser)return `<div class="sectionhead"><h2>Аккаунт</h2></div><div class="item"><h3>Кіру / тіркелу</h3><p class="muted">Firebase арқылы телефон нөмірімен кіріп, аккаунтыңызды телефонда да, ноутбукта да қолдана аласыз.</p><button class="primary" id="loginBtn">Кіру / тіркелу</button></div>`;const orders=state.orders.filter(o=>o.buyerId===state.currentUser.id);return `<div class="sectionhead"><h2>Аккаунт</h2><button class="secondary" id="logoutBtn">Шығу</button></div><div class="item"><b>${esc(state.currentUser.name)}</b><div class="muted">${esc(state.currentUser.phone||'')}</div><div class="actions"><button class="secondary" id="editProfile">Жеке мәліметтер</button><button class="secondary" id="sellerBtn">🏪 Менің дүкенім</button></div></div><div class="sectionhead"><h2>Менің тапсырыстарым</h2></div>${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>Тапсырыс #${esc(o.id.slice(-6))}</b><div>${money(o.total)} · ${esc(o.status)}</div><div class="muted">${esc(o.address)}</div></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`}
 function render(){const app=document.getElementById('app');if(page==='home')app.innerHTML=renderHome();if(page==='search')app.innerHTML=renderSearch();if(page==='favorites')app.innerHTML=renderFav();if(page==='chats'){renderChats();}if(page==='account')app.innerHTML=renderAccount();document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));updateBadges();bindSmartSearchTools()};setTimeout(applyLanguage,0)
 function updateBadges(){document.getElementById('cartCount').textContent=state.cart.reduce((s,x)=>s+x.qty,0);const f=document.getElementById('favBadge');f.textContent=state.favorites.length;f.classList.toggle('hidden',!state.favorites.length);const uid=state.currentUser?.id;const n=uid?state.chats.reduce((s,c)=>s+(c.unread?.[uid]||0),0):0;const b=document.getElementById('chatBadge');b.textContent=n;b.classList.toggle('hidden',!n)}
 function openModal(html){document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show');setTimeout(applyLanguage,0)}
@@ -543,64 +489,7 @@ function openLogin(){
   };
   draw();
 }
-function editProfile(){
-  const u=state.currentUser||{};
-  openModal(`<div class="modaltop"><h2>✏️ Жеке мәліметтер</h2><button class="close" id="close">×</button></div>
-  <div class="profile-preview">${avatarHtml(u)}<div><b>${esc(u.name||'Пайдаланушы')}</b><div class="muted">${esc(u.phone||'')}</div>
-  <div class="avatar-actions"><button class="secondary" id="chooseAvatar">📷 Фото қою</button><button class="secondary" id="removeAvatar">🗑️ Фотоны өшіру</button></div></div></div>
-  <input id="avatarFile" type="file" accept="image/*" style="display:none">
-  <div class="profile-grid">
-    <div class="field"><label>Аты-жөні</label><input id="pn" value="${esc(u.name||'')}"></div>
-    <div class="field"><label>Телефон</label><input id="pp" value="${esc(u.phone||'')}" disabled></div>
-    <div class="field"><label>Пайдаланушы аты</label><input id="pusername" value="${esc(u.username||'')}" placeholder="satugo_user"></div>
-    <div class="field"><label>Email</label><input id="pemail" type="email" value="${esc(u.email||'')}" placeholder="example@mail.com"></div>
-    <div class="field"><label>Қала</label><input id="pcity" value="${esc(u.city||'')}" placeholder="Тараз"></div>
-    <div class="field"><label>Жынысы</label><select id="pgender"><option value="">Көрсетілмеген</option><option value="Ер">Ер</option><option value="Әйел">Әйел</option></select></div>
-    <div class="field"><label>Туған күн</label><input id="pbirth" type="date" value="${esc(u.birthDate||'')}"></div>
-    <div class="field"><label>Пошта индексі</label><input id="ppostal" value="${esc(u.postalCode||'')}" placeholder="080000"></div>
-  </div>
-  <div class="field"><label>Мекенжай</label><textarea id="paddress" rows="3" placeholder="Қала, көше, үй, пәтер">${esc(u.address||'')}</textarea></div>
-  <button class="primary" id="saveProfile">💾 Өзгерістерді сақтау</button>`);
-  let photo=u.photo||'';
-  document.getElementById('close').onclick=closeModal;
-  document.getElementById('chooseAvatar').onclick=()=>document.getElementById('avatarFile').click();
-  document.getElementById('removeAvatar').onclick=()=>{photo='';document.querySelector('.profile-preview .account-avatar').outerHTML=avatarHtml({...u,photo:''})};
-  document.getElementById('avatarFile').onchange=async e=>{
-    const file=e.target.files?.[0]; if(!file)return;
-    if(file.size>8*1024*1024){toast('Фото 8 МБ-тан аспауы керек');return}
-    try{
-      photo=await resizeImageToDataUrl(file,420,0.82);
-      document.querySelector('.profile-preview .account-avatar').outerHTML=avatarHtml({...u,photo});
-      toast('Фото таңдалды');
-    }catch(err){toast('Фотоны оқу мүмкін болмады')}
-  };
-  document.getElementById('saveProfile').onclick=async()=>{
-    const name=document.getElementById('pn').value.trim();
-    if(!name){toast('Аты-жөніңізді енгізіңіз');return}
-    const data={
-      ...u,name,
-      username:document.getElementById('pusername').value.trim(),
-      email:document.getElementById('pemail').value.trim(),
-      city:document.getElementById('pcity').value.trim(),
-      gender:document.getElementById('pgender').value,
-      birthDate:document.getElementById('pbirth').value,
-      postalCode:document.getElementById('ppostal').value.trim(),
-      address:document.getElementById('paddress').value.trim(),
-      photo
-    };
-    try{
-      if(fbReady&&state.currentUser.firebase&&fbAuth.currentUser){
-        await fbAuth.currentUser.updateProfile({displayName:name,photoURL:photo||null});
-        await fbDb.collection('users').doc(state.currentUser.id).set({
-          name,phone:state.currentUser.phone||'',username:data.username,email:data.email,city:data.city,
-          gender:data.gender,birthDate:data.birthDate,postalCode:data.postalCode,address:data.address,
-          photo:photo||'',updatedAt:firebase.firestore.FieldValue.serverTimestamp()
-        },{merge:true});
-      }
-      state.currentUser=data;save();closeModal();render();toast('Жеке мәліметтер сақталды');
-    }catch(e){console.error(e);toast('Профильді сақтау сәтсіз болды')}
-  };
-}
+function editProfile(){openModal(`<div class="modaltop"><h2>Жеке мәліметтер</h2><button class="close" id="close">×</button></div><div class="field"><label>Аты-жөніңіз</label><input id="pn" value="${esc(state.currentUser.name)}"></div><div class="field"><label>Телефон</label><input id="pp" value="${esc(state.currentUser.phone||'')}" disabled></div><button class="primary" id="saveProfile">Сақтау</button>`);document.getElementById('close').onclick=closeModal;document.getElementById('saveProfile').onclick=async()=>{const name=document.getElementById('pn').value.trim();if(!name){toast('Аты-жөніңізді енгізіңіз');return}state.currentUser.name=name;if(fbReady&&state.currentUser.firebase){try{await fbAuth.currentUser.updateProfile({displayName:name});await fbDb.collection('users').doc(state.currentUser.id).set({name,phone:state.currentUser.phone||'',updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})}catch(e){toast('Профильді сақтау сәтсіз болды');return}}save();closeModal();render();toast('Сақталды')}}
 
 function openSeller(){
   if(!state.currentUser){openLogin();return}
@@ -996,11 +885,11 @@ function toggleLanguage(){
 }
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const sp=e.target.closest('[data-special]');if(sp){openSpecialProducts(sp.dataset.special||'all');return}const sm=e.target.closest('[data-special-modal]');if(sm){openSpecialProducts(sm.dataset.specialModal||'all');return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
-document.addEventListener('click',e=>{const nav=e.target.closest('#satugoBottomNav .navbtn');if(nav){e.preventDefault();e.stopPropagation();page=nav.dataset.page||'home';render();return;}},true);
-document.getElementById('languageBtn').onclick=toggleLanguage;
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>{page=b.dataset.page;render()}));document.getElementById('languageBtn').onclick=toggleLanguage;
 document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
-document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const id=b.id;if(id==='loginBtn'){e.preventDefault();openLogin();return;}if(id==='logoutBtn'){e.preventDefault();if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз');return;}if(id==='editProfile'){e.preventDefault();editProfile();return;}if(id==='sellerBtn'){e.preventDefault();openSeller();return;}if(id==='accountOrders'){e.preventDefault();page='account';render();setTimeout(()=>document.getElementById('accountOrderSection')?.scrollIntoView({behavior:'smooth'}),0);return;}if(id==='accountFavorites'){e.preventDefault();page='favorites';render();return;}if(id==='accountChats'){e.preventDefault();page='chats';render();return;}if(id==='accountSecurity'){e.preventDefault();openSecurity();return;}});render();applyLanguage();
+document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='searchPageInput'){}}
+);render();applyLanguage();
 async function syncFirebaseData(){
  if(!fbReady)return;
  try{
@@ -1015,12 +904,6 @@ async function syncFirebaseData(){
 }
 if(fbReady) setTimeout(syncFirebaseData,300);
 
-function openSecurity(){
-  openModal(`<div class="modaltop"><h2>🔐 Қауіпсіздік</h2><button class="close" id="close">×</button></div>
-  <div class="item"><b>Телефон арқылы кіру</b><div class="muted" style="margin-top:5px">${esc(state.currentUser?.phone||'Телефон көрсетілмеген')}</div></div>
-  <div class="item" style="margin-top:10px"><b>Аккаунт</b><div class="muted">Firebase арқылы қорғалады. Телефон нөмірін өзгерту үшін қайта растау қажет.</div></div>`);
-  document.getElementById('close').onclick=closeModal;
-}
 </script>
 
 </body>
