@@ -12,6 +12,62 @@
 @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.topin{height:auto;flex-wrap:wrap;padding:8px 0}.logo{font-size:21px}.search{order:3;flex-basis:100%}.hero{padding:22px}.hero h1{font-size:26px}.pic{height:155px}.productdetail{grid-template-columns:1fr}.bigpic{height:260px}.row{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr 1fr}.sheet{max-height:94vh}}
 @media(max-width:430px){.wrap{width:min(100% - 16px,1180px)}.grid{gap:9px}.cardbody{padding:10px}.name{font-size:14px}.price{font-size:17px}.actions{flex-wrap:wrap}.actions .fav{width:44px}.hero{margin-top:10px}.hero h1{font-size:23px}.navbtn{font-size:10px}}
 
+
+/* =========================
+   АҚЫЛДЫ ІЗДЕУ
+========================= */
+.smart-search-box{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:18px;
+  padding:14px;
+  margin:14px 0;
+  box-shadow:0 2px 8px #00000006
+}
+.smart-search-title{
+  font-weight:900;
+  margin-bottom:5px
+}
+.smart-search-example{
+  color:#6b7280;
+  font-size:13px;
+  line-height:1.45
+}
+.smart-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:10px
+}
+.smart-tag{
+  display:inline-flex;
+  align-items:center;
+  padding:7px 10px;
+  border-radius:999px;
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  font-size:12px;
+  font-weight:700
+}
+.smart-tag b{margin-left:4px}
+.smart-sort-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin:12px 0
+}
+.smart-sort-row select{
+  padding:9px 10px;
+  border:1px solid #d7dbe2;
+  border-radius:10px;
+  background:#fff
+}
+@media(max-width:430px){
+  .smart-search-box{padding:12px}
+  .smart-sort-row{align-items:flex-start;flex-direction:column}
+}
+
 .card.special-card{border-color:#f5b400;box-shadow:0 4px 14px #f5b40022}
 .special-section{margin:18px 0 24px;padding:18px;border-radius:22px;background:linear-gradient(135deg,#fffaf0,#fff);border:1px solid #f5d67a}
 .special-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:4px}
@@ -28,7 +84,7 @@
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap topin"><div class="logo">Satu<b>Go</b></div><div class="search"><input id="searchInput" placeholder="Тауар немесе дүкен іздеу" autocomplete="off"><button class="iconbtn" id="searchBtn">Іздеу</button></div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button></div></header>
+<header class="top"><div class="wrap topin"><div class="logo">Satu<b>Go</b></div><div class="search"><input id="searchInput" placeholder="Мысалы: М размер киім 30 мыңға дейін" autocomplete="off"><button class="iconbtn" id="searchBtn">Іздеу</button></div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button></div></header>
 <main class="wrap" id="app"></main>
 <nav class="bottom"><button class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button class="navbtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
 <div class="toast" id="toast"></div>
@@ -41,18 +97,18 @@ let fbReady=false,fbAuth=null,fbDb=null,phoneConfirmation=null,recaptchaVerifier
 try{firebase.initializeApp(firebaseConfig);fbAuth=firebase.auth();fbDb=firebase.firestore();fbReady=true;fbAuth.onAuthStateChanged(async u=>{if(!u)return;const ref=fbDb.collection('users').doc(u.uid);const snap=await ref.get();const d=snap.exists?snap.data():{};state.currentUser={id:u.uid,name:d.name||u.displayName||'Пайдаланушы',phone:u.phoneNumber||d.phone||'',firebase:true};if(!snap.exists)await ref.set({name:state.currentUser.name,phone:state.currentUser.phone,role:'buyer',createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});save();render()})}catch(e){console.warn('Firebase:',e);fbReady=false}
 const KEY='satugo_from_zero_v1';
 const specialStarter=[
-{id:'sp1',name:'Портативті мини-проектор',price:24990,cat:'Электрон',image:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.8,city:'Алматы',stock:25,description:'Үйде фильм, мультфильм және презентация көруге арналған ықшам проектор. Жеңіл корпусымен алып жүруге ыңғайлы. Үй кинотеатрына және жұмысқа қолдануға арналған қызықты құрылғы.'},
-{id:'sp2',name:'Сымсыз ANC құлаққап',price:21990,cat:'Электрон',image:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.9,city:'Алматы',stock:18,description:'Музыка тыңдауға және бейне көруге арналған сымсыз құлаққап. Ыңғайлы корпус, тасымалдауға арналған қап және шуды азайтуға арналған ANC режимі бар модель.'},
-{id:'sp3',name:'Galaxy атмосфералық LED шамы',price:8990,cat:'Электрон',image:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'interesting',rating:4.7,city:'Астана',stock:40,description:'Бөлменің атмосферасын өзгертуге арналған сәндік LED шам. Жатын бөлме, жұмыс бұрышы және ойын аймағына жарайды. Интерьерге ерекше көрініс береді.'},
-{id:'sp4',name:'Ақылды LED сағат-оятқыш',price:12990,cat:'Электрон',image:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'interesting',rating:4.6,city:'Шымкент',stock:32,description:'Үстелге қоюға арналған заманауи цифрлық сағат. Уақытты көруге және күнделікті тәртіпті ұйымдастыруға ыңғайлы. Минималистік дизайнды ұнататындарға арналған.'},
-{id:'sp5',name:'Портативті хош иіс диффузоры',price:7490,cat:'Косметика',image:'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.8,city:'Тараз',stock:35,description:'Үйге немесе жұмыс орнына жағымды атмосфера жасауға арналған шағын диффузор. Компакт өлшемі, әдемі дизайны және сыйлыққа ыңғайлы пішіні бар.'},
-{id:'sp6',name:'Термокружка',price:9990,cat:'Басқа',image:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.7,city:'Қарағанды',stock:27,description:'Кофе мен шайды жылы ұстауға арналған термокружка. Қақпағы тығыз жабылады, сөмкеге салып алып жүруге қолайлы. Күнделікті қолдануға арналған пайдалы сыйлық.'},
-{id:'sp7',name:'Мини портативті блендер',price:11990,cat:'Басқа',image:'https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'interesting',rating:4.6,city:'Алматы',stock:21,description:'Смузи, жеміс және жеңіл сусындар дайындауға арналған шағын блендер. Ас үйде аз орын алады және сапарға алып шығуға ыңғайлы.'},
-{id:'sp8',name:'Oversize худи',price:15990,cat:'Киім',image:'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.8,city:'Тараз',stock:44,description:'Күнделікті стильге арналған кең пішімді жылы худи. Жұмсақ материал, капюшон және еркін фасон. Джинсы мен спорттық шалбармен жақсы үйлеседі.'},
-{id:'sp9',name:'Кроссбоди шағын сөмке',price:11990,cat:'Киім',image:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.7,city:'Алматы',stock:26,description:'Телефон, әмиян, кілт және шағын заттарды салуға арналған ықшам сөмке. Серуенге, саяхатқа және күнделікті стильге арналған.'},
-{id:'sp10',name:'Фотосурет мини-принтері',price:27990,cat:'Электрон',image:'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.9,city:'Астана',stock:15,description:'Телефондағы суреттерді шағын форматта басып шығаруға арналған ықшам принтер. Естелік фото, күнделік және сыйлық безендіру үшін қызықты құрылғы.'},
-{id:'sp11',name:'Ақылды фитнес-білезік',price:14990,cat:'Электрон',image:'https://images.unsplash.com/photo-1557935728-e6d1eaabe558?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.7,city:'Алматы',stock:22,description:'Күнделікті белсенділікті бақылауға арналған ақылды білезік. Қадам және базалық спорттық көрсеткіштерді бақылауға арналған ыңғайлы аксессуар.'},
-{id:'sp12',name:'Сыйлыққа арналған кофе-набор',price:13990,cat:'Басқа',image:'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.9,city:'Қарағанды',stock:19,description:'Кофе әуесқойларына арналған сыйлық жинағы. Әдемі қаптамасы бар, туған күнге, мерекеге немесе жақын адамға тосын сый жасауға лайық.'}
+{id:'sp1',name:'Портативті мини-проектор',price:24990,cat:'Электрон',image:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.8,city:'Алматы',stock:25,brand:'SatuGo',color:'Ақ',colors:['Ақ'],tags:['проектор','үй кинотеатры','презентация'],keywords:['портативті','мини'],description:'Үйде фильм, мультфильм және презентация көруге арналған ықшам проектор. Жеңіл корпусымен алып жүруге ыңғайлы. Үй кинотеатрына және жұмысқа қолдануға арналған қызықты құрылғы.'},
+{id:'sp2',name:'Сымсыз ANC құлаққап',price:21990,cat:'Электрон',image:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.9,city:'Алматы',stock:18,brand:'SatuGo',color:'Қара',colors:['Қара'],tags:['құлаққап','музыка','ANC'],keywords:['сымсыз'],description:'Музыка тыңдауға және бейне көруге арналған сымсыз құлаққап. Ыңғайлы корпус, тасымалдауға арналған қап және шуды азайтуға арналған ANC режимі бар модель.'},
+{id:'sp3',name:'Galaxy атмосфералық LED шамы',price:8990,cat:'Электрон',image:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'interesting',rating:4.7,city:'Астана',stock:40,brand:'SatuGo',color:'Ақ',colors:['Ақ'],tags:['LED','шам','интерьер'],keywords:['атмосфера'],description:'Бөлменің атмосферасын өзгертуге арналған сәндік LED шам. Жатын бөлме, жұмыс бұрышы және ойын аймағына жарайды. Интерьерге ерекше көрініс береді.'},
+{id:'sp4',name:'Ақылды LED сағат-оятқыш',price:12990,cat:'Электрон',image:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'interesting',rating:4.6,city:'Шымкент',stock:32,brand:'SatuGo',color:'Ақ',colors:['Ақ'],tags:['сағат','оятқыш','үстел'],keywords:['ақылды'],description:'Үстелге қоюға арналған заманауи цифрлық сағат. Уақытты көруге және күнделікті тәртіпті ұйымдастыруға ыңғайлы. Минималистік дизайнды ұнататындарға арналған.'},
+{id:'sp5',name:'Портативті хош иіс диффузоры',price:7490,cat:'Косметика',image:'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.8,city:'Тараз',stock:35,brand:'SatuGo',color:'Ақ',colors:['Ақ'],tags:['диффузор','үй','аромат'],keywords:['сыйлық'],description:'Үйге немесе жұмыс орнына жағымды атмосфера жасауға арналған шағын диффузор. Компакт өлшемі, әдемі дизайны және сыйлыққа ыңғайлы пішіні бар.'},
+{id:'sp6',name:'Термокружка',price:9990,cat:'Басқа',image:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.7,city:'Қарағанды',stock:27,brand:'SatuGo',color:'Қара',colors:['Қара'],tags:['термокружка','кофе','шай'],keywords:['сыйлық'],description:'Кофе мен шайды жылы ұстауға арналған термокружка. Қақпағы тығыз жабылады, сөмкеге салып алып жүруге қолайлы. Күнделікті қолдануға арналған пайдалы сыйлық.'},
+{id:'sp7',name:'Мини портативті блендер',price:11990,cat:'Басқа',image:'https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'interesting',rating:4.6,city:'Алматы',stock:21,brand:'SatuGo',color:'Ақ',colors:['Ақ'],tags:['блендер','смузи','ас үй'],keywords:['мини','портативті'],description:'Смузи, жеміс және жеңіл сусындар дайындауға арналған шағын блендер. Ас үйде аз орын алады және сапарға алып шығуға ыңғайлы.'},
+{id:'sp8',name:'Oversize худи',price:15990,cat:'Киім',image:'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.8,city:'Тараз',stock:44,sizes:['XS','S','M','L','XL','XXL'],size:'M',color:'Қара',colors:['Қара','Ақ','Сұр'],brand:'SatuGo',gender:'unisex',tags:['худи','oversize','киім'],keywords:['жылы','спорт'],description:'Күнделікті стильге арналған кең пішімді жылы худи. Жұмсақ материал, капюшон және еркін фасон. Джинсы мен спорттық шалбармен жақсы үйлеседі.'},
+{id:'sp9',name:'Кроссбоди шағын сөмке',price:11990,cat:'Киім',image:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.7,city:'Алматы',stock:26,sizes:['S','M','L'],size:'M',color:'Қара',colors:['Қара','Қоңыр'],brand:'SatuGo',gender:'Әйелдер',tags:['сөмке','кроссбоди','аксессуар'],keywords:['шағын','сыйлық'],description:'Телефон, әмиян, кілт және шағын заттарды салуға арналған ықшам сөмке. Серуенге, саяхатқа және күнделікті стильге арналған.'},
+{id:'sp10',name:'Фотосурет мини-принтері',price:27990,cat:'Электрон',image:'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.9,city:'Астана',stock:15,brand:'SatuGo',color:'Ақ',colors:['Ақ'],tags:['принтер','фото','мини'],keywords:['сыйлық','фото'],description:'Телефондағы суреттерді шағын форматта басып шығаруға арналған ықшам принтер. Естелік фото, күнделік және сыйлық безендіру үшін қызықты құрылғы.'},
+{id:'sp11',name:'Ақылды фитнес-білезік',price:14990,cat:'Электрон',image:'https://images.unsplash.com/photo-1557935728-e6d1eaabe558?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.7,city:'Алматы',stock:22,sizes:['S','M','L','XL'],size:'M',color:'Қара',colors:['Қара','Көк'],brand:'SatuGo',gender:'unisex',tags:['білезік','фитнес','спорт'],keywords:['ақылды'],description:'Күнделікті белсенділікті бақылауға арналған ақылды білезік. Қадам және базалық спорттық көрсеткіштерді бақылауға арналған ыңғайлы аксессуар.'},
+{id:'sp12',name:'Сыйлыққа арналған кофе-набор',price:13990,cat:'Басқа',image:'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.9,city:'Қарағанды',stock:19,color:'Қоңыр',colors:['Қоңыр'],brand:'SatuGo',tags:['кофе','набор','сыйлық'],keywords:['кофе','сыйлық'],description:'Кофе әуесқойларына арналған сыйлық жинағы. Әдемі қаптамасы бар, туған күнге, мерекеге немесе жақын адамға тосын сый жасауға лайық.'}
 ];
 
 const defaults=[
@@ -77,7 +133,155 @@ function getSpecialProducts(t='all'){let a=state.products.filter(p=>Boolean(p.sp
 function renderSpecialSection(){const all=getSpecialProducts('all'),a=all.slice(0,4);return `<section class="special-section"><div class="special-head"><div><h2>✨ Ерекше тауарлар</h2><div class="special-sub">Қызық, көзге түсетін және сыйлыққа лайық заттар</div></div>${all.length?`<button class="special-more" data-special="all">Барлығын көру →</button>`:''}</div><div class="special-tabs"><button data-special="all">✨ Барлығы</button><button data-special="interesting">🤯 Қызық</button><button data-special="eye">👀 Көзге түсетін</button><button data-special="gift">🎁 Сыйлық</button></div>${a.length?`<div class="grid">${a.map(renderCard).join('')}</div>`:`<div class="special-empty">Әзірге ерекше тауар жоқ.<div class="muted" style="margin-top:6px">Сатушы тауар қосқанда оны осы бөлімге шығара алады.</div></div>`}</section>`}
 function openSpecialProducts(type='all'){const a=getSpecialProducts(type);openModal(`<div class="modaltop"><h2>✨ Ерекше тауарлар</h2><button class="close" id="close">×</button></div><div class="special-tabs" style="margin-top:14px"><button data-special-modal="all">✨ Барлығы</button><button data-special-modal="interesting">🤯 Қызық</button><button data-special-modal="eye">👀 Көзге түсетін</button><button data-special-modal="gift">🎁 Сыйлық</button></div>${a.length?`<div class="grid">${a.map(renderCard).join('')}</div>`:`<div class="special-empty">Бұл бөлімде әзірге тауар жоқ.</div>`}`);document.getElementById('close').onclick=closeModal;document.querySelectorAll('[data-special-modal]').forEach(b=>b.onclick=()=>{closeModal();setTimeout(()=>openSpecialProducts(b.dataset.specialModal),0)})}
 function renderHome(){const cats=['Барлығы','Киім','Аяқ киім','Косметика','Электрон'];return `<section class="hero"><h1>Дүкеніңді аш та, сата баста!</h1><p>SatuGo — тауарды табу, сақтау, себетке салу және тапсырыс беру үшін қарапайым маркетплейс.</p></section><div class="cats">${cats.map(c=>`<button class="cat" data-cat="${c}">${c}</button>`).join('')}</div>${renderSpecialSection()}<div class="sectionhead"><h2>Танымал тауарлар</h2><span class="muted">${state.products.length} тауар</span></div><div class="grid">${state.products.map(renderCard).join('')}</div>`}
-function renderSearch(){const q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase();const arr=state.products.filter(p=>!q||[p.name,p.cat,p.sellerName].join(' ').toLowerCase().includes(q));return `<div class="sectionhead"><h2>Іздеу</h2><span class="muted">${arr.length} нәтиже</span></div><div class="field"><input id="searchPageInput" value="${esc(q)}" placeholder="Тауар немесе дүкен іздеу"></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Тауар табылмады</div>'}`}
+function normalizeSearchText(v){
+  return String(v||'').toLowerCase().replace(/ё/g,'е').replace(/і/g,'и').replace(/ң/g,'н').replace(/ғ/g,'г').replace(/қ/g,'к').replace(/ұ/g,'у').replace(/ү/g,'у').replace(/һ/g,'х').replace(/[“”«»]/g,'"').replace(/[^a-zа-яәіңғқөұүһ0-9+\s-]/gi,' ').replace(/\s+/g,' ').trim();
+}
+function searchNumber(v){
+  const x=String(v||'').replace(/\s/g,'').replace(',','.');
+  const n=Number(x); return Number.isFinite(n)?n:0;
+}
+function parseSmartQuery(raw){
+  const text=String(raw||'').trim();
+  const ntext=normalizeSearchText(text);
+  const upper=text.toUpperCase();
+  let maxPrice=null;
+  let priceLabel='';
+  let priceMatch=text.match(/(\d[\d\s.,]*)\s*(мың|млн|k|K)?\s*(?:тг|₸|тенге)?\s*(?:дейін|дeиiн|аспасын|аспайды|қымбат\s*емес|артық\s*емес|максимум|<=)/i);
+  if(priceMatch){
+    let n=searchNumber(priceMatch[1]);
+    const unit=(priceMatch[2]||'').toLowerCase();
+    if(unit==='мың'||unit==='k')n*=1000;
+    if(unit==='млн')n*=1000000;
+    if(n>0){maxPrice=Math.round(n);priceLabel=maxPrice.toLocaleString('kk-KZ')+' ₸ дейін';}
+  }
+  if(maxPrice===null){
+    const standalone=text.match(/(?:бағасы\s*)?(\d[\d\s]{3,})\s*(?:₸|тг|тенге)/i);
+    if(standalone){const n=searchNumber(standalone[1]);if(n>0){maxPrice=n;priceLabel=maxPrice.toLocaleString('kk-KZ')+' ₸ дейін';}}
+  }
+
+  const sizePatterns=[/\b(XXXL|XXL|XL|XS|S|M|L)\s*(?:РАЗМЕР|ӨЛШЕМ)?\b/i,/(?:размер|өлшем|size)\s*[:\-]?\s*(XXXL|XXL|XL|XS|S|M|L|\d{2})\b/i];
+  let size='';
+  for(const re of sizePatterns){const m=upper.match(re);if(m){size=(m[1]||'').toUpperCase();break;}}
+  if(!size){const m=upper.match(/\b(XXXL|XXL|XL|XS|S|M|L)\b/);if(m)size=m[1];}
+
+  let shoeSize='';
+  const shoeM=upper.match(/(?:аяқ\s*киім|кроссовка|кроссовка|ботинка|туфли|аяқ)\D{0,12}(\d{2})\s*(?:РАЗМЕР|ӨЛШЕМ)?/i) || upper.match(/(?:размер|өлшем)\s*(\d{2})\b/i);
+  if(shoeM)shoeSize=shoeM[1];
+
+  const colorMap={
+    'қара':'қара','black':'қара',
+    'ақ':'ақ','белый':'ақ','white':'ақ',
+    'қызыл':'қызыл','красный':'қызыл','red':'қызыл',
+    'көк':'көк','синий':'көк','blue':'көк',
+    'жасыл':'жасыл','зеленый':'жасыл','green':'жасыл',
+    'сары':'сары','желтый':'сары','yellow':'сары',
+    'қоңыр':'қоңыр','коричневый':'қоңыр','brown':'қоңыр',
+    'сұр':'сұр','серый':'сұр','gray':'сұр','grey':'сұр',
+    'қызғылт':'қызғылт','розовый':'қызғылт','pink':'қызғылт'
+  };
+  let color='';
+  for(const k of Object.keys(colorMap)){if(ntext.includes(k)){color=colorMap[k];break;}}
+
+  const cats=[
+    {name:'Аяқ киім',words:['аяк киім','аяқ киім','кроссовка','кроссовки','ботинка','туфли','сандал','бәтеңке','кеды']},
+    {name:'Киім',words:['киім','худи','худи','футболка','жейде','көйлeк','көлек','көйлек','куртка','күрте','шалбар','джинсы','свитер','пальто','жакет']},
+    {name:'Косметика',words:['косметика','парфюм','әтір','иіссу','крем','макияж','бьюти']},
+    {name:'Электрон',words:['электрон','телефон','смартфон','ноутбук','құлаққап','наушник','сағат','планшет','проектор','принтер','блендер','шам','led','техника']}
+  ];
+  let category='';
+  for(const c of cats){if(c.words.some(w=>ntext.includes(w))){category=c.name;break;}}
+
+  let gender='';
+  if(/әйел|қызға|әйелдер/.test(ntext))gender='әйелдер';
+  else if(/ерлер|ер адам|жігітке|ұлға/.test(ntext))gender='ерлер';
+  else if(/бала|балалар|ұл|қыз бала/.test(ntext))gender='балалар';
+
+  const gift=/сыйлық|сыйга|сыйлыққа|подарок|gift/.test(ntext);
+  const interesting=/ерекше|қызық|креатив|ерекше зат|необычный|прикол/.test(ntext);
+
+  const stop=['маған','керек','ізде','іздеу','тауып','бер','тауар','тауарлар','зат','заттар','бағасы','баға','дейін','мыңға','мың','теңге','тг','₸','размер','өлшем','өлшемі','size','үшін','алып','алғым','келеді','деймін','бар','болсын','және','мен','ге','ға','қа','ке','дей','аспайды','артық','емес','қымбат','максимум','сыйлық','ерекше'];
+  const rawTokens=ntext.split(' ');
+  const keywords=[];
+  for(const token of rawTokens){
+    if(token.length<2)continue;
+    if(stop.includes(token))continue;
+    if(/^\d+$/.test(token))continue;
+    if(['xs','s','m','l','xl','xxl','xxxl'].includes(token))continue;
+    if(Object.keys(colorMap).includes(token))continue;
+    if(cats.some(c=>c.words.includes(token)))continue;
+    keywords.push(token);
+  }
+
+  return {raw:text,maxPrice,size,shoeSize,color,category,gender,gift,interesting,keywords};
+}
+function productSearchText(p){
+  return normalizeSearchText([
+    p.name,p.title,p.cat,p.category,p.sellerName,p.seller,p.description,
+    p.brand,p.color,p.colors,p.size,p.sizes,p.tags,p.keywords,p.gender,p.sex,p.city
+  ].flat().join(' '));
+}
+function productSizes(p){
+  const a=[];
+  const add=v=>{if(v===undefined||v===null)return;String(v).split(/[ ,;/]+/).forEach(x=>{const y=x.trim().toUpperCase();if(y)a.push(y)});};
+  add(p.size);add(p.sizes);add(p.availableSizes);add(p.variants?.sizes);
+  return [...new Set(a)];
+}
+function productColors(p){
+  const a=[];
+  const add=v=>{if(v===undefined||v===null)return;String(v).split(/[ ,;/]+/).forEach(x=>{const y=normalizeSearchText(x.trim());if(y)a.push(y)});};
+  add(p.color);add(p.colors);add(p.availableColors);add(p.variants?.colors);
+  return [...new Set(a)];
+}
+function smartRank(p,q){
+  const text=productSearchText(p);
+  let score=0;
+  const hasCategory=!!q.category;
+  if(hasCategory && normalizeSearchText(p.cat||p.category||'').includes(normalizeSearchText(q.category)))score+=60;
+  if(q.color && productColors(p).some(c=>c.includes(q.color)))score+=25;
+  if(q.size){if(productSizes(p).includes(q.size))score+=35;else if(!productSizes(p).length && text.includes(q.size.toLowerCase()))score+=5;}
+  if(q.shoeSize){if(productSizes(p).includes(q.shoeSize))score+=40;else if(text.includes(q.shoeSize))score+=5;}
+  if(q.gender && normalizeSearchText(p.gender||p.sex||'').includes(q.gender))score+=15;
+  if(q.gift && p.specialType==='gift')score+=50;
+  if(q.interesting && p.special)score+=25;
+  for(const k of q.keywords){if(text.includes(k))score+=12;}
+  if(q.maxPrice!==null){if(Number(p.price||0)<=q.maxPrice)score+=20;else score-=45;}
+  return score;
+}
+function smartProductMatches(p,q){
+  const text=productSearchText(p);
+  if(q.maxPrice!==null && Number(p.price||0)>q.maxPrice)return false;
+  if(q.category){const pc=normalizeSearchText(p.cat||p.category||'');if(!pc.includes(normalizeSearchText(q.category))){if(!(text.includes(normalizeSearchText(q.category))))return false;}}
+  if(q.color){const colors=productColors(p);if(colors.length && !colors.some(c=>c.includes(q.color)))return false; if(!colors.length && !text.includes(q.color))return false;}
+  if(q.size){const sizes=productSizes(p);if(sizes.length && !sizes.includes(q.size))return false; if(!sizes.length && !text.includes(q.size.toLowerCase()))return false;}
+  if(q.shoeSize){const sizes=productSizes(p);if(sizes.length && !sizes.includes(q.shoeSize))return false; if(!sizes.length && !text.includes(q.shoeSize))return false;}
+  if(q.gender){const pg=normalizeSearchText(p.gender||p.sex||'');if(pg && !pg.includes(q.gender) && !text.includes(q.gender))return false;}
+  const meaningful=q.keywords.filter(k=>k.length>2);
+  if(!q.category&&!q.maxPrice&& !q.size&&!q.shoeSize&&!q.color && !meaningful.length)return true;
+  if(meaningful.length && !meaningful.some(k=>text.includes(k)) && !q.category && q.maxPrice===null && !q.size&&!q.shoeSize&&!q.color)return false;
+  return true;
+}
+function renderSearch(){
+  const inputValue=(document.getElementById('searchInput')?.value||'').trim();
+  const q=parseSmartQuery(inputValue);
+  let arr=state.products.filter(p=>smartProductMatches(p,q));
+  arr=arr.map(p=>({p,score:smartRank(p,q)})).sort((a,b)=>b.score-a.score).map(x=>x.p);
+  const isSmart=!!inputValue && (q.category||q.maxPrice!==null||q.size||q.shoeSize||q.color||q.gender||q.gift||q.interesting||q.keywords.length);
+  const tags=[];
+  if(q.category)tags.push('Категория: '+q.category);
+  if(q.size)tags.push('Өлшем: '+q.size);
+  if(q.shoeSize)tags.push('Аяқ киім: '+q.shoeSize+' размер');
+  if(q.color)tags.push('Түс: '+q.color);
+  if(q.maxPrice!==null)tags.push('Баға: '+q.maxPrice.toLocaleString('kk-KZ')+' ₸ дейін');
+  if(q.gender)tags.push('Кімге: '+q.gender);
+  if(q.gift)tags.push('🎁 Сыйлық');
+  if(q.interesting)tags.push('✨ Ерекше');
+  q.keywords.slice(0,6).forEach(k=>tags.push('🔎 '+k));
+  return `<div class="sectionhead"><h2>🔎 Ақылды іздеу</h2><span class="muted">${arr.length} нәтиже</span></div>
+    <div class="smart-search-box"><div class="smart-search-title">Не керек екенін жай сөйлеммен жазыңыз</div><div class="smart-search-example">Мысалы: «Маған киім керек, размер М, қара, бағасы 30 мыңға дейін»</div><div class="field" style="margin-bottom:0"><input id="searchPageInput" value="${esc(inputValue)}" placeholder="Мысалы: М размер киім 30 мыңға дейін"></div>${tags.length?`<div class="smart-tags">${tags.map(t=>`<span class="smart-tag">${esc(t)}</span>`).join('')}</div>`:''}</div>
+    ${isSmart?`<div class="smart-sort-row"><div class="muted">${arr.length?`Сіздің сұранысыңызға сәйкес тауарлар`: `Сұранысқа дәл сәйкес тауар табылмады`}</div><select id="smartSort"><option value="match">Сәйкестік бойынша</option><option value="cheap">Арзаннан қымбатқа</option><option value="expensive">Қымбаттан арзанға</option></select></div>`:''}
+    ${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty"><div style="font-size:42px">🔎</div>Тауар табылмады.<br><span class="muted">Сұранысты жеңілдетіп көріңіз немесе бағаны көбейтіңіз.</span></div>'}`;
+}
+
 function renderFav(){const arr=state.products.filter(p=>state.favorites.includes(p.id));return `<div class="sectionhead"><h2>Таңдаулы</h2></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Таңдаулы тауар жоқ.<br>Ұнаған тауардағы ♡ батырмасын басыңыз.</div>'}`}
 function renderChats(){
   const app=document.getElementById('app'),uid=state.currentUser?.id;
@@ -211,6 +415,11 @@ function openSeller(){
   <div class="field"><input id="pcat" placeholder="Категория"></div>
   <div class="field"><input id="pimg" placeholder="Сурет URL (міндетті емес)"></div>
   <div class="field"><textarea id="pdesc" rows="3" placeholder="Тауар сипаттамасы"></textarea></div>
+  <div class="row">
+    <div class="field"><label>Размер / өлшемдер</label><input id="pSizes" placeholder="S, M, L, XL немесе 42"></div>
+    <div class="field"><label>Түс / түстер</label><input id="pColors" placeholder="Қара, Ақ, Көк"></div>
+  </div>
+  <div class="field"><label>Кімге арналған</label><select id="pGender"><option value="">Көрсетілмеген</option><option value="Әйелдер">Әйелдер</option><option value="Ерлер">Ерлер</option><option value="Балалар">Балалар</option><option value="Unisex">Unisex</option></select></div>
   <div class="field"><label class="special-check"><input id="pSpecial" type="checkbox"><span>✨ Ерекше заттарға шығару</span></label></div>
   <div class="field"><label>Ерекше зат түрі</label><select id="pSpecialType"><option value="interesting">🤯 Қызық зат</option><option value="eye">👀 Көзге түсетін</option><option value="gift">🎁 Сыйлық</option></select></div>
   <button class="primary" id="addProduct">➕ Тауарды қосу</button>
@@ -242,12 +451,15 @@ async function saveSellerProduct(){
   const cat=document.getElementById('pcat')?.value.trim()||'Басқа';
   const image=document.getElementById('pimg')?.value.trim()||'';
   const description=document.getElementById('pdesc')?.value.trim()||'';
+  const sizes=document.getElementById('pSizes')?.value.trim()||'';
+  const colors=document.getElementById('pColors')?.value.trim()||'';
+  const gender=document.getElementById('pGender')?.value||'';
   const special=Boolean(document.getElementById('pSpecial')?.checked);
   const specialType=['interesting','eye','gift'].includes(document.getElementById('pSpecialType')?.value)?document.getElementById('pSpecialType').value:'interesting';
   if(!name||price<=0){toast('Тауар атауы мен бағасын дұрыс енгізіңіз');return}
   try{
     const sellerName=state.store?.ownerId===uid?state.store.name:state.currentUser.name;
-    const data={name,title:name,price,stock,quantity:stock,cat,category:cat,image,description,sellerId:uid,sellerName:sellerName||'Сатушы',seller:sellerName||'Сатушы',rating:0,sales:0,special,specialType,createdAt:fbReady?firebase.firestore.FieldValue.serverTimestamp():Date.now()};
+    const data={name,title:name,price,stock,quantity:stock,cat,category:cat,image,description,sizes,sizesText:sizes,colors,colorsText:colors,gender,sellerId:uid,sellerName:sellerName||'Сатушы',seller:sellerName||'Сатушы',rating:0,sales:0,special,specialType,createdAt:fbReady?firebase.firestore.FieldValue.serverTimestamp():Date.now()};
     if(fbReady&&fbDb&&state.currentUser.firebase){
       const ref=await fbDb.collection('products').add(data);
       state.products.unshift({id:ref.id,...data,createdAt:Date.now()});
@@ -262,13 +474,15 @@ function startChat(p){if(!state.currentUser){closeModal();openLogin();return}if(
 function openChat(id){const c=state.chats.find(x=>x.id===id);if(!c)return;activeChat=id;const uid=state.currentUser?.id;if(!uid||!c.participants.includes(uid)){toast('Чатқа рұқсат жоқ');return}c.unread[uid]=0;save();const msgs=state.messages.filter(m=>m.chatId===id);openModal(`<div class="modaltop"><h2>💬 ${esc(c.buyerId===uid?c.sellerName:c.buyerName)}</h2><button class="close" id="close">×</button></div><div class="chatbox"><div class="msgs" id="msgs">${msgs.length?msgs.map(m=>`<div class="msg ${m.senderId===uid?'mine':'theirs'}">${esc(m.text)}</div>`).join(''):'<div class="muted">Хабарлама жоқ.</div>'}</div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..."><button class="primary" id="sendChat">Жіберу</button></div></div>`);document.getElementById('close').onclick=closeModal;document.getElementById('sendChat').onclick=sendChat;document.getElementById('chatText').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});setTimeout(()=>{const m=document.getElementById('msgs');m.scrollTop=m.scrollHeight},0)}
 function sendChat(){const input=document.getElementById('chatText');const text=input?.value.trim();if(!text||!activeChat)return;const c=state.chats.find(x=>x.id===activeChat),uid=state.currentUser.id,other=c.participants.find(x=>x!==uid);state.messages.push({id:'m_'+Date.now(),chatId:c.id,senderId:uid,text,createdAt:Date.now()});c.lastMessage=text;c.lastAt=Date.now();c.unread[other]=(c.unread[other]||0)+1;save();input.value='';openChat(c.id)}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const sp=e.target.closest('[data-special]');if(sp){openSpecialProducts(sp.dataset.special||'all');return}const sm=e.target.closest('[data-special-modal]');if(sm){openSpecialProducts(sm.dataset.specialModal||'all');return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
-document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>{page=b.dataset.page;render()}));document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='searchPageInput'){}}
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>{page=b.dataset.page;render()}));document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
+document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
+document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='searchPageInput'){}}
 );render();
 async function syncFirebaseData(){
  if(!fbReady)return;
  try{
   const ps=await fbDb.collection('products').get();
-  const remote=ps.docs.map(d=>{const x=d.data()||{};return {id:d.id,...x,name:x.name||x.title||'Тауар',price:Number(x.price||0),cat:x.cat||x.category||'Басқа',category:x.category||x.cat||'Басқа',sellerName:x.sellerName||x.seller||'Сатушы',special:Boolean(x.special),specialType:x.specialType||'interesting'};});
+  const remote=ps.docs.map(d=>{const x=d.data()||{};return {id:d.id,...x,name:x.name||x.title||'Тауар',price:Number(x.price||0),cat:x.cat||x.category||'Басқа',category:x.category||x.cat||'Басқа',sellerName:x.sellerName||x.seller||'Сатушы',special:Boolean(x.special),specialType:x.specialType||'interesting',sizes:x.sizes||x.sizesText||'',colors:x.colors||x.colorsText||'',gender:x.gender||''};});
   const ids=new Set(remote.map(x=>String(x.id)));
   const localSpecial=specialStarter.filter(x=>!ids.has(String(x.id)));
   state.products=[...localSpecial,...remote];
