@@ -185,7 +185,7 @@
 <button class="iconbtn" id="searchBtn">Іздеу</button>
 </div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button><button class="langbtn" id="languageBtn" type="button">Русский</button></div></header>
 <main class="wrap" id="app"></main>
-<nav class="bottom" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
+<nav class="bottom" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account" onclick="page='account';render();return false;"><b>♙</b>Аккаунт</button></nav>
 <div class="toast" id="toast"></div>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 <script>
@@ -996,36 +996,8 @@ function toggleLanguage(){
 }
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const sp=e.target.closest('[data-special]');if(sp){openSpecialProducts(sp.dataset.special||'all');return}const sm=e.target.closest('[data-special-modal]');if(sm){openSpecialProducts(sm.dataset.specialModal||'all');return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
-/* SatuGo ACCOUNT — single direct controller */
-(function(){
-  function openAccountDirect(e){
-    if(e){
-      try{if(e.cancelable)e.preventDefault();}catch(_){ }
-      try{e.stopPropagation();}catch(_){ }
-    }
-    try{
-      page='account';
-      render();
-      var app=document.getElementById('app');
-      if(app) app.scrollIntoView({block:'start',behavior:'auto'});
-    }catch(err){console.error('SatuGo account:',err);}
-    return false;
-  }
-  window.__satugoAccountClick=openAccountDirect;
-  function bindAccount(){
-    var b=document.getElementById('satugoAccountBtn');
-    if(!b || b.dataset.accountBound==='1') return;
-    b.dataset.accountBound='1';
-    b.style.setProperty('pointer-events','auto','important');
-    b.style.setProperty('touch-action','manipulation','important');
-    b.addEventListener('pointerup',openAccountDirect,true);
-    b.addEventListener('click',openAccountDirect,true);
-    b.addEventListener('touchend',openAccountDirect,{capture:true,passive:false});
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindAccount);else bindAccount();
-  setTimeout(bindAccount,100);setTimeout(bindAccount,500);setTimeout(bindAccount,1500);
-})();
-document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>{page=b.dataset.page;render()}));document.getElementById('languageBtn').onclick=toggleLanguage;
+/* SatuGo ACCOUNT: direct inline handler; generic nav skips account */
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',e=>{if(b.id==='satugoAccountBtn')return;page=b.dataset.page;render()}));document.getElementById('languageBtn').onclick=toggleLanguage;
 document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
 document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='accountOrders'){page='account';render();setTimeout(()=>document.getElementById('accountOrderSection')?.scrollIntoView({behavior:'smooth'}),0);}if(e.target.id==='accountFavorites'){page='favorites';render()}if(e.target.id==='accountChats'){page='chats';render()}if(e.target.id==='accountSecurity'){openSecurity();}if(e.target.id==='searchPageInput'){}}
