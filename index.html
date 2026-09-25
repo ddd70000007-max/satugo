@@ -150,6 +150,8 @@
   .top-smart-btn{padding:9px 10px;font-size:17px}
 }
 
+
+.langbtn{border:1px solid #d7dbe2;background:#fff;border-radius:12px;padding:10px 12px;font-weight:800;cursor:pointer;white-space:nowrap}.langbtn:hover{background:#f8fafc}@media(max-width:430px){.langbtn{padding:9px 10px;font-size:12px}}
 </style>
 </head>
 <body>
@@ -161,7 +163,7 @@
 <input id="imageSearchInput" type="file" accept="image/*" style="display:none">
 </div>
 <button class="iconbtn" id="searchBtn">Іздеу</button>
-</div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button></div></header>
+</div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button><button class="langbtn" id="languageBtn" type="button">Русский</button></div></header>
 <main class="wrap" id="app"></main>
 <nav class="bottom"><button class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button class="navbtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
 <div class="toast" id="toast"></div>
@@ -430,9 +432,9 @@ async function sendChat(){
 }
 
 function renderAccount(){if(!state.currentUser)return `<div class="sectionhead"><h2>Аккаунт</h2></div><div class="item"><h3>Кіру / тіркелу</h3><p class="muted">Firebase арқылы телефон нөмірімен кіріп, аккаунтыңызды телефонда да, ноутбукта да қолдана аласыз.</p><button class="primary" id="loginBtn">Кіру / тіркелу</button></div>`;const orders=state.orders.filter(o=>o.buyerId===state.currentUser.id);return `<div class="sectionhead"><h2>Аккаунт</h2><button class="secondary" id="logoutBtn">Шығу</button></div><div class="item"><b>${esc(state.currentUser.name)}</b><div class="muted">${esc(state.currentUser.phone||'')}</div><div class="actions"><button class="secondary" id="editProfile">Жеке мәліметтер</button><button class="secondary" id="sellerBtn">🏪 Менің дүкенім</button></div></div><div class="sectionhead"><h2>Менің тапсырыстарым</h2></div>${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>Тапсырыс #${esc(o.id.slice(-6))}</b><div>${money(o.total)} · ${esc(o.status)}</div><div class="muted">${esc(o.address)}</div></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`}
-function render(){const app=document.getElementById('app');if(page==='home')app.innerHTML=renderHome();if(page==='search')app.innerHTML=renderSearch();if(page==='favorites')app.innerHTML=renderFav();if(page==='chats'){renderChats();}if(page==='account')app.innerHTML=renderAccount();document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));updateBadges();bindSmartSearchTools()}
+function render(){const app=document.getElementById('app');if(page==='home')app.innerHTML=renderHome();if(page==='search')app.innerHTML=renderSearch();if(page==='favorites')app.innerHTML=renderFav();if(page==='chats'){renderChats();}if(page==='account')app.innerHTML=renderAccount();document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));updateBadges();bindSmartSearchTools()};setTimeout(applyLanguage,0)
 function updateBadges(){document.getElementById('cartCount').textContent=state.cart.reduce((s,x)=>s+x.qty,0);const f=document.getElementById('favBadge');f.textContent=state.favorites.length;f.classList.toggle('hidden',!state.favorites.length);const uid=state.currentUser?.id;const n=uid?state.chats.reduce((s,c)=>s+(c.unread?.[uid]||0),0):0;const b=document.getElementById('chatBadge');b.textContent=n;b.classList.toggle('hidden',!n)}
-function openModal(html){document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show')}
+function openModal(html){document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show');setTimeout(applyLanguage,0)}
 function closeModal(){document.getElementById('modal').classList.remove('show');document.getElementById('sheet').innerHTML='';selectedProduct=null;activeChat=null}
 function openProduct(id){const p=getProduct(id);if(!p){toast('Тауар дерегі табылмады');return}selectedProduct=p;const reviews=state.reviews.filter(r=>r.productId===p.id);openModal(`<div class="modaltop"><h2>${esc(p.name)}</h2><button class="close" id="close">×</button></div><div class="productdetail"><div>${img(p.image,'🛍️','bigpic')}</div><div>${p.special?`<div class="special-label">✨ ${p.specialType==='eye'?'👀 Көзге түсетін':p.specialType==='gift'?'🎁 Сыйлық':'🤯 Қызық зат'}</div>`:''}<div class="price">${money(p.price)}</div><div class="muted">${esc(p.cat)} · ${esc(p.sellerName||'Сатушы')}</div><p>${esc(p.description||'Бұл тауар туралы толық ақпаратты сатушыдан сұрауға болады.')}</p><div class="actions"><button class="primary" id="detailCart">Себетке қосу</button><button class="secondary" id="detailChat">Сатушымен чат</button></div><div class="sectionhead"><h3>Пікірлер</h3></div>${reviews.length?reviews.map(r=>`<div class="review"><span class="stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</span><br><b>${esc(r.userName)}</b><div>${esc(r.text)}</div></div>`).join(''):'<div class="muted">Пікір әзірге жоқ.</div>'}</div></div>`);document.getElementById('close').onclick=closeModal;document.getElementById('detailCart').onclick=()=>{addCart(p.id);closeModal()};document.getElementById('detailChat').onclick=()=>{if(p.sellerId==='platform'){toast('Бұл SatuGo платформасының тауары');return}startChat(p)} }
 function addCart(id){const p=getProduct(id);if(!p)return;const x=state.cart.find(i=>i.productId===id);if(x)x.qty++;else state.cart.push({productId:id,qty:1});save();toast('Себетке қосылды')}
@@ -816,11 +818,78 @@ function bindSmartSearchTools(){
   }
 }
 
+
+/* =========================
+   ҚАЗАҚША / ОРЫСША ТІЛ АУЫСТЫРҒЫШЫ
+   Тек интерфейс мәтіндерін аударады.
+   Тауарлар, деректер, іздеу логикасы және функциялар өзгермейді.
+========================= */
+const LANG_KEY='satugo_language_v1';
+let currentLanguage=localStorage.getItem(LANG_KEY)||'kk';
+const RU_TEXTS={"Не керек екенін жазыңыз немесе айтыңыз...": "Напишите или скажите, что вам нужно...", "Дауыспен іздеу": "Голосовой поиск", "Суретпен іздеу": "Поиск по фото", "Пайдаланушы": "Пользователь", "Электрон": "Электроника", "Алматы": "Алматы", "Астана": "Астана", "Шымкент": "Шымкент", "Тараз": "Тараз", "Қарағанды": "Караганда", "Ақ": "Белый", "Қара": "Черный", "Көк": "Синий", "Қоңыр": "Коричневый", "Сұр": "Серый", "Қызыл": "Красный", "Жасыл": "Зеленый", "Сары": "Желтый", "Қызғылт": "Розовый", "Киім": "Одежда", "Аяқ киім": "Обувь", "Косметика": "Косметика", "Басқа": "Другое", "👀 Көзге түсетін": "👀 Привлекающее внимание", "🎁 Сыйлық": "🎁 Подарок", "🤯 Қызық зат": "🤯 Интересная вещь", "✨ Ерекше тауарлар": "✨ Особые товары", "Қызық, көзге түсетін және сыйлыққа лайық заттар": "Интересные, заметные и подходящие для подарка товары", "Барлығын көру →": "Смотреть все →", "✨ Барлығы": "✨ Все", "🤯 Қызық": "🤯 Интересное", "Дүкеніңді аш та, сата баста!": "Откройте магазин и начинайте продавать!", "SatuGo — тауарды табу, сақтау, себетке салу және тапсырыс беру үшін қарапайым маркетплейс.": "SatuGo — простой маркетплейс для поиска товаров, сохранения, добавления в корзину и оформления заказов.", "Барлығы": "Все", "Танымал тауарлар": "Популярные товары", "Себетке қосу": "Добавить в корзину", "Сатушы": "Продавец", "Басты бет": "Главная", "Іздеу": "Поиск", "Таңдаулы": "Избранное", "Чаттар": "Чаты", "Аккаунт": "Аккаунт", "🔎 Ақылды іздеу": "🔎 Умный поиск", "Не керек екенін жай сөйлеммен жазыңыз": "Напишите простым предложением, что вам нужно", "Мысалы: «Маған киім керек, размер М, қара, бағасы 30 мыңға дейін»": "Например: «Мне нужна одежда, размер M, черная, до 30 тысяч ₸»", "Мысалы: М размер киім 30 мыңға дейін": "Например: одежда размера M до 30 тысяч ₸", "Дауыспен айту": "Сказать голосом", "Дауыспен айтқан сөзіңіз іздеуге автоматты түседі. Суретпен іздеуде түсі мен файл атауы бойынша ұқсас тауарлар іріктеледі.": "Сказанное голосом автоматически попадет в поиск. При поиске по фото похожие товары выбираются по цвету и имени файла.", "Сәйкестік бойынша": "По соответствию", "Арзаннан қымбатқа": "От дешевых к дорогим", "Қымбаттан арзанға": "От дорогих к дешевым", "Сұранысқа дәл сәйкес тауар табылмады": "Товар точно по запросу не найден", "Сіздің сұранысыңызға сәйкес тауарлар": "Товары по вашему запросу", "Тауар табылмады.": "Товар не найден.", "Сұранысты жеңілдетіп көріңіз немесе бағаны көбейтіңіз.": "Попробуйте упростить запрос или увеличить бюджет.", "Таңдаулы тауар жоқ.": "В избранном пока нет товаров.", "Ұнаған тауардағы ♡ батырмасын басыңыз.": "Нажмите ♡ на понравившемся товаре.", "Чаттарды көру үшін аккаунтқа кіріңіз.": "Войдите в аккаунт, чтобы увидеть чаты.", "Firebase қосылмаған.": "Firebase не подключен.", "Чаттар жүктелуде...": "Чаты загружаются...", "Әзірге чат жоқ.": "Пока нет чатов.", "Тауарды ашып, «Сатушымен чат» батырмасын басыңыз.": "Откройте товар и нажмите «Чат с продавцом».", "Чаттарды жүктеу қатесі:": "Ошибка загрузки чатов:", "Firebase Rules тексеріңіз": "Проверьте правила Firebase", "Бұл тауардың жеке сатушысы жоқ": "У этого товара нет отдельного продавца", "Өз тауарыңызға чат аша алмайсыз": "Нельзя открыть чат со своим товаром", "Firebase Firestore қосылмаған": "Firebase Firestore не подключен", "Чатты ашу қатесі:": "Ошибка открытия чата:", "Чат табылмады": "Чат не найден", "Чатқа рұқсат жоқ": "Нет доступа к чату", "Чат": "Чат", "Жүктелуде...": "Загрузка...", "Хабарлама жоқ.": "Сообщений пока нет.", "Хабарламаларды ашу қатесі:": "Ошибка загрузки сообщений:", "Хабарлама...": "Сообщение...", "Жіберу": "Отправить", "Хабарлама жіберу қатесі:": "Ошибка отправки сообщения:", "Пікірлер": "Отзывы", "Пікір әзірге жоқ.": "Отзывов пока нет.", "Тауар дерегі табылмады": "Данные о товаре не найдены", "Бұл SatuGo платформасының тауары": "Это товар платформы SatuGo", "🛒 Себет": "🛒 Корзина", "Себет бос.": "Корзина пуста.", "Жою": "Удалить", "Тапсырыс беру": "Оформление заказа", "Аты-жөніңіз": "ФИО", "Телефон": "Телефон", "Мекенжай": "Адрес", "Қала, көше, үй, пәтер": "Город, улица, дом, квартира", "Төлем сомасы": "Сумма к оплате", "Тапсырысты растау": "Подтвердить заказ", "Барлық өрісті толтырыңыз": "Заполните все поля", "Жаңа тапсырыс": "Новый заказ", "Тапсырыс қабылданды": "Заказ принят", "Кіру": "Войти", "Тіркелу": "Регистрация", "Қазақстан телефоны": "Телефон Казахстана", "SMS код": "SMS-код", "6 таңбалы код": "6-значный код", "SMS код жіберу": "Отправить SMS-код", "Растау және": "Подтвердить и", "SMS арқылы Firebase аккаунтымен кіру. +7 нөмірі қажет.": "Вход через Firebase по SMS. Требуется номер +7.", "Телефонды +7XXXXXXXXXX форматында енгізіңіз": "Введите телефон в формате +7XXXXXXXXXX", "SMS код жіберілді": "SMS-код отправлен", "SMS жіберілмеді: Firebase Phone Auth баптауын тексеріңіз": "SMS не отправлено: проверьте настройки Firebase Phone Auth", "6 таңбалы код енгізіңіз": "Введите 6-значный код", "Аты-жөніңізді енгізіңіз": "Введите ФИО", "Сәтті кірдіңіз": "Вы успешно вошли", "Аккаунт ашылды": "Аккаунт создан", "SMS коды қате немесе мерзімі өтті": "Неверный или просроченный SMS-код", "Жеке мәліметтер": "Личные данные", "Сақтау": "Сохранить", "Сақталды": "Сохранено", "Профильді сақтау сәтсіз болды": "Не удалось сохранить профиль", "🏪 Менің дүкенім": "🏪 Мой магазин", "Дүкен атауы": "Название магазина", "Дүкенді сақтау": "Сохранить магазин", "Дүкен сақталды": "Магазин сохранен", "Дүкенді сақтау сәтсіз болды:": "Не удалось сохранить магазин:", "➕ Тауар қосу": "➕ Добавить товар", "Тауар атауы": "Название товара", "Бағасы": "Цена", "Қойма саны": "Количество на складе", "Категория": "Категория", "Сурет URL (міндетті емес)": "URL изображения (необязательно)", "Тауар сипаттамасы": "Описание товара", "Размер / өлшемдер": "Размеры", "Түс / түстер": "Цвета", "Кімге арналған": "Для кого", "Көрсетілмеген": "Не указано", "Ерлер": "Мужчины", "Әйелдер": "Женщины", "Балалар": "Дети", "✨ Ерекше заттарға шығару": "✨ Показывать в особых товарах", "Ерекше зат түрі": "Тип особого товара", "➕ Тауарды қосу": "➕ Добавить товар", "Менің тауарларым": "Мои товары", "Тауар жоқ.": "Товаров нет.", "Менің тапсырыстарым": "Мои заказы", "Тапсырыс жоқ.": "Заказов нет.", "Клиент": "Клиент", "Қабылдау": "Принять", "Қабылданды": "Принят", "Бас тартылды": "Отменен", "Дүкен атауын енгізіңіз": "Введите название магазина", "Тауар атауы мен бағасын дұрыс енгізіңіз": "Введите корректное название товара и цену", "✨ Ерекше тауар сақталды": "✨ Особый товар сохранен", "Тауар қосылды": "Товар добавлен", "Тауарды сақтау сәтсіз болды:": "Не удалось сохранить товар:", "Тауар": "Товар", "Аккаунттан шықтыңыз": "Вы вышли из аккаунта", "Кіру / тіркелу": "Войти / зарегистрироваться", "Firebase арқылы телефон нөмірімен кіріп, аккаунтыңызды телефонда да, ноутбукта да қолдана аласыз.": "Вы можете войти по номеру телефона через Firebase и пользоваться аккаунтом на телефоне и ноутбуке.", "Тапсырыс әлі жоқ.": "Заказов пока нет.", "Өлшем:": "Размер:", "Аяқ киім:": "Обувь:", "Түс:": "Цвет:", "Баға:": "Цена:", "Кімге:": "Для кого:", "Категория:": "Категория:", "✨ Ерекше": "✨ Особое", "Сурет іздеуі:": "Поиск по фото:", "негізгі түс —": "основной цвет —", "түсі анықталмады": "цвет не определен", "файл атауы:": "имя файла:", "ұқсас нәтиже.": "похожих результатов.", "Сурет файлын таңдаңыз": "Выберите файл изображения", "📷 Сурет талдануда...": "📷 Анализ изображения...", "Бұл браузерде дауыспен іздеу қолжетімсіз": "Голосовой поиск недоступен в этом браузере", "🎤 Тыңдап тұрмын...": "🎤 Слушаю...", "🔎 Дауыстық сұраныс бойынша ізделді": "🔎 Поиск выполнен по голосовому запросу", "Микрофонға рұқсат беріңіз": "Разрешите доступ к микрофону", "Дауысты тану кезінде қате шықты": "Ошибка распознавания речи", "Өлшемі": "Размер", "Сурет": "Изображение"};
+
+function translateTextNode(node){
+  if(!node || !node.nodeValue)return;
+  const raw=node.nodeValue;
+  const trimmed=raw.trim();
+  if(!trimmed)return;
+  if(!node.__kkText) node.__kkText=trimmed;
+  const kk=node.__kkText;
+  let out=kk;
+  if(currentLanguage==='ru'){
+    out=RU_TEXTS[kk]||kk;
+    out=out.replace(/^(\d+)\s+тауар$/,'$1 товар(ов)');
+    out=out.replace(/^(\d+)\s+нәтиже$/,'$1 результат(ов)');
+    out=out.replace(/^(\d+)\s+ұқсас нәтиже\.$/,'$1 похожих результатов.');
+    out=out.replace(/^Тапсырыс #/,'Заказ #');
+  }
+  if(raw.startsWith(' ') ) out=' '+out;
+  if(raw.endsWith(' ') ) out=out+' ';
+  if(node.nodeValue!==out) node.nodeValue=out;
+}
+function applyLanguage(){
+  document.documentElement.lang=currentLanguage==='ru'?'ru':'kk';
+  document.title=currentLanguage==='ru'?'SatuGo — маркетплейс Казахстана':'SatuGo — Қазақстан маркетплейсі';
+  const root=document.body;
+  if(!root)return;
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(translateTextNode);
+  root.querySelectorAll('input,textarea').forEach(el=>{
+    if(!el.dataset.kkPlaceholder)el.dataset.kkPlaceholder=el.getAttribute('placeholder')||'';
+    const kk=el.dataset.kkPlaceholder;
+    if(currentLanguage==='ru')el.setAttribute('placeholder',RU_TEXTS[kk]||kk);
+    else el.setAttribute('placeholder',kk);
+  });
+  root.querySelectorAll('[title],[aria-label]').forEach(el=>{
+    if(el.hasAttribute('title')){
+      if(!el.dataset.kkTitle)el.dataset.kkTitle=el.getAttribute('title')||'';
+      const kk=el.dataset.kkTitle;
+      el.setAttribute('title',currentLanguage==='ru'?(RU_TEXTS[kk]||kk):kk);
+    }
+    if(el.hasAttribute('aria-label')){
+      if(!el.dataset.kkAria)el.dataset.kkAria=el.getAttribute('aria-label')||'';
+      const kk=el.dataset.kkAria;
+      el.setAttribute('aria-label',currentLanguage==='ru'?(RU_TEXTS[kk]||kk):kk);
+    }
+  });
+  const lb=document.getElementById('languageBtn');
+  if(lb)lb.textContent=currentLanguage==='ru'?'Қазақша':'Русский';
+}
+function toggleLanguage(){
+  currentLanguage=currentLanguage==='kk'?'ru':'kk';
+  localStorage.setItem(LANG_KEY,currentLanguage);
+  render();
+  setTimeout(applyLanguage,0);
+}
+
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const sp=e.target.closest('[data-special]');if(sp){openSpecialProducts(sp.dataset.special||'all');return}const sm=e.target.closest('[data-special-modal]');if(sm){openSpecialProducts(sm.dataset.specialModal||'all');return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
-document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>{page=b.dataset.page;render()}));document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>{page=b.dataset.page;render()}));document.getElementById('languageBtn').onclick=toggleLanguage;
+document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
 document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='searchPageInput'){}}
-);render();
+);render();applyLanguage();
 async function syncFirebaseData(){
  if(!fbReady)return;
  try{
