@@ -40,11 +40,27 @@ const firebaseConfig={apiKey:'AIzaSyCj7VBpb0u5YgFqz2Mm8NhvbytX_Fs5tJE',authDomai
 let fbReady=false,fbAuth=null,fbDb=null,phoneConfirmation=null,recaptchaVerifier=null;
 try{firebase.initializeApp(firebaseConfig);fbAuth=firebase.auth();fbDb=firebase.firestore();fbReady=true;fbAuth.onAuthStateChanged(async u=>{if(!u)return;const ref=fbDb.collection('users').doc(u.uid);const snap=await ref.get();const d=snap.exists?snap.data():{};state.currentUser={id:u.uid,name:d.name||u.displayName||'Пайдаланушы',phone:u.phoneNumber||d.phone||'',firebase:true};if(!snap.exists)await ref.set({name:state.currentUser.name,phone:state.currentUser.phone,role:'buyer',createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});save();render()})}catch(e){console.warn('Firebase:',e);fbReady=false}
 const KEY='satugo_from_zero_v1';
+const specialStarter=[
+{id:'sp1',name:'Портативті мини-проектор',price:24990,cat:'Электрон',image:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.8,city:'Алматы',stock:25,description:'Үйде фильм, мультфильм және презентация көруге арналған ықшам проектор. Жеңіл корпусымен алып жүруге ыңғайлы. Үй кинотеатрына және жұмысқа қолдануға арналған қызықты құрылғы.'},
+{id:'sp2',name:'Сымсыз ANC құлаққап',price:21990,cat:'Электрон',image:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.9,city:'Алматы',stock:18,description:'Музыка тыңдауға және бейне көруге арналған сымсыз құлаққап. Ыңғайлы корпус, тасымалдауға арналған қап және шуды азайтуға арналған ANC режимі бар модель.'},
+{id:'sp3',name:'Galaxy атмосфералық LED шамы',price:8990,cat:'Электрон',image:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'interesting',rating:4.7,city:'Астана',stock:40,description:'Бөлменің атмосферасын өзгертуге арналған сәндік LED шам. Жатын бөлме, жұмыс бұрышы және ойын аймағына жарайды. Интерьерге ерекше көрініс береді.'},
+{id:'sp4',name:'Ақылды LED сағат-оятқыш',price:12990,cat:'Электрон',image:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'interesting',rating:4.6,city:'Шымкент',stock:32,description:'Үстелге қоюға арналған заманауи цифрлық сағат. Уақытты көруге және күнделікті тәртіпті ұйымдастыруға ыңғайлы. Минималистік дизайнды ұнататындарға арналған.'},
+{id:'sp5',name:'Портативті хош иіс диффузоры',price:7490,cat:'Косметика',image:'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.8,city:'Тараз',stock:35,description:'Үйге немесе жұмыс орнына жағымды атмосфера жасауға арналған шағын диффузор. Компакт өлшемі, әдемі дизайны және сыйлыққа ыңғайлы пішіні бар.'},
+{id:'sp6',name:'Термокружка',price:9990,cat:'Басқа',image:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.7,city:'Қарағанды',stock:27,description:'Кофе мен шайды жылы ұстауға арналған термокружка. Қақпағы тығыз жабылады, сөмкеге салып алып жүруге қолайлы. Күнделікті қолдануға арналған пайдалы сыйлық.'},
+{id:'sp7',name:'Мини портативті блендер',price:11990,cat:'Басқа',image:'https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'interesting',rating:4.6,city:'Алматы',stock:21,description:'Смузи, жеміс және жеңіл сусындар дайындауға арналған шағын блендер. Ас үйде аз орын алады және сапарға алып шығуға ыңғайлы.'},
+{id:'sp8',name:'Oversize худи',price:15990,cat:'Киім',image:'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.8,city:'Тараз',stock:44,description:'Күнделікті стильге арналған кең пішімді жылы худи. Жұмсақ материал, капюшон және еркін фасон. Джинсы мен спорттық шалбармен жақсы үйлеседі.'},
+{id:'sp9',name:'Кроссбоди шағын сөмке',price:11990,cat:'Киім',image:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.7,city:'Алматы',stock:26,description:'Телефон, әмиян, кілт және шағын заттарды салуға арналған ықшам сөмке. Серуенге, саяхатқа және күнделікті стильге арналған.'},
+{id:'sp10',name:'Фотосурет мини-принтері',price:27990,cat:'Электрон',image:'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.9,city:'Астана',stock:15,description:'Телефондағы суреттерді шағын форматта басып шығаруға арналған ықшам принтер. Естелік фото, күнделік және сыйлық безендіру үшін қызықты құрылғы.'},
+{id:'sp11',name:'Ақылды фитнес-білезік',price:14990,cat:'Электрон',image:'https://images.unsplash.com/photo-1557935728-e6d1eaabe558?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.7,city:'Алматы',stock:22,description:'Күнделікті белсенділікті бақылауға арналған ақылды білезік. Қадам және базалық спорттық көрсеткіштерді бақылауға арналған ыңғайлы аксессуар.'},
+{id:'sp12',name:'Сыйлыққа арналған кофе-набор',price:13990,cat:'Басқа',image:'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'gift',rating:4.9,city:'Қарағанды',stock:19,description:'Кофе әуесқойларына арналған сыйлық жинағы. Әдемі қаптамасы бар, туған күнге, мерекеге немесе жақын адамға тосын сый жасауға лайық.'}
+];
+
 const defaults=[
 {id:'p1',name:'Nike Air Max',price:39990,cat:'Аяқ киім',image:'',sellerId:'platform',sellerName:'SatuGo',special:false,specialType:'interesting'},
 {id:'p2',name:'Oversize Hoodie',price:12990,cat:'Киім',image:'',sellerId:'platform',sellerName:'SatuGo',special:false,specialType:'interesting'},
 {id:'p3',name:'Әйелдер көйлегі',price:19990,cat:'Киім',image:'',sellerId:'platform',sellerName:'SatuGo',special:false,specialType:'interesting'},
-{id:'p4',name:'Ақ кроссовка',price:29990,cat:'Аяқ киім',image:'',sellerId:'platform',sellerName:'SatuGo'}
+{id:'p4',name:'Ақ кроссовка',price:29990,cat:'Аяқ киім',image:'',sellerId:'platform',sellerName:'SatuGo',special:false,specialType:'interesting'},
+...specialStarter
 ];
 function fresh(){return {products:defaults.map(x=>({...x})),cart:[],favorites:[],orders:[],users:[],currentUser:null,chats:[],messages:[],reviews:[],store:null};}
 let state=load(); let page='home'; let selectedProduct=null; let activeChat=null;
@@ -248,131 +264,20 @@ function sendChat(){const input=document.getElementById('chatText');const text=i
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const sp=e.target.closest('[data-special]');if(sp){openSpecialProducts(sp.dataset.special||'all');return}const sm=e.target.closest('[data-special-modal]');if(sm){openSpecialProducts(sm.dataset.specialModal||'all');return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
 document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>{page=b.dataset.page;render()}));document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='searchPageInput'){}}
 );render();
-async function syncFirebaseData(){if(!fbReady||!fbDb)return;try{const ps=await fbDb.collection('products').get();if(!ps.empty){state.products=ps.docs.map(d=>{const x=d.data()||{};return {id:d.id,...x,name:x.name||x.title||'Тауар',price:Number(x.price||0),cat:x.cat||x.category||'Басқа',category:x.category||x.cat||'Басқа',sellerName:x.sellerName||x.seller||'Сатушы',special:Boolean(x.special),specialType:x.specialType||'interesting'};});save();render();}}catch(e){console.warn('products load',e.message)}}
+async function syncFirebaseData(){
+ if(!fbReady)return;
+ try{
+  const ps=await fbDb.collection('products').get();
+  const remote=ps.docs.map(d=>{const x=d.data()||{};return {id:d.id,...x,name:x.name||x.title||'Тауар',price:Number(x.price||0),cat:x.cat||x.category||'Басқа',category:x.category||x.cat||'Басқа',sellerName:x.sellerName||x.seller||'Сатушы',special:Boolean(x.special),specialType:x.specialType||'interesting'};});
+  const ids=new Set(remote.map(x=>String(x.id)));
+  const localSpecial=specialStarter.filter(x=>!ids.has(String(x.id)));
+  state.products=[...localSpecial,...remote];
+  save();
+  render();
+ }catch(e){console.warn('products load',e.message)}
+}
+if(fbReady) setTimeout(syncFirebaseData,300);
 
-if(fbReady)setTimeout(syncFirebaseData,300);
-</script>
-<script>
-/* SatuGo Firebase Chat FIX — current version, Firestore-backed */
-(function(){
-  let sgChatUnsub=null;
-  function sgUid(){return state.currentUser?.id || fbAuth?.currentUser?.uid || null}
-  function sgDb(){return fbDb}
-  function sgChatId(a,b){return 'chat_'+[a,b].sort().join('_')}
-  function sgName(){return state.currentUser?.name || fbAuth?.currentUser?.displayName || 'Пайдаланушы'}
-
-  window.startChat=async function(p){
-    const uid=sgUid();
-    if(!uid){closeModal();openLogin();return}
-    if(!p || !p.sellerId || p.sellerId==='platform'){
-      toast('Бұл тауардың жеке сатушысы жоқ');return
-    }
-    if(p.sellerId===uid){toast('Өз тауарыңызға чат аша алмайсыз');return}
-    if(!sgDb()){toast('Firebase Firestore қосылмаған');return}
-    const id=sgChatId(uid,p.sellerId);
-    const data={
-      participants:[uid,p.sellerId],
-      participantNames:{[uid]:sgName(),[p.sellerId]:p.sellerName||'Сатушы'},
-      buyerId:uid,
-      buyerName:sgName(),
-      sellerId:p.sellerId,
-      sellerName:p.sellerName||'Сатушы',
-      lastMessage:'',
-      unread:{[uid]:0,[p.sellerId]:0},
-      updatedAt:firebase.firestore.FieldValue.serverTimestamp()
-    };
-    try{
-      await sgDb().collection('chats').doc(id).set(data,{merge:true});
-      closeModal();
-      await window.openChat(id);
-    }catch(e){
-      console.error('startChat',e);
-      toast('Чатты ашу қатесі: '+(e.code==='permission-denied'?'permission-denied — Firebase Rules тексеріңіз':e.message));
-    }
-  };
-
-  window.renderChats=async function(){
-    const app=document.getElementById('app'),uid=sgUid();
-    if(!uid){app.innerHTML='<div class="empty">Чаттарды көру үшін аккаунтқа кіріңіз.</div>';return}
-    app.innerHTML='<div class="sectionhead"><h2>Чаттар</h2></div><div class="empty">Чаттар жүктелуде...</div>';
-    try{
-      const snap=await sgDb().collection('chats').where('participants','array-contains',uid).orderBy('updatedAt','desc').get();
-      const arr=snap.docs.map(d=>({id:d.id,...d.data()}));
-      state.chats=arr;
-      updateBadges();
-      app.innerHTML='<div class="sectionhead"><h2>Чаттар</h2></div>'+(
-        arr.length?'<div class="list">'+arr.map(c=>{
-          const other=(c.participantNames&&c.participantNames[uid])?(c.participantNames[Object.keys(c.participantNames).find(x=>x!==uid)]||'Сатушы'):(c.buyerId===uid?(c.sellerName||'Сатушы'):(c.buyerName||'Сатып алушы'));
-          const unread=(c.unread&&c.unread[uid])||0;
-          return '<button class="item" data-chat="'+esc(c.id)+'" style="text-align:left;border:1px solid #e5e7eb"><b>'+esc(other)+'</b><div class="muted">'+esc(c.lastMessage||'Чат ашылды')+(unread?' <span class="badge">'+unread+'</span>':'')+'</div></button>';
-        }).join('')+'</div>':'<div class="empty">Әзірге чат жоқ.<br>Тауарды ашып, «Сатушымен чат» батырмасын басыңыз.</div>'
-      );
-    }catch(e){
-      console.error('renderChats',e);
-      app.innerHTML='<div class="sectionhead"><h2>Чаттар</h2></div><div class="empty">Чаттарды жүктеу қатесі:<br>'+esc(e.code==='permission-denied'?'Firebase Rules chats оқуына рұқсат бермеді':e.message)+'</div>';
-    }
-  };
-
-  window.openChat=async function(id){
-    const uid=sgUid();if(!uid){openLogin();return}
-    if(!sgDb()){toast('Firebase Firestore қосылмаған');return}
-    try{
-      const ref=sgDb().collection('chats').doc(id),snap=await ref.get();
-      if(!snap.exists){toast('Чат табылмады');return}
-      const c={id:snap.id,...snap.data()};
-      if(!Array.isArray(c.participants)||!c.participants.includes(uid)){toast('Чатқа рұқсат жоқ');return}
-      activeChat=id;
-      const otherId=c.participants.find(x=>x!==uid);
-      const title=(c.participantNames&&c.participantNames[otherId])||(c.buyerId===uid?c.sellerName:c.buyerName)||'Чат';
-      await ref.set({unread:{...(c.unread||{}),[uid]:0},updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
-      openModal('<div class="modaltop"><h2>💬 '+esc(title)+'</h2><button class="close" id="close">×</button></div><div class="chatbox"><div class="msgs" id="msgs"><div class="muted">Жүктелуде...</div></div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..."><button class="primary" id="sendChat">Жіберу</button></div></div>');
-      document.getElementById('close').onclick=closeModal;
-      document.getElementById('sendChat').onclick=window.sendChat;
-      document.getElementById('chatText').addEventListener('keydown',e=>{if(e.key==='Enter')window.sendChat()});
-      if(sgChatUnsub)sgChatUnsub();
-      sgChatUnsub=ref.collection('messages').orderBy('createdAt','asc').limitToLast(100).onSnapshot(s=>{
-        const box=document.getElementById('msgs');if(!box)return;
-        box.innerHTML=s.empty?'<div class="muted">Хабарлама жоқ.</div>':s.docs.map(d=>{const m=d.data();return '<div class="msg '+(m.senderId===uid?'mine':'theirs')+'">'+esc(m.text||'')+'</div>'}).join('');
-        box.scrollTop=box.scrollHeight;
-      },e=>{const box=document.getElementById('msgs');if(box)box.innerHTML='<div class="muted">Хабарламаларды ашу қатесі: '+esc(e.code==='permission-denied'?'permission-denied — Firebase Rules тексеріңіз':e.message)+'</div>'});
-    }catch(e){
-      console.error('openChat',e);
-      toast('Чатты ашу қатесі: '+(e.code==='permission-denied'?'permission-denied — Firebase Rules сәйкес емес':e.message));
-    }
-  };
-
-  window.sendChat=async function(){
-    const input=document.getElementById('chatText'),text=input&&input.value.trim(),uid=sgUid();
-    if(!text||!activeChat||!uid)return;
-    try{
-      const ref=sgDb().collection('chats').doc(activeChat),snap=await ref.get();
-      if(!snap.exists){toast('Чат табылмады');return}
-      const c=snap.data();if(!c.participants?.includes(uid)){toast('Чатқа рұқсат жоқ');return}
-      await ref.collection('messages').add({senderId:uid,senderName:sgName(),text:text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-      const unread={...(c.unread||{})},other=c.participants.find(x=>x!==uid);if(other)unread[other]=(unread[other]||0)+1;
-      await ref.set({lastMessage:text,lastSenderId:uid,unread:unread,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
-      input.value='';
-    }catch(e){console.error('sendChat',e);toast('Хабарлама жіберу қатесі: '+(e.code==='permission-denied'?'permission-denied — Rules тексеріңіз':e.message))}
-  };
-
-  document.addEventListener('click',function(e){
-    const b=e.target.closest&&e.target.closest('[data-chat]');
-    if(b){e.preventDefault();window.openChat(b.getAttribute('data-chat'));return}
-  },true);
-
-  const oldRender=window.render;
-  window.render= function(){
-    oldRender();
-    if(page==='chats') window.renderChats();
-  };
-
-  document.addEventListener('click',function(e){
-    const nav=e.target.closest&&e.target.closest('.navbtn[data-page="chats"]');
-    if(nav){setTimeout(()=>window.renderChats(),0)}
-  },true);
-
-  window.addEventListener('beforeunload',function(){if(sgChatUnsub)sgChatUnsub()});
-})();
 </script>
 
 </body>
