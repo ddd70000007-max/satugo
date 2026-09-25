@@ -395,18 +395,23 @@ ${tags.length?`<div class="smart-tags">${tags.map(t=>`<span class="smart-tag">${
 
 function renderFav(){const arr=state.products.filter(p=>state.favorites.includes(p.id));return `<div class="sectionhead"><h2>Таңдаулы</h2></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Таңдаулы тауар жоқ.<br>Ұнаған тауардағы ♡ батырмасын басыңыз.</div>'}`}
 function renderChats(){
-  const app=document.getElementById('app'),uid=state.currentUser?.id;
+  const app=document.getElementById('app');
+  const uid=fbAuth?.currentUser?.uid||state.currentUser?.id;
   if(!uid){app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттарды көру үшін аккаунтқа кіріңіз.</div>';return}
   if(!fbReady||!fbDb){app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Firebase қосылмаған.</div>';return}
   app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттар жүктелуде...</div>';
-  fbDb.collection('chats').where('participants','array-contains',uid).get().then(snap=>{
+  if(window._chatListUnsubscribe){try{window._chatListUnsubscribe()}catch(_){}}
+  window._chatListUnsubscribe=fbDb.collection('chats').where('participants','array-contains',uid).onSnapshot(snap=>{
     const arr=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.updatedAt?.toMillis?.()||0)-(a.updatedAt?.toMillis?.()||0));
-    state.chats=arr;save();
-    app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2><span class="muted">'+arr.length+'</span></div>'+(arr.length?'<div class="list">'+arr.map(c=>{const otherId=(c.participants||[]).find(x=>x!==uid);const other=c.participantNames?.[otherId]||(c.buyerId===uid?c.sellerName:c.buyerName)||'Сатушы';const unread=c.unread?.[uid]||0;return '<button class="item" data-chat="'+esc(c.id)+'" style="text-align:left;border:1px solid #e5e7eb"><b>💬 '+esc(other)+'</b><div class="muted">'+esc(c.lastMessage||'Чат ашылды')+(unread?' <span class="badge">'+unread+'</span>':'')+'</div></button>'}).join('')+'</div>':'<div class="empty">Әзірге чат жоқ.<br>Тауарды ашып, «Сатушымен чат» батырмасын басыңыз.</div>');updateBadges();
-  }).catch(e=>{console.error(e);app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттарды жүктеу қатесі:<br>'+esc(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message)+'</div>'});
+    state.chats=arr;
+    try{save()}catch(_){}
+    app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2><span class="muted">'+arr.length+'</span></div>'+(arr.length?'<div class="list">'+arr.map(c=>{const otherId=(c.participants||[]).find(x=>x!==uid);const other=c.participantNames?.[otherId]||(c.buyerId===uid?c.sellerName:c.buyerName)||'Сатушы';const unread=c.unread?.[uid]||0;return '<button class="item" data-chat="'+esc(c.id)+'" style="text-align:left;border:1px solid #e5e7eb"><b>💬 '+esc(other)+'</b><div class="muted">'+esc(c.lastMessage||'Чат ашылды')+(unread?' <span class="badge">'+unread+'</span>':'')+'</div></button>'}).join('')+'</div>':'<div class="empty">Әзірге чат жоқ.<br>Тауарды ашып, «Сатушымен чат» батырмасын басыңыз.</div>');
+    updateBadges();
+  },e=>{console.error(e);app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттарды жүктеу қатесі:<br>'+esc(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message)+'</div>'});
 }
+
 async function startChat(p){
-  const uid=state.currentUser?.id||fbAuth?.currentUser?.uid;
+  const uid=fbAuth?.currentUser?.uid||state.currentUser?.id;
   if(!uid){closeModal();openLogin();return}
   if(!p||!p.sellerId||p.sellerId==='platform'){toast('Бұл тауардың жеке сатушысы жоқ');return}
   if(p.sellerId===uid){toast('Өз тауарыңызға чат аша алмайсыз');return}
@@ -419,7 +424,7 @@ async function startChat(p){
 }
 let chatUnsubscribe=null;
 async function openChat(id){
-  const uid=state.currentUser?.id||fbAuth?.currentUser?.uid;
+  const uid=fbAuth?.currentUser?.uid||state.currentUser?.id;
   if(!uid){openLogin();return}
   if(!fbReady||!fbDb){toast('Firebase Firestore қосылмаған');return}
   try{
@@ -440,7 +445,7 @@ async function openChat(id){
   }catch(e){console.error(e);toast('Чатты ашу қатесі: '+e.message)}
 }
 async function sendChat(){
-  const input=document.getElementById('chatText'),text=input?.value.trim(),uid=state.currentUser?.id||fbAuth?.currentUser?.uid;
+  const input=document.getElementById('chatText'),text=input?.value.trim(),uid=fbAuth?.currentUser?.uid||state.currentUser?.id;
   if(!text||!activeChat||!uid||!fbReady||!fbDb)return;
   try{
     const ref=fbDb.collection('chats').doc(activeChat),snap=await ref.get();
