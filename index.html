@@ -152,6 +152,26 @@
 
 
 .langbtn{border:1px solid #d7dbe2;background:#fff;border-radius:12px;padding:10px 12px;font-weight:800;cursor:pointer;white-space:nowrap}.langbtn:hover{background:#f8fafc}@media(max-width:430px){.langbtn{padding:9px 10px;font-size:12px}}
+/* =========================
+   АККАУНТ 2.0
+========================= */
+.account-hero{display:flex;align-items:center;gap:16px;padding:18px;border-radius:20px;background:#fff;border:1px solid #e5e7eb;margin-bottom:12px}
+.account-avatar{width:82px;height:82px;min-width:82px;border-radius:50%;overflow:hidden;background:#eef0f3;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900}
+.account-avatar img{width:100%;height:100%;object-fit:cover}
+.account-main{min-width:0;flex:1}.account-name{font-size:21px;font-weight:900}.account-phone{color:#6b7280;margin-top:4px}
+.account-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.account-menu{display:grid;gap:9px;margin-top:12px}
+.account-menu button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px;border:1px solid #e5e7eb;background:#fff;border-radius:15px;cursor:pointer}
+.account-menu button:hover{background:#f8fafc}.account-menu .mi{font-size:22px;width:30px;text-align:center}
+.profile-preview{display:flex;align-items:center;gap:12px;padding:12px;background:#f8fafc;border-radius:15px;margin-bottom:12px}
+.profile-preview .account-avatar{width:62px;height:62px;min-width:62px;font-size:25px}
+.avatar-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.avatar-actions button{cursor:pointer}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.account-statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.account-stat{padding:12px;background:#f8fafc;border-radius:13px;text-align:center}.account-stat b{display:block;font-size:19px}
+@media(max-width:600px){.account-hero{align-items:flex-start}.account-actions{grid-template-columns:1fr}.profile-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -431,7 +451,41 @@ async function sendChat(){
   }catch(e){console.error(e);toast('Хабарлама жіберу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}
 }
 
-function renderAccount(){if(!state.currentUser)return `<div class="sectionhead"><h2>Аккаунт</h2></div><div class="item"><h3>Кіру / тіркелу</h3><p class="muted">Firebase арқылы телефон нөмірімен кіріп, аккаунтыңызды телефонда да, ноутбукта да қолдана аласыз.</p><button class="primary" id="loginBtn">Кіру / тіркелу</button></div>`;const orders=state.orders.filter(o=>o.buyerId===state.currentUser.id);return `<div class="sectionhead"><h2>Аккаунт</h2><button class="secondary" id="logoutBtn">Шығу</button></div><div class="item"><b>${esc(state.currentUser.name)}</b><div class="muted">${esc(state.currentUser.phone||'')}</div><div class="actions"><button class="secondary" id="editProfile">Жеке мәліметтер</button><button class="secondary" id="sellerBtn">🏪 Менің дүкенім</button></div></div><div class="sectionhead"><h2>Менің тапсырыстарым</h2></div>${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>Тапсырыс #${esc(o.id.slice(-6))}</b><div>${money(o.total)} · ${esc(o.status)}</div><div class="muted">${esc(o.address)}</div></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`}
+function renderAccount(){
+  if(!state.currentUser){
+    return `<div class="sectionhead"><h2>Аккаунт</h2></div>
+    <div class="item"><h3>Кіру / тіркелу</h3>
+    <p class="muted">Телефон нөміріңізбен кіріп, аккаунтыңызды телефонда да, ноутбукта да пайдаланыңыз.</p>
+    <button class="primary" id="loginBtn">Кіру / тіркелу</button></div>`;
+  }
+  const u=state.currentUser;
+  const orders=state.orders.filter(o=>o.buyerId===u.id);
+  const favs=state.favorites.length;
+  const chats=state.chats.length;
+  return `<div class="sectionhead"><h2>Аккаунт</h2><button class="secondary" id="logoutBtn">Шығу</button></div>
+    <div class="account-hero">
+      ${avatarHtml(u)}
+      <div class="account-main"><div class="account-name">${esc(u.name||'Пайдаланушы')}</div><div class="account-phone">${esc(u.phone||'Телефон көрсетілмеген')}</div>
+      <div class="muted">${esc(u.city||'')} ${u.email?'· '+esc(u.email):''}</div></div>
+    </div>
+    <div class="account-actions">
+      <button class="primary" id="editProfile">✏️ Жеке мәліметтерді өзгерту</button>
+      <button class="secondary" id="sellerBtn">🏪 Менің дүкенім</button>
+    </div>
+    <div class="account-statgrid">
+      <div class="account-stat"><b>${orders.length}</b><span class="muted">Тапсырыс</span></div>
+      <div class="account-stat"><b>${favs}</b><span class="muted">Таңдаулы</span></div>
+      <div class="account-stat"><b>${chats}</b><span class="muted">Чат</span></div>
+    </div>
+    <div class="account-menu">
+      <button id="accountOrders"><span class="mi">📦</span><span><b>Менің тапсырыстарым</b><br><span class="muted">Тапсырыстарыңыздың тарихы</span></span></button>
+      <button id="accountFavorites"><span class="mi">♡</span><span><b>Таңдаулылар</b><br><span class="muted">Сақталған тауарлар</span></span></button>
+      <button id="accountChats"><span class="mi">💬</span><span><b>Чаттар</b><br><span class="muted">Сатушылармен сөйлесу</span></span></button>
+      <button id="accountSecurity"><span class="mi">🔐</span><span><b>Қауіпсіздік</b><br><span class="muted">Аккаунт және телефон арқылы кіру</span></span></button>
+    </div>
+    <div class="sectionhead"><h2>Менің тапсырыстарым</h2></div>
+    ${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>Тапсырыс #${esc(o.id.slice(-6))}</b><div>${money(o.total)} · ${esc(o.status)}</div><div class="muted">${esc(o.address)}</div></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`;
+}
 function render(){const app=document.getElementById('app');if(page==='home')app.innerHTML=renderHome();if(page==='search')app.innerHTML=renderSearch();if(page==='favorites')app.innerHTML=renderFav();if(page==='chats'){renderChats();}if(page==='account')app.innerHTML=renderAccount();document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));updateBadges();bindSmartSearchTools()};setTimeout(applyLanguage,0)
 function updateBadges(){document.getElementById('cartCount').textContent=state.cart.reduce((s,x)=>s+x.qty,0);const f=document.getElementById('favBadge');f.textContent=state.favorites.length;f.classList.toggle('hidden',!state.favorites.length);const uid=state.currentUser?.id;const n=uid?state.chats.reduce((s,c)=>s+(c.unread?.[uid]||0),0):0;const b=document.getElementById('chatBadge');b.textContent=n;b.classList.toggle('hidden',!n)}
 function openModal(html){document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show');setTimeout(applyLanguage,0)}
@@ -489,7 +543,64 @@ function openLogin(){
   };
   draw();
 }
-function editProfile(){openModal(`<div class="modaltop"><h2>Жеке мәліметтер</h2><button class="close" id="close">×</button></div><div class="field"><label>Аты-жөніңіз</label><input id="pn" value="${esc(state.currentUser.name)}"></div><div class="field"><label>Телефон</label><input id="pp" value="${esc(state.currentUser.phone||'')}" disabled></div><button class="primary" id="saveProfile">Сақтау</button>`);document.getElementById('close').onclick=closeModal;document.getElementById('saveProfile').onclick=async()=>{const name=document.getElementById('pn').value.trim();if(!name){toast('Аты-жөніңізді енгізіңіз');return}state.currentUser.name=name;if(fbReady&&state.currentUser.firebase){try{await fbAuth.currentUser.updateProfile({displayName:name});await fbDb.collection('users').doc(state.currentUser.id).set({name,phone:state.currentUser.phone||'',updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})}catch(e){toast('Профильді сақтау сәтсіз болды');return}}save();closeModal();render();toast('Сақталды')}}
+function editProfile(){
+  const u=state.currentUser||{};
+  openModal(`<div class="modaltop"><h2>✏️ Жеке мәліметтер</h2><button class="close" id="close">×</button></div>
+  <div class="profile-preview">${avatarHtml(u)}<div><b>${esc(u.name||'Пайдаланушы')}</b><div class="muted">${esc(u.phone||'')}</div>
+  <div class="avatar-actions"><button class="secondary" id="chooseAvatar">📷 Фото қою</button><button class="secondary" id="removeAvatar">🗑️ Фотоны өшіру</button></div></div></div>
+  <input id="avatarFile" type="file" accept="image/*" style="display:none">
+  <div class="profile-grid">
+    <div class="field"><label>Аты-жөні</label><input id="pn" value="${esc(u.name||'')}"></div>
+    <div class="field"><label>Телефон</label><input id="pp" value="${esc(u.phone||'')}" disabled></div>
+    <div class="field"><label>Пайдаланушы аты</label><input id="pusername" value="${esc(u.username||'')}" placeholder="satugo_user"></div>
+    <div class="field"><label>Email</label><input id="pemail" type="email" value="${esc(u.email||'')}" placeholder="example@mail.com"></div>
+    <div class="field"><label>Қала</label><input id="pcity" value="${esc(u.city||'')}" placeholder="Тараз"></div>
+    <div class="field"><label>Жынысы</label><select id="pgender"><option value="">Көрсетілмеген</option><option value="Ер">Ер</option><option value="Әйел">Әйел</option></select></div>
+    <div class="field"><label>Туған күн</label><input id="pbirth" type="date" value="${esc(u.birthDate||'')}"></div>
+    <div class="field"><label>Пошта индексі</label><input id="ppostal" value="${esc(u.postalCode||'')}" placeholder="080000"></div>
+  </div>
+  <div class="field"><label>Мекенжай</label><textarea id="paddress" rows="3" placeholder="Қала, көше, үй, пәтер">${esc(u.address||'')}</textarea></div>
+  <button class="primary" id="saveProfile">💾 Өзгерістерді сақтау</button>`);
+  let photo=u.photo||'';
+  document.getElementById('close').onclick=closeModal;
+  document.getElementById('chooseAvatar').onclick=()=>document.getElementById('avatarFile').click();
+  document.getElementById('removeAvatar').onclick=()=>{photo='';document.querySelector('.profile-preview .account-avatar').outerHTML=avatarHtml({...u,photo:''})};
+  document.getElementById('avatarFile').onchange=async e=>{
+    const file=e.target.files?.[0]; if(!file)return;
+    if(file.size>8*1024*1024){toast('Фото 8 МБ-тан аспауы керек');return}
+    try{
+      photo=await resizeImageToDataUrl(file,420,0.82);
+      document.querySelector('.profile-preview .account-avatar').outerHTML=avatarHtml({...u,photo});
+      toast('Фото таңдалды');
+    }catch(err){toast('Фотоны оқу мүмкін болмады')}
+  };
+  document.getElementById('saveProfile').onclick=async()=>{
+    const name=document.getElementById('pn').value.trim();
+    if(!name){toast('Аты-жөніңізді енгізіңіз');return}
+    const data={
+      ...u,name,
+      username:document.getElementById('pusername').value.trim(),
+      email:document.getElementById('pemail').value.trim(),
+      city:document.getElementById('pcity').value.trim(),
+      gender:document.getElementById('pgender').value,
+      birthDate:document.getElementById('pbirth').value,
+      postalCode:document.getElementById('ppostal').value.trim(),
+      address:document.getElementById('paddress').value.trim(),
+      photo
+    };
+    try{
+      if(fbReady&&state.currentUser.firebase&&fbAuth.currentUser){
+        await fbAuth.currentUser.updateProfile({displayName:name,photoURL:photo||null});
+        await fbDb.collection('users').doc(state.currentUser.id).set({
+          name,phone:state.currentUser.phone||'',username:data.username,email:data.email,city:data.city,
+          gender:data.gender,birthDate:data.birthDate,postalCode:data.postalCode,address:data.address,
+          photo:photo||'',updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+        },{merge:true});
+      }
+      state.currentUser=data;save();closeModal();render();toast('Жеке мәліметтер сақталды');
+    }catch(e){console.error(e);toast('Профильді сақтау сәтсіз болды')}
+  };
+}
 
 function openSeller(){
   if(!state.currentUser){openLogin();return}
@@ -888,7 +999,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if
 document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>{page=b.dataset.page;render()}));document.getElementById('languageBtn').onclick=toggleLanguage;
 document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
-document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='searchPageInput'){}}
+document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='accountOrders'){page='account';render();setTimeout(()=>document.getElementById('accountOrderSection')?.scrollIntoView({behavior:'smooth'}),0);}if(e.target.id==='accountFavorites'){page='favorites';render()}if(e.target.id==='accountChats'){page='chats';render()}if(e.target.id==='accountSecurity'){openSecurity();}if(e.target.id==='searchPageInput'){}}
 );render();applyLanguage();
 async function syncFirebaseData(){
  if(!fbReady)return;
@@ -904,6 +1015,12 @@ async function syncFirebaseData(){
 }
 if(fbReady) setTimeout(syncFirebaseData,300);
 
+function openSecurity(){
+  openModal(`<div class="modaltop"><h2>🔐 Қауіпсіздік</h2><button class="close" id="close">×</button></div>
+  <div class="item"><b>Телефон арқылы кіру</b><div class="muted" style="margin-top:5px">${esc(state.currentUser?.phone||'Телефон көрсетілмеген')}</div></div>
+  <div class="item" style="margin-top:10px"><b>Аккаунт</b><div class="muted">Firebase арқылы қорғалады. Телефон нөмірін өзгерту үшін қайта растау қажет.</div></div>`);
+  document.getElementById('close').onclick=closeModal;
+}
 </script>
 
 </body>
