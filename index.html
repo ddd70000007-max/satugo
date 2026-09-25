@@ -81,10 +81,87 @@
 .special-check{display:flex!important;align-items:center;gap:8px;color:#111827!important;font-size:14px!important;cursor:pointer}
 .special-check input{width:18px!important;height:18px}
 @media(max-width:430px){.special-section{padding:13px}.special-head h2{font-size:20px}}
+
+/* =========================
+   АҚЫЛДЫ ІЗДЕУ: ДАУЫС + СУРЕТ
+========================= */
+.smart-tools{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px
+}
+.smart-tool{
+  border:1px solid #d7dbe2;
+  background:#fff;
+  border-radius:12px;
+  padding:10px 12px;
+  cursor:pointer;
+  font-weight:800
+}
+.smart-tool:hover{background:#f8fafc}
+.smart-tool.listening{
+  border-color:#ef4444;
+  background:#fff1f2;
+  color:#b91c1c
+}
+.smart-photo{
+  display:none;
+  margin-top:10px;
+  padding:10px;
+  border-radius:14px;
+  background:#f8fafc;
+  border:1px dashed #d1d5db
+}
+.smart-photo.show{display:block}
+.smart-photo img{
+  width:100%;
+  max-height:220px;
+  object-fit:contain;
+  border-radius:12px;
+  background:#fff
+}
+.smart-status{
+  margin-top:8px;
+  color:#6b7280;
+  font-size:12px;
+  line-height:1.4
+}
+.top-smart-tools{
+  display:flex;
+  gap:6px
+}
+.top-smart-btn{
+  border:0;
+  border-radius:11px;
+  background:#f3f4f6;
+  padding:10px 11px;
+  cursor:pointer;
+  font-size:18px
+}
+.top-smart-btn.listening{
+  background:#fee2e2;
+  color:#991b1b
+}
+@media(max-width:800px){
+  .top-smart-tools{order:2}
+}
+@media(max-width:430px){
+  .top-smart-btn{padding:9px 10px;font-size:17px}
+}
+
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap topin"><div class="logo">Satu<b>Go</b></div><div class="search"><input id="searchInput" placeholder="Мысалы: М размер киім 30 мыңға дейін" autocomplete="off"><button class="iconbtn" id="searchBtn">Іздеу</button></div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button></div></header>
+<header class="top"><div class="wrap topin"><div class="logo">Satu<b>Go</b></div><div class="search">
+<input id="searchInput" placeholder="Не керек екенін жазыңыз немесе айтыңыз..." autocomplete="off">
+<div class="top-smart-tools">
+<button class="top-smart-btn" id="voiceBtn" title="Дауыспен іздеу" aria-label="Дауыспен іздеу">🎤</button>
+<button class="top-smart-btn" id="imageBtn" title="Суретпен іздеу" aria-label="Суретпен іздеу">📷</button>
+<input id="imageSearchInput" type="file" accept="image/*" style="display:none">
+</div>
+<button class="iconbtn" id="searchBtn">Іздеу</button>
+</div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button></div></header>
 <main class="wrap" id="app"></main>
 <nav class="bottom"><button class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button class="navbtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
 <div class="toast" id="toast"></div>
@@ -277,7 +354,18 @@ function renderSearch(){
   if(q.interesting)tags.push('✨ Ерекше');
   q.keywords.slice(0,6).forEach(k=>tags.push('🔎 '+k));
   return `<div class="sectionhead"><h2>🔎 Ақылды іздеу</h2><span class="muted">${arr.length} нәтиже</span></div>
-    <div class="smart-search-box"><div class="smart-search-title">Не керек екенін жай сөйлеммен жазыңыз</div><div class="smart-search-example">Мысалы: «Маған киім керек, размер М, қара, бағасы 30 мыңға дейін»</div><div class="field" style="margin-bottom:0"><input id="searchPageInput" value="${esc(inputValue)}" placeholder="Мысалы: М размер киім 30 мыңға дейін"></div>${tags.length?`<div class="smart-tags">${tags.map(t=>`<span class="smart-tag">${esc(t)}</span>`).join('')}</div>`:''}</div>
+    <div class="smart-search-box">
+<div class="smart-search-title">Не керек екенін жай сөйлеммен жазыңыз</div>
+<div class="smart-search-example">Мысалы: «Маған киім керек, размер М, қара, бағасы 30 мыңға дейін»</div>
+<div class="field" style="margin-bottom:0"><input id="searchPageInput" value="${esc(inputValue)}" placeholder="Мысалы: М размер киім 30 мыңға дейін"></div>
+<div class="smart-tools">
+<button class="smart-tool" id="smartVoiceBtn">🎤 Дауыспен айту</button>
+<button class="smart-tool" id="smartImageBtn">📷 Суретпен іздеу</button>
+</div>
+<div class="smart-status" id="smartSearchStatus">Дауыспен айтқан сөзіңіз іздеуге автоматты түседі. Суретпен іздеуде түсі мен файл атауы бойынша ұқсас тауарлар іріктеледі.</div>
+<div class="smart-photo" id="smartPhotoBox"><img id="smartPhotoPreview" alt="Жүктелген сурет"><div class="smart-status" id="smartPhotoStatus"></div></div>
+${tags.length?`<div class="smart-tags">${tags.map(t=>`<span class="smart-tag">${esc(t)}</span>`).join('')}</div>`:''}
+</div>
     ${isSmart?`<div class="smart-sort-row"><div class="muted">${arr.length?`Сіздің сұранысыңызға сәйкес тауарлар`: `Сұранысқа дәл сәйкес тауар табылмады`}</div><select id="smartSort"><option value="match">Сәйкестік бойынша</option><option value="cheap">Арзаннан қымбатқа</option><option value="expensive">Қымбаттан арзанға</option></select></div>`:''}
     ${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty"><div style="font-size:42px">🔎</div>Тауар табылмады.<br><span class="muted">Сұранысты жеңілдетіп көріңіз немесе бағаны көбейтіңіз.</span></div>'}`;
 }
@@ -342,7 +430,7 @@ async function sendChat(){
 }
 
 function renderAccount(){if(!state.currentUser)return `<div class="sectionhead"><h2>Аккаунт</h2></div><div class="item"><h3>Кіру / тіркелу</h3><p class="muted">Firebase арқылы телефон нөмірімен кіріп, аккаунтыңызды телефонда да, ноутбукта да қолдана аласыз.</p><button class="primary" id="loginBtn">Кіру / тіркелу</button></div>`;const orders=state.orders.filter(o=>o.buyerId===state.currentUser.id);return `<div class="sectionhead"><h2>Аккаунт</h2><button class="secondary" id="logoutBtn">Шығу</button></div><div class="item"><b>${esc(state.currentUser.name)}</b><div class="muted">${esc(state.currentUser.phone||'')}</div><div class="actions"><button class="secondary" id="editProfile">Жеке мәліметтер</button><button class="secondary" id="sellerBtn">🏪 Менің дүкенім</button></div></div><div class="sectionhead"><h2>Менің тапсырыстарым</h2></div>${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>Тапсырыс #${esc(o.id.slice(-6))}</b><div>${money(o.total)} · ${esc(o.status)}</div><div class="muted">${esc(o.address)}</div></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`}
-function render(){const app=document.getElementById('app');if(page==='home')app.innerHTML=renderHome();if(page==='search')app.innerHTML=renderSearch();if(page==='favorites')app.innerHTML=renderFav();if(page==='chats'){renderChats();}if(page==='account')app.innerHTML=renderAccount();document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));updateBadges()}
+function render(){const app=document.getElementById('app');if(page==='home')app.innerHTML=renderHome();if(page==='search')app.innerHTML=renderSearch();if(page==='favorites')app.innerHTML=renderFav();if(page==='chats'){renderChats();}if(page==='account')app.innerHTML=renderAccount();document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));updateBadges();bindSmartSearchTools()}
 function updateBadges(){document.getElementById('cartCount').textContent=state.cart.reduce((s,x)=>s+x.qty,0);const f=document.getElementById('favBadge');f.textContent=state.favorites.length;f.classList.toggle('hidden',!state.favorites.length);const uid=state.currentUser?.id;const n=uid?state.chats.reduce((s,c)=>s+(c.unread?.[uid]||0),0):0;const b=document.getElementById('chatBadge');b.textContent=n;b.classList.toggle('hidden',!n)}
 function openModal(html){document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show')}
 function closeModal(){document.getElementById('modal').classList.remove('show');document.getElementById('sheet').innerHTML='';selectedProduct=null;activeChat=null}
@@ -473,10 +561,265 @@ async function saveSellerProduct(){
 function startChat(p){if(!state.currentUser){closeModal();openLogin();return}if(p.sellerId==='platform'){toast('Бұл тауардың жеке сатушысы жоқ');return}let c=state.chats.find(x=>x.buyerId===state.currentUser.id&&x.sellerId===p.sellerId);if(!c){c={id:'c_'+state.currentUser.id+'_'+p.sellerId,buyerId:state.currentUser.id,buyerName:state.currentUser.name,sellerId:p.sellerId,sellerName:p.sellerName||'Сатушы',participants:[state.currentUser.id,p.sellerId],lastMessage:'',unread:{[state.currentUser.id]:0,[p.sellerId]:0}};state.chats.unshift(c)}c.unread[state.currentUser.id]=0;save();closeModal();openChat(c.id)}
 function openChat(id){const c=state.chats.find(x=>x.id===id);if(!c)return;activeChat=id;const uid=state.currentUser?.id;if(!uid||!c.participants.includes(uid)){toast('Чатқа рұқсат жоқ');return}c.unread[uid]=0;save();const msgs=state.messages.filter(m=>m.chatId===id);openModal(`<div class="modaltop"><h2>💬 ${esc(c.buyerId===uid?c.sellerName:c.buyerName)}</h2><button class="close" id="close">×</button></div><div class="chatbox"><div class="msgs" id="msgs">${msgs.length?msgs.map(m=>`<div class="msg ${m.senderId===uid?'mine':'theirs'}">${esc(m.text)}</div>`).join(''):'<div class="muted">Хабарлама жоқ.</div>'}</div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..."><button class="primary" id="sendChat">Жіберу</button></div></div>`);document.getElementById('close').onclick=closeModal;document.getElementById('sendChat').onclick=sendChat;document.getElementById('chatText').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});setTimeout(()=>{const m=document.getElementById('msgs');m.scrollTop=m.scrollHeight},0)}
 function sendChat(){const input=document.getElementById('chatText');const text=input?.value.trim();if(!text||!activeChat)return;const c=state.chats.find(x=>x.id===activeChat),uid=state.currentUser.id,other=c.participants.find(x=>x!==uid);state.messages.push({id:'m_'+Date.now(),chatId:c.id,senderId:uid,text,createdAt:Date.now()});c.lastMessage=text;c.lastAt=Date.now();c.unread[other]=(c.unread[other]||0)+1;save();input.value='';openChat(c.id)}
+
+/* =========================================================
+   VOICE SEARCH
+========================================================= */
+let voiceRecognition=null;
+let voiceListening=false;
+
+function getVoiceRecognition(){
+  return window.SpeechRecognition||window.webkitSpeechRecognition||null;
+}
+
+function startVoiceSearch(button=null){
+  const SR=getVoiceRecognition();
+  if(!SR){
+    toast('Бұл браузерде дауыспен іздеу қолжетімсіз');
+    return;
+  }
+
+  if(voiceListening){
+    try{voiceRecognition?.stop()}catch(_){ }
+    return;
+  }
+
+  voiceRecognition=new SR();
+  voiceRecognition.lang='kk-KZ';
+  voiceRecognition.interimResults=true;
+  voiceRecognition.continuous=false;
+  voiceListening=true;
+
+  if(button)button.classList.add('listening');
+  const topBtn=document.getElementById('voiceBtn');
+  if(topBtn)topBtn.classList.add('listening');
+  toast('🎤 Тыңдап тұрмын...');
+
+  voiceRecognition.onresult=e=>{
+    let text='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      text+=e.results[i][0].transcript+' ';
+    }
+    text=text.trim();
+    const input=document.getElementById('searchInput');
+    if(input)input.value=text;
+    const pageInput=document.getElementById('searchPageInput');
+    if(pageInput)pageInput.value=text;
+  };
+
+  voiceRecognition.onend=()=>{
+    voiceListening=false;
+    if(button)button.classList.remove('listening');
+    const topBtn=document.getElementById('voiceBtn');
+    if(topBtn)topBtn.classList.remove('listening');
+    const text=(document.getElementById('searchInput')?.value||'').trim();
+    if(text){
+      page='search';
+      render();
+      toast('🔎 Дауыстық сұраныс бойынша ізделді');
+    }
+  };
+
+  voiceRecognition.onerror=e=>{
+    console.warn('Voice search:',e);
+    voiceListening=false;
+    if(button)button.classList.remove('listening');
+    const topBtn=document.getElementById('voiceBtn');
+    if(topBtn)topBtn.classList.remove('listening');
+    toast(e.error==='not-allowed'?'Микрофонға рұқсат беріңіз':'Дауысты тану кезінде қате шықты');
+  };
+
+  try{
+    voiceRecognition.start();
+  }catch(e){
+    console.warn(e);
+    voiceListening=false;
+    if(button)button.classList.remove('listening');
+    const topBtn=document.getElementById('voiceBtn');
+    if(topBtn)topBtn.classList.remove('listening');
+  }
+}
+
+/* =========================================================
+   PHOTO SEARCH
+   Browser-only: filename keywords + dominant color.
+   No API key is required. This keeps existing Firebase intact.
+========================================================= */
+let photoObjectUrl='';
+
+function openPhotoPicker(){
+  const input=document.getElementById('imageSearchInput');
+  if(input)input.click();
+}
+
+function imageColorFromFile(file){
+  return new Promise(resolve=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const imgEl=new Image();
+      imgEl.onload=()=>{
+        try{
+          const canvas=document.createElement('canvas');
+          const size=60;
+          canvas.width=size;canvas.height=size;
+          const ctx=canvas.getContext('2d',{willReadFrequently:true});
+          ctx.drawImage(imgEl,0,0,size,size);
+          const data=ctx.getImageData(0,0,size,size).data;
+          let r=0,g=0,b=0,n=0;
+          for(let i=0;i<data.length;i+=4){
+            if(data[i+3]<50)continue;
+            r+=data[i];g+=data[i+1];b+=data[i+2];n++;
+          }
+          resolve(n?{r:r/n,g:g/n,b:b/n}:null);
+        }catch(e){resolve(null)}
+      };
+      imgEl.onerror=()=>resolve(null);
+      imgEl.src=reader.result;
+    };
+    reader.onerror=()=>resolve(null);
+    reader.readAsDataURL(file);
+  });
+}
+
+function nearestColorName(rgb){
+  if(!rgb)return '';
+  const {r,g,b}=rgb;
+  if(r>210&&g>210&&b>210)return 'ақ';
+  if(r<75&&g<75&&b<75)return 'қара';
+  if(b>r*1.2&&b>g*1.08)return 'көк';
+  if(r>g*1.25&&r>b*1.25)return 'қызыл';
+  if(g>r*1.2&&g>b*1.05)return 'жасыл';
+  if(r>150&&g>120&&b<100)return 'сары';
+  if(Math.abs(r-g)<18&&Math.abs(g-b)<18&&r<180)return 'сұр';
+  if(r>140&&g<110&&b>110)return 'қызғылт';
+  if(r>90&&g>55&&b<60)return 'қоңыр';
+  return '';
+}
+
+function colorDistance(a,b){
+  return Math.sqrt(
+    Math.pow(a.r-b.r,2)+
+    Math.pow(a.g-b.g,2)+
+    Math.pow(a.b-b.b,2)
+  );
+}
+
+async function searchByPhoto(file){
+  if(!file||!file.type.startsWith('image/')){
+    toast('Сурет файлын таңдаңыз');
+    return;
+  }
+
+  const status=document.getElementById('smartPhotoStatus');
+  const box=document.getElementById('smartPhotoBox');
+  const preview=document.getElementById('smartPhotoPreview');
+
+  if(photoObjectUrl)URL.revokeObjectURL(photoObjectUrl);
+  photoObjectUrl=URL.createObjectURL(file);
+
+  if(box)box.classList.add('show');
+  if(preview)preview.src=photoObjectUrl;
+  if(status)status.textContent='📷 Сурет талдануда...';
+
+  const rgb=await imageColorFromFile(file);
+  const color=nearestColorName(rgb);
+
+  const filename=normalizeSearchText(file.name.replace(/\.[^.]+$/,''));
+  const stopWords=['img','image','photo','фото','сурет','dsc','px','screenshot','скриншот'];
+  const keys=filename.split(/[^a-zа-яәіңқөұүһё0-9]+/i)
+    .filter(x=>x.length>2&&!stopWords.includes(x));
+
+  const tempQuery={
+    raw:keys.join(' '),
+    maxPrice:null,
+    size:'',
+    shoeSize:'',
+    color,
+    category:'',
+    gender:'',
+    gift:false,
+    interesting:false,
+    keywords:keys
+  };
+
+  let arr=state.products.map(p=>{
+    let score=0;
+    const text=productSearchText(p);
+    if(color){
+      const colors=productColors(p);
+      if(colors.some(c=>c.includes(color)))score+=45;
+      else if(text.includes(color))score+=18;
+    }
+    for(const k of keys){if(text.includes(k))score+=25;}
+    return {p,score};
+  });
+
+  arr.sort((a,b)=>b.score-a.score);
+
+  /* Keep useful results even when the uploaded filename has no words. */
+  if(!keys.length && !color){
+    arr=state.products.map((p,i)=>({p,score:100-i}));
+  }
+
+  arr=arr.slice(0,24);
+
+  state.photoSearch={
+    fileName:file.name,
+    color,
+    keywords:keys,
+    at:Date.now()
+  };
+  save();
+
+  page='search';
+
+  if(color){
+    const input=document.getElementById('searchInput');
+    if(input && !input.value.trim())input.value=color;
+  }
+
+  render();
+
+  const afterStatus=document.getElementById('smartPhotoStatus');
+  if(afterStatus){
+    afterStatus.textContent=
+      '📷 Сурет іздеуі: '+
+      (color?('негізгі түс — '+color):'түсі анықталмады')+
+      (keys.length?' · файл атауы: '+keys.slice(0,4).join(', '):'')+
+      ' · '+arr.length+' ұқсас нәтиже.';
+  }
+}
+
+function bindSmartSearchTools(){
+  const v1=document.getElementById('voiceBtn');
+  if(v1 && !v1.dataset.bound){
+    v1.dataset.bound='1';
+    v1.onclick=()=>startVoiceSearch(v1);
+  }
+
+  const i1=document.getElementById('imageBtn');
+  if(i1 && !i1.dataset.bound){
+    i1.dataset.bound='1';
+    i1.onclick=openPhotoPicker;
+  }
+
+  const sv=document.getElementById('smartVoiceBtn');
+  if(sv && !sv.dataset.bound){
+    sv.dataset.bound='1';
+    sv.onclick=()=>startVoiceSearch(sv);
+  }
+
+  const si=document.getElementById('smartImageBtn');
+  if(si && !si.dataset.bound){
+    si.dataset.bound='1';
+    si.onclick=openPhotoPicker;
+  }
+}
+
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const sp=e.target.closest('[data-special]');if(sp){openSpecialProducts(sp.dataset.special||'all');return}const sm=e.target.closest('[data-special-modal]');if(sm){openSpecialProducts(sm.dataset.specialModal||'all');return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
 document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>{page=b.dataset.page;render()}));document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
-document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='searchPageInput'){}}
+document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='searchPageInput'){}}
 );render();
 async function syncFirebaseData(){
  if(!fbReady)return;
