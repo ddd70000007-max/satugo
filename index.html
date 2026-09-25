@@ -456,21 +456,21 @@ function renderAccount(){
     return `<div class="sectionhead"><h2>Аккаунт</h2></div>
     <div class="item"><h3>Кіру / тіркелу</h3>
     <p class="muted">Телефон нөміріңізбен кіріп, аккаунтыңызды телефонда да, ноутбукта да пайдаланыңыз.</p>
-    <button class="primary" id="loginBtn">Кіру / тіркелу</button></div>`;
+    <button type="button" class="primary" id="loginBtn">Кіру / тіркелу</button></div>`;
   }
   const u=state.currentUser;
   const orders=state.orders.filter(o=>o.buyerId===u.id);
   const favs=state.favorites.length;
   const chats=state.chats.length;
-  return `<div class="sectionhead"><h2>Аккаунт</h2><button class="secondary" id="logoutBtn">Шығу</button></div>
+  return `<div class="sectionhead"><h2>Аккаунт</h2><button type="button" class="secondary" id="logoutBtn">Шығу</button></div>
     <div class="account-hero">
       ${avatarHtml(u)}
       <div class="account-main"><div class="account-name">${esc(u.name||'Пайдаланушы')}</div><div class="account-phone">${esc(u.phone||'Телефон көрсетілмеген')}</div>
       <div class="muted">${esc(u.city||'')} ${u.email?'· '+esc(u.email):''}</div></div>
     </div>
     <div class="account-actions">
-      <button class="primary" id="editProfile">✏️ Жеке мәліметтерді өзгерту</button>
-      <button class="secondary" id="sellerBtn">🏪 Менің дүкенім</button>
+      <button type="button" class="primary" id="editProfile">✏️ Жеке мәліметтерді өзгерту</button>
+      <button type="button" class="secondary" id="sellerBtn">🏪 Менің дүкенім</button>
     </div>
     <div class="account-statgrid">
       <div class="account-stat"><b>${orders.length}</b><span class="muted">Тапсырыс</span></div>
@@ -478,10 +478,10 @@ function renderAccount(){
       <div class="account-stat"><b>${chats}</b><span class="muted">Чат</span></div>
     </div>
     <div class="account-menu">
-      <button id="accountOrders"><span class="mi">📦</span><span><b>Менің тапсырыстарым</b><br><span class="muted">Тапсырыстарыңыздың тарихы</span></span></button>
-      <button id="accountFavorites"><span class="mi">♡</span><span><b>Таңдаулылар</b><br><span class="muted">Сақталған тауарлар</span></span></button>
-      <button id="accountChats"><span class="mi">💬</span><span><b>Чаттар</b><br><span class="muted">Сатушылармен сөйлесу</span></span></button>
-      <button id="accountSecurity"><span class="mi">🔐</span><span><b>Қауіпсіздік</b><br><span class="muted">Аккаунт және телефон арқылы кіру</span></span></button>
+      <button type="button" id="accountOrders"><span class="mi">📦</span><span><b>Менің тапсырыстарым</b><br><span class="muted">Тапсырыстарыңыздың тарихы</span></span></button>
+      <button type="button" id="accountFavorites"><span class="mi">♡</span><span><b>Таңдаулылар</b><br><span class="muted">Сақталған тауарлар</span></span></button>
+      <button type="button" id="accountChats"><span class="mi">💬</span><span><b>Чаттар</b><br><span class="muted">Сатушылармен сөйлесу</span></span></button>
+      <button type="button" id="accountSecurity"><span class="mi">🔐</span><span><b>Қауіпсіздік</b><br><span class="muted">Аккаунт және телефон арқылы кіру</span></span></button>
     </div>
     <div class="sectionhead"><h2>Менің тапсырыстарым</h2></div>
     ${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>Тапсырыс #${esc(o.id.slice(-6))}</b><div>${money(o.total)} · ${esc(o.status)}</div><div class="muted">${esc(o.address)}</div></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`;
@@ -996,40 +996,11 @@ function toggleLanguage(){
 }
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const sp=e.target.closest('[data-special]');if(sp){openSpecialProducts(sp.dataset.special||'all');return}const sm=e.target.closest('[data-special-modal]');if(sm){openSpecialProducts(sm.dataset.specialModal||'all');return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
-/* SatuGo ACCOUNT — single direct controller */
-(function(){
-  function openAccountDirect(e){
-    if(e){
-      try{if(e.cancelable)e.preventDefault();}catch(_){ }
-      try{e.stopPropagation();}catch(_){ }
-    }
-    try{
-      page='account';
-      render();
-      var app=document.getElementById('app');
-      if(app) app.scrollIntoView({block:'start',behavior:'auto'});
-    }catch(err){console.error('SatuGo account:',err);}
-    return false;
-  }
-  window.__satugoAccountClick=openAccountDirect;
-  function bindAccount(){
-    var b=document.getElementById('satugoAccountBtn');
-    if(!b || b.dataset.accountBound==='1') return;
-    b.dataset.accountBound='1';
-    b.style.setProperty('pointer-events','auto','important');
-    b.style.setProperty('touch-action','manipulation','important');
-    b.addEventListener('pointerup',openAccountDirect,true);
-    b.addEventListener('click',openAccountDirect,true);
-    b.addEventListener('touchend',openAccountDirect,{capture:true,passive:false});
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindAccount);else bindAccount();
-  setTimeout(bindAccount,100);setTimeout(bindAccount,500);setTimeout(bindAccount,1500);
-})();
-document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>{page=b.dataset.page;render()}));document.getElementById('languageBtn').onclick=toggleLanguage;
+document.addEventListener('click',e=>{const nav=e.target.closest('#satugoBottomNav .navbtn');if(nav){e.preventDefault();e.stopPropagation();page=nav.dataset.page||'home';render();return;}},true);
+document.getElementById('languageBtn').onclick=toggleLanguage;
 document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
-document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='accountOrders'){page='account';render();setTimeout(()=>document.getElementById('accountOrderSection')?.scrollIntoView({behavior:'smooth'}),0);}if(e.target.id==='accountFavorites'){page='favorites';render()}if(e.target.id==='accountChats'){page='chats';render()}if(e.target.id==='accountSecurity'){openSecurity();}if(e.target.id==='searchPageInput'){}}
-);render();applyLanguage();
+document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const id=b.id;if(id==='loginBtn'){e.preventDefault();openLogin();return;}if(id==='logoutBtn'){e.preventDefault();if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз');return;}if(id==='editProfile'){e.preventDefault();editProfile();return;}if(id==='sellerBtn'){e.preventDefault();openSeller();return;}if(id==='accountOrders'){e.preventDefault();page='account';render();setTimeout(()=>document.getElementById('accountOrderSection')?.scrollIntoView({behavior:'smooth'}),0);return;}if(id==='accountFavorites'){e.preventDefault();page='favorites';render();return;}if(id==='accountChats'){e.preventDefault();page='chats';render();return;}if(id==='accountSecurity'){e.preventDefault();openSecurity();return;}});render();applyLanguage();
 async function syncFirebaseData(){
  if(!fbReady)return;
  try{
