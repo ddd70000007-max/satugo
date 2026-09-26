@@ -173,13 +173,6 @@
 @media(max-width:600px){.account-hero{align-items:flex-start}.account-actions{grid-template-columns:1fr}.profile-grid{grid-template-columns:1fr}}
 
 @media(max-width:600px){.modal{align-items:flex-end}.sheet{width:100%;max-height:90dvh;padding:14px;border-radius:18px 18px 0 0}.chatbox{height:58dvh;min-height:300px}.chatinput{padding-bottom:calc(8px + env(safe-area-inset-bottom))}.chatinput button{white-space:nowrap}.chatinput input{min-width:0}}
-
-.seller-order-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:10px 0 16px}
-.seller-stat{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:12px;text-align:center}
-.seller-stat b{display:block;font-size:18px}.seller-stat span{font-size:11px;color:#6b7280}
-.seller-orders-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px}.seller-orders-head h3{margin:0}.seller-orders-head select{padding:9px;border:1px solid #d7dbe2;border-radius:10px;background:#fff}
-.seller-order-card{border:1px solid #e5e7eb;border-radius:16px;padding:13px;background:#fff}.seller-order-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.order-status{font-size:11px;font-weight:800;border-radius:999px;padding:6px 9px;white-space:nowrap}.order-status.new{background:#fff7d6;color:#8a6200}.order-status.accepted{background:#dcfce7;color:#166534}.order-status.cancelled{background:#fee2e2;color:#991b1b}.seller-order-buyer{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}.seller-order-address{margin-top:7px}.seller-order-meta{display:flex;gap:12px;flex-wrap:wrap;color:#6b7280;font-size:13px;margin-top:7px}.seller-order-items{margin-top:10px;padding:9px;background:#f8fafc;border-radius:12px}.seller-order-item{display:flex;justify-content:space-between;gap:10px;padding:5px 0}.seller-order-bottom{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:10px}.seller-order-note{margin-top:9px;padding:9px;border-radius:10px;background:#fffaf0;font-size:13px}.seller-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.seller-detail-status{padding:11px;border-radius:12px;background:#f8fafc;margin-bottom:10px}.seller-detail-total{font-size:18px;margin:12px 0}.seller-order-card .actions{margin-top:10px}
-@media(max-width:600px){.seller-order-stats{grid-template-columns:1fr 1fr}.seller-orders-head{align-items:flex-start;flex-direction:column}.seller-order-bottom{align-items:flex-start;flex-direction:column}.seller-detail-grid{grid-template-columns:1fr}}
 </style>
 
 <style id="satugo-chat-fix">
@@ -189,7 +182,7 @@
 .chatinput input{min-width:0;flex:1}
 @media(max-width:700px){.sheet{padding-bottom:calc(82px + env(safe-area-inset-bottom,0px));}.chatbox{max-height:calc(100dvh - 120px)}}
 </style>
-</head>
+<style id="satugo-my-orders-v2">.buyer-orders-wrap{margin:10px 0 24px}.buyer-order-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}.buyer-order-filter{border:1px solid #ddd;background:#fff;border-radius:12px;padding:9px 12px;cursor:pointer}.buyer-order-filter.active{background:#111;color:#fff}.buyer-order-card{border:1px solid #e5e7eb;border-radius:16px;padding:14px;margin-bottom:10px}.buyer-order-head{display:flex;justify-content:space-between;gap:10px}.buyer-order-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}.buyer-order-meta>div{background:#f7f7f7;border-radius:10px;padding:8px}.buyer-order-items{font-size:13px;line-height:1.55}.buyer-order-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.buyer-status{display:inline-block;padding:6px 10px;border-radius:999px;background:#f3f4f6;font-size:12px;font-weight:700}.buyer-status.ok{background:#dcfce7}.buyer-status.bad{background:#fee2e2}.buyer-status.wait{background:#fef3c7}.buyer-timeline{display:flex;overflow:auto;margin:16px 0}.buyer-step{min-width:105px;text-align:center;color:#999;font-size:11px;position:relative}.buyer-step:before{content:"";display:block;width:16px;height:16px;border-radius:50%;background:#d1d5db;margin:0 auto 6px}.buyer-step.done{color:#111;font-weight:700}.buyer-step.done:before{background:#111}.buyer-empty{padding:18px;border:1px dashed #ccc;border-radius:14px;text-align:center}@media(max-width:700px){.buyer-order-meta{grid-template-columns:1fr}.buyer-order-head{flex-direction:column}}</style></head>
 <body>
 <header class="top"><div class="wrap topin"><div class="logo">Satu<b>Go</b></div><div class="search">
 <input id="searchInput" placeholder="Не керек екенін жазыңыз немесе айтыңыз..." autocomplete="off">
@@ -685,9 +678,18 @@ function renderAccount(){
       <button id="accountChats"><span class="mi">💬</span><span><b>Чаттар</b><br><span class="muted">Сатушылармен сөйлесу</span></span></button>
       <button id="accountSecurity"><span class="mi">🔐</span><span><b>Қауіпсіздік</b><br><span class="muted">Аккаунт және телефон арқылы кіру</span></span></button>
     </div>
-    <div class="sectionhead"><h2>Менің тапсырыстарым</h2></div>
-    ${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><div style="display:flex;justify-content:space-between;gap:10px"><b>Тапсырыс #${esc(String(o.id).slice(-6))}</b><b>${esc(o.status||'Жаңа тапсырыс')}</b></div><div style="margin-top:6px">${money(o.total)}</div><div class="muted">${esc(o.city||'')} · ${esc(o.address||'')}</div><div class="muted">${esc(o.deliveryMethod||'Курьер')} · ${esc(o.paymentMethod||'')}</div><div class="orderitems" style="margin-top:8px">${(o.items||[]).map(i=>`${esc(i.name)} × ${i.qty} — ${money(Number(i.price||0)*Number(i.qty||1))}`).join('<br>')}</div>${o.note?`<div class="muted" style="margin-top:6px">Ескерту: ${esc(o.note)}</div>`:''}</div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`;
+    <div class="sectionhead"><h2>Менің тапсырыстарым</h2><button class="secondary" id="refreshMyOrders">↻ Жаңарту</button></div><div id="buyerOrdersBox" class="buyer-orders-wrap"></div>`;
 }
+function buyerStatusClass(s){if(s==='Бас тартылды')return'bad';if(['Қабылданды','Дайындалуда','Жолда','Жеткізілді'].includes(s))return'ok';return'wait'}
+function buyerSteps(s){return s==='Бас тартылды'?['Жаңа тапсырыс','Бас тартылды']:['Жаңа тапсырыс','Қабылданды','Дайындалуда','Жолда','Жеткізілді']}
+function buyerDate(v){try{if(v&&v.toDate)v=v.toDate();let d=new Date(v);return isNaN(d)?'':d.toLocaleString('kk-KZ',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}catch(e){return''}}
+function renderBuyerOrders(filter='all'){
+ const box=document.getElementById('buyerOrdersBox');if(!box||!state.currentUser)return;const all=state.orders.filter(o=>String(o.buyerId)===String(state.currentUser.id));
+ const f=filter==='all'?all:filter==='new'?all.filter(o=>(o.status||'Жаңа тапсырыс')==='Жаңа тапсырыс'):filter==='active'?all.filter(o=>['Қабылданды','Дайындалуда','Жолда'].includes(o.status)):filter==='done'?all.filter(o=>o.status==='Жеткізілді'):all.filter(o=>o.status==='Бас тартылды');
+ box.innerHTML=`<div class="buyer-order-tools"><button class="buyer-order-filter ${filter==='all'?'active':''}" data-bof="all">Барлығы (${all.length})</button><button class="buyer-order-filter ${filter==='new'?'active':''}" data-bof="new">Жаңа</button><button class="buyer-order-filter ${filter==='active'?'active':''}" data-bof="active">Белсенді</button><button class="buyer-order-filter ${filter==='done'?'active':''}" data-bof="done">Жеткізілді</button><button class="buyer-order-filter ${filter==='cancelled'?'active':''}" data-bof="cancelled">Бас тартылды</button></div>${f.length?f.map(o=>{let st=o.status||'Жаңа тапсырыс';let qty=(o.items||[]).reduce((a,i)=>a+Number(i.qty||1),0);return `<div class="buyer-order-card"><div class="buyer-order-head"><div><b>Тапсырыс #${esc(String(o.id).slice(-6))}</b><div class="muted">${esc(buyerDate(o.createdAt))}</div></div><span class="buyer-status ${buyerStatusClass(st)}">${esc(st)}</span></div><div class="buyer-order-meta"><div>Сома<br><b>${money(o.total)}</b></div><div>Тауар саны<br><b>${qty}</b></div><div>Жеткізу<br>${esc(o.address||'—')}</div><div>Телефон<br>${esc(o.phone||'—')}</div></div><div class="buyer-order-items">${(o.items||[]).slice(0,4).map(i=>`${esc(i.name)} × ${esc(i.qty)}`).join('<br>')}</div><div class="buyer-order-actions"><button class="primary" data-bod="${esc(o.id)}">Толық көру</button>${st==='Жаңа тапсырыс'?`<button class="secondary" data-boc="${esc(o.id)}">Бас тарту</button>`:''}</div></div>`}).join(''):'<div class="buyer-empty">Тапсырыс жоқ.</div>'}`;
+ box.querySelectorAll('[data-bof]').forEach(b=>b.onclick=()=>renderBuyerOrders(b.dataset.bof));box.querySelectorAll('[data-bod]').forEach(b=>b.onclick=()=>openBuyerOrder(b.dataset.bod));box.querySelectorAll('[data-boc]').forEach(b=>b.onclick=()=>cancelBuyerOrder(b.dataset.boc));}
+function openBuyerOrder(id){const o=state.orders.find(x=>String(x.id)===String(id));if(!o)return;const st=o.status||'Жаңа тапсырыс',steps=buyerSteps(st),cur=Math.max(0,steps.indexOf(st));openModal(`<div class="modaltop"><h2>📦 Тапсырыс #${esc(String(o.id).slice(-6))}</h2><button class="close" id="close">×</button></div><span class="buyer-status ${buyerStatusClass(st)}">${esc(st)}</span><div class="buyer-timeline">${steps.map((x,i)=>`<div class="buyer-step ${i<=cur?'done':''}">${i<=cur?'✓':'○'}<br>${esc(x)}</div>`).join('')}</div><div class="buyer-order-meta"><div>Күні<br><b>${esc(buyerDate(o.createdAt))}</b></div><div>Жалпы сома<br><b>${money(o.total)}</b></div><div>Телефон<br>${esc(o.phone||'—')}</div><div>Мекенжай<br>${esc(o.address||'—')}</div></div><h3>Тауарлар</h3><div class="list">${(o.items||[]).map(i=>`<div class="item"><b>${esc(i.name)}</b><div>${money(i.price)} × ${esc(i.qty)}</div></div>`).join('')}</div>${st==='Жаңа тапсырыс'?`<button class="secondary" id="buyerCancelDetail">Тапсырыстан бас тарту</button>`:''}`);document.getElementById('close').onclick=closeModal;document.getElementById('buyerCancelDetail')?.addEventListener('click',()=>cancelBuyerOrder(o.id))}
+async function cancelBuyerOrder(id){const o=state.orders.find(x=>String(x.id)===String(id));if(!o||o.status!=='Жаңа тапсырыс'){toast('Бұл тапсырыстан енді бас тарта алмайсыз');return}if(!confirm('Осы тапсырыстан бас тартасыз ба?'))return;try{if(fbReady&&fbDb&&state.currentUser?.firebase)await fbDb.collection('orders').doc(o.id).update({status:'Бас тартылды',updatedAt:firebase.firestore.FieldValue.serverTimestamp(),cancelledBy:String(state.currentUser.id)});o.status='Бас тартылды';o.updatedAt=Date.now();save();closeModal();renderBuyerOrders();toast('Тапсырыс тоқтатылды')}catch(e){toast('Қате: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}}
 async function refreshBuyerOrders(){
   const uid=String(state.currentUser?.id||'');
   if(!uid||!fbReady||!fbDb||!state.currentUser?.firebase)return;
@@ -700,6 +702,7 @@ async function refreshBuyerOrders(){
       const app=document.getElementById('app');
       if(app) app.innerHTML=renderAccount();
       bindAccountButtons();
+      renderBuyerOrders('all');
       updateBadges();
       setTimeout(applyLanguage,0);
     }
@@ -711,9 +714,8 @@ function bindAccountButtons(){
   document.getElementById('logoutBtn')?.addEventListener('click',logout);
   document.getElementById('editProfile')?.addEventListener('click',openEditProfile);
   document.getElementById('sellerBtn')?.addEventListener('click',openSeller);
-  document.getElementById('accountOrders')?.addEventListener('click',()=>{
-    document.querySelector('#app .sectionhead h2')?.scrollIntoView({behavior:'smooth',block:'start'});
-  });
+  document.getElementById('refreshMyOrders')?.addEventListener('click',refreshBuyerOrders);
+  document.getElementById('accountOrders')?.addEventListener('click',()=>document.getElementById('buyerOrdersBox')?.scrollIntoView({behavior:'smooth'}));
   document.getElementById('accountFavorites')?.addEventListener('click',()=>{page='favorites';render()});
   document.getElementById('accountChats')?.addEventListener('click',()=>{page='chats';render()});
   document.getElementById('accountSecurity')?.addEventListener('click',openEditProfile);
@@ -728,6 +730,7 @@ function render(){
   if(page==='account'){
     app.innerHTML=renderAccount();
     bindAccountButtons();
+    renderBuyerOrders('all');
     refreshBuyerOrders();
   }
   document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
@@ -778,108 +781,31 @@ function addCart(id){const p=getProduct(id);if(!p)return;const x=state.cart.find
 function toggleFav(id){const i=state.favorites.indexOf(id);if(i>=0)state.favorites.splice(i,1);else state.favorites.push(id);save();render()}
 function openCart(){const rows=state.cart.map(i=>({...i,p:getProduct(i.productId)})).filter(x=>x.p);const total=rows.reduce((s,x)=>s+x.p.price*x.qty,0);openModal(`<div class="modaltop"><h2>🛒 Себет</h2><button class="close" id="close">×</button></div>${rows.length?`<div class="list">${rows.map(x=>`<div class="item"><b>${esc(x.p.name)}</b><div>${money(x.p.price)} × ${x.qty}</div><div class="actions"><button class="secondary" data-minus="${x.p.id}">−</button><button class="secondary" data-plus="${x.p.id}">+</button><button class="danger" data-remove="${x.p.id}">Жою</button></div></div>`).join('')}</div><div class="sectionhead"><b>Барлығы</b><b>${money(total)}</b></div><button class="primary" id="checkoutBtn">Тапсырыс беру</button>`:'<div class="empty">Себет бос.</div>'}`);document.getElementById('close').onclick=closeModal;document.getElementById('checkoutBtn')?.addEventListener('click',checkout);document.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.plus,1));document.querySelectorAll('[data-minus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.minus,-1));document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{state.cart=state.cart.filter(x=>x.productId!==b.dataset.remove);save();openCart()})}
 function changeQty(id,d){const x=state.cart.find(i=>i.productId===id);if(!x)return;x.qty+=d;if(x.qty<1)state.cart=state.cart.filter(i=>i!==x);save();openCart()}
-function checkout(){
-  if(!state.currentUser){closeModal();openLogin();return}
-  const rows=state.cart.map(i=>({...i,p:getProduct(i.productId)})).filter(x=>x.p);
-  if(!rows.length){toast('Себет бос');return}
-  const total=rows.reduce((s,x)=>s+Number(x.p.price||0)*Number(x.qty||1),0);
-  const sellerCount=new Set(rows.map(x=>String(x.p.sellerId||'platform'))).size;
-  openModal(`<div class="modaltop"><h2>Тапсырыс беру</h2><button class="close" id="close">×</button></div>
-  <div class="item" style="margin-bottom:12px"><b>🛒 Тауарлар</b><div class="muted" style="margin-top:6px">${rows.length} тауар · ${sellerCount} сатушы</div><div style="margin-top:8px">${rows.map(x=>`<div style="display:flex;justify-content:space-between;gap:10px;margin:5px 0"><span>${esc(x.p.name)} × ${x.qty}</span><b>${money(Number(x.p.price||0)*Number(x.qty||1))}</b></div>`).join('')}</div></div>
-  <div class="field"><label>Аты-жөніңіз</label><input id="ordName" value="${esc(state.currentUser.name||'')}"></div>
-  <div class="field"><label>Телефон</label><input id="ordPhone" inputmode="tel" value="${esc(state.currentUser.phone||'')}"></div>
-  <div class="field"><label>Қала</label><input id="ordCity" value="${esc(state.currentUser.city||'')}" placeholder="Мысалы: Тараз"></div>
-  <div class="field"><label>Мекенжай</label><textarea id="ordAddress" rows="3" placeholder="Көше, үй, пәтер"></textarea></div>
-  <div class="field"><label>Жеткізу тәсілі</label><select id="ordDelivery"><option value="Курьер">🚚 Курьер арқылы</option><option value="Өзі алып кету">🏪 Өзі алып кету</option></select></div>
-  <div class="field"><label>Төлем тәсілі</label><select id="ordPayment"><option value="Қолма-қол / курьерге">💵 Қолма-қол / курьерге</option><option value="Картамен">💳 Картамен</option></select><div class="muted" style="margin-top:5px">Картамен төлемді қосу үшін кейін нақты төлем провайдерін қосуға болады.</div></div>
-  <div class="field"><label>Сатушыға ескерту (міндетті емес)</label><textarea id="ordNote" rows="2" placeholder="Мысалы: есік алдына қалдырыңыз"></textarea></div>
-  <div class="sectionhead"><b>Жалпы сома</b><b>${money(total)}</b></div>
-  <button class="primary" id="placeOrder">Тапсырысты растау</button>`);
-  document.getElementById('close').onclick=closeModal;
-  document.getElementById('placeOrder').onclick=placeOrder;
-}
+function checkout(){if(!state.currentUser){closeModal();openLogin();return}const rows=state.cart.map(i=>({...i,p:getProduct(i.productId)})).filter(x=>x.p);if(!rows.length)return;const total=rows.reduce((s,x)=>s+x.p.price*x.qty,0);openModal(`<div class="modaltop"><h2>Тапсырыс беру</h2><button class="close" id="close">×</button></div><div class="field"><label>Аты-жөніңіз</label><input id="ordName" value="${esc(state.currentUser.name)}"></div><div class="field"><label>Телефон</label><input id="ordPhone" value="${esc(state.currentUser.phone||'')}"></div><div class="field"><label>Мекенжай</label><textarea id="ordAddress" rows="3" placeholder="Қала, көше, үй, пәтер"></textarea></div><div class="sectionhead"><b>Төлем сомасы</b><b>${money(total)}</b></div><button class="primary" id="placeOrder">Тапсырысты растау</button>`);document.getElementById('close').onclick=closeModal;document.getElementById('placeOrder').onclick=placeOrder}
 async function placeOrder(){
   const name=document.getElementById('ordName')?.value.trim()||'';
   const phone=document.getElementById('ordPhone')?.value.trim()||'';
-  const city=document.getElementById('ordCity')?.value.trim()||'';
   const address=document.getElementById('ordAddress')?.value.trim()||'';
-  const deliveryMethod=document.getElementById('ordDelivery')?.value||'Курьер';
-  const paymentMethod=document.getElementById('ordPayment')?.value||'Қолма-қол / курьерге';
-  const note=document.getElementById('ordNote')?.value.trim()||'';
-
-  if(!name||!phone||!city||!address){toast('Аты-жөн, телефон, қала және мекенжайды толтырыңыз');return;}
+  if(!name||!phone||!address){toast('Барлық өрісті толтырыңыз');return;}
   if(!state.currentUser?.id){toast('Алдымен аккаунтқа кіріңіз');return;}
-
-  const rows=state.cart.map(i=>({...i,p:getProduct(i.productId)})).filter(x=>x.p&&Number(x.qty)>0);
-  if(!rows.length){toast('Себет бос');return;}
-
-  // Әр сатушыға жеке тапсырыс жасалады. Осылайша бір сатушының
-  // мәртебесі басқа сатушының тапсырысына әсер етпейді.
-  const groups={};
-  rows.forEach(x=>{
-    const sid=String(x.p.sellerId||'platform');
-    (groups[sid]||(groups[sid]=[])).push(x);
-  });
-
-  const batchOrders=[];
-  const baseTime=Date.now();
+  const items=state.cart.map(i=>({...i,p:getProduct(i.productId)})).filter(x=>x.p);
+  if(!items.length){toast('Себет бос');return;}
+  const total=items.reduce((s,x)=>s+Number(x.p.price||0)*Number(x.qty||1),0);
+  const sellerIds=[...new Set(items.map(x=>String(x.p.sellerId||'')).filter(x=>x&&x!=='platform'))];
+  const orderId='o_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);
+  const order={
+    id:orderId,buyerId:String(state.currentUser.id),buyerName:name,phone,address,
+    items:items.map(x=>({productId:x.p.id,name:x.p.name,price:Number(x.p.price||0),qty:Number(x.qty||1),sellerId:String(x.p.sellerId||'')})),
+    sellerIds,total,status:'Жаңа тапсырыс',createdAt:Date.now()
+  };
   try{
-    for(const [sellerId,group] of Object.entries(groups)){
-      const orderId='o_'+baseTime+'_'+Math.random().toString(36).slice(2,8);
-      const subtotal=group.reduce((sum,x)=>sum+Number(x.p.price||0)*Number(x.qty||1),0);
-      const order={
-        id:orderId,
-        buyerId:String(state.currentUser.id),
-        buyerName:name,
-        phone,
-        city,
-        address,
-        deliveryMethod,
-        paymentMethod,
-        note,
-        sellerIds:sellerId==='platform'?[]:[sellerId],
-        sellerId:sellerId,
-        items:group.map(x=>({
-          productId:x.p.id,
-          name:x.p.name,
-          price:Number(x.p.price||0),
-          qty:Number(x.qty||1),
-          sellerId:String(x.p.sellerId||'platform')
-        })),
-        subtotal,
-        deliveryFee:0,
-        total:subtotal,
-        status:'Жаңа тапсырыс',
-        createdAt:baseTime
-      };
-
-      if(fbReady&&fbDb&&state.currentUser.firebase){
-        await fbDb.collection('orders').doc(orderId).set({
-          ...order,
-          createdAt:firebase.firestore.FieldValue.serverTimestamp()
-        });
-      }
-      batchOrders.push(order);
+    if(fbReady&&fbDb&&state.currentUser.firebase){
+      await fbDb.collection('orders').doc(orderId).set({...order,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
     }
-
-    state.orders=[...batchOrders,...state.orders];
-    state.currentUser.name=name;
-    state.currentUser.phone=phone;
-    state.currentUser.city=city;
-    state.cart=[];
-    save();
-    closeModal();
-
-    if(batchOrders.length>1){
-      toast(`${batchOrders.length} бөлек тапсырыс қабылданды`);
-    }else{
-      toast('Тапсырыс қабылданды');
-    }
-    render();
-  }catch(e){
-    console.error('placeOrder:',e);
-    toast('Тапсырысты сақтау сәтсіз болды: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message));
-  }
+    state.orders.unshift(order);
+    state.currentUser.name=name;state.currentUser.phone=phone;state.cart=[];save();
+    closeModal();toast('Тапсырыс қабылданды');render();
+  }catch(e){console.error('placeOrder:',e);toast('Тапсырысты сақтау сәтсіз болды: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message));}
 }
 function openLogin(){
   if(!fbReady||!fbAuth){toast('Firebase қосылмаған');return}
@@ -998,19 +924,8 @@ async function openSeller(){
       orders=snap.docs.map(d=>({id:d.id,...d.data()}));
       state.orders=[...orders,...state.orders.filter(o=>!orders.some(x=>x.id===o.id))];
       save();
-    }catch(e){console.warn('seller orders load',e.message);toast('Тапсырыстарды жүктеу қатесі: '+e.message);}
+    }catch(e){console.warn('seller orders load',e.message);}
   }
-
-  const myOrders=orders.map(o=>{
-    const items=(o.items||[]).filter(i=>String(i.sellerId)===uid);
-    const sellerTotal=items.reduce((sum,i)=>sum+Number(i.price||0)*Number(i.qty||1),0);
-    return {...o,_sellerItems:items,_sellerTotal:sellerTotal};
-  });
-  const newCount=myOrders.filter(o=>(o.status||'Жаңа тапсырыс')==='Жаңа тапсырыс').length;
-  const acceptedCount=myOrders.filter(o=>o.status==='Қабылданды').length;
-  const cancelledCount=myOrders.filter(o=>o.status==='Бас тартылды').length;
-  const revenue=myOrders.filter(o=>o.status==='Қабылданды').reduce((s,o)=>s+o._sellerTotal,0);
-
   openModal(`<div class="modaltop"><h2>🏪 Менің дүкенім</h2><button class="close" id="close">×</button></div>
   <div class="field"><label>Дүкен атауы</label><input id="storeName" value="${esc(state.store?.ownerId===uid?state.store.name:'')}" placeholder="AIDANA FASHION"></div>
   <button class="secondary" id="saveStore">Дүкенді сақтау</button>
@@ -1025,91 +940,23 @@ async function openSeller(){
   <div class="field"><label class="special-check"><input id="pSpecial" type="checkbox"><span>✨ Ерекше заттарға шығару</span></label></div>
   <div class="field"><label>Ерекше зат түрі</label><select id="pSpecialType"><option value="interesting">🤯 Қызық зат</option><option value="eye">👀 Көзге түсетін</option><option value="gift">🎁 Сыйлық</option></select></div>
   <button class="primary" id="addProduct">➕ Тауарды қосу</button>
-
-  <h3>📊 Тапсырыс статистикасы</h3>
-  <div class="seller-order-stats">
-    <div class="seller-stat"><b>${newCount}</b><span>Жаңа</span></div>
-    <div class="seller-stat"><b>${acceptedCount}</b><span>Қабылданды</span></div>
-    <div class="seller-stat"><b>${cancelledCount}</b><span>Бас тартылды</span></div>
-    <div class="seller-stat"><b>${money(revenue)}</b><span>Қабылданған сома</span></div>
-  </div>
-
   <h3>Менің тауарларым</h3>
-  ${mine.length?`<div class="list">${mine.map(p=>`<div class="item"><b>${esc(p.name)}</b><div>${money(p.price)} · Қойма: ${Number(p.stock??p.quantity??0)}</div>${p.special?`<div class="special-label">✨ ${specialTitle(p.specialType||'interesting')}</div>`:''}</div>`).join('')}</div>`:'<div class="muted">Тауар жоқ.</div>'}
-
-  <div class="seller-orders-head"><h3>📦 Менің тапсырыстарым</h3><select id="sellerOrderFilter"><option value="all">Барлығы (${myOrders.length})</option><option value="new">Жаңа (${newCount})</option><option value="accepted">Қабылданған (${acceptedCount})</option><option value="cancelled">Бас тартылған (${cancelledCount})</option></select></div>
-  <div id="sellerOrdersList"></div>`);
-
+  ${mine.length?`<div class="list">${mine.map(p=>`<div class="item"><b>${esc(p.name)}</b><div>${money(p.price)}</div>${p.special?`<div class="special-label">✨ ${specialTitle(p.specialType||'interesting')}</div>`:''}</div>`).join('')}</div>`:'<div class="muted">Тауар жоқ.</div>'}
+  <h3>Менің тапсырыстарым</h3>
+  ${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>#${esc(String(o.id).slice(-6))}</b><div>${money(o.total)} · <b>${esc(o.status||'Жаңа тапсырыс')}</b></div><div class="muted">${esc(o.buyerName||'Клиент')} · ${esc(o.phone||'')} · ${esc(o.address||'')}</div><div class="orderitems">${(o.items||[]).filter(i=>String(i.sellerId)===uid).map(i=>`${esc(i.name)} × ${i.qty}`).join('<br>')}</div>${o.status==='Жаңа тапсырыс'?`<button class="primary" data-status="${esc(o.id)}">Қабылдау</button><button class="secondary" data-cancel-status="${esc(o.id)}">Бас тарту</button>`:''}</div>`).join('')}</div>`:'<div class="muted">Тапсырыс жоқ.</div>'}`);
   document.getElementById('close').onclick=closeModal;
   document.getElementById('saveStore').onclick=async()=>{
     const n=document.getElementById('storeName').value.trim();if(!n){toast('Дүкен атауын енгізіңіз');return;}
     try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('stores').doc(uid).set({ownerId:uid,name:n,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});state.store={...(state.store||{}),ownerId:uid,name:n};save();toast('Дүкен сақталды');}catch(e){toast('Дүкенді сақтау сәтсіз болды: '+e.message)}
   };
   document.getElementById('addProduct').onclick=saveSellerProduct;
-
-  const renderSellerOrders=()=>{
-    const filter=document.getElementById('sellerOrderFilter')?.value||'all';
-    const list=document.getElementById('sellerOrdersList');
-    const filtered=myOrders.filter(o=>filter==='all'||(filter==='new'&&o.status==='Жаңа тапсырыс')||(filter==='accepted'&&o.status==='Қабылданды')||(filter==='cancelled'&&o.status==='Бас тартылды'));
-    if(!filtered.length){list.innerHTML='<div class="muted">Бұл бөлімде тапсырыс жоқ.</div>';return;}
-    list.innerHTML=`<div class="list">${filtered.map(o=>{
-      const status=o.status||'Жаңа тапсырыс';
-      const statusClass=status==='Қабылданды'?'accepted':status==='Бас тартылды'?'cancelled':'new';
-      const items=o._sellerItems||[];
-      return `<div class="seller-order-card">
-        <div class="seller-order-top"><div><b>Тапсырыс #${esc(String(o.id).slice(-6))}</b><div class="muted">${esc(o.createdAt?.toDate?o.createdAt.toDate().toLocaleString('kk-KZ'):o.createdAt?new Date(o.createdAt).toLocaleString('kk-KZ'):'')}</div></div><span class="order-status ${statusClass}">${esc(status)}</span></div>
-        <div class="seller-order-buyer"><b>👤 ${esc(o.buyerName||'Клиент')}</b><span>📱 ${esc(o.phone||'Көрсетілмеген')}</span></div>
-        <div class="seller-order-address">📍 ${esc([o.city,o.address].filter(Boolean).join(', ')||'Мекенжай көрсетілмеген')}</div>
-        <div class="seller-order-meta"><span>🚚 ${esc(o.deliveryMethod||'Курьер')}</span><span>💳 ${esc(o.paymentMethod||'Көрсетілмеген')}</span></div>
-        <div class="seller-order-items">${items.length?items.map(i=>`<div class="seller-order-item"><span>${esc(i.name)} × ${Number(i.qty||1)}</span><b>${money(Number(i.price||0)*Number(i.qty||1))}</b></div>`).join(''):'<div class="muted">Сіздің тауарыңыз табылмады.</div>'}</div>
-        <div class="seller-order-bottom"><b>Сізге түсетін сома: ${money(o._sellerTotal)}</b><button class="secondary" data-order-detail="${esc(o.id)}">Толығырақ</button></div>
-        ${o.note?`<div class="seller-order-note">📝 ${esc(o.note)}</div>`:''}
-        ${status==='Жаңа тапсырыс'?`<div class="actions"><button class="primary" data-status="${esc(o.id)}">✅ Қабылдау</button><button class="secondary" data-cancel-status="${esc(o.id)}">❌ Бас тарту</button></div>`:''}
-      </div>`;
-    }).join('')}</div>`;
-
-    document.querySelectorAll('[data-status],[data-cancel-status]').forEach(b=>b.onclick=async()=>{
-      const oid=b.dataset.status||b.dataset.cancelStatus;const next=b.dataset.status?'Қабылданды':'Бас тартылды';
-      try{
-        if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('orders').doc(oid).update({status:next,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
-        const local=state.orders.find(x=>x.id===oid);if(local)local.status=next;save();toast(next);
-        const updated=state.orders.find(x=>x.id===oid);if(updated){const idx=myOrders.findIndex(x=>x.id===oid);if(idx>=0){myOrders[idx]={...updated,_sellerItems:(updated.items||[]).filter(i=>String(i.sellerId)===uid),_sellerTotal:(updated.items||[]).filter(i=>String(i.sellerId)===uid).reduce((s,i)=>s+Number(i.price||0)*Number(i.qty||1),0)};}}
-        openSeller();
-      }catch(e){toast('Тапсырыс мәртебесін өзгерту сәтсіз болды: '+e.message)}
-    });
-    document.querySelectorAll('[data-order-detail]').forEach(b=>b.onclick=()=>openSellerOrderDetail(myOrders.find(x=>x.id===b.dataset.orderDetail),uid));
-  };
-  document.getElementById('sellerOrderFilter').onchange=renderSellerOrders;
-  renderSellerOrders();
-}
-
-function openSellerOrderDetail(o,uid){
-  if(!o)return;
-  const items=(o._sellerItems||o.items||[]).filter(i=>String(i.sellerId)===String(uid));
-  const total=items.reduce((s,i)=>s+Number(i.price||0)*Number(i.qty||1),0);
-  const status=o.status||'Жаңа тапсырыс';
-  openModal(`<div class="modaltop"><h2>📦 Тапсырыс #${esc(String(o.id).slice(-6))}</h2><button class="close" id="close">×</button></div>
-    <div class="seller-detail-status"><b>${esc(status)}</b></div>
-    <div class="seller-detail-grid">
-      <div class="item"><b>👤 Клиент</b><div>${esc(o.buyerName||'Клиент')}</div><div class="muted">${esc(o.phone||'')}</div></div>
-      <div class="item"><b>📍 Жеткізу</b><div>${esc(o.city||'')}</div><div>${esc(o.address||'')}</div></div>
-      <div class="item"><b>🚚 Тәсіл</b><div>${esc(o.deliveryMethod||'Курьер')}</div></div>
-      <div class="item"><b>💳 Төлем</b><div>${esc(o.paymentMethod||'Көрсетілмеген')}</div></div>
-    </div>
-    <h3>Тауарлар</h3>
-    <div class="list">${items.map(i=>`<div class="seller-order-item"><span>${esc(i.name)} × ${Number(i.qty||1)}</span><b>${money(Number(i.price||0)*Number(i.qty||1))}</b></div>`).join('')}</div>
-    <div class="seller-detail-total"><b>Сатушы бойынша жалпы: ${money(total)}</b></div>
-    ${o.note?`<div class="seller-order-note">📝 Клиент ескертуі: ${esc(o.note)}</div>`:''}
-    ${status==='Жаңа тапсырыс'?`<div class="actions"><button class="primary" id="detailAccept">✅ Қабылдау</button><button class="secondary" id="detailCancel">❌ Бас тарту</button></div>`:''}`);
-  document.getElementById('close').onclick=()=>openSeller();
-  const updateStatus=async(next)=>{
+  document.querySelectorAll('[data-status],[data-cancel-status]').forEach(b=>b.onclick=async()=>{
+    const oid=b.dataset.status||b.dataset.cancelStatus;const next=b.dataset.status?'Қабылданды':'Бас тартылды';
     try{
-      if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('orders').doc(o.id).update({status:next,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
-      const local=state.orders.find(x=>x.id===o.id);if(local)local.status=next;save();toast(next);openSeller();
+      if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('orders').doc(oid).update({status:next,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+      const local=state.orders.find(x=>x.id===oid);if(local)local.status=next;save();toast(next);openSeller();
     }catch(e){toast('Тапсырыс мәртебесін өзгерту сәтсіз болды: '+e.message)}
-  };
-  if(document.getElementById('detailAccept'))document.getElementById('detailAccept').onclick=()=>updateStatus('Қабылданды');
-  if(document.getElementById('detailCancel'))document.getElementById('detailCancel').onclick=()=>updateStatus('Бас тартылды');
+  });
 }
 async function saveSellerProduct(){
   if(!state.currentUser){openLogin();return}
