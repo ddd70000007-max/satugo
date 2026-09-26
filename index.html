@@ -679,9 +679,55 @@ function renderAccount(){
       <button id="accountSecurity"><span class="mi">🔐</span><span><b>Қауіпсіздік</b><br><span class="muted">Аккаунт және телефон арқылы кіру</span></span></button>
     </div>
     <div class="sectionhead"><h2>Менің тапсырыстарым</h2></div>
-    ${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>Тапсырыс #${esc(o.id.slice(-6))}</b><div>${money(o.total)} · ${esc(o.status)}</div><div class="muted">${esc(o.address)}</div></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`;
+    ${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>Тапсырыс #${esc(String(o.id).slice(-6))}</b><div>${money(o.total)} · <b>${esc(o.status||'Жаңа тапсырыс')}</b></div><div class="muted">${esc(o.address||'')}</div><div class="orderitems">${(o.items||[]).map(i=>`${esc(i.name)} × ${i.qty}`).join('<br>')}</div></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`;
 }
-function render(){const app=document.getElementById('app');if(page==='home')app.innerHTML=renderHome();if(page==='search')app.innerHTML=renderSearch();if(page==='favorites')app.innerHTML=renderFav();if(page==='chats'){renderChats();}if(page==='account')app.innerHTML=renderAccount();document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));updateBadges();bindSmartSearchTools()};setTimeout(applyLanguage,0)
+async function refreshBuyerOrders(){
+  const uid=String(state.currentUser?.id||'');
+  if(!uid||!fbReady||!fbDb||!state.currentUser?.firebase)return;
+  try{
+    const snap=await fbDb.collection('orders').where('buyerId','==',uid).get();
+    const remote=snap.docs.map(d=>({id:d.id,...d.data()}));
+    state.orders=[...remote,...state.orders.filter(o=>!remote.some(r=>r.id===o.id))];
+    save();
+    if(page==='account'){
+      const app=document.getElementById('app');
+      if(app) app.innerHTML=renderAccount();
+      bindAccountButtons();
+      updateBadges();
+      setTimeout(applyLanguage,0);
+    }
+  }catch(e){console.warn('buyer orders load',e.code||e.message)}
+}
+
+function bindAccountButtons(){
+  document.getElementById('loginBtn')?.addEventListener('click',openLogin);
+  document.getElementById('logoutBtn')?.addEventListener('click',logout);
+  document.getElementById('editProfile')?.addEventListener('click',openEditProfile);
+  document.getElementById('sellerBtn')?.addEventListener('click',openSeller);
+  document.getElementById('accountOrders')?.addEventListener('click',()=>{
+    document.querySelector('#app .sectionhead h2')?.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  document.getElementById('accountFavorites')?.addEventListener('click',()=>{page='favorites';render()});
+  document.getElementById('accountChats')?.addEventListener('click',()=>{page='chats';render()});
+  document.getElementById('accountSecurity')?.addEventListener('click',openEditProfile);
+}
+
+function render(){
+  const app=document.getElementById('app');
+  if(page==='home')app.innerHTML=renderHome();
+  if(page==='search')app.innerHTML=renderSearch();
+  if(page==='favorites')app.innerHTML=renderFav();
+  if(page==='chats'){renderChats();}
+  if(page==='account'){
+    app.innerHTML=renderAccount();
+    bindAccountButtons();
+    refreshBuyerOrders();
+  }
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+  updateBadges();
+  bindSmartSearchTools();
+}
+setTimeout(applyLanguage,0)
 function updateBadges(){document.getElementById('cartCount').textContent=state.cart.reduce((s,x)=>s+x.qty,0);const f=document.getElementById('favBadge');f.textContent=state.favorites.length;f.classList.toggle('hidden',!state.favorites.length);const uid=state.currentUser?.id;const n=uid?state.chats.reduce((s,c)=>s+(c.unread?.[uid]||0),0):0;const b=document.getElementById('chatBadge');b.textContent=n;b.classList.toggle('hidden',!n)}
 function openModal(html){document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show');setTimeout(applyLanguage,0)}
 function closeModal(){document.getElementById('modal').classList.remove('show');document.getElementById('sheet').innerHTML='';selectedProduct=null;activeChat=null}
