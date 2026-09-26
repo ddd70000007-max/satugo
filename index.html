@@ -202,7 +202,7 @@
 
 const firebaseConfig={apiKey:'AIzaSyCj7VBpb0u5YgFqz2Mm8NhvbytX_Fs5tJE',authDomain:'satugo-c3b7c.firebaseapp.com',projectId:'satugo-c3b7c',storageBucket:'satugo-c3b7c.firebasestorage.app',messagingSenderId:'32133349747',appId:'1:32133349747:web:8df062f6428b4eb7ed8506',measurementId:'G-4PF4DV016B'};
 let fbReady=false,fbAuth=null,fbDb=null,phoneConfirmation=null,recaptchaVerifier=null;
-try{firebase.initializeApp(firebaseConfig);fbAuth=firebase.auth();fbDb=firebase.firestore();fbReady=true;fbAuth.onAuthStateChanged(async u=>{try{if(!u){state.currentUser=null;save();render();return}const ref=fbDb.collection('users').doc(u.uid);let d={};try{const snap=await ref.get();d=snap.exists?(snap.data()||{}):{};if(!snap.exists){try{await ref.set({name:u.displayName||'Пайдаланушы',phone:u.phoneNumber||'',role:'buyer',createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})}catch(e){console.warn('User create:',e)}}}catch(e){console.warn('User profile read:',e)}state.currentUser={id:u.uid,name:d.name||u.displayName||'Пайдаланушы',phone:u.phoneNumber||d.phone||'',username:d.username||'',email:d.email||u.email||'',city:d.city||'',gender:d.gender||'',birthDate:d.birthDate||'',postalCode:d.postalCode||'',address:d.address||'',photo:d.photo||u.photoURL||'',firebase:true};save();render()}catch(e){console.error('Auth state:',e);render()}})}catch(e){console.warn('Firebase:',e);fbReady=false}
+try{firebase.initializeApp(firebaseConfig);fbAuth=firebase.auth();fbDb=firebase.firestore();fbReady=true;try{fbAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(e=>console.warn('Auth persistence:',e))}catch(e){console.warn('Auth persistence setup:',e)};fbAuth.onAuthStateChanged(async u=>{try{if(!u){state.currentUser=null;save();render();return}const ref=fbDb.collection('users').doc(u.uid);let d={};try{const snap=await ref.get();d=snap.exists?(snap.data()||{}):{};if(!snap.exists){try{await ref.set({name:u.displayName||'Пайдаланушы',phone:u.phoneNumber||'',role:'buyer',createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})}catch(e){console.warn('User create:',e)}}}catch(e){console.warn('User profile read:',e)}state.currentUser={id:u.uid,name:d.name||u.displayName||'Пайдаланушы',phone:u.phoneNumber||d.phone||'',username:d.username||'',email:d.email||u.email||'',city:d.city||'',gender:d.gender||'',birthDate:d.birthDate||'',postalCode:d.postalCode||'',address:d.address||'',photo:d.photo||u.photoURL||'',firebase:true};save();render()}catch(e){console.error('Auth state:',e);render()}})}catch(e){console.warn('Firebase:',e);fbReady=false}
 const KEY='satugo_from_zero_v1';
 const specialStarter=[
 {id:'sp1',name:'Портативті мини-проектор',price:24990,cat:'Электрон',image:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80',sellerId:'platform',sellerName:'SatuGo',special:true,specialType:'eye',rating:4.8,city:'Алматы',stock:25,brand:'SatuGo',color:'Ақ',colors:['Ақ'],tags:['проектор','үй кинотеатры','презентация'],keywords:['портативті','мини'],description:'Үйде фильм, мультфильм және презентация көруге арналған ықшам проектор. Жеңіл корпусымен алып жүруге ыңғайлы. Үй кинотеатрына және жұмысқа қолдануға арналған қызықты құрылғы.'},
@@ -751,6 +751,53 @@ async function placeOrder(){
     closeModal();toast('Тапсырыс қабылданды');render();
   }catch(e){console.error('placeOrder:',e);toast('Тапсырысты сақтау сәтсіз болды: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message));}
 }
+function openLogin(){
+  if(!fbReady||!fbAuth){toast('Firebase қосылмаған');return}
+  let mode='login',step=1;
+  openModal(`<div class="modaltop"><h2 id="authTitle">Кіру</h2><button class="close" id="close">×</button></div>
+    <div class="field"><label>Телефон</label><input id="authPhone" inputmode="tel" autocomplete="tel" placeholder="+7XXXXXXXXXX"></div>
+    <div id="authNameWrap" class="field hidden"><label>Аты-жөніңіз</label><input id="authName" autocomplete="name" placeholder="Аты-жөніңіз"></div>
+    <div id="recaptcha-container"></div>
+    <div id="authCodeWrap" class="field hidden"><label>SMS код</label><input id="authCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="6 таңбалы код"></div>
+    <div class="actions"><button class="secondary" id="authModeBtn">Тіркелу</button><button class="primary" id="sendCode">SMS код жіберу</button><button class="primary hidden" id="verifyCode">Растау</button></div>
+    <div class="muted" style="margin-top:10px">SMS арқылы Firebase аккаунтымен кіру. +7 нөмірі қажет.</div>`);
+  document.getElementById('close').onclick=closeModal;
+  const title=document.getElementById('authTitle'), nameWrap=document.getElementById('authNameWrap'), modeBtn=document.getElementById('authModeBtn');
+  const phoneInput=document.getElementById('authPhone'), codeWrap=document.getElementById('authCodeWrap'), codeInput=document.getElementById('authCode');
+  const sendBtn=document.getElementById('sendCode'), verifyBtn=document.getElementById('verifyCode');
+  const normalizePhone=v=>{let x=String(v||'').replace(/[^0-9+]/g,'');if(x.startsWith('8'))x='+7'+x.slice(1);if(x.startsWith('7')&&!x.startsWith('+7'))x='+'+x;return x};
+  const validPhone=v=>/^\+7\d{10}$/.test(v);
+  const draw=()=>{title.textContent=mode==='login'?'Кіру':'Тіркелу';nameWrap.classList.toggle('hidden',mode!=='register');modeBtn.textContent=mode==='login'?'Тіркелу':'Кіру'};
+  modeBtn.onclick=()=>{mode=mode==='login'?'register':'login';draw()};
+  phoneInput.addEventListener('input',e=>{e.target.value=normalizePhone(e.target.value)});
+  sendBtn.onclick=async()=>{
+    const phone=normalizePhone(phoneInput.value.trim());
+    if(!validPhone(phone)){toast('Телефонды +7XXXXXXXXXX форматында енгізіңіз');return}
+    if(mode==='register'&&!document.getElementById('authName').value.trim()){toast('Аты-жөніңізді енгізіңіз');return}
+    try{
+      if(recaptchaVerifier){try{recaptchaVerifier.clear()}catch(_){}}
+      recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'normal'});
+      await recaptchaVerifier.render();
+      phoneConfirmation=await fbAuth.signInWithPhoneNumber(phone,recaptchaVerifier);
+      step=2;sendBtn.classList.add('hidden');verifyBtn.classList.remove('hidden');codeWrap.classList.remove('hidden');phoneInput.disabled=true;modeBtn.classList.add('hidden');toast('SMS код жіберілді');
+    }catch(e){console.error('sendCode:',e);try{recaptchaVerifier?.clear()}catch(_){}recaptchaVerifier=null;toast('SMS жіберілмеді: Firebase Phone Auth баптауын тексеріңіз')}
+  };
+  verifyBtn.onclick=async()=>{
+    const code=codeInput.value.trim();
+    if(!/^\d{6}$/.test(code)){toast('6 таңбалы код енгізіңіз');return}
+    if(!phoneConfirmation){toast('Алдымен SMS код жіберіңіз');return}
+    try{
+      const result=await phoneConfirmation.confirm(code),u=result.user;
+      const name=mode==='register'?document.getElementById('authName').value.trim():(u.displayName||'Пайдаланушы');
+      if(mode==='register'&&!name){toast('Аты-жөніңізді енгізіңіз');return}
+      if(name&&u.displayName!==name)await u.updateProfile({displayName:name});
+      await fbDb.collection('users').doc(u.uid).set({name:name||'Пайдаланушы',phone:u.phoneNumber||'',role:'buyer',updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+      state.currentUser={id:u.uid,name:name||'Пайдаланушы',phone:u.phoneNumber||'',firebase:true};save();closeModal();render();toast(mode==='login'?'Сәтті кірдіңіз':'Аккаунт ашылды');
+    }catch(e){console.error('verifyCode:',e);toast('SMS коды қате немесе мерзімі өтті')}
+  };
+  draw();
+}
+
 function editProfile(){
   const u=state.currentUser||{};
   openModal(`<div class="modaltop"><h2>✏️ Жеке мәліметтер</h2><button class="close" id="close">×</button></div>
@@ -1217,7 +1264,7 @@ document.addEventListener('click',function(e){
 document.getElementById('languageBtn').onclick=toggleLanguage;
 document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
-document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='accountOrders'){page='account';render();setTimeout(()=>document.getElementById('accountOrderSection')?.scrollIntoView({behavior:'smooth'}),0);}if(e.target.id==='accountFavorites'){page='favorites';render()}if(e.target.id==='accountChats'){page='chats';render()}if(e.target.id==='accountSecurity'){openSecurity();}if(e.target.id==='searchPageInput'){}}
+document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){(async()=>{try{if(fbReady&&fbAuth)await fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}catch(err){console.error('logout:',err);toast('Аккаунттан шығу сәтсіз болды')}})()}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='accountOrders'){page='account';render();setTimeout(()=>document.getElementById('accountOrderSection')?.scrollIntoView({behavior:'smooth'}),0);}if(e.target.id==='accountFavorites'){page='favorites';render()}if(e.target.id==='accountChats'){page='chats';render()}if(e.target.id==='accountSecurity'){openSecurity();}if(e.target.id==='searchPageInput'){}}
 );render();applyLanguage();
 async function syncFirebaseData(){
  if(!fbReady)return;
