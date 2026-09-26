@@ -628,6 +628,16 @@ async function sendChat(){
   }
 }
 
+
+function avatarHtml(u){
+  const photo=String(u?.photo||'').trim();
+  const name=String(u?.name||'Пайдаланушы').trim();
+  const letter=(name.charAt(0)||'👤').toUpperCase();
+  return photo
+    ? `<div class="account-avatar"><img src="${esc(photo)}" alt="Фото"></div>`
+    : `<div class="account-avatar">${esc(letter)}</div>`;
+}
+
 function renderAccount(){
   if(!state.currentUser){
     return `<div class="sectionhead"><h2>Аккаунт</h2></div>
@@ -1170,7 +1180,27 @@ function toggleLanguage(){
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const sp=e.target.closest('[data-special]');if(sp){openSpecialProducts(sp.dataset.special||'all');return}const sm=e.target.closest('[data-special-modal]');if(sm){openSpecialProducts(sm.dataset.specialModal||'all');return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
 /* SatuGo ACCOUNT: direct inline handler; generic nav skips account */
-document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();page=b.dataset.page||'home';render();}));document.getElementById('languageBtn').onclick=toggleLanguage;
+document.addEventListener('click',function(e){
+  const b=e.target.closest ? e.target.closest('#satugoBottomNav .navbtn') : null;
+  if(!b)return;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  const nextPage=b.dataset.page||'home';
+  if(page===nextPage){
+    render();
+    return;
+  }
+  page=nextPage;
+  render();
+},true);const accountBtn=document.getElementById('satugoAccountBtn');
+if(accountBtn){
+  accountBtn.addEventListener('click',function(e){
+    e.preventDefault();
+    page='account';
+    render();
+  });
+}
+document.getElementById('languageBtn').onclick=toggleLanguage;
 document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
 document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='accountOrders'){page='account';render();setTimeout(()=>document.getElementById('accountOrderSection')?.scrollIntoView({behavior:'smooth'}),0);}if(e.target.id==='accountFavorites'){page='favorites';render()}if(e.target.id==='accountChats'){page='chats';render()}if(e.target.id==='accountSecurity'){openSecurity();}if(e.target.id==='searchPageInput'){}}
