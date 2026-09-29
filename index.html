@@ -926,7 +926,7 @@ function openLogin(){
       const rc=document.getElementById('recaptcha-container');
       if(!rc)throw new Error('reCAPTCHA контейнері табылмады');
       rc.innerHTML='';
-      recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'invisible',callback:()=>{}});
+      recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'normal',callback:()=>{status.textContent='Тексеру өтті. SMS жіберілуде...'}});
       await recaptchaVerifier.render();
       phoneConfirmation=await fbAuth.signInWithPhoneNumber(phone,recaptchaVerifier);
       step=2;
@@ -942,7 +942,7 @@ function openLogin(){
       console.error('sendCode:',e);
       try{recaptchaVerifier?.clear()}catch(_){}
       recaptchaVerifier=null;
-      const msg=e?.code==='auth/invalid-phone-number'?'Телефон нөмірі қате.':e?.code==='auth/too-many-requests'?'Тым көп сұраныс. Біраз уақыттан кейін қайталаңыз.':e?.code==='auth/quota-exceeded'?'SMS лимиті асып кетті.':e?.code==='auth/operation-not-allowed'?'Firebase-де Phone Authentication қосылмаған.':e?.message||'Белгісіз қате';
+      const msg=e?.code==='auth/invalid-phone-number'?'Телефон нөмірі қате.':e?.code==='auth/too-many-requests'?'Тым көп сұраныс. Біраз уақыттан кейін қайталаңыз.':e?.code==='auth/quota-exceeded'?'SMS лимиті асып кетті.':e?.code==='auth/operation-not-allowed'?'Firebase-де Phone Authentication қосылмаған.':e?.code==='auth/network-request-failed'?'Firebase серверіне қосылу мүмкін болмады. Интернетті, VPN/Proxy және браузердегі блоктаушыларды тексеріп, бетті Ctrl+F5 арқылы қайта ашыңыз.':e?.message||'Белгісіз қате';
       status.textContent='Қате: '+msg;
       toast('SMS жіберілмеді: '+msg);
     }finally{
