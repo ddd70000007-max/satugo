@@ -884,47 +884,92 @@ async function placeOrder(){
 function openLogin(){
   if(!fbReady||!fbAuth){toast('Firebase қосылмаған');return}
   let mode='login',step=1;
-  openModal(`<div class="modaltop"><h2 id="authTitle">Кіру</h2><button class="close" id="close">×</button></div>
+  openModal(`<div class="modaltop"><h2 id="authTitle">Кіру</h2><button type="button" class="close" id="close">×</button></div>
     <div class="field"><label>Телефон</label><input id="authPhone" inputmode="tel" autocomplete="tel" placeholder="+7XXXXXXXXXX"></div>
     <div id="authNameWrap" class="field hidden"><label>Аты-жөніңіз</label><input id="authName" autocomplete="name" placeholder="Аты-жөніңіз"></div>
     <div id="recaptcha-container"></div>
     <div id="authCodeWrap" class="field hidden"><label>SMS код</label><input id="authCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="6 таңбалы код"></div>
-    <div class="actions"><button class="secondary" id="authModeBtn">Тіркелу</button><button class="primary" id="sendCode">SMS код жіберу</button><button class="primary hidden" id="verifyCode">Растау</button></div>
-    <div class="muted" style="margin-top:10px">SMS арқылы Firebase аккаунтымен кіру. +7 нөмірі қажет.</div>`);
-  document.getElementById('close').onclick=closeModal;
-  const title=document.getElementById('authTitle'), nameWrap=document.getElementById('authNameWrap'), modeBtn=document.getElementById('authModeBtn');
-  const phoneInput=document.getElementById('authPhone'), codeWrap=document.getElementById('authCodeWrap'), codeInput=document.getElementById('authCode');
-  const sendBtn=document.getElementById('sendCode'), verifyBtn=document.getElementById('verifyCode');
+    <div class="actions"><button type="button" class="secondary" id="authModeBtn">Тіркелу</button><button type="button" class="primary" id="sendCode">SMS код жіберу</button><button type="button" class="primary hidden" id="verifyCode">Растау</button></div>
+    <div id="authStatus" class="muted" style="margin-top:10px">SMS арқылы Firebase аккаунтымен кіру. +7 нөмірі қажет.</div>`);
+
+  const closeBtn=document.getElementById('close');
+  const title=document.getElementById('authTitle');
+  const nameWrap=document.getElementById('authNameWrap');
+  const modeBtn=document.getElementById('authModeBtn');
+  const phoneInput=document.getElementById('authPhone');
+  const codeWrap=document.getElementById('authCodeWrap');
+  const codeInput=document.getElementById('authCode');
+  const sendBtn=document.getElementById('sendCode');
+  const verifyBtn=document.getElementById('verifyCode');
+  const status=document.getElementById('authStatus');
+
+  closeBtn.onclick=closeModal;
   const normalizePhone=v=>{let x=String(v||'').replace(/[^0-9+]/g,'');if(x.startsWith('8'))x='+7'+x.slice(1);if(x.startsWith('7')&&!x.startsWith('+7'))x='+'+x;return x};
   const validPhone=v=>/^\+7\d{10}$/.test(v);
   const draw=()=>{title.textContent=mode==='login'?'Кіру':'Тіркелу';nameWrap.classList.toggle('hidden',mode!=='register');modeBtn.textContent=mode==='login'?'Тіркелу':'Кіру'};
   modeBtn.onclick=()=>{mode=mode==='login'?'register':'login';draw()};
   phoneInput.addEventListener('input',e=>{e.target.value=normalizePhone(e.target.value)});
-  sendBtn.onclick=async()=>{
+
+  sendBtn.addEventListener('click',async e=>{
+    e.preventDefault();
+    if(sendBtn.disabled)return;
     const phone=normalizePhone(phoneInput.value.trim());
-    if(!validPhone(phone)){toast('Телефонды +7XXXXXXXXXX форматында енгізіңіз');return}
-    if(mode==='register'&&!document.getElementById('authName').value.trim()){toast('Аты-жөніңізді енгізіңіз');return}
+    phoneInput.value=phone;
+    if(!validPhone(phone)){toast('Телефонды +7XXXXXXXXXX форматында енгізіңіз');phoneInput.focus();return}
+    if(mode==='register'&&!document.getElementById('authName').value.trim()){toast('Аты-жөніңізді енгізіңіз');document.getElementById('authName').focus();return}
+    sendBtn.disabled=true;
+    sendBtn.textContent='Жіберілуде...';
+    status.textContent='Қауіпсіз тексеру іске қосылуда...';
     try{
-      if(recaptchaVerifier){try{recaptchaVerifier.clear()}catch(_){}}
-      recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'normal'});
+      if(!window.firebase||!fbAuth){throw new Error('Firebase Auth қолжетімсіз')}
+      if(recaptchaVerifier){try{recaptchaVerifier.clear()}catch(_){}recaptchaVerifier=null}
+      const rc=document.getElementById('recaptcha-container');
+      if(!rc)throw new Error('reCAPTCHA контейнері табылмады');
+      rc.innerHTML='';
+      recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'invisible',callback:()=>{}});
       await recaptchaVerifier.render();
       phoneConfirmation=await fbAuth.signInWithPhoneNumber(phone,recaptchaVerifier);
-      step=2;sendBtn.classList.add('hidden');verifyBtn.classList.remove('hidden');codeWrap.classList.remove('hidden');phoneInput.disabled=true;modeBtn.classList.add('hidden');toast('SMS код жіберілді');
-    }catch(e){console.error('sendCode:',e);try{recaptchaVerifier?.clear()}catch(_){}recaptchaVerifier=null;toast('SMS жіберілмеді: Firebase Phone Auth баптауын тексеріңіз')}
-  };
-  verifyBtn.onclick=async()=>{
+      step=2;
+      sendBtn.classList.add('hidden');
+      verifyBtn.classList.remove('hidden');
+      codeWrap.classList.remove('hidden');
+      phoneInput.disabled=true;
+      modeBtn.classList.add('hidden');
+      status.textContent='SMS код жіберілді. Телефоныңызға келген 6 таңбалы кодты енгізіңіз.';
+      toast('SMS код жіберілді');
+      codeInput.focus();
+    }catch(e){
+      console.error('sendCode:',e);
+      try{recaptchaVerifier?.clear()}catch(_){}
+      recaptchaVerifier=null;
+      const msg=e?.code==='auth/invalid-phone-number'?'Телефон нөмірі қате.':e?.code==='auth/too-many-requests'?'Тым көп сұраныс. Біраз уақыттан кейін қайталаңыз.':e?.code==='auth/quota-exceeded'?'SMS лимиті асып кетті.':e?.code==='auth/operation-not-allowed'?'Firebase-де Phone Authentication қосылмаған.':e?.message||'Белгісіз қате';
+      status.textContent='Қате: '+msg;
+      toast('SMS жіберілмеді: '+msg);
+    }finally{
+      if(!phoneConfirmation){sendBtn.disabled=false;sendBtn.textContent='SMS код жіберу'}
+    }
+  });
+
+  verifyBtn.addEventListener('click',async e=>{
+    e.preventDefault();
+    if(verifyBtn.disabled)return;
     const code=codeInput.value.trim();
-    if(!/^\d{6}$/.test(code)){toast('6 таңбалы код енгізіңіз');return}
+    if(!/^\d{6}$/.test(code)){toast('6 таңбалы код енгізіңіз');codeInput.focus();return}
     if(!phoneConfirmation){toast('Алдымен SMS код жіберіңіз');return}
+    verifyBtn.disabled=true;verifyBtn.textContent='Тексерілуде...';
     try{
       const result=await phoneConfirmation.confirm(code),u=result.user;
       const name=mode==='register'?document.getElementById('authName').value.trim():(u.displayName||'Пайдаланушы');
-      if(mode==='register'&&!name){toast('Аты-жөніңізді енгізіңіз');return}
+      if(mode==='register'&&!name){toast('Аты-жөніңізді енгізіңіз');verifyBtn.disabled=false;verifyBtn.textContent='Растау';return}
       if(name&&u.displayName!==name)await u.updateProfile({displayName:name});
       await fbDb.collection('users').doc(u.uid).set({name:name||'Пайдаланушы',phone:u.phoneNumber||'',role:'buyer',updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
-      state.currentUser={id:u.uid,name:name||'Пайдаланушы',phone:u.phoneNumber||'',firebase:true};save();closeModal();render();toast(mode==='login'?'Сәтті кірдіңіз':'Аккаунт ашылды');
-    }catch(e){console.error('verifyCode:',e);toast('SMS коды қате немесе мерзімі өтті')}
-  };
+      state.currentUser={id:u.uid,name:name||'Пайдаланушы',phone:u.phoneNumber||'',firebase:true};
+      save();closeModal();render();toast(mode==='login'?'Сәтті кірдіңіз':'Аккаунт ашылды');
+    }catch(e){
+      console.error('verifyCode:',e);
+      toast('SMS коды қате немесе мерзімі өтті');
+    }finally{verifyBtn.disabled=false;verifyBtn.textContent='Растау'}
+  });
   draw();
 }
 
