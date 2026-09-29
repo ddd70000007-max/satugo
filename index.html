@@ -685,7 +685,7 @@ function renderAccount(){
       <button id="accountChats"><span class="mi">💬</span><span><b>Чаттар</b><br><span class="muted">Сатушылармен сөйлесу</span></span></button>
       <button id="accountSecurity"><span class="mi">🔐</span><span><b>Қауіпсіздік</b><br><span class="muted">Аккаунт және телефон арқылы кіру</span></span></button>
     </div>
-    <div class="sectionhead"><h2>Менің тапсырыстарым</h2></div>
+    <div class="sectionhead" id="accountOrderSection"><h2>Менің тапсырыстарым</h2></div>
     ${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><div style="display:flex;justify-content:space-between;gap:10px"><b>Тапсырыс #${esc(String(o.id).slice(-6))}</b><b>${esc(o.status||'Жаңа тапсырыс')}</b></div><div style="margin-top:6px">${money(o.total)}</div><div class="muted">${esc(o.city||'')} · ${esc(o.address||'')}</div><div class="muted">${esc(o.deliveryMethod||'Курьер')} · ${esc(o.paymentMethod||'')}</div><div class="orderitems" style="margin-top:8px">${(o.items||[]).map(i=>`${esc(i.name)} × ${i.qty} — ${money(Number(i.price||0)*Number(i.qty||1))}`).join('<br>')}</div>${o.note?`<div class="muted" style="margin-top:6px">Ескерту: ${esc(o.note)}</div>`:''}</div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`;
 }
 async function refreshBuyerOrders(){
@@ -716,7 +716,7 @@ function bindAccountButtons(){
   });
   document.getElementById('accountFavorites')?.addEventListener('click',()=>{page='favorites';render()});
   document.getElementById('accountChats')?.addEventListener('click',()=>{page='chats';render()});
-  document.getElementById('accountSecurity')?.addEventListener('click',openEditProfile);
+  document.getElementById('accountSecurity')?.addEventListener('click',openSecurity);
 }
 
 function render(){
@@ -904,15 +904,36 @@ function openLogin(){
     const phone=normalizePhone(phoneInput.value.trim());
     if(!validPhone(phone)){toast('Телефонды +7XXXXXXXXXX форматында енгізіңіз');return}
     if(mode==='register'&&!document.getElementById('authName').value.trim()){toast('Аты-жөніңізді енгізіңіз');return}
+    sendBtn.disabled=true;sendBtn.textContent='Жіберілуде...';
     try{
-      if(recaptchaVerifier){try{recaptchaVerifier.clear()}catch(_){}}
+      phoneConfirmation=null;
+      if(recaptchaVerifier){try{recaptchaVerifier.clear()}catch(_){} }
+      const rc=document.getElementById('recaptcha-container');
+      if(rc)rc.innerHTML='';
       recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'normal'});
       await recaptchaVerifier.render();
       phoneConfirmation=await fbAuth.signInWithPhoneNumber(phone,recaptchaVerifier);
       step=2;sendBtn.classList.add('hidden');verifyBtn.classList.remove('hidden');codeWrap.classList.remove('hidden');phoneInput.disabled=true;modeBtn.classList.add('hidden');toast('SMS код жіберілді');
-    }catch(e){console.error('sendCode:',e);try{recaptchaVerifier?.clear()}catch(_){}recaptchaVerifier=null;toast('SMS жіберілмеді: Firebase Phone Auth баптауын тексеріңіз')}
-  };
-  verifyBtn.onclick=async()=>{
+    }catch(e){
+      console.error('sendCode:',e);
+      try{recaptchaVerifier?.clear()}catch(_){}
+      recaptchaVerifier=null;
+      phoneConfirmation=null;
+      sendBtn.disabled=false;sendBtn.textContent='SMS код жіберу';
+      const code=e?.code||'';
+      const map={
+        'auth/invalid-phone-number':'Телефон нөмірі дұрыс емес',
+        'auth/too-many-requests':'Тым көп сұрау жіберілді. Біраз уақыттан кейін қайталаңыз',
+        'auth/quota-exceeded':'SMS лимиті аяқталған',
+        'auth/billing-not-enabled':'Firebase Billing қосылмаған',
+        'auth/operation-not-allowed':'Firebase-та Phone провайдері қосылмаған',
+        'auth/captcha-check-failed':'reCAPTCHA тексеруі өтпеді. Бетті жаңартыңыз',
+        'auth/unauthorized-domain':'Бұл сайт домені Firebase-та рұқсат етілмеген',
+        'auth/app-not-authorized':'Firebase-та осы сайтқа авторизация жоқ'
+      };
+      toast(map[code]||('SMS жіберілмеді'+(code?' ('+code+')':'')));
+    }
+  };  verifyBtn.onclick=async()=>{
     const code=codeInput.value.trim();
     if(!/^\d{6}$/.test(code)){toast('6 таңбалы код енгізіңіз');return}
     if(!phoneConfirmation){toast('Алдымен SMS код жіберіңіз');return}
