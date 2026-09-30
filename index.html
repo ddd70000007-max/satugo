@@ -172,9 +172,6 @@
 .account-stat{padding:12px;background:#f8fafc;border-radius:13px;text-align:center}.account-stat b{display:block;font-size:19px}
 @media(max-width:600px){.account-hero{align-items:flex-start}.account-actions{grid-template-columns:1fr}.profile-grid{grid-template-columns:1fr}}
 
-
-.chat-search-wrap{margin:10px 0 14px}.chat-search-wrap input{width:100%;padding:12px 14px;border:1px solid #d7dbe2;border-radius:14px;outline:none;background:#fff}.chatlist-item{width:100%;display:flex;justify-content:space-between;gap:10px;text-align:left;border:1px solid #e5e7eb;cursor:pointer}.chatlist-main{min-width:0;flex:1}.chatlist-title{display:flex;align-items:center;gap:8px}.chatlist-last,.chatlist-product{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}.chatlist-time{font-size:12px;color:#6b7280;white-space:nowrap}.chat-subtitle{margin-top:3px}.chatproduct{display:flex;align-items:center;gap:10px;padding:10px;margin:10px 0;border:1px solid #e5e7eb;border-radius:14px;background:#f8fafc}.chatproduct img,.chatproductemoji{width:58px;height:58px;border-radius:12px;object-fit:cover;background:#eef0f3;display:flex;align-items:center;justify-content:center}.chatproductinfo{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px}.chatproductinfo b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chatquick{display:flex;gap:7px;overflow:auto;padding:2px 0 10px;scrollbar-width:none}.chatquick::-webkit-scrollbar{display:none}.chatquickbtn{border:1px solid #d7dbe2;background:#fff;border-radius:999px;padding:8px 11px;white-space:nowrap;font-size:12px;cursor:pointer}.chatbox{height:390px}.chatinput{align-items:center}.chatinput input{min-width:0}.chatattach{border:1px solid #d7dbe2;background:#fff;border-radius:12px;width:42px;height:42px;cursor:pointer}.msgmeta{font-size:10px;opacity:.7;margin-top:4px;text-align:right}.chatimg{max-width:240px;max-height:260px;border-radius:12px;display:block;cursor:pointer}.chatimg.zoom{position:fixed;z-index:999999;left:50%;top:50%;transform:translate(-50%,-50%);max-width:94vw;max-height:86vh;width:auto;height:auto;box-shadow:0 10px 40px #0008}.msg{word-break:break-word}.msg:has(.chatimg){padding:6px}.chatproduct .secondary{white-space:nowrap}
-@media(max-width:430px){.chatbox{height:48vh;min-height:300px}.chatproduct{align-items:flex-start}.chatproduct .secondary{padding:8px;font-size:11px}.chatimg{max-width:210px}.chatinput{gap:5px}.chatattach{width:38px;height:38px}.chatinput input{padding:10px}.chatinput .primary{padding:10px 12px}}
 </style>
 </head>
 <body>
@@ -188,7 +185,7 @@
 <button class="iconbtn" id="searchBtn">Іздеу</button>
 </div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button><button class="langbtn" id="languageBtn" type="button">Русский</button></div></header>
 <main class="wrap" id="app"></main>
-<nav class="bottom" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account" onclick="page='account';render();return false;"><b>♙</b>Аккаунт</button></nav>
+<nav class="bottom" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
 <div class="toast" id="toast"></div>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 <script>
@@ -396,47 +393,16 @@ ${tags.length?`<div class="smart-tags">${tags.map(t=>`<span class="smart-tag">${
 }
 
 function renderFav(){const arr=state.products.filter(p=>state.favorites.includes(p.id));return `<div class="sectionhead"><h2>Таңдаулы</h2></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Таңдаулы тауар жоқ.<br>Ұнаған тауардағы ♡ батырмасын басыңыз.</div>'}`}
-function chatTime(v){
-  try{
-    if(!v)return '';
-    const d=v.toDate?v.toDate():(v instanceof Date?v:new Date(v));
-    if(Number.isNaN(d.getTime()))return '';
-    const now=new Date(),same=d.toDateString()===now.toDateString();
-    return same?d.toLocaleTimeString('kk-KZ',{hour:'2-digit',minute:'2-digit'}):d.toLocaleDateString('kk-KZ',{day:'2-digit',month:'2-digit'});
-  }catch(e){return ''}
-}
-function chatMillis(v){
-  try{return v?.toMillis?v.toMillis():Number(v||0)}catch(e){return 0}
-}
-function chatQuickReplies(isSeller){
-  const buyer=['Бұл тауар бар ма?','Бағасын түсіресіз бе?','Қай қаладасыз?','Жеткізу бар ма?','Қандай размер бар?'];
-  const seller=['Бар 👍','Қазір тексеріп беремін','Жеткізу бар','Жеткізу жоқ','Иә, бар'];
-  const arr=isSeller?seller:buyer;
-  return '<div class="chatquick">'+arr.map(x=>'<button type="button" class="chatquickbtn" data-quick="'+esc(x)+'">'+esc(x)+'</button>').join('')+'</div>';
-}
-function chatProductHtml(c){
-  if(!c.productId&&!c.productName)return '';
-  return '<div class="chatproduct">'+(c.productImage?'<img src="'+esc(c.productImage)+'" alt="">':'<div class="chatproductemoji">🛍️</div>')+'<div class="chatproductinfo"><b>'+esc(c.productName||'Тауар')+'</b><span>'+money(c.productPrice||0)+'</span></div><button type="button" class="secondary chatProductBtn" data-product="'+esc(c.productId||'')+'">Тауарды көру</button></div>';
-}
 function renderChats(){
-  const app=document.getElementById('app'),uid=state.currentUser?.id||fbAuth?.currentUser?.uid;
-  if(!uid){app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттарды көру үшін аккаунтқа кіріңіз.<br><button class="primary" id="chatLoginBtn" style="margin-top:12px">Кіру / тіркелу</button></div>';document.getElementById('chatLoginBtn')?.addEventListener('click',openLogin);return}
+  const app=document.getElementById('app'),uid=state.currentUser?.id;
+  if(!uid){app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттарды көру үшін аккаунтқа кіріңіз.</div>';return}
   if(!fbReady||!fbDb){app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Firebase қосылмаған.</div>';return}
-  app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="chat-search-wrap"><input id="chatSearchInput" placeholder="🔎 Сатушы немесе тауар іздеу" autocomplete="off"></div><div id="chatListBox"><div class="empty">Чаттар жүктелуде...</div></div>';
-  const draw=arr=>{
-    const q=(document.getElementById('chatSearchInput')?.value||'').trim().toLowerCase();
-    const filtered=q?arr.filter(c=>{const oid=(c.participants||[]).find(x=>x!==uid);const name=c.participantNames?.[oid]||(c.buyerId===uid?c.sellerName:c.buyerName)||'';return (name+' '+(c.productName||'')+' '+(c.lastMessage||'')).toLowerCase().includes(q)}):arr;
-    const box=document.getElementById('chatListBox');if(!box)return;
-    box.innerHTML=filtered.length?'<div class="list">'+filtered.map(c=>{
-      const oid=(c.participants||[]).find(x=>x!==uid);const other=c.participantNames?.[oid]||(c.buyerId===uid?c.sellerName:c.buyerName)||'Сатушы';const unread=Number(c.unread?.[uid]||0);const t=chatTime(c.updatedAt);const prod=c.productName?'<div class="chatlist-product">🛍️ '+esc(c.productName)+'</div>':'';
-      return '<button class="item chatlist-item" data-chat="'+esc(c.id)+'"><div class="chatlist-main"><div class="chatlist-title"><b>💬 '+esc(other)+'</b>'+(unread?'<span class="badge">'+unread+'</span>':'')+'</div>'+prod+'<div class="muted chatlist-last">'+esc(c.lastMessage||'Чат ашылды')+'</div></div><span class="chatlist-time">'+esc(t)+'</span></button>';
-    }).join('')+'</div>':'<div class="empty">'+(q?'Сұраныс бойынша чат табылмады.':'Әзірге чат жоқ.<br>Тауарды ашып, «Сатушымен чат» батырмасын басыңыз.')+'</div>';
-    updateBadges();
-  };
+  app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттар жүктелуде...</div>';
   fbDb.collection('chats').where('participants','array-contains',uid).get().then(snap=>{
-    const arr=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>chatMillis(b.updatedAt)-chatMillis(a.updatedAt));
-    state.chats=arr;save();draw(arr);document.getElementById('chatSearchInput')?.addEventListener('input',()=>draw(arr));
-  }).catch(e=>{console.error(e);document.getElementById('chatListBox').innerHTML='<div class="empty">Чаттарды жүктеу қатесі:<br>'+esc(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message)+'</div>'});
+    const arr=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.updatedAt?.toMillis?.()||0)-(a.updatedAt?.toMillis?.()||0));
+    state.chats=arr;save();
+    app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2><span class="muted">'+arr.length+'</span></div>'+(arr.length?'<div class="list">'+arr.map(c=>{const otherId=(c.participants||[]).find(x=>x!==uid);const other=c.participantNames?.[otherId]||(c.buyerId===uid?c.sellerName:c.buyerName)||'Сатушы';const unread=c.unread?.[uid]||0;return '<button class="item" data-chat="'+esc(c.id)+'" style="text-align:left;border:1px solid #e5e7eb"><b>💬 '+esc(other)+'</b><div class="muted">'+esc(c.lastMessage||'Чат ашылды')+(unread?' <span class="badge">'+unread+'</span>':'')+'</div></button>'}).join('')+'</div>':'<div class="empty">Әзірге чат жоқ.<br>Тауарды ашып, «Сатушымен чат» батырмасын басыңыз.</div>');updateBadges();
+  }).catch(e=>{console.error(e);app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттарды жүктеу қатесі:<br>'+esc(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message)+'</div>'});
 }
 async function startChat(p){
   const uid=state.currentUser?.id||fbAuth?.currentUser?.uid;
@@ -446,24 +412,11 @@ async function startChat(p){
   if(!fbReady||!fbDb){toast('Firebase Firestore қосылмаған');return}
   const id='chat_'+[uid,p.sellerId].sort().join('_');
   try{
-    const userName=state.currentUser?.name||'Пайдаланушы',sellerName=p.sellerName||'Сатушы';
-    const ref=fbDb.collection('chats').doc(id),snap=await ref.get();
-    const old=snap.exists?(snap.data()||{}):{};
-    await ref.set({
-      participants:[uid,p.sellerId],participantNames:{...(old.participantNames||{}),[uid]:userName,[p.sellerId]:sellerName},
-      buyerId:old.buyerId||uid,buyerName:old.buyerName||userName,sellerId:p.sellerId,sellerName,
-      productId:p.id||old.productId||'',productName:p.name||old.productName||'',productImage:p.image||old.productImage||'',productPrice:Number(p.price||old.productPrice||0),
-      lastMessage:old.lastMessage||'',lastSenderId:old.lastSenderId||'',unread:{...(old.unread||{}),[uid]:0,[p.sellerId]:Number(old.unread?.[p.sellerId]||0)},updatedAt:firebase.firestore.FieldValue.serverTimestamp()
-    },{merge:true});
+    await fbDb.collection('chats').doc(id).set({participants:[uid,p.sellerId],participantNames:{[uid]:state.currentUser?.name||'Пайдаланушы',[p.sellerId]:p.sellerName||'Сатушы'},buyerId:uid,buyerName:state.currentUser?.name||'Пайдаланушы',sellerId:p.sellerId,sellerName:p.sellerName||'Сатушы',lastMessage:'',unread:{[uid]:0,[p.sellerId]:0},updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
     closeModal();await openChat(id);
   }catch(e){console.error(e);toast('Чатты ашу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}
 }
 let chatUnsubscribe=null;
-function stopChatListener(){if(chatUnsubscribe){try{chatUnsubscribe()}catch(e){}chatUnsubscribe=null}}
-function markChatRead(ref,c,uid){
-  const unread={...(c.unread||{}),[uid]:0};
-  return ref.set({unread},{merge:true}).catch(()=>{});
-}
 async function openChat(id){
   const uid=state.currentUser?.id||fbAuth?.currentUser?.uid;
   if(!uid){openLogin();return}
@@ -473,49 +426,29 @@ async function openChat(id){
     if(!snap.exists){toast('Чат табылмады');return}
     const c={id:snap.id,...snap.data()};
     if(!(c.participants||[]).includes(uid)){toast('Чатқа рұқсат жоқ');return}
-    activeChat=id;await markChatRead(ref,c,uid);
-    const otherId=(c.participants||[]).find(x=>x!==uid),title=c.participantNames?.[otherId]||(c.buyerId===uid?c.sellerName:c.buyerName)||'Чат';
-    const isSeller=uid===c.sellerId;
-    openModal('<div class="modaltop"><div><h2>💬 '+esc(title)+'</h2><div class="muted chat-subtitle">'+(c.productName?'Тауар: '+esc(c.productName):'Сатушымен сөйлесу')+'</div></div><button class="close" id="close">×</button></div>'+chatProductHtml(c)+chatQuickReplies(isSeller)+'<div class="chatbox"><div class="msgs" id="msgs"><div class="muted">Жүктелуде...</div></div></div><div class="chatinput"><button type="button" class="chatattach" id="chatImageBtn" title="Сурет жіберу">📷</button><input id="chatText" placeholder="Хабарлама..." autocomplete="off" maxlength="2000"><button class="primary" id="sendChat">Жіберу</button><input id="chatImageInput" type="file" accept="image/*" class="hidden"></div>');
+    activeChat=id;
+    const otherId=c.participants.find(x=>x!==uid);
+    const title=c.participantNames?.[otherId]||(c.buyerId===uid?c.sellerName:c.buyerName)||'Чат';
+    await ref.set({unread:{...(c.unread||{}),[uid]:0}},{merge:true});
+    openModal('<div class="modaltop"><h2>💬 '+esc(title)+'</h2><button class="close" id="close">×</button></div><div class="chatbox"><div class="msgs" id="msgs"><div class="muted">Жүктелуде...</div></div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..." autocomplete="off"><button class="primary" id="sendChat">Жіберу</button></div></div>');
     document.getElementById('close').onclick=closeModal;
     document.getElementById('sendChat').onclick=sendChat;
     document.getElementById('chatText').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();sendChat()}});
-    document.getElementById('chatImageBtn').onclick=()=>document.getElementById('chatImageInput')?.click();
-    document.getElementById('chatImageInput').addEventListener('change',e=>{const f=e.target.files?.[0];if(f)sendChatImage(f);e.target.value=''});
-    document.querySelectorAll('.chatquickbtn').forEach(b=>b.onclick=()=>{const input=document.getElementById('chatText');if(input){input.value=b.dataset.quick||'';input.focus()}});
-    document.querySelector('.chatProductBtn')?.addEventListener('click',()=>{if(c.productId&&getProduct(c.productId))openProduct(c.productId);else toast('Бұл тауар қазір табылмады')});
-    stopChatListener();
-    chatUnsubscribe=ref.collection('messages').orderBy('createdAt','asc').limitToLast(100).onSnapshot(async s=>{
-      const box=document.getElementById('msgs');if(!box)return;
-      const docs=s.docs, data=docs.map(d=>({id:d.id,...d.data()}));
-      box.innerHTML=data.length?data.map(m=>renderChatMessage(m,uid,c)).join(''):'<div class="muted">Хабарлама жоқ. Алғашқы хабарламаны жазыңыз 👋</div>';
-      box.scrollTop=box.scrollHeight;
-      const incoming=docs.filter(d=>(d.data()?.senderId||'')!==uid).slice(-30);
-      if(incoming.length){const batch=fbDb.batch();let changed=false;incoming.forEach(d=>{const m=d.data()||{};if(!m.readBy?.[uid]){batch.update(d.ref,{readBy:{...(m.readBy||{}),[uid]:true}});changed=true}});if(changed){try{await batch.commit()}catch(e){console.warn('read status',e.message)}}}
-    },e=>{const box=document.getElementById('msgs');if(box)box.innerHTML='<div class="muted">Хабарламаларды ашу қатесі: '+esc(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message)+'</div>'});
+    if(chatUnsubscribe)chatUnsubscribe();
+    chatUnsubscribe=ref.collection('messages').orderBy('createdAt','asc').limitToLast(100).onSnapshot(s=>{const box=document.getElementById('msgs');if(!box)return;box.innerHTML=s.empty?'<div class="muted">Хабарлама жоқ.</div>':s.docs.map(d=>{const m=d.data()||{};return '<div class="msg '+(m.senderId===uid?'mine':'theirs')+'">'+esc(m.text||'')+'</div>'}).join('');box.scrollTop=box.scrollHeight},e=>{const box=document.getElementById('msgs');if(box)box.innerHTML='<div class="muted">Хабарламаларды ашу қатесі: '+esc(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message)+'</div>'});
   }catch(e){console.error(e);toast('Чатты ашу қатесі: '+e.message)}
-}
-function renderChatMessage(m,uid,c){
-  const mine=m.senderId===uid,tm=chatTime(m.createdAt),read=mine&&m.readBy?.[c.participants?.find(x=>x!==uid)];
-  if(m.type==='image'&&m.imageUrl){return '<div class="msg '+(mine?'mine':'theirs')+'"><img class="chatimg" src="'+esc(m.imageUrl)+'" alt="Жіберілген сурет" onclick="this.classList.toggle(\'zoom\')"><div class="msgmeta">'+esc(tm)+(mine?' · '+(read?'✓✓ Оқылды':'✓ Жіберілді'):'')+'</div></div>'}
-  return '<div class="msg '+(mine?'mine':'theirs')+'"><div>'+esc(m.text||'')+'</div><div class="msgmeta">'+esc(tm)+(mine?' · '+(read?'✓✓ Оқылды':'✓ Жіберілді'):'')+'</div></div>';
-}
-function compressChatImage(file){return new Promise((resolve,reject)=>{if(!file.type.startsWith('image/'))return reject(new Error('Тек сурет таңдаңыз'));const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const max=900,scale=Math.min(1,max/Math.max(im.width,im.height)),canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(im.width*scale));canvas.height=Math.max(1,Math.round(im.height*scale));const ctx=canvas.getContext('2d');ctx.drawImage(im,0,0,canvas.width,canvas.height);let q=.72,url=canvas.toDataURL('image/jpeg',q);while(url.length>850000&&q>.35){q-=.08;url=canvas.toDataURL('image/jpeg',q)}if(url.length>950000)return reject(new Error('Сурет тым үлкен. Басқа сурет таңдаңыз'));resolve(url)};im.onerror=()=>reject(new Error('Суретті оқу мүмкін болмады'));im.src=fr.result};fr.onerror=()=>reject(new Error('Файлды оқу мүмкін болмады'));fr.readAsDataURL(file)})}
-async function sendChatImage(file){
-  const uid=state.currentUser?.id||fbAuth?.currentUser?.uid;if(!activeChat||!uid||!fbReady||!fbDb)return;
-  try{const input=document.getElementById('chatText');if(input)input.disabled=true;const imageUrl=await compressChatImage(file);const ref=fbDb.collection('chats').doc(activeChat),snap=await ref.get();if(!snap.exists)return;const c=snap.data()||{};if(!(c.participants||[]).includes(uid)){toast('Чатқа рұқсат жоқ');return}const other=(c.participants||[]).find(x=>x!==uid);const unread={...(c.unread||{})};if(other)unread[other]=(Number(unread[other])||0)+1;await ref.collection('messages').add({senderId:uid,senderName:state.currentUser?.name||'Пайдаланушы',type:'image',imageUrl,createdAt:firebase.firestore.FieldValue.serverTimestamp(),readBy:{[uid]:true}});await ref.set({lastMessage:'📷 Сурет',lastSenderId:uid,unread,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});toast('Сурет жіберілді')}catch(e){console.error(e);toast('Сурет жіберу қатесі: '+e.message)}finally{document.getElementById('chatText')?.removeAttribute('disabled')}
 }
 async function sendChat(){
   const input=document.getElementById('chatText'),text=input?.value.trim(),uid=state.currentUser?.id||fbAuth?.currentUser?.uid;
   if(!text||!activeChat||!uid||!fbReady||!fbDb)return;
-  const btn=document.getElementById('sendChat');if(btn)btn.disabled=true;
   try{
-    const ref=fbDb.collection('chats').doc(activeChat),snap=await ref.get();if(!snap.exists){toast('Чат табылмады');return}
-    const c=snap.data()||{};if(!(c.participants||[]).includes(uid)){toast('Чатқа рұқсат жоқ');return}
-    const other=(c.participants||[]).find(x=>x!==uid),unread={...(c.unread||{})};if(other)unread[other]=(Number(unread[other])||0)+1;
-    await ref.collection('messages').add({senderId:uid,senderName:state.currentUser?.name||'Пайдаланушы',type:'text',text,createdAt:firebase.firestore.FieldValue.serverTimestamp(),readBy:{[uid]:true}});
+    const ref=fbDb.collection('chats').doc(activeChat),snap=await ref.get();
+    if(!snap.exists){toast('Чат табылмады');return}
+    const c=snap.data();if(!(c.participants||[]).includes(uid)){toast('Чатқа рұқсат жоқ');return}
+    await ref.collection('messages').add({senderId:uid,senderName:state.currentUser?.name||'Пайдаланушы',text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    const unread={...(c.unread||{})},other=(c.participants||[]).find(x=>x!==uid);if(other)unread[other]=(unread[other]||0)+1;
     await ref.set({lastMessage:text,lastSenderId:uid,unread,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});input.value='';
-  }catch(e){console.error(e);toast('Хабарлама жіберу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}finally{if(btn)btn.disabled=false}
+  }catch(e){console.error(e);toast('Хабарлама жіберу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}
 }
 
 function renderAccount(){
@@ -556,7 +489,7 @@ function renderAccount(){
 function render(){const app=document.getElementById('app');if(page==='home')app.innerHTML=renderHome();if(page==='search')app.innerHTML=renderSearch();if(page==='favorites')app.innerHTML=renderFav();if(page==='chats'){renderChats();}if(page==='account')app.innerHTML=renderAccount();document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));updateBadges();bindSmartSearchTools()};setTimeout(applyLanguage,0)
 function updateBadges(){document.getElementById('cartCount').textContent=state.cart.reduce((s,x)=>s+x.qty,0);const f=document.getElementById('favBadge');f.textContent=state.favorites.length;f.classList.toggle('hidden',!state.favorites.length);const uid=state.currentUser?.id;const n=uid?state.chats.reduce((s,c)=>s+(c.unread?.[uid]||0),0):0;const b=document.getElementById('chatBadge');b.textContent=n;b.classList.toggle('hidden',!n)}
 function openModal(html){document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show');setTimeout(applyLanguage,0)}
-function closeModal(){stopChatListener?.();document.getElementById('modal').classList.remove('show');document.getElementById('sheet').innerHTML='';selectedProduct=null;activeChat=null}
+function closeModal(){document.getElementById('modal').classList.remove('show');document.getElementById('sheet').innerHTML='';selectedProduct=null;activeChat=null}
 function openProduct(id){const p=getProduct(id);if(!p){toast('Тауар дерегі табылмады');return}selectedProduct=p;const reviews=state.reviews.filter(r=>r.productId===p.id);openModal(`<div class="modaltop"><h2>${esc(p.name)}</h2><button class="close" id="close">×</button></div><div class="productdetail"><div>${img(p.image,'🛍️','bigpic')}</div><div>${p.special?`<div class="special-label">✨ ${p.specialType==='eye'?'👀 Көзге түсетін':p.specialType==='gift'?'🎁 Сыйлық':'🤯 Қызық зат'}</div>`:''}<div class="price">${money(p.price)}</div><div class="muted">${esc(p.cat)} · ${esc(p.sellerName||'Сатушы')}</div><p>${esc(p.description||'Бұл тауар туралы толық ақпаратты сатушыдан сұрауға болады.')}</p><div class="actions"><button class="primary" id="detailCart">Себетке қосу</button><button class="secondary" id="detailChat">Сатушымен чат</button></div><div class="sectionhead"><h3>Пікірлер</h3></div>${reviews.length?reviews.map(r=>`<div class="review"><span class="stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</span><br><b>${esc(r.userName)}</b><div>${esc(r.text)}</div></div>`).join(''):'<div class="muted">Пікір әзірге жоқ.</div>'}</div></div>`);document.getElementById('close').onclick=closeModal;document.getElementById('detailCart').onclick=()=>{addCart(p.id);closeModal()};document.getElementById('detailChat').onclick=()=>{if(p.sellerId==='platform'){toast('Бұл SatuGo платформасының тауары');return}startChat(p)} }
 function addCart(id){const p=getProduct(id);if(!p)return;const x=state.cart.find(i=>i.productId===id);if(x)x.qty++;else state.cart.push({productId:id,qty:1});save();toast('Себетке қосылды')}
 function toggleFav(id){const i=state.favorites.indexOf(id);if(i>=0)state.favorites.splice(i,1);else state.favorites.push(id);save();render()}
@@ -737,6 +670,10 @@ async function saveSellerProduct(){
     save();toast(special?'✨ Ерекше тауар сақталды':'Тауар қосылды');openSeller();
   }catch(e){console.error(e);toast('Тауарды сақтау сәтсіз болды: '+e.message)}
 }
+
+function startChat(p){if(!state.currentUser){closeModal();openLogin();return}if(p.sellerId==='platform'){toast('Бұл тауардың жеке сатушысы жоқ');return}let c=state.chats.find(x=>x.buyerId===state.currentUser.id&&x.sellerId===p.sellerId);if(!c){c={id:'c_'+state.currentUser.id+'_'+p.sellerId,buyerId:state.currentUser.id,buyerName:state.currentUser.name,sellerId:p.sellerId,sellerName:p.sellerName||'Сатушы',participants:[state.currentUser.id,p.sellerId],lastMessage:'',unread:{[state.currentUser.id]:0,[p.sellerId]:0}};state.chats.unshift(c)}c.unread[state.currentUser.id]=0;save();closeModal();openChat(c.id)}
+function openChat(id){const c=state.chats.find(x=>x.id===id);if(!c)return;activeChat=id;const uid=state.currentUser?.id;if(!uid||!c.participants.includes(uid)){toast('Чатқа рұқсат жоқ');return}c.unread[uid]=0;save();const msgs=state.messages.filter(m=>m.chatId===id);openModal(`<div class="modaltop"><h2>💬 ${esc(c.buyerId===uid?c.sellerName:c.buyerName)}</h2><button class="close" id="close">×</button></div><div class="chatbox"><div class="msgs" id="msgs">${msgs.length?msgs.map(m=>`<div class="msg ${m.senderId===uid?'mine':'theirs'}">${esc(m.text)}</div>`).join(''):'<div class="muted">Хабарлама жоқ.</div>'}</div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..."><button class="primary" id="sendChat">Жіберу</button></div></div>`);document.getElementById('close').onclick=closeModal;document.getElementById('sendChat').onclick=sendChat;document.getElementById('chatText').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});setTimeout(()=>{const m=document.getElementById('msgs');m.scrollTop=m.scrollHeight},0)}
+function sendChat(){const input=document.getElementById('chatText');const text=input?.value.trim();if(!text||!activeChat)return;const c=state.chats.find(x=>x.id===activeChat),uid=state.currentUser.id,other=c.participants.find(x=>x!==uid);state.messages.push({id:'m_'+Date.now(),chatId:c.id,senderId:uid,text,createdAt:Date.now()});c.lastMessage=text;c.lastAt=Date.now();c.unread[other]=(c.unread[other]||0)+1;save();input.value='';openChat(c.id)}
 
 /* =========================================================
    VOICE SEARCH
@@ -1060,7 +997,7 @@ function toggleLanguage(){
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const sp=e.target.closest('[data-special]');if(sp){openSpecialProducts(sp.dataset.special||'all');return}const sm=e.target.closest('[data-special-modal]');if(sm){openSpecialProducts(sm.dataset.specialModal||'all');return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
 /* SatuGo ACCOUNT: direct inline handler; generic nav skips account */
-document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',e=>{if(b.id==='satugoAccountBtn')return;page=b.dataset.page;render()}));document.getElementById('languageBtn').onclick=toggleLanguage;
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const target=b.dataset.page;if(!target)return;page=target;render();window.scrollTo({top:0,behavior:'smooth'})}));document.getElementById('languageBtn').onclick=toggleLanguage;
 document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
 document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='accountOrders'){page='account';render();setTimeout(()=>document.getElementById('accountOrderSection')?.scrollIntoView({behavior:'smooth'}),0);}if(e.target.id==='accountFavorites'){page='favorites';render()}if(e.target.id==='accountChats'){page='chats';render()}if(e.target.id==='accountSecurity'){openSecurity();}if(e.target.id==='searchPageInput'){}}
