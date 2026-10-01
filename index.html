@@ -192,7 +192,7 @@
 <button class="iconbtn" id="searchBtn">Іздеу</button>
 </div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button><button class="langbtn" id="languageBtn" type="button">Русский</button></div></header>
 <main class="wrap" id="app"></main>
-<nav class="bottom" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
+<nav class="bottom" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account" onclick="return window.__satugoAccountClick(event)"><b>♙</b>Аккаунт</button></nav>
 <div class="toast" id="toast"></div>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 <script>
@@ -1134,28 +1134,62 @@ function toggleLanguage(){
 }
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const sp=e.target.closest('[data-special]');if(sp){openSpecialProducts(sp.dataset.special||'all');return}const sm=e.target.closest('[data-special-modal]');if(sm){openSpecialProducts(sm.dataset.specialModal||'all');return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
-/* SatuGo NAVIGATION — one reliable handler for mouse + touch */
+/* SatuGo NAVIGATION — stable mouse + touch navigation */
 const satugoBottomNav=document.getElementById('satugoBottomNav');
-function satugoNavigate(target){
+function satugoRenderPage(target){
   if(!target)return;
-  if(document.body.classList.contains('chat-open') || document.getElementById('modal')?.classList.contains('show')) closeModal();
   page=target;
-  render();
-  window.scrollTo(0,0);
+  try{
+    if(target==='account'){
+      const app=document.getElementById('app');
+      if(app) app.innerHTML=renderAccount();
+      document.querySelectorAll('#satugoBottomNav .navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===target));
+      updateBadges();
+      window.scrollTo(0,0);
+      return;
+    }
+    if(document.body.classList.contains('chat-open')){try{closeChat()}catch(_){} }
+    if(document.getElementById('modal')?.classList.contains('show')){try{closeModal()}catch(_){} }
+    render();
+    window.scrollTo(0,0);
+  }catch(err){
+    console.error('SatuGo navigation error:',err);
+    if(target==='account'){
+      const app=document.getElementById('app');
+      if(app) app.innerHTML='<div class="empty"><h2>Аккаунт</h2><p>Аккаунт бөлімі ашылмады.</p><button class="primary" id="loginBtn">Кіру / тіркелу</button></div>';
+    }
+  }
 }
+function satugoNavigate(target){satugoRenderPage(target)}
+window.__satugoAccountClick=function(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  satugoRenderPage('account');
+  return false;
+};
 if(satugoBottomNav){
-  satugoBottomNav.querySelectorAll('.navbtn').forEach(btn=>{
-    btn.addEventListener('click',function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      satugoNavigate(this.getAttribute('data-page'));
-    });
+  satugoBottomNav.addEventListener('click',function(e){
+    const btn=e.target.closest ? e.target.closest('.navbtn') : null;
+    if(!btn || !satugoBottomNav.contains(btn))return;
+    e.preventDefault();
+    e.stopPropagation();
+    if(btn.id==='satugoAccountBtn'){
+      satugoRenderPage('account');
+      return;
+    }
+    satugoRenderPage(btn.getAttribute('data-page')||'home');
   });
+  satugoBottomNav.addEventListener('pointerup',function(e){
+    const btn=e.target.closest ? e.target.closest('.navbtn') : null;
+    if(!btn || !satugoBottomNav.contains(btn) || btn.id!=='satugoAccountBtn')return;
+    e.preventDefault();
+    satugoRenderPage('account');
+  },{passive:false});
 }
 const satugoAccountBtn=document.getElementById('satugoAccountBtn');
 if(satugoAccountBtn){
   satugoAccountBtn.setAttribute('role','button');
-  satugoAccountBtn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();satugoNavigate('account')}});
+  satugoAccountBtn.setAttribute('tabindex','0');
+  satugoAccountBtn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();satugoRenderPage('account')}});
 }
 document.getElementById('languageBtn').onclick=toggleLanguage;
 document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
@@ -1184,30 +1218,5 @@ function openSecurity(){
 }
 </script>
 
-
-<!-- SATUGO ACCOUNT CLICK FINAL FIX -->
-<style>
-#satugoBottomNav{pointer-events:auto!important;z-index:2147483640!important}
-#satugoAccountBtn{pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important;position:relative!important;z-index:2147483641!important}
-#satugoAccountBtn *{pointer-events:none!important}
-</style>
-<script>
-(function(){
-  function openAccountFinal(e){
-    var b=e&&e.target&&e.target.closest?e.target.closest('#satugoAccountBtn'):document.getElementById('satugoAccountBtn');
-    if(!b)return;
-    if(e){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();}
-    try{
-      if(typeof closeModal==='function') closeModal();
-      window.page='account';
-      if(typeof render==='function') render();
-      window.scrollTo(0,0);
-    }catch(err){console.error('SatuGo account open:',err);}
-  }
-  document.addEventListener('pointerup',openAccountFinal,true);
-  document.addEventListener('touchend',openAccountFinal,{capture:true,passive:false});
-  document.addEventListener('click',openAccountFinal,true);
-})();
-</script>
 </body>
 </html>
