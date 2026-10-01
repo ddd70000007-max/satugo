@@ -192,7 +192,7 @@
 <button class="iconbtn" id="searchBtn">Іздеу</button>
 </div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button><button class="langbtn" id="languageBtn" type="button">Русский</button></div></header>
 <main class="wrap" id="app"></main>
-<nav class="bottom" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account" onclick="return window.__satugoAccountClick(event)"><b>♙</b>Аккаунт</button></nav>
+<nav class="bottom" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
 <div class="toast" id="toast"></div>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 <script>
@@ -200,6 +200,8 @@
 
 const firebaseConfig={apiKey:'AIzaSyCj7VBpb0u5YgFqz2Mm8NhvbytX_Fs5tJE',authDomain:'satugo-c3b7c.firebaseapp.com',projectId:'satugo-c3b7c',storageBucket:'satugo-c3b7c.firebasestorage.app',messagingSenderId:'32133349747',appId:'1:32133349747:web:8df062f6428b4eb7ed8506',measurementId:'G-4PF4DV016B'};
 let fbReady=false,fbAuth=null,fbDb=null,phoneConfirmation=null,recaptchaVerifier=null;
+let phoneAuthNumber='';
+let phoneAuthBusy=false;
 let orderUnsubs=[];
 function stopOrderWatch(){orderUnsubs.forEach(fn=>{try{fn()}catch(_){}});orderUnsubs=[]}
 function mergeRemoteOrders(docs){
@@ -646,8 +648,8 @@ function openLogin(){
   const draw=()=>{
     openModal(`<div class="modaltop"><h2>${mode==='login'?'Кіру':'Тіркелу'}</h2><button class="close" id="close">×</button></div>
       <div class="actions"><button class="${mode==='login'?'primary':'secondary'}" id="modeLogin">Кіру</button><button class="${mode==='register'?'primary':'secondary'}" id="modeRegister">Тіркелу</button></div>
-      ${step===1?`<div class="field"><label>Қазақстан телефоны</label><input id="authPhone" inputmode="tel" autocomplete="tel" placeholder="+7 700 000 00 00"></div><div id="recaptcha-container"></div><button class="primary" id="sendCode">SMS код жіберу</button>`:
-      `<div class="field"><label>SMS код</label><input id="authCode" inputmode="numeric" autocomplete="one-time-code" placeholder="6 таңбалы код"></div>${mode==='register'?`<div class="field"><label>Аты-жөніңіз</label><input id="authName" autocomplete="name" placeholder="Аты-жөніңіз"></div>`:''}<button class="primary" id="verifyCode">Растау және ${mode==='login'?'кіру':'тіркелу'}</button>`}
+      ${step===1?`<div class="field"><label>Қазақстан телефоны</label><input id="authPhone" inputmode="tel" autocomplete="tel" placeholder="+7 700 000 00 00" value="${esc(phoneAuthNumber)}"></div><div id="recaptcha-container"></div><button type="button" class="primary" id="sendCode">SMS код жіберу</button>`:
+      `<div class="field"><label>SMS код</label><input id="authCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6 таңбалы код"><div class="muted" style="margin-top:6px">${esc(phoneAuthNumber)} нөміріне келген соңғы кодты енгізіңіз.</div></div>${mode==='register'?`<div class="field"><label>Аты-жөніңіз</label><input id="authName" autocomplete="name" placeholder="Аты-жөніңіз"></div>`:''}<div class="actions"><button type="button" class="primary" id="verifyCode">Растау және ${mode==='login'?'кіру':'тіркелу'}</button><button type="button" class="secondary" id="resendCode">Жаңа код жіберу</button></div>`}
       <p class="muted">SMS арқылы Firebase аккаунтымен кіру. +7 нөмірі қажет.</p>`);
     document.getElementById('close').onclick=closeModal;
     document.getElementById('modeLogin').onclick=()=>{mode='login';step=1;draw()};
@@ -655,21 +657,44 @@ function openLogin(){
     if(step===1){
       const inp=document.getElementById('authPhone');
       inp.addEventListener('input',e=>{let v=e.target.value.replace(/[^0-9+]/g,'');if(v.startsWith('8'))v='+7'+v.slice(1);if(v.startsWith('7')&&!v.startsWith('+7'))v='+'+v;e.target.value=v});
-      document.getElementById('sendCode').onclick=async()=>{
-        const phone=normalizePhone(inp.value.trim());
-        if(!validPhone(phone)){toast('Телефонды +7XXXXXXXXXX форматында енгізіңіз');return}
-        try{
-          if(recaptchaVerifier){try{recaptchaVerifier.clear()}catch(_) {}}
-          recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'normal'});
-          await recaptchaVerifier.render();
-          phoneConfirmation=await fbAuth.signInWithPhoneNumber(phone,recaptchaVerifier);
-          step=2;draw();toast('SMS код жіберілді');
-        }catch(e){console.error(e);toast('SMS жіберілмеді: Firebase Phone Auth баптауын тексеріңіз')}
-      };
+      document.getElementById('sendCode').onclick=()=>sendPhoneCode(inp.value.trim());
     }else{
+      const resend=document.getElementById('resendCode');
+      if(resend)resend.onclick=()=>{step=1;draw();setTimeout(()=>sendPhoneCode(phoneAuthNumber),50)};
+    }
+    async function sendPhoneCode(rawPhone){
+      const phone=normalizePhone(rawPhone);
+      if(!validPhone(phone)){toast('Телефонды +7XXXXXXXXXX форматында енгізіңіз');return}
+      if(phoneAuthBusy){return}
+      phoneAuthBusy=true;
+      phoneAuthNumber=phone;
+      try{
+        if(recaptchaVerifier){try{recaptchaVerifier.clear()}catch(_){} recaptchaVerifier=null}
+        phoneConfirmation=null;
+        recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'normal',callback:()=>{}});
+        await recaptchaVerifier.render();
+        phoneConfirmation=await fbAuth.signInWithPhoneNumber(phone,recaptchaVerifier);
+        step=2;
+        draw();
+        toast('SMS код жіберілді. Соңғы келген кодты енгізіңіз.');
+      }catch(e){
+        console.error('Phone auth send:',e);
+        const msg={
+          'auth/too-many-requests':'Тым көп код сұралды. Біраз күтіп, жаңа код сұраңыз.',
+          'auth/quota-exceeded':'SMS лимиті уақытша таусылды.',
+          'auth/invalid-phone-number':'Телефон нөмірі дұрыс емес.',
+          'auth/captcha-check-failed':'reCAPTCHA тексеруі өтпеді. Бетті жаңартып көріңіз.',
+          'auth/operation-not-allowed':'Firebase Console-де Phone авторизациясы қосылмаған.',
+          'auth/network-request-failed':'Интернет байланысын тексеріңіз.'
+        }[e.code]||('SMS жіберілмеді: '+(e.message||'белгісіз қате'));
+        toast(msg);
+      }finally{phoneAuthBusy=false}
+    }
+    if(step===2){
       document.getElementById('verifyCode').onclick=async()=>{
         const code=document.getElementById('authCode').value.trim();
         if(!/^\d{6}$/.test(code)){toast('6 таңбалы код енгізіңіз');return}
+        if(!phoneConfirmation){toast('Бұл кодқа сәйкес белсенді SMS сұранысы жоқ. Жаңа код жіберіңіз.');return}
         try{
           const result=await phoneConfirmation.confirm(code),u=result.user;
           const name=mode==='register'?document.getElementById('authName').value.trim():(u.displayName||'Пайдаланушы');
@@ -677,7 +702,17 @@ function openLogin(){
           if(name&&u.displayName!==name)await u.updateProfile({displayName:name});
           await fbDb.collection('users').doc(u.uid).set({name:name||'Пайдаланушы',phone:u.phoneNumber||'',role:'buyer',updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
           state.currentUser={id:u.uid,name:name||'Пайдаланушы',phone:u.phoneNumber||'',firebase:true};save();closeModal();render();toast(mode==='login'?'Сәтті кірдіңіз':'Аккаунт ашылды');
-        }catch(e){console.error(e);toast('SMS коды қате немесе мерзімі өтті')}
+        }catch(e){
+          console.error('Phone auth confirm:',e);
+          const msg={
+            'auth/code-expired':'Бұл SMS кодының мерзімі өткен немесе жаңа код сұралған. «Жаңа код жіберу» басыңыз.',
+            'auth/invalid-verification-code':'SMS коды қате. Соңғы келген 6 таңбалы кодты енгізіңіз.',
+            'auth/session-expired':'Сессия мерзімі аяқталған. Жаңа код жіберіңіз.',
+            'auth/too-many-requests':'Тым көп әрекет жасалды. Біраз күтіп, жаңа код сұраңыз.',
+            'auth/network-request-failed':'Интернет байланысын тексеріңіз.'
+          }[e.code]||('Кіру қатесі: '+(e.message||'белгісіз қате'));
+          toast(msg);
+        }
       };
     }
   };
@@ -1134,62 +1169,28 @@ function toggleLanguage(){
 }
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const sp=e.target.closest('[data-special]');if(sp){openSpecialProducts(sp.dataset.special||'all');return}const sm=e.target.closest('[data-special-modal]');if(sm){openSpecialProducts(sm.dataset.specialModal||'all');return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
-/* SatuGo NAVIGATION — stable mouse + touch navigation */
+/* SatuGo NAVIGATION — one reliable handler for mouse + touch */
 const satugoBottomNav=document.getElementById('satugoBottomNav');
-function satugoRenderPage(target){
+function satugoNavigate(target){
   if(!target)return;
+  if(document.body.classList.contains('chat-open') || document.getElementById('modal')?.classList.contains('show')) closeModal();
   page=target;
-  try{
-    if(target==='account'){
-      const app=document.getElementById('app');
-      if(app) app.innerHTML=renderAccount();
-      document.querySelectorAll('#satugoBottomNav .navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===target));
-      updateBadges();
-      window.scrollTo(0,0);
-      return;
-    }
-    if(document.body.classList.contains('chat-open')){try{closeChat()}catch(_){} }
-    if(document.getElementById('modal')?.classList.contains('show')){try{closeModal()}catch(_){} }
-    render();
-    window.scrollTo(0,0);
-  }catch(err){
-    console.error('SatuGo navigation error:',err);
-    if(target==='account'){
-      const app=document.getElementById('app');
-      if(app) app.innerHTML='<div class="empty"><h2>Аккаунт</h2><p>Аккаунт бөлімі ашылмады.</p><button class="primary" id="loginBtn">Кіру / тіркелу</button></div>';
-    }
-  }
+  render();
+  window.scrollTo(0,0);
 }
-function satugoNavigate(target){satugoRenderPage(target)}
-window.__satugoAccountClick=function(e){
-  if(e){e.preventDefault();e.stopPropagation();}
-  satugoRenderPage('account');
-  return false;
-};
 if(satugoBottomNav){
-  satugoBottomNav.addEventListener('click',function(e){
-    const btn=e.target.closest ? e.target.closest('.navbtn') : null;
-    if(!btn || !satugoBottomNav.contains(btn))return;
-    e.preventDefault();
-    e.stopPropagation();
-    if(btn.id==='satugoAccountBtn'){
-      satugoRenderPage('account');
-      return;
-    }
-    satugoRenderPage(btn.getAttribute('data-page')||'home');
+  satugoBottomNav.querySelectorAll('.navbtn').forEach(btn=>{
+    btn.addEventListener('click',function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      satugoNavigate(this.getAttribute('data-page'));
+    });
   });
-  satugoBottomNav.addEventListener('pointerup',function(e){
-    const btn=e.target.closest ? e.target.closest('.navbtn') : null;
-    if(!btn || !satugoBottomNav.contains(btn) || btn.id!=='satugoAccountBtn')return;
-    e.preventDefault();
-    satugoRenderPage('account');
-  },{passive:false});
 }
 const satugoAccountBtn=document.getElementById('satugoAccountBtn');
 if(satugoAccountBtn){
   satugoAccountBtn.setAttribute('role','button');
-  satugoAccountBtn.setAttribute('tabindex','0');
-  satugoAccountBtn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();satugoRenderPage('account')}});
+  satugoAccountBtn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();satugoNavigate('account')}});
 }
 document.getElementById('languageBtn').onclick=toggleLanguage;
 document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
