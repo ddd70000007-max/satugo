@@ -172,6 +172,21 @@
 .account-stat{padding:12px;background:#f8fafc;border-radius:13px;text-align:center}.account-stat b{display:block;font-size:19px}
 @media(max-width:600px){.account-hero{align-items:flex-start}.account-actions{grid-template-columns:1fr}.profile-grid{grid-template-columns:1fr}}
 
+
+/* SatuGo product detail 2.0 */
+.product-detail-v2{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:22px;margin-top:10px}
+.product-gallery-v2{min-width:0}
+.product-main-photo-v2{height:390px;background:linear-gradient(145deg,#f8fafc,#eef2f7);border-radius:22px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;border:1px solid #e5e7eb}
+.product-main-photo-v2 img{width:100%;height:100%;object-fit:contain;display:block}
+.product-photo-tools{position:absolute;top:12px;right:12px;display:flex;gap:7px}
+.product-photo-tools button{border:0;background:#ffffffdd;backdrop-filter:blur(8px);width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:18px}
+.product-thumbs-v2{display:flex;gap:8px;overflow:auto;margin-top:10px;padding:2px 1px 4px}
+.product-thumb-v2{flex:0 0 62px;width:62px;height:62px;border:2px solid transparent;background:#f3f4f6;border-radius:12px;padding:0;overflow:hidden;cursor:pointer}
+.product-thumb-v2.active{border-color:#111827}.product-thumb-v2 img{width:100%;height:100%;object-fit:contain}
+.product-info-v2{min-width:0}.product-badges-v2{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px}.pill-v2{display:inline-flex;padding:6px 9px;border-radius:999px;background:#f3f4f6;font-size:12px;font-weight:800}.pill-v2.hot{background:#fff4c7;color:#8a6200}.product-title-v2{font-size:27px;line-height:1.15;margin:5px 0 9px}.product-price-v2{font-size:30px;font-weight:950;margin:8px 0}.product-rating-v2{display:flex;align-items:center;gap:8px;margin:8px 0}.product-option-v2{margin:16px 0}.option-label-v2{font-weight:900;margin-bottom:8px}.option-list-v2{display:flex;flex-wrap:wrap;gap:8px}.option-btn-v2{border:1px solid #d7dbe2;background:#fff;border-radius:11px;padding:9px 13px;cursor:pointer}.option-btn-v2.active{background:#111827;color:#fff;border-color:#111827}.stock-v2{padding:11px 13px;border-radius:13px;background:#f8fafc;margin:12px 0;font-size:13px}.seller-v2{border:1px solid #e5e7eb;background:#fff;border-radius:16px;padding:13px;margin-top:15px}.seller-row-v2{display:flex;align-items:center;justify-content:space-between;gap:10px}.seller-actions-v2{display:flex;gap:8px;margin-top:10px}.seller-actions-v2 button{flex:1}.product-description-v2{margin-top:15px;border-top:1px solid #eee;padding-top:15px;line-height:1.55}.product-reviews-v2{margin-top:20px;border-top:1px solid #eee;padding-top:15px}.sticky-buy-v2{position:sticky;bottom:0;background:#ffffffee;backdrop-filter:blur(10px);padding:10px 0 2px;display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}.product-related-v2{margin-top:22px}.product-related-v2 .grid{grid-template-columns:repeat(3,1fr)}
+.account-nav-safe{position:relative;z-index:100000}
+@media(max-width:800px){.product-detail-v2{grid-template-columns:1fr}.product-main-photo-v2{height:310px}.product-title-v2{font-size:23px}.product-price-v2{font-size:26px}.product-related-v2 .grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:430px){.product-main-photo-v2{height:255px;border-radius:17px}.product-thumb-v2{flex-basis:56px;width:56px;height:56px}.sticky-buy-v2{grid-template-columns:1fr 1fr}.product-title-v2{font-size:21px}}
 </style>
 
 <style id="satugo-orders-ui">.buyer-status{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800;background:#f3f4f6}.buyer-status.new{background:#fff7ed}.buyer-status.accepted{background:#ecfdf5}.buyer-status.shipping{background:#eff6ff}.buyer-status.done{background:#f0fdf4}.buyer-status.cancelled{background:#fef2f2}.buyer-timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:14px 0}.buyer-step{text-align:center;font-size:11px;color:#94a3b8;padding:8px 3px;border:1px solid #e5e7eb;border-radius:10px}.buyer-step.done{color:#111827;font-weight:800;background:#f8fafc}.buyer-order-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}.buyer-order-meta>div{padding:10px;border:1px solid #e5e7eb;border-radius:12px;font-size:12px}.danger{border:0;border-radius:12px;padding:11px 14px;background:#fee2e2;color:#991b1b;font-weight:800;cursor:pointer}.orderitems{margin:8px 0;font-size:13px;line-height:1.5}@media(max-width:500px){.buyer-timeline{grid-template-columns:repeat(2,1fr)}}
@@ -192,7 +207,7 @@
 <button class="iconbtn" id="searchBtn">Іздеу</button>
 </div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button><button class="langbtn" id="languageBtn" type="button">Русский</button></div></header>
 <main class="wrap" id="app"></main>
-<nav class="bottom" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
+<nav class="bottom account-nav-safe" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
 <div class="toast" id="toast"></div>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 <script>
@@ -619,90 +634,91 @@ async function sendChat(forcedText='',forcedImage=''){
   }catch(e){console.error(e);toast('Хабарлама жіберу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}
 }
 
+function avatarHtml(u={}){
+  const photo=u.photo||u.photoURL||'';
+  if(photo)return `<div class="account-avatar"><img src="${esc(photo)}" alt="Профиль фото"></div>`;
+  const name=String(u.name||'Пайдаланушы').trim();
+  const letter=esc((name[0]||'👤').toUpperCase());
+  return `<div class="account-avatar">${letter}</div>`;
+}
+function resizeImageToDataUrl(file,max=420,quality=.82){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader();
+    r.onload=()=>{const im=new Image();im.onload=()=>{const scale=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*scale));c.height=Math.max(1,Math.round(im.height*scale));const x=c.getContext('2d');x.drawImage(im,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',quality))};im.onerror=reject;im.src=r.result};r.onerror=reject;r.readAsDataURL(file);
+  });
+}
+function buyerStatusClass(status){
+  const s=String(status||'').toLowerCase();
+  if(s.includes('қабыл'))return 'accepted';
+  if(s.includes('жол')||s.includes('жеткіз'))return 'shipping';
+  if(s.includes('аяқ')||s.includes('жеткізілді'))return 'done';
+  if(s.includes('бас тарт'))return 'cancelled';
+  return 'new';
+}
+function renderBuyerOrders(){
+  const u=state.currentUser;if(!u){openLogin();return}
+  const orders=state.orders.filter(o=>o.buyerId===u.id);
+  openModal(`<div class="modaltop"><h2>📦 Менің тапсырыстарым</h2><button class="close" id="close">×</button></div>${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><div style="display:flex;justify-content:space-between;gap:8px"><b>#${esc(String(o.id).slice(-6))}</b><span class="buyer-status ${buyerStatusClass(o.status)}">${esc(o.status||'Жаңа тапсырыс')}</span></div><div style="margin-top:7px">${money(o.total)}</div><div class="muted">${esc(o.buyerName||u.name||'')} · ${esc(o.phone||'')}</div><button class="primary" style="margin-top:9px" data-bod="${esc(o.id)}">Толық көру</button></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`);
+  document.getElementById('close').onclick=closeModal;
+}
+function openBuyerOrder(id){
+  const o=state.orders.find(x=>String(x.id)===String(id));if(!o)return;
+  openModal(`<div class="modaltop"><h2>📦 Тапсырыс #${esc(String(o.id).slice(-6))}</h2><button class="close" id="close">×</button></div><div class="buyer-order-meta"><div><b>Статус</b><br>${esc(o.status||'Жаңа тапсырыс')}</div><div><b>Сома</b><br>${money(o.total)}</div><div><b>Телефон</b><br>${esc(o.phone||'')}</div><div><b>Мекенжай</b><br>${esc(o.address||'')}</div></div><h3>Тауарлар</h3><div class="orderitems">${(o.items||[]).map(i=>`${esc(i.name)} × ${i.qty} — ${money(Number(i.price||0)*Number(i.qty||1))}`).join('<br>')}</div><button class="secondary" id="close2">Жабу</button>`);
+  document.getElementById('close').onclick=closeModal;document.getElementById('close2').onclick=closeModal;
+}
+
 function renderAccount(){
   if(!state.currentUser){return `<div class="sectionhead"><h2>Аккаунт</h2></div><div class="item"><h3>Кіру / тіркелу</h3><p class="muted">Телефон нөміріңізбен кіріп, аккаунтыңызды телефонда да, ноутбукта да пайдаланыңыз.</p><button class="primary" id="loginBtn">Кіру / тіркелу</button></div>`;}
   const u=state.currentUser,orders=state.orders.filter(o=>o.buyerId===u.id),favs=state.favorites.length,chats=state.chats.length;
   return `<div class="sectionhead"><h2>Аккаунт</h2><button class="secondary" id="logoutBtn">Шығу</button></div><div class="account-hero">${avatarHtml(u)}<div class="account-main"><div class="account-name">${esc(u.name||'Пайдаланушы')}</div><div class="account-phone">${esc(u.phone||'Телефон көрсетілмеген')}</div><div class="muted">${esc(u.city||'')} ${u.email?'· '+esc(u.email):''}</div></div></div><div class="account-actions"><button class="primary" id="editProfile">✏️ Жеке мәліметтерді өзгерту</button><button class="secondary" id="sellerBtn">🏪 Менің дүкенім</button></div><div class="account-statgrid"><div class="account-stat"><b>${orders.length}</b><span class="muted">Тапсырыс</span></div><div class="account-stat"><b>${favs}</b><span class="muted">Таңдаулы</span></div><div class="account-stat"><b>${chats}</b><span class="muted">Чат</span></div></div><div class="account-menu"><button id="accountOrders"><span class="mi">📦</span><span><b>Менің тапсырыстарым</b><br><span class="muted">Тапсырыстарыңыздың тарихы</span></span></button><button id="accountFavorites"><span class="mi">♡</span><span><b>Таңдаулылар</b><br><span class="muted">Сақталған тауарлар</span></span></button><button id="accountChats"><span class="mi">💬</span><span><b>Чаттар</b><br><span class="muted">Сатушылармен сөйлесу</span></span></button><button id="accountSecurity"><span class="mi">🔐</span><span><b>Қауіпсіздік</b><br><span class="muted">Аккаунт және телефон арқылы кіру</span></span></button></div><div class="sectionhead"><h2>Соңғы тапсырыстар</h2><button class="secondary" id="allBuyerOrders">Барлығын көру</button></div>${orders.slice(0,3).length?`<div class="list">${orders.slice(0,3).map(o=>`<div class="item"><div style="display:flex;justify-content:space-between;gap:8px"><b>#${esc(String(o.id).slice(-6))}</b><span class="buyer-status ${buyerStatusClass(o.status||'Жаңа тапсырыс')}">${esc(o.status||'Жаңа тапсырыс')}</span></div><div>${money(o.total)}</div><button class="primary" data-bod="${esc(o.id)}">Толық көру</button></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`;
 }
 
-function render(){const app=document.getElementById('app');if(page==='home')app.innerHTML=renderHome();if(page==='search')app.innerHTML=renderSearch();if(page==='favorites')app.innerHTML=renderFav();if(page==='chats'){renderChats();}if(page==='account')app.innerHTML=renderAccount();document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));updateBadges();bindSmartSearchTools();bindSatugoNavigation()};setTimeout(applyLanguage,0)
+function render(){const app=document.getElementById('app');if(page==='home')app.innerHTML=renderHome();if(page==='search')app.innerHTML=renderSearch();if(page==='favorites')app.innerHTML=renderFav();if(page==='chats'){renderChats();}if(page==='account')app.innerHTML=renderAccount();document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));updateBadges();bindSmartSearchTools()};setTimeout(applyLanguage,0)
 function updateBadges(){document.getElementById('cartCount').textContent=state.cart.reduce((s,x)=>s+x.qty,0);const f=document.getElementById('favBadge');f.textContent=state.favorites.length;f.classList.toggle('hidden',!state.favorites.length);const uid=state.currentUser?.id;const n=uid?state.chats.reduce((s,c)=>s+(c.unread?.[uid]||0),0):0;const b=document.getElementById('chatBadge');b.textContent=n;b.classList.toggle('hidden',!n)}
 function openModal(html){if(!html)return;document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show');setTimeout(applyLanguage,0)}
 function closeModal(){if(activeChat&&fbReady&&fbDb&&state.currentUser){try{fbDb.collection('chats').doc(activeChat).set({online:{[state.currentUser.id]:false}},{merge:true})}catch(_){} }if(window.__satugoPresenceUnsub){try{window.__satugoPresenceUnsub()}catch(_){}window.__satugoPresenceUnsub=null}if(chatUnsubscribe){try{chatUnsubscribe()}catch(_){ }chatUnsubscribe=null}document.body.classList.remove('chat-open');document.getElementById('modal').classList.remove('show');document.getElementById('sheet').innerHTML='';selectedProduct=null;activeChat=null}
 function closeChat(){closeModal()}
-function productImages(p){
-  const arr=[];
-  if(Array.isArray(p.images)) p.images.forEach(x=>{if(x)arr.push(x)});
-  if(p.image && !arr.includes(p.image)) arr.unshift(p.image);
-  return arr.length?arr:[''];
-}
-function productRating(p,reviews){
-  const vals=reviews.map(r=>Number(r.stars||0)).filter(x=>x>=1&&x<=5);
-  const avg=Number(p.rating||0)|| (vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0);
-  const count=Number(p.reviewCount||0)||vals.length;
-  return {avg,count,stars:avg?Math.round(avg):0};
-}
 function openProduct(id){
-  const p=getProduct(id); if(!p){toast('Тауар дерегі табылмады');return}
+  const p=getProduct(id);if(!p){toast('Тауар дерегі табылмады');return}
   selectedProduct=p;
-  const reviews=state.reviews.filter(r=>String(r.productId)===String(p.id));
-  const rating=productRating(p,reviews);
-  const images=productImages(p);
-  let selectedImage=0, selectedColor='', selectedSize='';
-  const colors=Array.isArray(p.colors)?p.colors:(String(p.colors||p.colorsText||'').split(',').map(x=>x.trim()).filter(Boolean));
-  const sizes=Array.isArray(p.sizes)?p.sizes:(String(p.sizes||p.sizesText||'').split(',').map(x=>x.trim()).filter(Boolean));
-  const stock=Number(p.stock??p.quantity??p.stockCount);
-  const hasStock=Number.isFinite(stock)?stock>0:true;
-  const emoji=p.cat==='Косметика'?'💄':p.cat==='Электрон'?'📱':p.cat==='Киім'?'👕':'👟';
-  const related=state.products.filter(x=>String(x.id)!==String(p.id)&&(x.cat===p.cat||x.sellerId===p.sellerId)).slice(0,6);
-  const dist=[5,4,3,2,1].map(n=>reviews.filter(r=>Number(r.stars)===n).length);
-  const totalReviews=reviews.length;
-  const sellerProducts=state.products.filter(x=>x.sellerId&&x.sellerId===p.sellerId&&String(x.id)!==String(p.id));
-  const draw=()=>{
-    const current=images[selectedImage]||'';
-    const starText=rating.avg?('★'.repeat(rating.stars)+'☆'.repeat(5-rating.stars)):'☆☆☆☆☆';
-    openModal(`<div class="modaltop"><div><div class="muted">${esc(p.cat||'Тауар')}</div><h2 style="margin:2px 0 0">Тауар</h2></div><button class="close" id="close">×</button></div>
-      <div class="product-detail-v2">
-        <div class="product-gallery">
-          <div class="product-main-photo" id="productMainPhoto">${current?`<img src="${esc(current)}" alt="${esc(p.name)}" id="mainProductImg">`:`<span>${emoji}</span>`}</div>
-          ${images.length>1?`<div class="product-thumbs">${images.map((im,i)=>im?`<button type="button" class="product-thumb ${i===selectedImage?'active':''}" data-thumb="${i}"><img src="${esc(im)}" alt=""></button>`:'').join('')}</div>`:''}
-          <div class="product-share"><button type="button" id="shareProduct">🔗 Бөлісу</button><button type="button" id="copyProduct">📋 Сілтемені көшіру</button></div>
-        </div>
-        <div class="product-info-v2">
-          ${p.special?`<div class="special-label">✨ ${p.specialType==='eye'?'👀 Көзге түсетін':p.specialType==='gift'?'🎁 Сыйлық':'🤯 Қызық зат'}</div>`:''}
-          <div class="product-title-v2">${esc(p.name)}</div>
-          <div class="product-rating"><span class="stars">${starText}</span><b>${rating.avg?rating.avg.toFixed(1):'Жаңа'}</b><span class="muted">${rating.count?rating.count+' пікір':'Пікір жоқ'}</span></div>
-          <div class="product-price-v2">${money(p.price)}</div>
-          <div class="muted">${esc(p.cat||'Басқа')} · ${esc(p.sellerName||'Сатушы')}</div>
-          ${Number.isFinite(stock)?`<div class="product-stock ${stock===0?'out':stock<=3?'low':''}">${stock===0?'❌ Қоймада жоқ':stock<=3?'🔥 Соңғы '+stock+' дана':'📦 Қоймада '+stock+' дана'}</div>`:`<div class="product-stock">📦 Қойма туралы ақпаратты сатушыдан сұраңыз</div>`}
-          ${colors.length?`<div class="product-option"><div class="product-option-title">Түс: <span id="selectedColorLabel">${esc(selectedColor||'таңдалмаған')}</span></div><div class="option-list">${colors.map(c=>`<button type="button" class="option-btn" data-color="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>`:''}
-          ${sizes.length?`<div class="product-option"><div class="product-option-title">Өлшем: <span id="selectedSizeLabel">${esc(selectedSize||'таңдалмаған')}</span></div><div class="option-list">${sizes.map(z=>`<button type="button" class="option-btn" data-size="${esc(z)}">${esc(z)}</button>`).join('')}</div></div>`:''}
-          <div class="product-seller"><div class="product-seller-top"><div><div class="muted">Сатушы</div><div class="seller-name-v2">🏪 ${esc(p.sellerName||'Сатушы')}</div><div class="muted">${sellerProducts.length+1} тауар</div></div><div class="product-rating"><span class="stars">★★★★★</span></div></div><div class="actions"><button type="button" class="secondary" id="sellerStoreBtn">🏪 Дүкенге өту</button><button type="button" class="secondary" id="detailChat">💬 Сатушымен чат</button></div></div>
-          <div class="product-description"><b>Тауар сипаттамасы</b><br>${esc(p.description||'Бұл тауар туралы толық ақпаратты сатушыдан сұрауға болады.')}</div>
-          <div class="product-sticky-buy"><div class="product-actions-v2"><button type="button" class="secondary" id="detailFav">${state.favorites.includes(p.id)?'♥':'♡'}</button><button type="button" class="secondary" id="detailCart" ${!hasStock?'disabled':''}>🛒 Себетке</button><button type="button" class="primary" id="detailBuy" ${!hasStock?'disabled':''}>⚡ Сатып алу</button></div></div>
-        </div>
-      </div>
-      <div class="product-review-summary"><div class="sectionhead"><h3>⭐ Пікірлер</h3><b>${rating.avg?rating.avg.toFixed(1):'—'}</b></div>${totalReviews?dist.map((n,i)=>{const stars=5-i,pct=Math.round(n/totalReviews*100);return `<div class="review-row"><span>${stars}★</span><div class="review-bar"><i style="width:${pct}%"></i></div><span>${n}</span></div>`}).join(''):'<div class="muted">Бұл тауарға әзірге пікір жазылмаған.</div>'}</div>
-      <div>${reviews.map(r=>`<div class="product-review"><div class="review-head"><b>${esc(r.userName||'Пайдаланушы')}</b><span class="stars">${'★'.repeat(Number(r.stars||0))}${'☆'.repeat(5-Number(r.stars||0))}</span></div><div class="muted">${esc(r.createdAt?new Date(r.createdAt).toLocaleDateString('kk-KZ'):'')}</div><div>${esc(r.text||'')}</div>${r.image?`<img class="review-photo" src="${esc(r.image)}" alt="Пікір суреті">`:''}</div>`).join('')}</div>
-      ${related.length?`<div class="product-related"><div class="sectionhead"><h3>Осыған ұқсас тауарлар</h3></div><div class="grid">${related.map(renderCard).join('')}</div></div>`:''}`);
-    document.getElementById('close').onclick=closeModal;
-    document.querySelectorAll('[data-thumb]').forEach(b=>b.onclick=()=>{selectedImage=Number(b.dataset.thumb);draw()});
-    document.querySelectorAll('[data-color]').forEach(b=>b.onclick=()=>{selectedColor=b.dataset.color;draw()});
-    document.querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{selectedSize=b.dataset.size;draw()});
-    document.getElementById('detailFav').onclick=()=>{toggleFav(p.id);draw()};
-    document.getElementById('detailCart').onclick=()=>{if(colors.length&&!selectedColor){toast('Алдымен түс таңдаңыз');return}if(sizes.length&&!selectedSize){toast('Алдымен өлшем таңдаңыз');return}addCart(p.id);toast('Тауар себетке қосылды');};
-    document.getElementById('detailBuy').onclick=()=>{if(colors.length&&!selectedColor){toast('Алдымен түс таңдаңыз');return}if(sizes.length&&!selectedSize){toast('Алдымен өлшем таңдаңыз');return}addCart(p.id);checkout()};
-    document.getElementById('detailChat').onclick=()=>{if(p.sellerId==='platform'){toast('Бұл SatuGo платформасының тауары');return}startChat(p)};
-    document.getElementById('sellerStoreBtn').onclick=()=>openSellerProductStore(p.sellerId,p.sellerName||'Сатушы');
-    document.getElementById('copyProduct').onclick=async()=>{const url=location.href.split('#')[0]+'#product-'+encodeURIComponent(p.id);try{await navigator.clipboard.writeText(url);toast('Сілтеме көшірілді')}catch(_){toast('Сілтемені көшіру мүмкін болмады')}};
-    document.getElementById('shareProduct').onclick=async()=>{const url=location.href.split('#')[0]+'#product-'+encodeURIComponent(p.id);if(navigator.share){try{await navigator.share({title:p.name,text:'SatuGo: '+p.name,url})}catch(_){}}else{try{await navigator.clipboard.writeText(url);toast('Сілтеме көшірілді')}catch(_){toast('Бөлісу қолжетімсіз')}}};
-  };
-  draw();
-}
-function openSellerProductStore(sellerId,sellerName){
-  const arr=state.products.filter(p=>p.sellerId===sellerId);
-  openModal(`<div class="modaltop"><div><h2 style="margin:0">🏪 ${esc(sellerName||'Сатушы')}</h2><div class="muted">${arr.length} тауар</div></div><button class="close" id="close">×</button></div>${arr.length?`<div class="grid" style="margin-top:14px">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл дүкенде әзірге тауар жоқ.</div>'}`);
+  const reviews=state.reviews.filter(r=>r.productId===p.id);
+  const images=[p.image,...(Array.isArray(p.images)?p.images:[])].filter(Boolean).filter((x,i,a)=>a.indexOf(x)===i);
+  const sizes=String(p.sizes||p.sizesText||'').split(',').map(x=>x.trim()).filter(Boolean);
+  const colors=String(p.colors||p.colorsText||'').split(',').map(x=>x.trim()).filter(Boolean);
+  const related=state.products.filter(x=>x.id!==p.id&&((x.cat||x.category)===(p.cat||p.category))).slice(0,3);
+  const rating=reviews.length?(reviews.reduce((s,r)=>s+Number(r.stars||0),0)/reviews.length).toFixed(1):(Number(p.rating||0)||0).toFixed(1);
+  const first=images[0]||'';
+  openModal(`<div class="modaltop"><h2>🛍️ Тауар</h2><button class="close" id="close">×</button></div>
+  <div class="product-detail-v2">
+    <div class="product-gallery-v2">
+      <div class="product-main-photo-v2" id="productMainPhoto">${first?`<img id="productMainImg" src="${esc(first)}" alt="${esc(p.name)}">`:'<span style="font-size:80px">🛍️</span>'}<div class="product-photo-tools"><button id="detailFav" title="Таңдаулы">${state.favorites.includes(p.id)?'♥':'♡'}</button><button id="detailShare" title="Бөлісу">↗</button></div></div>
+      ${images.length>1?`<div class="product-thumbs-v2">${images.map((im,i)=>`<button type="button" class="product-thumb-v2 ${i===0?'active':''}" data-photo="${esc(im)}"><img src="${esc(im)}" alt="Фото ${i+1}"></button>`).join('')}</div>`:''}
+    </div>
+    <div class="product-info-v2">
+      <div class="product-badges-v2">${p.special?`<span class="pill-v2 hot">✨ ${p.specialType==='eye'?'Көзге түсетін':p.specialType==='gift'?'Сыйлық':'Қызық зат'}</span>`:''}<span class="pill-v2">${esc(p.cat||p.category||'Басқа')}</span></div>
+      <h1 class="product-title-v2">${esc(p.name)}</h1>
+      <div class="product-rating-v2"><span class="stars">${'★'.repeat(Math.max(0,Math.min(5,Math.round(Number(rating)))))}${'☆'.repeat(5-Math.max(0,Math.min(5,Math.round(Number(rating)))))}</span><b>${rating}</b><span class="muted">${reviews.length} пікір</span></div>
+      <div class="product-price-v2">${money(p.price)}</div>
+      <div class="muted">Сатушы: ${esc(p.sellerName||'Сатушы')}</div>
+      <div class="stock-v2">${Number(p.stock??p.quantity??0)>0?`📦 Қоймада: <b>${Number(p.stock??p.quantity)} дана</b>`:'📦 Қойма саны көрсетілмеген'}</div>
+      ${sizes.length?`<div class="product-option-v2"><div class="option-label-v2">Өлшем</div><div class="option-list-v2">${sizes.map((x,i)=>`<button class="option-btn-v2 ${i===0?'active':''}" data-size="${esc(x)}">${esc(x)}</button>`).join('')}</div></div>`:''}
+      ${colors.length?`<div class="product-option-v2"><div class="option-label-v2">Түс</div><div class="option-list-v2">${colors.map((x,i)=>`<button class="option-btn-v2 ${i===0?'active':''}" data-color="${esc(x)}">${esc(x)}</button>`).join('')}</div></div>`:''}
+      <div class="seller-v2"><div class="seller-row-v2"><div><b>🏪 ${esc(p.sellerName||'Сатушы')}</b><div class="muted">SatuGo сатушысы</div></div><span>⭐ ${Number(p.rating||4.8).toFixed(1)}</span></div><div class="seller-actions-v2"><button class="secondary" id="detailStore">Дүкенге кіру</button><button class="secondary" id="detailChat">Сатушыға жазу</button></div></div>
+      <div class="product-description-v2"><b>📋 Тауар сипаттамасы</b><p>${esc(p.description||'Бұл тауар туралы толық ақпаратты сатушыдан сұрауға болады.')}</p></div>
+      <div class="sticky-buy-v2"><button class="secondary" id="detailCart">🛒 Себетке</button><button class="primary" id="detailBuy">⚡ Қазір сатып алу</button></div>
+    </div>
+  </div>
+  <div class="product-reviews-v2"><div class="sectionhead"><h3>⭐ Пікірлер</h3><span class="muted">${reviews.length} пікір</span></div>${reviews.length?reviews.map(r=>`<div class="review"><span class="stars">${'★'.repeat(Number(r.stars||0))}${'☆'.repeat(5-Number(r.stars||0))}</span><br><b>${esc(r.userName||'Пайдаланушы')}</b><div>${esc(r.text||'')}</div></div>`).join(''):'<div class="muted">Пікір әзірге жоқ.</div>'}</div>
+  ${related.length?`<div class="product-related-v2"><div class="sectionhead"><h3>Осыған ұқсас тауарлар</h3></div><div class="grid">${related.map(renderCard).join('')}</div></div>`:''}`);
   document.getElementById('close').onclick=closeModal;
+  document.querySelectorAll('[data-photo]').forEach(b=>b.onclick=()=>{document.getElementById('productMainImg').src=b.dataset.photo;document.querySelectorAll('[data-photo]').forEach(x=>x.classList.remove('active'));b.classList.add('active')});
+  document.getElementById('detailFav').onclick=()=>{toggleFav(p.id);document.getElementById('detailFav').textContent=state.favorites.includes(p.id)?'♥':'♡'};
+  document.getElementById('detailShare').onclick=async()=>{const url=location.href.split('#')[0]+'#product='+encodeURIComponent(p.id);try{if(navigator.share)await navigator.share({title:p.name,text:'SatuGo тауары',url});else{await navigator.clipboard.writeText(url);toast('Сілтеме көшірілді')}}catch(_){} };
+  document.querySelectorAll('[data-size],[data-color]').forEach(b=>b.onclick=()=>{const group=b.dataset.size?'[data-size]':'[data-color]';document.querySelectorAll(group).forEach(x=>x.classList.remove('active'));b.classList.add('active')});
+  document.getElementById('detailCart').onclick=()=>{addCart(p.id);toast('Себетке қосылды')};
+  document.getElementById('detailBuy').onclick=()=>{addCart(p.id);checkout()};
+  document.getElementById('detailChat').onclick=()=>{if(p.sellerId==='platform'){toast('Бұл SatuGo платформасының тауары');return}startChat(p)};
+  document.getElementById('detailStore').onclick=()=>{if(p.sellerId&&p.sellerId!=='platform'){closeModal();openSeller()}else toast('Бұл тауардың жеке дүкені жоқ')};
 }
 
 function addCart(id){const p=getProduct(id);if(!p)return;const x=state.cart.find(i=>i.productId===id);if(x)x.qty++;else state.cart.push({productId:id,qty:1});save();toast('Себетке қосылды')}
@@ -1208,52 +1224,29 @@ function toggleLanguage(){
 }
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openProduct(b.dataset.open);return}const c=e.target.closest('[data-cart]');if(c){addCart(c.dataset.cart);return}const f=e.target.closest('[data-fav]');if(f){toggleFav(f.dataset.fav);return}const sp=e.target.closest('[data-special]');if(sp){openSpecialProducts(sp.dataset.special||'all');return}const sm=e.target.closest('[data-special-modal]');if(sm){openSpecialProducts(sm.dataset.specialModal||'all');return}const cat=e.target.closest('[data-cat]');if(cat){if(cat.dataset.cat==='Барлығы'){page='home';render();return}const arr=state.products.filter(p=>p.cat===cat.dataset.cat);openModal(`<div class="modaltop"><h2>${esc(cat.dataset.cat)}</h2><button class="close" id="close">×</button></div>${arr.length?`<div class="grid">${arr.map(renderCard).join('')}</div>`:'<div class="empty">Бұл категорияда тауар жоқ.</div>'}`);document.getElementById('close').onclick=closeModal;return}const ch=e.target.closest('[data-chat]');if(ch){openChat(ch.dataset.chat);return}});
-/* SatuGo NAVIGATION — stable mouse + touch navigation */
+/* SatuGo NAVIGATION — one reliable handler for mouse + touch */
 const satugoBottomNav=document.getElementById('satugoBottomNav');
-let satugoNavBusy=false;
 function satugoNavigate(target){
-  if(!target || satugoNavBusy)return;
-  satugoNavBusy=true;
-  try{
-    const modal=document.getElementById('modal');
-    if(document.body.classList.contains('chat-open') || modal?.classList.contains('show')) closeModal();
-    page=String(target);
-    render();
-    window.scrollTo({top:0,left:0,behavior:'auto'});
-    setTimeout(()=>{satugoNavBusy=false},80);
-  }catch(err){
-    console.error('SatuGo navigation error',err);
-    satugoNavBusy=false;
-  }
+  if(!target)return;
+  if(document.body.classList.contains('chat-open') || document.getElementById('modal')?.classList.contains('show')) closeModal();
+  page=target;
+  render();
+  window.scrollTo(0,0);
 }
-function bindSatugoNavigation(){
-  const nav=document.getElementById('satugoBottomNav');
-  if(!nav || nav.dataset.bound==='1')return;
-  nav.dataset.bound='1';
-  nav.addEventListener('click',function(e){
-    const btn=e.target.closest('.navbtn');
-    if(!btn || !nav.contains(btn))return;
-    e.preventDefault();
-    e.stopPropagation();
-    satugoNavigate(btn.dataset.page);
-  },true);
-  nav.addEventListener('pointerup',function(e){
-    const btn=e.target.closest('.navbtn');
-    if(!btn || !nav.contains(btn))return;
-    e.preventDefault();
-    e.stopPropagation();
-    satugoNavigate(btn.dataset.page);
-  },true);
-  const account=document.getElementById('satugoAccountBtn');
-  if(account){
-    account.setAttribute('role','button');
-    account.setAttribute('tabindex','0');
-    account.addEventListener('keydown',e=>{
-      if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();satugoNavigate('account');}
+if(satugoBottomNav){
+  satugoBottomNav.querySelectorAll('.navbtn').forEach(btn=>{
+    btn.addEventListener('click',function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      satugoNavigate(this.getAttribute('data-page'));
     });
-  }
+  });
 }
-bindSatugoNavigation();
+const satugoAccountBtn=document.getElementById('satugoAccountBtn');
+if(satugoAccountBtn){
+  satugoAccountBtn.setAttribute('role','button');
+  satugoAccountBtn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();satugoNavigate('account')}});
+}
 document.getElementById('languageBtn').onclick=toggleLanguage;
 document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
