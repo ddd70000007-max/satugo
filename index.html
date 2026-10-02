@@ -8,7 +8,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <style>
-*{box-sizing:border-box}html,body{margin:0;padding:0;font-family:Arial,sans-serif;background:#f5f6f8;color:#111827}body{padding-bottom:82px}.wrap{width:min(1180px,calc(100% - 24px));margin:auto}.top{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #e5e7eb}.topin{height:64px;display:flex;align-items:center;gap:12px}.logo{font-size:24px;font-weight:900;white-space:nowrap}.logo b{color:#f5b400}.search{flex:1;display:flex;gap:8px}.search input{width:100%;padding:12px 15px;border:1px solid #d7dbe2;border-radius:13px;outline:none}.iconbtn,.primary,.secondary,.danger{border:0;border-radius:12px;padding:11px 14px}.iconbtn{background:#f3f4f6}.primary{background:#111827;color:#fff}.secondary{background:#eef0f3}.danger{background:#fee2e2;color:#991b1b}.hero{margin:18px 0;background:linear-gradient(135deg,#111827,#374151);color:#fff;border-radius:22px;padding:28px}.hero h1{margin:0 0 8px;font-size:32px}.hero p{margin:0;color:#d1d5db}.cats{display:flex;gap:8px;overflow:auto;padding:4px 0 16px}.cat{border:1px solid #ddd;background:#fff;border-radius:999px;padding:9px 14px;white-space:nowrap}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:14px 0}.sectionhead h2{margin:0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;overflow:hidden;box-shadow:0 2px 8px #00000008}.pic{height:190px;background:#eef0f3;display:flex;align-items:center;justify-content:center;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover}.pic span{font-size:52px}.cardbody{padding:13px}.name{font-weight:700;min-height:40px}.price{font-size:19px;font-weight:900;margin:8px 0}.muted{color:#6b7280;font-size:13px}.actions{display:flex;gap:8px;margin-top:10px}.actions button{flex:1}.fav{width:44px}.empty{padding:30px;background:#fff;border-radius:18px;text-align:center;color:#6b7280}.bottom{position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(5,1fr);padding:7px 5px calc(7px + env(safe-area-inset-bottom))}.navbtn{border:0;background:none;padding:7px 2px;color:#6b7280;font-size:11px;cursor:pointer;position:relative;z-index:1;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.navbtn b{display:block;font-size:20px;margin-bottom:2px;pointer-events:none}.navbtn.active{color:#111827;font-weight:800}.badge{display:inline-flex;min-width:18px;height:18px;align-items:center;justify-content:center;border-radius:9px;background:#ef4444;color:#fff;font-size:10px;padding:0 4px;vertical-align:top}.modal{position:fixed;inset:0;background:#0008;z-index:100000;display:none;align-items:flex-end;justify-content:center;pointer-events:none}.modal.show{display:flex;pointer-events:auto}.sheet{position:relative;z-index:100001;background:#fff;width:min(760px,100%);max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:20px}.modaltop{display:flex;justify-content:space-between;align-items:center;gap:10px}.modaltop h2{margin:0}.close{border:0;background:#f3f4f6;border-radius:50%;width:38px;height:38px}.field{margin:10px 0}.field label{display:block;font-size:13px;color:#6b7280;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #d7dbe2;border-radius:12px;outline:none}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.list{display:grid;gap:10px}.item{border:1px solid #e5e7eb;border-radius:14px;padding:12px;background:#fff}.productdetail{display:grid;grid-template-columns:1fr 1fr;gap:20px}.bigpic{height:330px;background:#eef0f3;border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}.bigpic img{width:100%;height:100%;object-fit:cover}.bigpic span{font-size:80px}.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#111827;color:#fff;padding:12px 18px;border-radius:12px;z-index:100002;display:none}.toast.show{display:block}.hidden{display:none!important}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f8fafc;border-radius:14px;padding:14px;text-align:center}.stat strong{display:block;font-size:22px}.review{padding:10px 0;border-bottom:1px solid #eee}.stars{color:#f59e0b}.chatbox{height:330px;border:1px solid #ddd;border-radius:14px;display:flex;flex-direction:column}.msgs{flex:1;overflow:auto;padding:12px;background:#f8fafc}.msg{max-width:80%;padding:9px 12px;border-radius:14px;margin:5px 0}.mine{margin-left:auto;background:#111827;color:#fff}.theirs{background:#fff;border:1px solid #ddd}.chatinput{display:flex;gap:8px;padding:8px;border-top:1px solid #ddd}.chat-back{border:0;background:#f3f4f6;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}.chat-open{overflow:hidden}.chat-open .bottom{display:none!important}.chat-open{padding-bottom:0!important}.chat-open .modal{align-items:stretch}.chat-open .sheet{width:100%;max-width:none;height:100dvh;max-height:none;border-radius:0;padding:12px;display:flex;flex-direction:column;overflow:hidden}.chat-open .chatbox{flex:1;height:auto;min-height:0;border:0;border-radius:0;display:flex}.chat-open .msgs{min-height:0}.chat-open .modaltop{flex:0 0 auto;padding:4px 0 12px;border-bottom:1px solid #eee}.chat-open .chatinput{flex:0 0 auto;padding:10px 0 calc(10px + env(safe-area-inset-bottom));background:#fff}.chat-open .chatinput input{min-width:0}.chat-open #sendChat{min-width:88px}@media(max-width:430px){.chat-open .sheet{padding:10px}.chat-open .chatinput{gap:6px}.chat-open #sendChat{min-width:76px;padding:11px 10px}}.chatinput input{flex:1;border:1px solid #ddd;border-radius:12px;padding:11px}
+*{box-sizing:border-box}html,body{margin:0;padding:0;font-family:Arial,sans-serif;background:#f5f6f8;color:#111827}body{padding-bottom:82px}.wrap{width:min(1180px,calc(100% - 24px));margin:auto}.top{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #e5e7eb}.topin{height:64px;display:flex;align-items:center;gap:12px}.logo{font-size:24px;font-weight:900;white-space:nowrap}.logo b{color:#f5b400}.search{flex:1;display:flex;gap:8px}.search input{width:100%;padding:12px 15px;border:1px solid #d7dbe2;border-radius:13px;outline:none}.iconbtn,.primary,.secondary,.danger{border:0;border-radius:12px;padding:11px 14px}.iconbtn{background:#f3f4f6}.primary{background:#111827;color:#fff}.secondary{background:#eef0f3}.danger{background:#fee2e2;color:#991b1b}.hero{margin:18px 0;background:linear-gradient(135deg,#111827,#374151);color:#fff;border-radius:22px;padding:28px}.hero h1{margin:0 0 8px;font-size:32px}.hero p{margin:0;color:#d1d5db}.cats{display:flex;gap:8px;overflow:auto;padding:4px 0 16px}.cat{border:1px solid #ddd;background:#fff;border-radius:999px;padding:9px 14px;white-space:nowrap}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:14px 0}.sectionhead h2{margin:0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;overflow:hidden;box-shadow:0 2px 8px #00000008}.pic{height:190px;background:#eef0f3;display:flex;align-items:center;justify-content:center;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover}.pic span{font-size:52px}.cardbody{padding:13px}.name{font-weight:700;min-height:40px}.price{font-size:19px;font-weight:900;margin:8px 0}.muted{color:#6b7280;font-size:13px}.actions{display:flex;gap:8px;margin-top:10px}.actions button{flex:1}.fav{width:44px}.empty{padding:30px;background:#fff;border-radius:18px;text-align:center;color:#6b7280}.bottom{position:fixed!important;left:0;right:0;bottom:0!important;z-index:99999;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(5,1fr);height:72px;padding:5px 5px env(safe-area-inset-bottom);align-items:stretch;box-shadow:0 -3px 14px #0000000d}.navbtn{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:62px;line-height:1.15}.navbtn{border:0;background:none;padding:7px 2px;color:#6b7280;font-size:11px;cursor:pointer;position:relative;z-index:1;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.navbtn b{display:block;font-size:20px;margin-bottom:2px;pointer-events:none}.navbtn.active{color:#111827;font-weight:800}.badge{display:inline-flex;min-width:18px;height:18px;align-items:center;justify-content:center;border-radius:9px;background:#ef4444;color:#fff;font-size:10px;padding:0 4px;vertical-align:top}.modal{position:fixed;inset:0;background:#0008;z-index:100000;display:none;align-items:flex-end;justify-content:center;pointer-events:none}.modal.show{display:flex;pointer-events:auto}.sheet{position:relative;z-index:100001;background:#fff;width:min(760px,100%);max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:20px}.modaltop{display:flex;justify-content:space-between;align-items:center;gap:10px}.modaltop h2{margin:0}.close{border:0;background:#f3f4f6;border-radius:50%;width:38px;height:38px}.field{margin:10px 0}.field label{display:block;font-size:13px;color:#6b7280;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #d7dbe2;border-radius:12px;outline:none}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.list{display:grid;gap:10px}.item{border:1px solid #e5e7eb;border-radius:14px;padding:12px;background:#fff}.productdetail{display:grid;grid-template-columns:1fr 1fr;gap:20px}.bigpic{height:330px;background:#eef0f3;border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}.bigpic img{width:100%;height:100%;object-fit:cover}.bigpic span{font-size:80px}.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#111827;color:#fff;padding:12px 18px;border-radius:12px;z-index:100002;display:none}.toast.show{display:block}.hidden{display:none!important}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f8fafc;border-radius:14px;padding:14px;text-align:center}.stat strong{display:block;font-size:22px}.review{padding:10px 0;border-bottom:1px solid #eee}.stars{color:#f59e0b}.chatbox{height:330px;border:1px solid #ddd;border-radius:14px;display:flex;flex-direction:column}.msgs{flex:1;overflow:auto;padding:12px;background:#f8fafc}.msg{max-width:80%;padding:9px 12px;border-radius:14px;margin:5px 0}.mine{margin-left:auto;background:#111827;color:#fff}.theirs{background:#fff;border:1px solid #ddd}.chatinput{display:flex;gap:8px;padding:8px;border-top:1px solid #ddd}.chat-back{border:0;background:#f3f4f6;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}.chat-open{overflow:hidden}.chat-open .bottom{display:none!important}.chat-open{padding-bottom:0!important}.chat-open .modal{align-items:stretch}.chat-open .sheet{width:100%;max-width:none;height:100dvh;max-height:none;border-radius:0;padding:12px;display:flex;flex-direction:column;overflow:hidden}.chat-open .chatbox{flex:1;height:auto;min-height:0;border:0;border-radius:0;display:flex}.chat-open .msgs{min-height:0}.chat-open .modaltop{flex:0 0 auto;padding:4px 0 12px;border-bottom:1px solid #eee}.chat-open .chatinput{flex:0 0 auto;padding:10px 0 calc(10px + env(safe-area-inset-bottom));background:#fff}.chat-open .chatinput input{min-width:0}.chat-open #sendChat{min-width:88px}@media(max-width:430px){.chat-open .sheet{padding:10px}.chat-open .chatinput{gap:6px}.chat-open #sendChat{min-width:76px;padding:11px 10px}}.chatinput input{flex:1;border:1px solid #ddd;border-radius:12px;padding:11px}
 @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.topin{height:auto;flex-wrap:wrap;padding:8px 0}.logo{font-size:21px}.search{order:3;flex-basis:100%}.hero{padding:22px}.hero h1{font-size:26px}.pic{height:155px}.productdetail{grid-template-columns:1fr}.bigpic{height:260px}.row{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr 1fr}.sheet{max-height:94vh}}
 @media(max-width:430px){.wrap{width:min(100% - 16px,1180px)}.grid{gap:9px}.cardbody{padding:10px}.name{font-size:14px}.price{font-size:17px}.actions{flex-wrap:wrap}.actions .fav{width:44px}.hero{margin-top:10px}.hero h1{font-size:23px}.navbtn{font-size:10px}}
 
@@ -172,6 +172,21 @@
 .account-stat{padding:12px;background:#f8fafc;border-radius:13px;text-align:center}.account-stat b{display:block;font-size:19px}
 @media(max-width:600px){.account-hero{align-items:flex-start}.account-actions{grid-template-columns:1fr}.profile-grid{grid-template-columns:1fr}}
 
+
+/* SatuGo product detail 2.0 */
+.product-detail-v2{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:22px;margin-top:10px}
+.product-gallery-v2{min-width:0}
+.product-main-photo-v2{height:390px;background:linear-gradient(145deg,#f8fafc,#eef2f7);border-radius:22px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;border:1px solid #e5e7eb}
+.product-main-photo-v2 img{width:100%;height:100%;object-fit:contain;display:block}
+.product-photo-tools{position:absolute;top:12px;right:12px;display:flex;gap:7px}
+.product-photo-tools button{border:0;background:#ffffffdd;backdrop-filter:blur(8px);width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:18px}
+.product-thumbs-v2{display:flex;gap:8px;overflow:auto;margin-top:10px;padding:2px 1px 4px}
+.product-thumb-v2{flex:0 0 62px;width:62px;height:62px;border:2px solid transparent;background:#f3f4f6;border-radius:12px;padding:0;overflow:hidden;cursor:pointer}
+.product-thumb-v2.active{border-color:#111827}.product-thumb-v2 img{width:100%;height:100%;object-fit:contain}
+.product-info-v2{min-width:0}.product-badges-v2{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px}.pill-v2{display:inline-flex;padding:6px 9px;border-radius:999px;background:#f3f4f6;font-size:12px;font-weight:800}.pill-v2.hot{background:#fff4c7;color:#8a6200}.product-title-v2{font-size:27px;line-height:1.15;margin:5px 0 9px}.product-price-v2{font-size:30px;font-weight:950;margin:8px 0}.product-rating-v2{display:flex;align-items:center;gap:8px;margin:8px 0}.product-option-v2{margin:16px 0}.option-label-v2{font-weight:900;margin-bottom:8px}.option-list-v2{display:flex;flex-wrap:wrap;gap:8px}.option-btn-v2{border:1px solid #d7dbe2;background:#fff;border-radius:11px;padding:9px 13px;cursor:pointer}.option-btn-v2.active{background:#111827;color:#fff;border-color:#111827}.stock-v2{padding:11px 13px;border-radius:13px;background:#f8fafc;margin:12px 0;font-size:13px}.seller-v2{border:1px solid #e5e7eb;background:#fff;border-radius:16px;padding:13px;margin-top:15px}.seller-row-v2{display:flex;align-items:center;justify-content:space-between;gap:10px}.seller-actions-v2{display:flex;gap:8px;margin-top:10px}.seller-actions-v2 button{flex:1}.product-description-v2{margin-top:15px;border-top:1px solid #eee;padding-top:15px;line-height:1.55}.product-reviews-v2{margin-top:20px;border-top:1px solid #eee;padding-top:15px}.sticky-buy-v2{position:sticky;bottom:0;background:#ffffffee;backdrop-filter:blur(10px);padding:10px 0 2px;display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}.product-related-v2{margin-top:22px}.product-related-v2 .grid{grid-template-columns:repeat(3,1fr)}
+.account-nav-safe{position:relative;z-index:100000}
+@media(max-width:800px){.product-detail-v2{grid-template-columns:1fr}.product-main-photo-v2{height:310px}.product-title-v2{font-size:23px}.product-price-v2{font-size:26px}.product-related-v2 .grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:430px){.product-main-photo-v2{height:255px;border-radius:17px}.product-thumb-v2{flex-basis:56px;width:56px;height:56px}.sticky-buy-v2{grid-template-columns:1fr 1fr}.product-title-v2{font-size:21px}}
 </style>
 
 <style id="satugo-orders-ui">.buyer-status{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800;background:#f3f4f6}.buyer-status.new{background:#fff7ed}.buyer-status.accepted{background:#ecfdf5}.buyer-status.shipping{background:#eff6ff}.buyer-status.done{background:#f0fdf4}.buyer-status.cancelled{background:#fef2f2}.buyer-timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:14px 0}.buyer-step{text-align:center;font-size:11px;color:#94a3b8;padding:8px 3px;border:1px solid #e5e7eb;border-radius:10px}.buyer-step.done{color:#111827;font-weight:800;background:#f8fafc}.buyer-order-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}.buyer-order-meta>div{padding:10px;border:1px solid #e5e7eb;border-radius:12px;font-size:12px}.danger{border:0;border-radius:12px;padding:11px 14px;background:#fee2e2;color:#991b1b;font-weight:800;cursor:pointer}.orderitems{margin:8px 0;font-size:13px;line-height:1.5}@media(max-width:500px){.buyer-timeline{grid-template-columns:repeat(2,1fr)}}
@@ -180,22 +195,6 @@
 <style id="satugo-chat-v4-ui">
 .chat-product-card{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 10px;margin-bottom:8px;border:1px solid #e5e7eb;border-radius:14px;background:#fff}.chat-product-img{width:52px;height:52px;object-fit:cover;border-radius:10px;background:#f3f4f6}.chat-typing{height:15px;font-size:11px;color:#6b7280}.chat-quick{display:flex;gap:6px;overflow:auto;padding:7px 0}.chat-quick button{white-space:nowrap;border:1px solid #e5e7eb;background:#fff;border-radius:999px;padding:7px 10px;font-size:12px;cursor:pointer}.chat-reply{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;margin:0 0 7px;border-left:3px solid #111827;background:#f8fafc;border-radius:10px}.chat-reply-close{border:0;background:#e5e7eb;border-radius:50%;width:26px;height:26px;cursor:pointer}.msg-wrap{display:flex;margin:5px 0}.mine-wrap{justify-content:flex-end}.theirs-wrap{justify-content:flex-start}.msg{position:relative}.msg-meta{font-size:10px;opacity:.7;margin-top:4px;white-space:nowrap}.chat-action{border:0;background:none;color:inherit;padding:0;cursor:pointer;text-decoration:underline;font-size:10px}.reply-preview{font-size:11px;padding:5px 7px;margin-bottom:5px;border-left:2px solid currentColor;opacity:.75;background:#ffffff18;border-radius:6px}.deleted-msg{opacity:.65;font-style:italic}.chat-photo{max-width:240px;max-height:280px;width:auto;height:auto;border-radius:12px;display:block;margin-bottom:5px;cursor:pointer}.chat-open .chat-product-card{flex:0 0 auto}.chat-open .chat-quick{flex:0 0 auto}.chat-open .chat-reply{flex:0 0 auto}@media(max-width:600px){.chat-product-card button{padding:8px;font-size:11px}.chat-photo{max-width:210px;max-height:240px}}
 </style>
-
-<style>
-.account-avatar{width:76px;height:76px;min-width:76px;border-radius:50%;background:#111827;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:28px;overflow:hidden;text-transform:uppercase}
-.account-avatar img{width:100%;height:100%;object-fit:cover;display:block}
-.buyer-status{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800;background:#f3f4f6;color:#374151}
-.buyer-status.ok{background:#dcfce7;color:#166534}.buyer-status.bad{background:#fee2e2;color:#991b1b}.buyer-status.wait{background:#fef3c7;color:#92400e}.buyer-status.new{background:#e0e7ff;color:#3730a3}
-</style>
-<style id="satugo-product-view-ui">
-.product-open-btn{display:block;width:100%;text-align:left;border:0;background:none;padding:0;cursor:pointer;color:inherit}
-.product-open-hint{font-size:11px;color:#6b7280;margin-top:5px}
-.product-gallery{display:flex;gap:8px;overflow:auto;margin-top:9px}
-.product-thumb{width:64px;height:64px;min-width:64px;border:2px solid #e5e7eb;border-radius:10px;overflow:hidden;background:#f3f4f6;padding:0;cursor:pointer}
-.product-thumb.active{border-color:#111827}.product-thumb img{width:100%;height:100%;object-fit:cover}
-.product-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.product-info-grid>div{padding:10px;border:1px solid #e5e7eb;border-radius:12px;background:#fafafa}.product-info-grid b{display:block;font-size:12px;margin-bottom:3px}.product-stock{font-size:13px;font-weight:800;margin:8px 0}.product-qty{display:flex;align-items:center;gap:8px;margin:10px 0}.product-qty button{width:38px;height:38px;border:0;border-radius:10px;background:#eef0f3;font-size:20px}.product-qty input{width:58px;text-align:center;padding:9px;border:1px solid #ddd;border-radius:10px}.seller-mini{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px;background:#f8fafc;border-radius:14px;margin:12px 0}.seller-mini button{white-space:nowrap}@media(max-width:600px){.product-info-grid{grid-template-columns:1fr 1fr}.product-open-hint{font-size:10px}}
-</style>
-<style id="satugo-product-v2-ui">.product-category-bar{display:flex;gap:8px;overflow:auto;padding:4px 0 10px;position:sticky;top:64px;z-index:5;background:#f7f8fa}.product-category-bar .cat{border:1px solid #e5e7eb;background:#fff;border-radius:999px;padding:10px 14px;font-weight:800;white-space:nowrap;cursor:pointer}.product-category-bar .cat:hover,.product-category-bar .cat.active{background:#111827;color:#fff}.product-discovery{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 16px;background:#fff;border:1px solid #e5e7eb;border-radius:16px;margin:4px 0 14px}.product-image-preview{margin-top:8px}.product-image-preview img{max-width:180px;max-height:180px;object-fit:cover;border-radius:14px;border:1px solid #e5e7eb}@media(max-width:600px){.product-category-bar{top:58px}.product-discovery{flex-direction:column;align-items:stretch}.product-discovery button{width:100%}}</style>
 </head>
 <body>
 <header class="top"><div class="wrap topin"><div class="logo">Satu<b>Go</b></div><div class="search">
@@ -208,7 +207,7 @@
 <button class="iconbtn" id="searchBtn">Іздеу</button>
 </div><button class="iconbtn" id="cartBtn">🛒 <span id="cartCount">0</span></button><button class="langbtn" id="languageBtn" type="button">Русский</button></div></header>
 <main class="wrap" id="app"></main>
-<nav class="bottom" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
+<nav class="bottom account-nav-safe" id="satugoBottomNav"><button type="button" class="navbtn active" data-page="home"><b>⌂</b>Басты бет</button><button type="button" class="navbtn" data-page="search"><b>⌕</b>Іздеу</button><button type="button" class="navbtn" data-page="favorites"><b>♡</b>Таңдаулы <span id="favBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" data-page="chats"><b>💬</b>Чаттар <span id="chatBadge" class="badge hidden">0</span></button><button type="button" class="navbtn" id="satugoAccountBtn" data-page="account"><b>♙</b>Аккаунт</button></nav>
 <div class="toast" id="toast"></div>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 <script>
@@ -267,19 +266,12 @@ function money(n){return Number(n||0).toLocaleString('kk-KZ')+' ₸'}
 function toast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');clearTimeout(window._t);window._t=setTimeout(()=>x.classList.remove('show'),1800)}
 function img(url,emoji='🛍️',cls='pic'){return url?`<div class="${cls}"><img src="${esc(url)}" alt=""></div>`:`<div class="${cls}"><span>${emoji}</span></div>`}
 function getProduct(id){return state.products.find(p=>String(p.id)===String(id))}
-function renderCard(p){const fav=state.favorites.includes(p.id);const emoji=p.cat==='Косметика'?'💄':p.cat==='Электрон'?'📱':p.cat==='Киім'?'👕':'👟';return `<article class="card ${p.special?'special-card':''}"><button class="product-open-btn" data-open="${esc(p.id)}">${img(p.image,emoji)}<div class="cardbody"><div class="name">${esc(p.name)}</div><div class="price">${money(p.price)}</div><div class="muted">${esc(p.sellerName||'Сатушы')}</div>${p.special?`<div class="special-label">✨ ${p.specialType==='eye'?'👀 Көзге түсетін':p.specialType==='gift'?'🎁 Сыйлық':'🤯 Қызық зат'}</div>`:''}</div></button><div class="actions" style="padding:0 13px 13px"><button class="secondary" data-cart="${esc(p.id)}">Себетке қосу</button><button class="iconbtn fav" data-fav="${esc(p.id)}">${fav?'♥':'♡'}</button></div></article>`}
+function renderCard(p){const fav=state.favorites.includes(p.id);const emoji=p.cat==='Косметика'?'💄':p.cat==='Электрон'?'📱':p.cat==='Киім'?'👕':'👟';return `<article class="card ${p.special?'special-card':''}"><button data-open="${esc(p.id)}" style="border:0;background:none;padding:0;width:100%;text-align:left">${img(p.image,emoji)}<div class="cardbody"><div class="name">${esc(p.name)}</div><div class="price">${money(p.price)}</div><div class="muted">${esc(p.sellerName||'Сатушы')}</div>${p.special?`<div class="special-label">✨ ${p.specialType==='eye'?'👀 Көзге түсетін':p.specialType==='gift'?'🎁 Сыйлық':'🤯 Қызық зат'}</div>`:''}</div></button><div class="actions" style="padding:0 13px 13px"><button class="secondary" data-cart="${esc(p.id)}">Себетке қосу</button><button class="iconbtn fav" data-fav="${esc(p.id)}">${fav?'♥':'♡'}</button></div></article>`}
 function specialTitle(t){return t==='eye'?'👀 Көзге түсетін':t==='gift'?'🎁 Сыйлық':'🤯 Қызық зат'}
 function getSpecialProducts(t='all'){let a=state.products.filter(p=>Boolean(p.special));return t==='all'?a:a.filter(p=>(p.specialType||'interesting')===t)}
 function renderSpecialSection(){const all=getSpecialProducts('all'),a=all.slice(0,4);return `<section class="special-section"><div class="special-head"><div><h2>✨ Ерекше тауарлар</h2><div class="special-sub">Қызық, көзге түсетін және сыйлыққа лайық заттар</div></div>${all.length?`<button class="special-more" data-special="all">Барлығын көру →</button>`:''}</div><div class="special-tabs"><button data-special="all">✨ Барлығы</button><button data-special="interesting">🤯 Қызық</button><button data-special="eye">👀 Көзге түсетін</button><button data-special="gift">🎁 Сыйлық</button></div>${a.length?`<div class="grid">${a.map(renderCard).join('')}</div>`:`<div class="special-empty">Әзірге ерекше тауар жоқ.<div class="muted" style="margin-top:6px">Сатушы тауар қосқанда оны осы бөлімге шығара алады.</div></div>`}</section>`}
 function openSpecialProducts(type='all'){const a=getSpecialProducts(type);openModal(`<div class="modaltop"><h2>✨ Ерекше тауарлар</h2><button class="close" id="close">×</button></div><div class="special-tabs" style="margin-top:14px"><button data-special-modal="all">✨ Барлығы</button><button data-special-modal="interesting">🤯 Қызық</button><button data-special-modal="eye">👀 Көзге түсетін</button><button data-special-modal="gift">🎁 Сыйлық</button></div>${a.length?`<div class="grid">${a.map(renderCard).join('')}</div>`:`<div class="special-empty">Бұл бөлімде әзірге тауар жоқ.</div>`}`);document.getElementById('close').onclick=closeModal;document.querySelectorAll('[data-special-modal]').forEach(b=>b.onclick=()=>{closeModal();setTimeout(()=>openSpecialProducts(b.dataset.specialModal),0)})}
-function renderHome(){
-  const cats=[['Барлығы','🛍️'],['Киім','👕'],['Аяқ киім','👟'],['Косметика','💄'],['Электрон','📱'],['Басқа','✨']];
-  return `<div class="product-category-bar">${cats.map(([c,icon],i)=>`<button class="cat ${i===0?'active':''}" data-cat="${esc(c)}">${icon} ${esc(c)}</button>`).join('')}</div>
-  <div class="product-discovery"><div><b>🔎 Тауарды тез тап</b><div class="muted">Категорияны таңда немесе «телефон 150 мыңға дейін» деп жаз</div></div><button class="secondary" data-page-jump="search">Ақылды іздеу</button></div>
-  ${renderSpecialSection()}
-  <div class="sectionhead"><h2>Танымал тауарлар</h2><span class="muted">${state.products.length} тауар</span></div>
-  <div class="grid">${state.products.map(renderCard).join('')}</div>`
-}
+function renderHome(){const cats=['Барлығы','Киім','Аяқ киім','Косметика','Электрон'];return `<div class="cats">${cats.map(c=>`<button class="cat" data-cat="${c}">${c}</button>`).join('')}</div>${renderSpecialSection()}<div class="sectionhead"><h2>Танымал тауарлар</h2><span class="muted">${state.products.length} тауар</span></div><div class="grid">${state.products.map(renderCard).join('')}</div>`}
 function normalizeSearchText(v){
   return String(v||'').toLowerCase().replace(/ё/g,'е').replace(/і/g,'и').replace(/ң/g,'н').replace(/ғ/g,'г').replace(/қ/g,'к').replace(/ұ/g,'у').replace(/ү/g,'у').replace(/һ/g,'х').replace(/[“”«»]/g,'"').replace(/[^a-zа-яәіңғқөұүһ0-9+\s-]/gi,' ').replace(/\s+/g,' ').trim();
 }
@@ -642,92 +634,37 @@ async function sendChat(forcedText='',forcedImage=''){
   }catch(e){console.error(e);toast('Хабарлама жіберу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}
 }
 
-
-/* =========================================================
-   ACCOUNT / PROFILE / BUYER ORDERS FIXES
-   These helpers are required by the account UI above.
-========================================================= */
 function avatarHtml(u={}){
-  const photo=String(u.photo||'').trim();
+  const photo=u.photo||u.photoURL||'';
+  if(photo)return `<div class="account-avatar"><img src="${esc(photo)}" alt="Профиль фото"></div>`;
   const name=String(u.name||'Пайдаланушы').trim();
-  const initials=(name.split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('')||'👤').toUpperCase();
-  if(photo){
-    return `<div class="account-avatar"><img src="${esc(photo)}" alt="${esc(name)}" onerror="this.parentElement.innerHTML='${esc(initials)}'" /></div>`;
-  }
-  return `<div class="account-avatar">${esc(initials)}</div>`;
+  const letter=esc((name[0]||'👤').toUpperCase());
+  return `<div class="account-avatar">${letter}</div>`;
 }
-
-function resizeImageToDataUrl(file,maxSize=420,quality=0.82){
+function resizeImageToDataUrl(file,max=420,quality=.82){
   return new Promise((resolve,reject)=>{
-    if(!file||!file.type||!file.type.startsWith('image/')){reject(new Error('image'));return}
-    const reader=new FileReader();
-    reader.onload=()=>{
-      const image=new Image();
-      image.onload=()=>{
-        try{
-          const scale=Math.min(1,maxSize/Math.max(image.naturalWidth||image.width,image.naturalHeight||image.height));
-          const w=Math.max(1,Math.round((image.naturalWidth||image.width)*scale));
-          const h=Math.max(1,Math.round((image.naturalHeight||image.height)*scale));
-          const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
-          const ctx=canvas.getContext('2d');
-          if(!ctx){reject(new Error('canvas'));return}
-          ctx.drawImage(image,0,0,w,h);
-          resolve(canvas.toDataURL('image/jpeg',Math.max(.5,Math.min(.95,quality))));
-        }catch(e){reject(e)}
-      };
-      image.onerror=()=>reject(new Error('image-load'));
-      image.src=reader.result;
-    };
-    reader.onerror=()=>reject(reader.error||new Error('file-read'));
-    reader.readAsDataURL(file);
+    const r=new FileReader();
+    r.onload=()=>{const im=new Image();im.onload=()=>{const scale=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*scale));c.height=Math.max(1,Math.round(im.height*scale));const x=c.getContext('2d');x.drawImage(im,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',quality))};im.onerror=reject;im.src=r.result};r.onerror=reject;r.readAsDataURL(file);
   });
 }
-
-function buyerStatusClass(status='Жаңа тапсырыс'){
-  const s=String(status).toLowerCase();
-  if(s.includes('қабылдан')||s.includes('жеткіз')||s.includes('аяқтал'))return 'ok';
-  if(s.includes('бас тарт')||s.includes('жой'))return 'bad';
-  if(s.includes('жолда')||s.includes('күті'))return 'wait';
+function buyerStatusClass(status){
+  const s=String(status||'').toLowerCase();
+  if(s.includes('қабыл'))return 'accepted';
+  if(s.includes('жол')||s.includes('жеткіз'))return 'shipping';
+  if(s.includes('аяқ')||s.includes('жеткізілді'))return 'done';
+  if(s.includes('бас тарт'))return 'cancelled';
   return 'new';
 }
-
-function orderCreatedLabel(value){
-  let d=value;
-  try{if(value&&typeof value.toDate==='function')d=value.toDate();else if(typeof value==='number')d=new Date(value);else if(typeof value==='string')d=new Date(value)}catch(_){d=null}
-  if(!(d instanceof Date)||Number.isNaN(d.getTime()))return '';
-  return d.toLocaleString('kk-KZ',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
-}
-
 function renderBuyerOrders(){
-  if(!state.currentUser){openLogin();return}
-  const uid=state.currentUser.id;
-  const orders=(state.orders||[]).filter(o=>String(o.buyerId||'')===String(uid)).sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));
-  openModal(`<div class="modaltop"><h2>📦 Менің тапсырыстарым</h2><button class="close" id="close">×</button></div>
-    ${orders.length?`<div class="list">${orders.map(o=>{
-      const items=o.items||[];
-      return `<div class="item"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><b>#${esc(String(o.id).slice(-8))}</b><span class="buyer-status ${buyerStatusClass(o.status||'Жаңа тапсырыс')}">${esc(o.status||'Жаңа тапсырыс')}</span></div>
-      <div class="price">${money(o.total)}</div><div class="muted">${esc(orderCreatedLabel(o.createdAt))}</div>
-      <div class="muted" style="margin-top:6px">${items.map(i=>`${esc(i.name||'Тауар')} × ${Number(i.qty||1)}`).join('<br>')}</div>
-      <button class="primary" data-bod="${esc(o.id)}" style="margin-top:10px;width:100%">Толық көру</button></div>`;
-    }).join('')}</div>`:'<div class="empty">Сізде әзірге тапсырыс жоқ.<br><button class="primary" id="goHomeFromOrders" style="margin-top:12px">Тауарларды көру</button></div>'}`);
+  const u=state.currentUser;if(!u){openLogin();return}
+  const orders=state.orders.filter(o=>o.buyerId===u.id);
+  openModal(`<div class="modaltop"><h2>📦 Менің тапсырыстарым</h2><button class="close" id="close">×</button></div>${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><div style="display:flex;justify-content:space-between;gap:8px"><b>#${esc(String(o.id).slice(-6))}</b><span class="buyer-status ${buyerStatusClass(o.status)}">${esc(o.status||'Жаңа тапсырыс')}</span></div><div style="margin-top:7px">${money(o.total)}</div><div class="muted">${esc(o.buyerName||u.name||'')} · ${esc(o.phone||'')}</div><button class="primary" style="margin-top:9px" data-bod="${esc(o.id)}">Толық көру</button></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`);
   document.getElementById('close').onclick=closeModal;
-  document.getElementById('goHomeFromOrders')?.addEventListener('click',()=>{closeModal();page='home';render()});
 }
-
-function openBuyerOrder(orderId){
-  const o=(state.orders||[]).find(x=>String(x.id)===String(orderId));
-  if(!o){toast('Тапсырыс табылмады');return}
-  if(state.currentUser&&o.buyerId&&String(o.buyerId)!==String(state.currentUser.id)){toast('Бұл тапсырыс сізге тиесілі емес');return}
-  const history=Array.isArray(o.statusHistory)?o.statusHistory:[];
-  const items=o.items||[];
-  openModal(`<div class="modaltop"><h2>📦 Тапсырыс #${esc(String(o.id).slice(-8))}</h2><button class="close" id="close">×</button></div>
-    <div class="item"><div style="display:flex;justify-content:space-between;gap:8px"><b>Статус</b><span class="buyer-status ${buyerStatusClass(o.status||'Жаңа тапсырыс')}">${esc(o.status||'Жаңа тапсырыс')}</span></div>
-    <div class="muted" style="margin-top:6px">${esc(orderCreatedLabel(o.createdAt))}</div></div>
-    <h3>Тауарлар</h3><div class="list">${items.map(i=>`<div class="item"><b>${esc(i.name||'Тауар')}</b><div>${money(i.price)} × ${Number(i.qty||1)}</div><div class="muted">Сатушы: ${esc(i.sellerName||'Сатушы')}</div></div>`).join('')}</div>
-    <div class="sectionhead"><b>Жалпы</b><b>${money(o.total)}</b></div>
-    <div class="item"><b>Жеткізу</b><div>${esc(o.buyerName||'')} · ${esc(o.phone||'')}</div><div>${esc(o.address||'')}</div></div>
-    ${history.length?`<h3>Тапсырыс тарихы</h3><div class="list">${history.map(h=>`<div class="item"><b>${esc(h.status||'Статус')}</b><div class="muted">${esc(orderCreatedLabel(h.at))}</div></div>`).join('')}</div>`:''}`);
-  document.getElementById('close').onclick=closeModal;
+function openBuyerOrder(id){
+  const o=state.orders.find(x=>String(x.id)===String(id));if(!o)return;
+  openModal(`<div class="modaltop"><h2>📦 Тапсырыс #${esc(String(o.id).slice(-6))}</h2><button class="close" id="close">×</button></div><div class="buyer-order-meta"><div><b>Статус</b><br>${esc(o.status||'Жаңа тапсырыс')}</div><div><b>Сома</b><br>${money(o.total)}</div><div><b>Телефон</b><br>${esc(o.phone||'')}</div><div><b>Мекенжай</b><br>${esc(o.address||'')}</div></div><h3>Тауарлар</h3><div class="orderitems">${(o.items||[]).map(i=>`${esc(i.name)} × ${i.qty} — ${money(Number(i.price||0)*Number(i.qty||1))}`).join('<br>')}</div><button class="secondary" id="close2">Жабу</button>`);
+  document.getElementById('close').onclick=closeModal;document.getElementById('close2').onclick=closeModal;
 }
 
 function renderAccount(){
@@ -742,71 +679,50 @@ function openModal(html){if(!html)return;document.getElementById('sheet').innerH
 function closeModal(){if(activeChat&&fbReady&&fbDb&&state.currentUser){try{fbDb.collection('chats').doc(activeChat).set({online:{[state.currentUser.id]:false}},{merge:true})}catch(_){} }if(window.__satugoPresenceUnsub){try{window.__satugoPresenceUnsub()}catch(_){}window.__satugoPresenceUnsub=null}if(chatUnsubscribe){try{chatUnsubscribe()}catch(_){ }chatUnsubscribe=null}document.body.classList.remove('chat-open');document.getElementById('modal').classList.remove('show');document.getElementById('sheet').innerHTML='';selectedProduct=null;activeChat=null}
 function closeChat(){closeModal()}
 function openProduct(id){
-  const p=getProduct(id);
-  if(!p){toast('Тауар дерегі табылмады');return}
+  const p=getProduct(id);if(!p){toast('Тауар дерегі табылмады');return}
   selectedProduct=p;
   const reviews=state.reviews.filter(r=>r.productId===p.id);
-  const stock=Math.max(0,Number(p.stock??p.quantity??0));
-  const sizes=Array.isArray(p.sizes)?p.sizes:(String(p.sizes||'').split(',').map(x=>x.trim()).filter(Boolean));
-  const colors=Array.isArray(p.colors)?p.colors:(String(p.colors||'').split(',').map(x=>x.trim()).filter(Boolean));
-  const gallery=[p.image,...(Array.isArray(p.images)?p.images:[])].filter(Boolean).filter((x,i,a)=>a.indexOf(x)===i);
-  const emoji=p.cat==='Косметика'?'💄':p.cat==='Электрон'?'📱':p.cat==='Киім'?'👕':'👟';
-  const rating=Number(p.rating||0);
-  const stars=rating?('★'.repeat(Math.max(0,Math.min(5,Math.round(rating))))+'☆'.repeat(5-Math.max(0,Math.min(5,Math.round(rating))))):'☆☆☆☆☆';
-  const initialQty=Math.min(1,stock||1);
-  const mainImage=gallery[0]||'';
-  const galleryHtml=gallery.length>1?`<div class="product-gallery">${gallery.map((src,i)=>`<button class="product-thumb ${i===0?'active':''}" data-product-thumb="${i}"><img src="${esc(src)}" alt=""></button>`).join('')}</div>`:'';
-  openModal(`<div class="modaltop"><h2>${esc(p.name)}</h2><button class="close" id="close">×</button></div>
-  <div class="productdetail">
-    <div>
-      <div class="bigpic" id="productMainPic">${mainImage?`<img src="${esc(mainImage)}" alt="${esc(p.name)}">`:`<span>${emoji}</span>`}</div>
-      ${galleryHtml}
+  const images=[p.image,...(Array.isArray(p.images)?p.images:[])].filter(Boolean).filter((x,i,a)=>a.indexOf(x)===i);
+  const sizes=String(p.sizes||p.sizesText||'').split(',').map(x=>x.trim()).filter(Boolean);
+  const colors=String(p.colors||p.colorsText||'').split(',').map(x=>x.trim()).filter(Boolean);
+  const related=state.products.filter(x=>x.id!==p.id&&((x.cat||x.category)===(p.cat||p.category))).slice(0,3);
+  const rating=reviews.length?(reviews.reduce((s,r)=>s+Number(r.stars||0),0)/reviews.length).toFixed(1):(Number(p.rating||0)||0).toFixed(1);
+  const first=images[0]||'';
+  openModal(`<div class="modaltop"><h2>🛍️ Тауар</h2><button class="close" id="close">×</button></div>
+  <div class="product-detail-v2">
+    <div class="product-gallery-v2">
+      <div class="product-main-photo-v2" id="productMainPhoto">${first?`<img id="productMainImg" src="${esc(first)}" alt="${esc(p.name)}">`:'<span style="font-size:80px">🛍️</span>'}<div class="product-photo-tools"><button id="detailFav" title="Таңдаулы">${state.favorites.includes(p.id)?'♥':'♡'}</button><button id="detailShare" title="Бөлісу">↗</button></div></div>
+      ${images.length>1?`<div class="product-thumbs-v2">${images.map((im,i)=>`<button type="button" class="product-thumb-v2 ${i===0?'active':''}" data-photo="${esc(im)}"><img src="${esc(im)}" alt="Фото ${i+1}"></button>`).join('')}</div>`:''}
     </div>
-    <div>
-      ${p.special?`<div class="special-label">✨ ${specialTitle(p.specialType||'interesting')}</div>`:''}
-      <div class="price">${money(p.price)}</div>
-      <div class="muted">${esc(p.cat||'Басқа')}${p.subcategory?` · ${esc(p.subcategory)}`:''}</div>
-      ${rating?`<div style="margin-top:8px"><span class="stars">${stars}</span> <b>${rating.toFixed(1)}</b></div>`:''}
-      <div class="product-stock">${stock>0?`📦 Қоймада: ${stock} дана`:'❌ Қазір қоймада жоқ'}</div>
-      <div class="seller-mini"><div><b>🏪 ${esc(p.sellerName||'Сатушы')}</b><div class="muted">${esc(p.city||'Қазақстан')}</div></div>${p.sellerId&&p.sellerId!=='platform'?`<button class="secondary" id="openSellerFromProduct">Дүкенді көру</button>`:''}</div>
-      <div class="product-info-grid">
-        <div><b>Категория</b>${esc(p.cat||'Басқа')}</div>
-        <div><b>Кімге</b>${esc(p.gender||'Көрсетілмеген')}</div>
-        <div><b>Бренд</b>${esc(p.brand||'Көрсетілмеген')}</div>
-        <div><b>Қала</b>${esc(p.city||'Көрсетілмеген')}</div>
-      </div>
-      ${sizes.length?`<div class="field"><label>📏 Размер / өлшем</label><select id="detailSize">${sizes.map(x=>`<option>${esc(x)}</option>`).join('')}</select></div>`:''}
-      ${colors.length?`<div class="field"><label>🎨 Түс</label><select id="detailColor">${colors.map(x=>`<option>${esc(x)}</option>`).join('')}</select></div>`:''}
-      ${stock>0?`<div class="product-qty"><button id="qtyMinus">−</button><input id="detailQty" type="number" min="1" max="${stock||99}" value="${initialQty}"><button id="qtyPlus">+</button><span class="muted">саны</span></div>`:''}
-      <div class="actions">
-        <button class="primary" id="detailCart" ${stock===0?'disabled':''}>🛒 Себетке қосу</button>
-        <button class="iconbtn fav" id="detailFav">${state.favorites.includes(p.id)?'♥':'♡'}</button>
-      </div>
-      <button class="secondary" id="detailChat" style="width:100%;margin-top:8px" ${p.sellerId==='platform'?'disabled':''}>💬 Сатушымен чат</button>
-      <p>${esc(p.description||'Бұл тауар туралы толық ақпаратты сатушыдан сұрауға болады.')}</p>
-      ${p.tags?.length?`<div class="muted">${p.tags.map(x=>`#${esc(x)}`).join(' ')}</div>`:''}
-      ${state.currentUser?`<div class="item" style="margin-top:14px"><h3 style="margin-top:0">✍️ Пікір қалдыру</h3><div class="row"><div class="field"><label>Баға</label><select id="reviewStars"><option value="5">★★★★★</option><option value="4">★★★★☆</option><option value="3">★★★☆☆</option><option value="2">★★☆☆☆</option><option value="1">★☆☆☆☆</option></select></div><div class="field"><label>Пікір</label><input id="reviewText" placeholder="Тауар туралы пікіріңіз"></div></div><button class="primary" id="saveReview">Пікір жариялау</button></div>`:''}
-      <div class="sectionhead"><h3>Пікірлер ${reviews.length?`(${reviews.length})`:''}</h3></div>
-      ${reviews.length?reviews.map(r=>`<div class="review"><span class="stars">${'★'.repeat(Number(r.stars)||0)}${'☆'.repeat(5-(Number(r.stars)||0))}</span><br><b>${esc(r.userName||'Пайдаланушы')}</b><div>${esc(r.text||'')}</div></div>`).join(''):'<div class="muted">Пікір әзірге жоқ.</div>'}
+    <div class="product-info-v2">
+      <div class="product-badges-v2">${p.special?`<span class="pill-v2 hot">✨ ${p.specialType==='eye'?'Көзге түсетін':p.specialType==='gift'?'Сыйлық':'Қызық зат'}</span>`:''}<span class="pill-v2">${esc(p.cat||p.category||'Басқа')}</span></div>
+      <h1 class="product-title-v2">${esc(p.name)}</h1>
+      <div class="product-rating-v2"><span class="stars">${'★'.repeat(Math.max(0,Math.min(5,Math.round(Number(rating)))))}${'☆'.repeat(5-Math.max(0,Math.min(5,Math.round(Number(rating)))))}</span><b>${rating}</b><span class="muted">${reviews.length} пікір</span></div>
+      <div class="product-price-v2">${money(p.price)}</div>
+      <div class="muted">Сатушы: ${esc(p.sellerName||'Сатушы')}</div>
+      <div class="stock-v2">${Number(p.stock??p.quantity??0)>0?`📦 Қоймада: <b>${Number(p.stock??p.quantity)} дана</b>`:'📦 Қойма саны көрсетілмеген'}</div>
+      ${sizes.length?`<div class="product-option-v2"><div class="option-label-v2">Өлшем</div><div class="option-list-v2">${sizes.map((x,i)=>`<button class="option-btn-v2 ${i===0?'active':''}" data-size="${esc(x)}">${esc(x)}</button>`).join('')}</div></div>`:''}
+      ${colors.length?`<div class="product-option-v2"><div class="option-label-v2">Түс</div><div class="option-list-v2">${colors.map((x,i)=>`<button class="option-btn-v2 ${i===0?'active':''}" data-color="${esc(x)}">${esc(x)}</button>`).join('')}</div></div>`:''}
+      <div class="seller-v2"><div class="seller-row-v2"><div><b>🏪 ${esc(p.sellerName||'Сатушы')}</b><div class="muted">SatuGo сатушысы</div></div><span>⭐ ${Number(p.rating||4.8).toFixed(1)}</span></div><div class="seller-actions-v2"><button class="secondary" id="detailStore">Дүкенге кіру</button><button class="secondary" id="detailChat">Сатушыға жазу</button></div></div>
+      <div class="product-description-v2"><b>📋 Тауар сипаттамасы</b><p>${esc(p.description||'Бұл тауар туралы толық ақпаратты сатушыдан сұрауға болады.')}</p></div>
+      <div class="sticky-buy-v2"><button class="secondary" id="detailCart">🛒 Себетке</button><button class="primary" id="detailBuy">⚡ Қазір сатып алу</button></div>
     </div>
-  </div>`);
+  </div>
+  <div class="product-reviews-v2"><div class="sectionhead"><h3>⭐ Пікірлер</h3><span class="muted">${reviews.length} пікір</span></div>${reviews.length?reviews.map(r=>`<div class="review"><span class="stars">${'★'.repeat(Number(r.stars||0))}${'☆'.repeat(5-Number(r.stars||0))}</span><br><b>${esc(r.userName||'Пайдаланушы')}</b><div>${esc(r.text||'')}</div></div>`).join(''):'<div class="muted">Пікір әзірге жоқ.</div>'}</div>
+  ${related.length?`<div class="product-related-v2"><div class="sectionhead"><h3>Осыған ұқсас тауарлар</h3></div><div class="grid">${related.map(renderCard).join('')}</div></div>`:''}`);
   document.getElementById('close').onclick=closeModal;
-  document.querySelectorAll('[data-product-thumb]').forEach(btn=>btn.onclick=()=>{
-    const src=gallery[Number(btn.dataset.productThumb)];
-    const box=document.getElementById('productMainPic');
-    if(box)box.innerHTML=src?`<img src="${esc(src)}" alt="${esc(p.name)}">`:`<span>${emoji}</span>`;
-    document.querySelectorAll('[data-product-thumb]').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
-  });
-  const qtyInput=document.getElementById('detailQty');
-  document.getElementById('qtyMinus')?.addEventListener('click',()=>{if(qtyInput)qtyInput.value=Math.max(1,Number(qtyInput.value||1)-1)});
-  document.getElementById('qtyPlus')?.addEventListener('click',()=>{if(qtyInput)qtyInput.value=Math.min(stock||99,Number(qtyInput.value||1)+1)});
-  document.getElementById('detailFav')?.addEventListener('click',()=>{toggleFav(p.id);const b=document.getElementById('detailFav');if(b)b.textContent=state.favorites.includes(p.id)?'♥':'♡'});
-  document.getElementById('detailCart')?.addEventListener('click',()=>{const qty=Math.max(1,Math.min(stock||99,Number(qtyInput?.value||1)));addCart(p.id,qty);toast('Тауар себетке қосылды');});
-  document.getElementById('detailChat')?.addEventListener('click',()=>{if(p.sellerId==='platform'){toast('Бұл SatuGo платформасының тауары');return}startChat(p)});
-  document.getElementById('openSellerFromProduct')?.addEventListener('click',()=>{closeModal();toast('Сатушы дүкені ашылады');});
-  document.getElementById('saveReview')?.addEventListener('click',()=>saveProductReview(p.id));
+  document.querySelectorAll('[data-photo]').forEach(b=>b.onclick=()=>{document.getElementById('productMainImg').src=b.dataset.photo;document.querySelectorAll('[data-photo]').forEach(x=>x.classList.remove('active'));b.classList.add('active')});
+  document.getElementById('detailFav').onclick=()=>{toggleFav(p.id);document.getElementById('detailFav').textContent=state.favorites.includes(p.id)?'♥':'♡'};
+  document.getElementById('detailShare').onclick=async()=>{const url=location.href.split('#')[0]+'#product='+encodeURIComponent(p.id);try{if(navigator.share)await navigator.share({title:p.name,text:'SatuGo тауары',url});else{await navigator.clipboard.writeText(url);toast('Сілтеме көшірілді')}}catch(_){} };
+  document.querySelectorAll('[data-size],[data-color]').forEach(b=>b.onclick=()=>{const group=b.dataset.size?'[data-size]':'[data-color]';document.querySelectorAll(group).forEach(x=>x.classList.remove('active'));b.classList.add('active')});
+  document.getElementById('detailCart').onclick=()=>{addCart(p.id);toast('Себетке қосылды')};
+  document.getElementById('detailBuy').onclick=()=>{addCart(p.id);checkout()};
+  document.getElementById('detailChat').onclick=()=>{if(p.sellerId==='platform'){toast('Бұл SatuGo платформасының тауары');return}startChat(p)};
+  document.getElementById('detailStore').onclick=()=>{if(p.sellerId&&p.sellerId!=='platform'){closeModal();openSeller()}else toast('Бұл тауардың жеке дүкені жоқ')};
 }
 
+function addCart(id){const p=getProduct(id);if(!p)return;const x=state.cart.find(i=>i.productId===id);if(x)x.qty++;else state.cart.push({productId:id,qty:1});save();toast('Себетке қосылды')}
+function toggleFav(id){const i=state.favorites.indexOf(id);if(i>=0)state.favorites.splice(i,1);else state.favorites.push(id);save();render()}
 function openCart(){if(document.body.classList.contains('chat-open'))closeChat();const rows=state.cart.map(i=>({...i,p:getProduct(i.productId)})).filter(x=>x.p);const total=rows.reduce((s,x)=>s+x.p.price*x.qty,0);openModal(`<div class="modaltop"><h2>🛒 Себет</h2><button class="close" id="close">×</button></div>${rows.length?`<div class="list">${rows.map(x=>`<div class="item"><b>${esc(x.p.name)}</b><div>${money(x.p.price)} × ${x.qty}</div><div class="actions"><button class="secondary" data-minus="${x.p.id}">−</button><button class="secondary" data-plus="${x.p.id}">+</button><button class="danger" data-remove="${x.p.id}">Жою</button></div></div>`).join('')}</div><div class="sectionhead"><b>Барлығы</b><b>${money(total)}</b></div><button type="button" class="primary" id="checkoutBtn">Тапсырыс беру</button>`:'<div class="empty">Себет бос.</div>'}`);document.getElementById('close').onclick=closeModal;document.getElementById('checkoutBtn')?.addEventListener('click',checkout);document.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.plus,1));document.querySelectorAll('[data-minus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.minus,-1));document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{state.cart=state.cart.filter(x=>x.productId!==b.dataset.remove);save();openCart()})}
 function changeQty(id,d){const x=state.cart.find(i=>i.productId===id);if(!x)return;x.qty+=d;if(x.qty<1)state.cart=state.cart.filter(i=>i!==x);save();openCart()}
 function checkout(){if(!state.currentUser){closeModal();openLogin();return}const rows=state.cart.map(i=>({...i,p:getProduct(i.productId)})).filter(x=>x.p);if(!rows.length)return;const total=rows.reduce((s,x)=>s+x.p.price*x.qty,0);openModal(`<div class="modaltop"><h2>Тапсырыс беру</h2><button class="close" id="close">×</button></div><div class="field"><label>Аты-жөніңіз</label><input id="ordName" value="${esc(state.currentUser.name)}"></div><div class="field"><label>Телефон</label><input id="ordPhone" value="${esc(state.currentUser.phone||'')}"></div><div class="field"><label>Мекенжай</label><textarea id="ordAddress" rows="3" placeholder="Қала, көше, үй, пәтер"></textarea></div><div class="sectionhead"><b>Төлем сомасы</b><b>${money(total)}</b></div><button type="button" class="primary" id="placeOrder">Тапсырысты растау</button>`);document.getElementById('close').onclick=closeModal;document.getElementById('placeOrder').onclick=placeOrder}
@@ -916,14 +832,6 @@ function editProfile(){
   };
 }
 
-function inferProductCategory(text){
-  const t=normalizeSearchText(text||'');
-  const rules=[['Аяқ киім',['кроссовка','кеды','ботинка','ботинки','аяқ киім','туфли','сандал','сапог','кросовка']],['Киім',['киім','көйлек','худи','футболка','жейде','шалбар','джинсы','куртка','пальто','юбка','костюм','свитер','кофта']],['Косметика',['косметика','крем','шампунь','парфюм','иіссу','макияж','тонал','помада','маска','сыворотка','скраб']],['Электрон',['телефон','смартфон','iphone','айфон','samsung','xiaomi','redmi','ноутбук','планшет','құлаққап','наушник','сағат','смарт сағат','теледидар','телевизор','монитор','принтер','камера','фотоаппарат','зарядка','powerbank','электрон']],['Басқа',['сөмке','рюкзак','әмиян','термокружка','диффузор','блендер','сыйлық','үй','ас үй','ойыншық']]];
-  for(const [cat,words] of rules){if(words.some(w=>t.includes(normalizeSearchText(w))))return cat} return '';
-}
-function productSubcategory(cat,text){const t=normalizeSearchText(text||'');if(cat==='Электрон'){if(/телефон|смартфон|iphone|айфон|samsung|xiaomi|redmi/.test(t))return 'Телефон';if(/ноутбук|laptop|макбук|macbook/.test(t))return 'Ноутбук';if(/планшет|ipad/.test(t))return 'Планшет';if(/құлаққап|наушник|airpods/.test(t))return 'Құлаққап';if(/сағат|watch/.test(t))return 'Ақылды сағат';return 'Электроника'}if(cat==='Киім'){if(/көйлек|платье/.test(t))return 'Көйлек';if(/худи|свитер|кофта/.test(t))return 'Жоғарғы киім';if(/шалбар|джинсы/.test(t))return 'Шалбар';return 'Киім'}if(cat==='Аяқ киім')return /кроссовка|кросовка/.test(t)?'Кроссовка':'Аяқ киім';return cat||'Басқа'}
-function sellerProductForm(existing={}){const p=existing||{};const inferred=p.cat||inferProductCategory(p.name||'')||'Басқа';return `<div class="seller-product-form"><div class="field"><label>Тауар атауы</label><input id="pnm" value="${esc(p.name||'')}" placeholder="Мысалы: iPhone 15 128GB"></div><div class="row"><div class="field"><label>Бағасы</label><input id="pprice" type="number" min="1" value="${p.price||''}" placeholder="Бағасы"></div><div class="field"><label>Қойма саны</label><input id="pstock" type="number" min="0" value="${Number(p.stock??p.quantity??0)}"></div></div><div class="row"><div class="field"><label>Категория</label><select id="pcat"><option ${inferred==='Басқа'?'selected':''}>Басқа</option><option ${inferred==='Киім'?'selected':''}>Киім</option><option ${inferred==='Аяқ киім'?'selected':''}>Аяқ киім</option><option ${inferred==='Косметика'?'selected':''}>Косметика</option><option ${inferred==='Электрон'?'selected':''}>Электрон</option></select></div><div class="field"><label>Ішкі категория</label><input id="psubcat" value="${esc(p.subcategory||productSubcategory(inferred,p.name||''))}" placeholder="Телефон, Ноутбук..."></div></div><div class="field"><label>Сурет</label><div class="row"><input id="pimg" value="${esc(p.image||'')}" placeholder="Сурет URL"><button class="secondary" type="button" id="chooseProductImage">📷 Сурет жүктеу</button></div><input id="productImageFile" type="file" accept="image/*" style="display:none"><div id="productImagePreview" class="product-image-preview">${p.image?`<img src="${esc(p.image)}" alt="">`:''}</div></div><div class="field"><label>Тауар сипаттамасы</label><textarea id="pdesc" rows="3" placeholder="Негізгі ерекшеліктері, материал, жағдайы...">${esc(p.description||'')}</textarea></div><div class="row"><div class="field"><label>Размер / өлшемдер</label><input id="pSizes" value="${esc(Array.isArray(p.sizes)?p.sizes.join(', '):(p.sizes||''))}" placeholder="S, M, L, XL немесе 42"></div><div class="field"><label>Түс / түстер</label><input id="pColors" value="${esc(Array.isArray(p.colors)?p.colors.join(', '):(p.colors||''))}" placeholder="Қара, Ақ, Көк"></div></div><div class="field"><label>Кімге арналған</label><select id="pGender"><option value="" ${!p.gender?'selected':''}>Көрсетілмеген</option><option value="Әйелдер" ${p.gender==='Әйелдер'?'selected':''}>Әйелдер</option><option value="Ерлер" ${p.gender==='Ерлер'?'selected':''}>Ерлер</option><option value="Балалар" ${p.gender==='Балалар'?'selected':''}>Балалар</option><option value="Unisex" ${p.gender==='Unisex'?'selected':''}>Unisex</option></select></div><div class="field"><label class="special-check"><input id="pSpecial" type="checkbox" ${p.special?'checked':''}><span>✨ Ерекше заттарға шығару</span></label></div><div class="field"><label>Ерекше зат түрі</label><select id="pSpecialType"><option value="interesting" ${(p.specialType||'interesting')==='interesting'?'selected':''}>🤯 Қызық зат</option><option value="eye" ${p.specialType==='eye'?'selected':''}>👀 Көзге түсетін</option><option value="gift" ${p.specialType==='gift'?'selected':''}>🎁 Сыйлық</option></select></div></div>`}
-
 async function openSeller(){
   if(!state.currentUser){openLogin();return}
   const uid=state.currentUser.id;
@@ -933,11 +841,24 @@ async function openSeller(){
   openModal(`<div class="modaltop"><h2>🏪 Менің дүкенім</h2><button class="close" id="close">×</button></div>
   <div class="field"><label>Дүкен атауы</label><input id="storeName" value="${esc(state.store?.ownerId===uid?state.store.name:'')}" placeholder="AIDANA FASHION"></div>
   <button class="secondary" id="saveStore">Дүкенді сақтау</button>
-  <hr><h3>➕ Тауар қосу</h3>${sellerProductForm()}<button class="primary" id="addProduct">➕ Тауарды қосу</button>
+  <hr><h3>➕ Тауар қосу</h3>
+  <div class="field"><input id="pnm" placeholder="Тауар атауы"></div>
+  <div class="row"><div class="field"><input id="pprice" type="number" min="1" placeholder="Бағасы"></div><div class="field"><input id="pstock" type="number" min="0" value="0" placeholder="Қойма саны"></div></div>
+  <div class="field"><input id="pcat" placeholder="Категория"></div>
+  <div class="field"><input id="pimg" placeholder="Сурет URL (міндетті емес)"></div>
+  <div class="field"><textarea id="pdesc" rows="3" placeholder="Тауар сипаттамасы"></textarea></div>
+  <div class="row">
+    <div class="field"><label>Размер / өлшемдер</label><input id="pSizes" placeholder="S, M, L, XL немесе 42"></div>
+    <div class="field"><label>Түс / түстер</label><input id="pColors" placeholder="Қара, Ақ, Көк"></div>
+  </div>
+  <div class="field"><label>Кімге арналған</label><select id="pGender"><option value="">Көрсетілмеген</option><option value="Әйелдер">Әйелдер</option><option value="Ерлер">Ерлер</option><option value="Балалар">Балалар</option><option value="Unisex">Unisex</option></select></div>
+  <div class="field"><label class="special-check"><input id="pSpecial" type="checkbox"><span>✨ Ерекше заттарға шығару</span></label></div>
+  <div class="field"><label>Ерекше зат түрі</label><select id="pSpecialType"><option value="interesting">🤯 Қызық зат</option><option value="eye">👀 Көзге түсетін</option><option value="gift">🎁 Сыйлық</option></select></div>
+  <button class="primary" id="addProduct">➕ Тауарды қосу</button>
   <h3>Менің тауарларым</h3>
-  ${mine.length?`<div class="list">${mine.map(p=>`<div class="item"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div><b>${esc(p.name)}</b><div>${money(p.price)} · ${esc(p.cat||'Басқа')}${p.subcategory?` · ${esc(p.subcategory)}`:''}</div>${p.special?`<div class="special-label">✨ ${specialTitle(p.specialType||'interesting')}</div>`:''}</div><div class="actions"><button class="secondary" data-edit-product="${esc(p.id)}">✏️</button><button class="danger" data-delete-product="${esc(p.id)}">🗑️</button></div></div></div>`).join('')}</div>`:'<div class="muted">Тауар жоқ.</div>'}
+  ${mine.length?`<div class="list">${mine.map(p=>`<div class="item"><b>${esc(p.name)}</b><div>${money(p.price)}</div>${p.special?`<div class="special-label">✨ ${specialTitle(p.specialType||'interesting')}</div>`:''}</div>`).join('')}</div>`:'<div class="muted">Тауар жоқ.</div>'}
   <h3>Менің тапсырыстарым</h3>
-  ${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>#${esc(o.id.slice(-6))}</b><div>${money(o.total)} · <b>${esc(o.status||'Жаңа тапсырыс')}</b></div><div class="muted">${esc(o.buyerName||'Клиент')} · ${esc(o.phone||'')} · ${esc(o.address||'')}</div><div class="orderitems">${(o.items||[]).filter(i=>i.sellerId===uid).map(i=>`${esc(i.name)} × ${i.qty}`).join('<br>')}</div>${o.status==='Жаңа тапсырыс'?`<div class="actions"><button class="primary" data-status="${esc(o.id)}">Қабылдау</button><button class="danger" data-reject="${esc(o.id)}">Бас тарту</button></div>`:''}</div>`).join('')}</div>`:'<div class="muted">Тапсырыс жоқ.</div>'}`);
+  ${orders.length?`<div class="list">${orders.map(o=>`<div class="item"><b>#${esc(o.id.slice(-6))}</b><div>${money(o.total)} · <b>${esc(o.status||'Жаңа тапсырыс')}</b></div><div class="muted">${esc(o.buyerName||'Клиент')} · ${esc(o.phone||'')} · ${esc(o.address||'')}</div><div class="orderitems">${(o.items||[]).filter(i=>i.sellerId===uid).map(i=>`${esc(i.name)} × ${i.qty}`).join('<br>')}</div>${o.status==='Жаңа тапсырыс'?`<button class="primary" data-status="${esc(o.id)}">Қабылдау</button>`:''}</div>`).join('')}</div>`:'<div class="muted">Тапсырыс жоқ.</div>'}`);
   document.getElementById('close').onclick=closeModal;
   document.getElementById('saveStore').onclick=async()=>{
     const n=document.getElementById('storeName').value.trim();
@@ -950,24 +871,36 @@ async function openSeller(){
     }catch(e){toast('Дүкенді сақтау сәтсіз болды: '+e.message)}
   };
   document.getElementById('addProduct').onclick=saveSellerProduct;
-  bindProductImagePicker();
-  document.querySelectorAll('[data-edit-product]').forEach(b=>b.onclick=()=>editSellerProduct(b.dataset.editProduct));
-  document.querySelectorAll('[data-delete-product]').forEach(b=>b.onclick=()=>deleteSellerProduct(b.dataset.deleteProduct));
-  document.querySelectorAll('[data-reject]').forEach(b=>b.onclick=async()=>{const o=state.orders.find(x=>x.id===b.dataset.reject),uid=state.currentUser?.id;if(!o||!uid)return;try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('orders').doc(o.id).update({status:'Бас тартылды',statusHistory:firebase.firestore.FieldValue.arrayUnion({status:'Бас тартылды',at:Date.now(),by:uid}),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});o.status='Бас тартылды';o.statusHistory=[...(o.statusHistory||[]),{status:'Бас тартылды',at:Date.now(),by:uid}];save();openSeller();toast('Тапсырыстан бас тартылды')}catch(e){toast('Тапсырыс статусын өзгерту қатесі: '+e.message)}});
   document.querySelectorAll('[data-status]').forEach(b=>b.onclick=async()=>{const o=state.orders.find(x=>x.id===b.dataset.status),uid=state.currentUser?.id;if(!o||!uid)return;try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('orders').doc(o.id).update({status:'Қабылданды',statusHistory:firebase.firestore.FieldValue.arrayUnion({status:'Қабылданды',at:Date.now(),by:uid}),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});o.status='Қабылданды';save();openSeller();toast('Тапсырыс қабылданды')}catch(e){toast('Тапсырыс статусын өзгерту қатесі: '+e.message)}});
 }
 
-async function saveSellerProduct(existingId=null){
-  if(!state.currentUser){openLogin();return} const uid=state.currentUser.id;
-  const name=document.getElementById('pnm')?.value.trim();const price=Number(document.getElementById('pprice')?.value||0);const stock=Math.max(0,Number(document.getElementById('pstock')?.value||0));const cat=document.getElementById('pcat')?.value.trim()||inferProductCategory(name)||'Басқа';const subcategory=document.getElementById('psubcat')?.value.trim()||productSubcategory(cat,name);const image=document.getElementById('pimg')?.value.trim()||'';const description=document.getElementById('pdesc')?.value.trim()||'';const sizes=document.getElementById('pSizes')?.value.trim()||'';const colors=document.getElementById('pColors')?.value.trim()||'';const gender=document.getElementById('pGender')?.value||'';const special=Boolean(document.getElementById('pSpecial')?.checked);const specialType=['interesting','eye','gift'].includes(document.getElementById('pSpecialType')?.value)?document.getElementById('pSpecialType').value:'interesting';
+async function saveSellerProduct(){
+  if(!state.currentUser){openLogin();return}
+  const uid=state.currentUser.id;
+  const name=document.getElementById('pnm')?.value.trim();
+  const price=Number(document.getElementById('pprice')?.value||0);
+  const stock=Math.max(0,Number(document.getElementById('pstock')?.value||0));
+  const cat=document.getElementById('pcat')?.value.trim()||'Басқа';
+  const image=document.getElementById('pimg')?.value.trim()||'';
+  const description=document.getElementById('pdesc')?.value.trim()||'';
+  const sizes=document.getElementById('pSizes')?.value.trim()||'';
+  const colors=document.getElementById('pColors')?.value.trim()||'';
+  const gender=document.getElementById('pGender')?.value||'';
+  const special=Boolean(document.getElementById('pSpecial')?.checked);
+  const specialType=['interesting','eye','gift'].includes(document.getElementById('pSpecialType')?.value)?document.getElementById('pSpecialType').value:'interesting';
   if(!name||price<=0){toast('Тауар атауы мен бағасын дұрыс енгізіңіз');return}
-  const sellerName=state.store?.ownerId===uid?state.store.name:state.currentUser.name;const old=existingId?state.products.find(x=>x.id===existingId):null;
-  const data={name,title:name,price,stock,quantity:stock,cat,category:cat,subcategory,image,description,sizes,sizesText:sizes,colors,colorsText:colors,gender,sellerId:uid,sellerName:sellerName||'Сатушы',seller:sellerName||'Сатушы',rating:old?.rating||0,sales:old?.sales||0,special,specialType,updatedAt:fbReady?firebase.firestore.FieldValue.serverTimestamp():Date.now()};
-  try{if(existingId){if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('products').doc(existingId).update(data);const i=state.products.findIndex(x=>x.id===existingId);if(i>=0)state.products[i]={...state.products[i],...data,id:existingId,updatedAt:Date.now()};toast('Тауар өзгертілді')}else{data.createdAt=fbReady?firebase.firestore.FieldValue.serverTimestamp():Date.now();if(fbReady&&fbDb&&state.currentUser.firebase){const ref=await fbDb.collection('products').add(data);state.products.unshift({id:ref.id,...data,createdAt:Date.now()})}else state.products.unshift({id:'p_'+Date.now(),...data,createdAt:Date.now()});toast(special?'✨ Ерекше тауар сақталды':'Тауар қосылды')}save();openSeller()}catch(e){console.error(e);toast('Тауарды сақтау сәтсіз болды: '+e.message)}
+  try{
+    const sellerName=state.store?.ownerId===uid?state.store.name:state.currentUser.name;
+    const data={name,title:name,price,stock,quantity:stock,cat,category:cat,image,description,sizes,sizesText:sizes,colors,colorsText:colors,gender,sellerId:uid,sellerName:sellerName||'Сатушы',seller:sellerName||'Сатушы',rating:0,sales:0,special,specialType,createdAt:fbReady?firebase.firestore.FieldValue.serverTimestamp():Date.now()};
+    if(fbReady&&fbDb&&state.currentUser.firebase){
+      const ref=await fbDb.collection('products').add(data);
+      state.products.unshift({id:ref.id,...data,createdAt:Date.now()});
+    }else{
+      state.products.unshift({id:'p_'+Date.now(),...data,createdAt:Date.now()});
+    }
+    save();toast(special?'✨ Ерекше тауар сақталды':'Тауар қосылды');openSeller();
+  }catch(e){console.error(e);toast('Тауарды сақтау сәтсіз болды: '+e.message)}
 }
-async function editSellerProduct(id){const p=state.products.find(x=>String(x.id)===String(id));if(!p||p.sellerId!==state.currentUser?.id)return;openModal(`<div class="modaltop"><h2>✏️ Тауарды өзгерту</h2><button class="close" id="close">×</button></div>${sellerProductForm(p)}<button class="primary" id="saveEditedProduct">💾 Өзгерістерді сақтау</button>`);document.getElementById('close').onclick=closeModal;bindProductImagePicker(p.image||'');document.getElementById('saveEditedProduct').onclick=()=>saveSellerProduct(id)}
-async function deleteSellerProduct(id){const p=state.products.find(x=>String(x.id)===String(id));if(!p||p.sellerId!==state.currentUser?.id)return;if(!confirm('Бұл тауарды өшіру керек пе?'))return;try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('products').doc(id).delete();state.products=state.products.filter(x=>String(x.id)!==String(id));save();toast('Тауар өшірілді');openSeller()}catch(e){console.error(e);toast('Тауарды өшіру қатесі: '+e.message)}}
-function bindProductImagePicker(current=''){const btn=document.getElementById('chooseProductImage'),file=document.getElementById('productImageFile'),url=document.getElementById('pimg'),preview=document.getElementById('productImagePreview');if(!btn||!file)return;btn.onclick=()=>file.click();file.onchange=async e=>{const f=e.target.files?.[0];if(!f)return;if(f.size>8*1024*1024){toast('Сурет 8 МБ-тан аспауы керек');return}try{const data=await resizeImageToDataUrl(f,900,0.82);url.value=data;if(preview)preview.innerHTML=`<img src="${esc(data)}" alt="">`;toast('Сурет қосылды')}catch(err){toast('Суретті оқу мүмкін болмады')}};if(current&&preview&&!preview.innerHTML)preview.innerHTML=`<img src="${esc(current)}" alt="">`}
 
 
 /* =========================================================
@@ -1317,8 +1250,7 @@ if(satugoAccountBtn){
 document.getElementById('languageBtn').onclick=toggleLanguage;
 document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
-document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
-document.addEventListener('click',e=>{const b=e.target.closest('[data-page-jump]');if(b){page=b.dataset.pageJump||'search';render()}});document.getElementById('sheet').addEventListener('click',e=>{e.stopPropagation()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='accountOrders'){renderBuyerOrders();}if(e.target.id==='allBuyerOrders'){renderBuyerOrders();}if(e.target.closest('[data-bod]')){openBuyerOrder(e.target.closest('[data-bod]').dataset.bod);}if(e.target.id==='accountFavorites'){page='favorites';render()}if(e.target.id==='accountChats'){page='chats';render()}if(e.target.id==='accountSecurity'){openSecurity();}if(e.target.id==='searchPageInput'){}}
+document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('sheet').addEventListener('click',e=>{e.stopPropagation()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='accountOrders'){renderBuyerOrders();}if(e.target.id==='allBuyerOrders'){renderBuyerOrders();}if(e.target.closest('[data-bod]')){openBuyerOrder(e.target.closest('[data-bod]').dataset.bod);}if(e.target.id==='accountFavorites'){page='favorites';render()}if(e.target.id==='accountChats'){page='chats';render()}if(e.target.id==='accountSecurity'){openSecurity();}if(e.target.id==='searchPageInput'){}}
 );render();applyLanguage();
 async function syncFirebaseData(){
  if(!fbReady)return;
