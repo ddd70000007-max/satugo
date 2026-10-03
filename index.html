@@ -617,12 +617,10 @@ async function markChatMessagesRead(chatId,uid){
     const c=snap.data()||{};
     const unread={...(c.unread||{}),[uid]:0};
     await ref.set({unread},{merge:true});
-    // Avoid a composite/inequality query here; it can trigger an index error on a new Firebase project.
-    const ms=await ref.collection('messages').where('read','==',false).limit(100).get();
-    const unreadOther=ms.docs.filter(d=>String(d.data()?.senderId||'')!==String(uid));
-    if(unreadOther.length){
+    const ms=await ref.collection('messages').where('senderId','!=',uid).where('read','==',false).limit(100).get();
+    if(!ms.empty){
       const batch=fbDb.batch();
-      unreadOther.forEach(d=>batch.update(d.ref,{read:true,readAt:firebase.firestore.FieldValue.serverTimestamp()}));
+      ms.docs.forEach(d=>batch.update(d.ref,{read:true,readAt:firebase.firestore.FieldValue.serverTimestamp()}));
       await batch.commit();
     }
   }catch(e){console.warn('mark read',e.message)}
@@ -763,102 +761,14 @@ function buyerStatusClass(s){const x=String(s||'').toLowerCase();if(x.includes('
 function renderBuyerOrders(){if(!state.currentUser){closeModal();openLogin();return}const uid=state.currentUser.id;const orders=state.orders.filter(o=>o.buyerId===uid);openModal(`<div class="modaltop"><h2>📦 Менің тапсырыстарым</h2><button class="close" id="close">×</button></div>${orders.length?`<div class="list" style="margin-top:14px">${orders.map(o=>`<button class="item" data-bod="${esc(o.id)}" style="text-align:left;border:1px solid #e5e7eb"><div style="display:flex;justify-content:space-between;gap:8px"><b>#${esc(String(o.id).slice(-6))}</b><span class="buyer-status ${buyerStatusClass(o.status)}">${esc(o.status||'Жаңа тапсырыс')}</span></div><div style="margin-top:6px"><b>${money(o.total)}</b></div><div class="muted">${(o.items||[]).length} тауар</div></button>`).join('')}</div>`:`<div class="empty" style="margin-top:14px">Тапсырыс әлі жоқ.</div>`}`);document.getElementById('close').onclick=closeModal;document.querySelectorAll('[data-bod]').forEach(b=>b.onclick=()=>openBuyerOrder(b.dataset.bod))}
 function openBuyerOrder(id){const o=state.orders.find(x=>String(x.id)===String(id));if(!o){toast('Тапсырыс табылмады');return}openModal(`<div class="modaltop"><h2>📦 Тапсырыс #${esc(String(o.id).slice(-6))}</h2><button class="close" id="close">×</button></div><div class="item" style="margin-top:14px"><div class="buyer-status ${buyerStatusClass(o.status)}">${esc(o.status||'Жаңа тапсырыс')}</div><div class="buyer-order-meta"><div><b>Сома</b><br>${money(o.total)}</div><div><b>Телефон</b><br>${esc(o.phone||'')}</div></div><div><b>Мекенжай</b><br>${esc(o.address||'')}</div><div class="orderitems"><b>Тауарлар:</b><br>${(o.items||[]).map(i=>`${esc(i.name)} × ${esc(i.qty)} — ${money(i.price)}`).join('<br>')}</div></div>`);document.getElementById('close').onclick=closeModal}
 
-function dateMs(v){
-  try{if(v?.toMillis)return v.toMillis();if(v?.toDate)return v.toDate().getTime();if(typeof v==='number')return v;const n=Date.parse(v);return Number.isFinite(n)?n:0}catch(_){return 0}
-}
-function notificationBadgeCount(){
-  const uid=state.currentUser?.id;if(!uid)return 0;
-  const chatUnread=(state.chats||[]).reduce((n,c)=>n+Number(c.unread?.[uid]||0),0);
-  const orderUnread=(state.orders||[]).filter(o=>o.buyerId===uid && ['Жаңа тапсырыс','Қабылданды','Жолда','Жеткізілді'].includes(o.status||'')).length;
-  const sellerUnread=(state.orders||[]).filter(o=>(o.sellerIds||[]).map(String).includes(String(uid)) && (o.status||'Жаңа тапсырыс')==='Жаңа тапсырыс').length;
-  return chatUnread+Math.min(orderUnread+sellerUnread,9);
-}
-async function loadNotificationData(uid){
-  let chats=Array.isArray(state.chats)?state.chats.slice():[];
-  let orders=Array.isArray(state.orders)?state.orders.slice():[];
-  if(fbReady&&fbDb&&uid){
-    try{
-      const cs=await fbDb.collection('chats').where('participants','array-contains',uid).get();
-      chats=cs.docs.map(d=>({id:d.id,...d.data()}));state.chats=chats;
-    }catch(e){console.warn('notifications chats',e.message)}
-    try{
-      const qs=await fbDb.collection('orders').where('buyerId','==',uid).get();
-      const map=new Map(orders.filter(o=>o.buyerId===uid).map(o=>[String(o.id),o]));
-      qs.docs.forEach(d=>{const x=d.data()||{};map.set(d.id,{id:d.id,...x,createdAt:dateMs(x.createdAt),updatedAt:dateMs(x.updatedAt)})});
-      orders=[...orders.filter(o=>o.buyerId!==uid),...map.values()];state.orders=orders;
-    }catch(e){console.warn('notifications buyer orders',e.message)}
-    try{
-      const ss=await fbDb.collection('orders').where('sellerIds','array-contains',uid).get();
-      const map=new Map(orders.filter(o=>(o.sellerIds||[]).map(String).includes(String(uid))).map(o=>[String(o.id),o]));
-      ss.docs.forEach(d=>{const x=d.data()||{};map.set(d.id,{id:d.id,...x,createdAt:dateMs(x.createdAt),updatedAt:dateMs(x.updatedAt)})});
-      orders=[...orders.filter(o=>!(o.sellerIds||[]).map(String).includes(String(uid))),...map.values()];state.orders=orders;
-    }catch(e){console.warn('notifications seller orders',e.message)}
-  }
-  return {chats,orders};
-}
-async function openNotifications(){
-  if(!state.currentUser){openLogin();return}
-  const uid=state.currentUser.id;
-  openModal('<div class="modaltop"><h2>🔔 Хабарламалар</h2><button class="close" id="close">×</button></div><div class="empty" style="margin-top:14px">Жаңалықтар жүктелуде...</div>');
-  document.getElementById('close').onclick=closeModal;
-  const {chats,orders}=await loadNotificationData(uid);
-  const items=[];
-  chats.filter(c=>Number(c.unread?.[uid]||0)>0).forEach(c=>{
-    const otherId=(c.participants||[]).find(x=>x!==uid);const name=c.participantNames?.[otherId]||(c.sellerId===uid?c.buyerName:c.sellerName)||'Сатушы';
-    items.push({time:dateMs(c.updatedAt),icon:'💬',title:'Жаңа хабарлама',text:`${name}: ${c.lastMessage||'Жаңа хабарлама'}`,action:()=>{closeModal();openChat(c.id)}});
-  });
-  orders.filter(o=>o.buyerId===uid).forEach(o=>{
-    const st=o.status||'Жаңа тапсырыс';
-    items.push({time:dateMs(o.updatedAt)||dateMs(o.createdAt),icon:'📦',title:'Тапсырыс жаңартылды',text:`#${String(o.id).slice(-6)} · ${st} · ${money(o.total)}`,action:()=>openBuyerOrder(o.id)});
-  });
-  orders.filter(o=>(o.sellerIds||[]).map(String).includes(String(uid))).forEach(o=>{
-    const st=o.status||'Жаңа тапсырыс';
-    items.push({time:dateMs(o.updatedAt)||dateMs(o.createdAt),icon:'🛍️',title:st==='Жаңа тапсырыс'?'Жаңа тапсырыс':'Тапсырыс жаңартылды',text:`Клиент: ${o.buyerName||'Клиент'} · #${String(o.id).slice(-6)} · ${money(o.total)}`,action:()=>{closeModal();openSeller()}});
-  });
-  items.sort((a,b)=>b.time-a.time);
-  const body=items.length?items.map((x,i)=>`<button class="item" data-notif-index="${i}" style="width:100%;text-align:left;margin-top:8px"><div style="display:flex;gap:10px;align-items:flex-start"><div style="font-size:24px">${x.icon}</div><div><b>${esc(x.title)}</b><div style="margin-top:4px">${esc(x.text)}</div><div class="muted" style="margin-top:4px">${x.time?new Date(x.time).toLocaleString('kk-KZ',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'Қазір'}</div></div></div></button>`).join(''):'<div class="empty" style="margin-top:14px">🔕 Әзірге жаңа хабарлама жоқ.</div>';
-  openModal(`<div class="modaltop"><h2>🔔 Хабарламалар</h2><button class="close" id="close">×</button></div><div style="margin-top:8px">${body}</div>`);
-  document.getElementById('close').onclick=closeModal;
-  document.querySelectorAll('[data-notif-index]').forEach(b=>b.onclick=()=>{const x=items[Number(b.dataset.notifIndex)];if(x?.action)x.action()});
-}
-function analyticsOrderRows(orders,uid){
-  const rows=[];orders.forEach(o=>{(o.items||[]).forEach(i=>{if(String(i.sellerId||o.sellerId||'')===String(uid))rows.push({...i,orderId:o.id,orderStatus:o.status,orderTime:dateMs(o.createdAt)||dateMs(o.updatedAt)})})});return rows;
-}
-async function openSellerAnalytics(period='all'){
-  if(!state.currentUser){openLogin();return}
-  const uid=state.currentUser.id;
-  let orders=(state.orders||[]).filter(o=>(o.sellerIds||[]).map(String).includes(String(uid))||String(o.sellerId||'')===String(uid));
-  let chats=(state.chats||[]).filter(c=>(c.participants||[]).map(String).includes(String(uid)));
-  if(fbReady&&fbDb&&state.currentUser.firebase){
-    try{const qs=await fbDb.collection('orders').where('sellerIds','array-contains',uid).get();orders=qs.docs.map(d=>{const x=d.data()||{};return {id:d.id,...x,createdAt:dateMs(x.createdAt),updatedAt:dateMs(x.updatedAt)}});state.orders=orders}catch(e){console.warn('analytics orders',e.message)}
-    try{const cs=await fbDb.collection('chats').where('participants','array-contains',uid).get();chats=cs.docs.map(d=>({id:d.id,...d.data()}));state.chats=chats}catch(e){console.warn('analytics chats',e.message)}
-  }
-  const now=Date.now(), days=period==='today'?1:period==='7d'?7:period==='30d'?30:0, from=days?now-days*86400000:0;
-  const inPeriod=o=>(dateMs(o.createdAt)||dateMs(o.updatedAt))>=from;
-  const po=orders.filter(inPeriod);
-  const rows=analyticsOrderRows(po,uid);
-  const validRows=rows.filter(r=>!String(r.orderStatus||'').includes('Бас тарт')&&!String(r.orderStatus||'').toLowerCase().includes('cancel'));
-  const sales=validRows.reduce((n,r)=>n+Number(r.price||0)*Number(r.qty||1),0);
-  const units=validRows.reduce((n,r)=>n+Number(r.qty||1),0);
-  const mine=state.products.filter(p=>String(p.sellerId)===String(uid));
-  const stock=mine.reduce((n,p)=>n+Number(p.stock??p.quantity??0),0);
-  const chatCount=chats.filter(c=>(!days||(dateMs(c.updatedAt)>=from))).length;
-  const productMap=new Map();validRows.forEach(r=>{const k=String(r.productId||r.id||r.name);const x=productMap.get(k)||{name:r.name||'Тауар',qty:0,sales:0};x.qty+=Number(r.qty||1);x.sales+=Number(r.price||0)*Number(r.qty||1);productMap.set(k,x)});
-  mine.forEach(p=>{if(!productMap.has(String(p.id)))productMap.set(String(p.id),{name:p.name,qty:0,sales:0,views:Number(p.views||0),favorites:Number(p.favorites||p.favoriteCount||0)})});
-  const top=[...productMap.values()].sort((a,b)=>b.sales-a.sales).slice(0,8);
-  openModal(`<div class="modaltop"><div><div class="muted">Сатушы панелі</div><h2>📊 Аналитика</h2></div><button class="close" id="close">×</button></div><div style="display:flex;gap:6px;flex-wrap:wrap;margin:12px 0"><button class="secondary" data-ap="today">Бүгін</button><button class="secondary" data-ap="7d">7 күн</button><button class="secondary" data-ap="30d">30 күн</button><button class="secondary" data-ap="all">Барлығы</button></div><div class="seller-stats"><div class="seller-stat"><b>${money(sales)}</b><span>Сатылым</span></div><div class="seller-stat"><b>${po.length}</b><span>Тапсырыс</span></div><div class="seller-stat"><b>${units}</b><span>Сатылған дана</span></div><div class="seller-stat"><b>${mine.length}</b><span>Тауар</span></div><div class="seller-stat"><b>${stock}</b><span>Қойма</span></div><div class="seller-stat"><b>${chatCount}</b><span>Чат</span></div></div><div class="product-form-card" style="margin-top:14px"><h3 style="margin-top:0">🏆 Тауарлар көрсеткіші</h3>${top.length?`<div class="list">${top.map(x=>`<div class="item"><div style="display:flex;justify-content:space-between;gap:10px"><b>${esc(x.name)}</b><b>${money(x.sales)}</b></div><div class="muted" style="margin-top:4px">Сатылған: ${x.qty} дана${x.views?` · Көру: ${x.views}`:''}${x.favorites?` · Таңдаулы: ${x.favorites}`:''}</div></div>`).join('')}</div>`:'<div class="empty">Әзірге сатылым дерегі жоқ.</div>'}</div><div class="muted" style="margin-top:10px">Ескерту: көру/таңдаулы саны тек тауар құжатында осы өрістер бар болса көрсетіледі. Сатылым, тапсырыс және чат көрсеткіштері нақты Firestore деректерінен есептеледі.</div>`);
-  document.getElementById('close').onclick=closeModal;
-  document.querySelectorAll('[data-ap]').forEach(b=>b.onclick=()=>{closeModal();setTimeout(()=>openSellerAnalytics(b.dataset.ap),0)});
-}
-
 function renderAccount(){
   if(!state.currentUser){return `<div class="sectionhead"><h2>Аккаунт</h2></div><div class="item"><h3>Кіру / тіркелу</h3><p class="muted">Телефон нөміріңізбен кіріп, аккаунтыңызды телефонда да, ноутбукта да пайдаланыңыз.</p><button class="primary" id="loginBtn">Кіру / тіркелу</button></div>`;}
   const u=state.currentUser,orders=state.orders.filter(o=>o.buyerId===u.id),favs=state.favorites.length,chats=state.chats.length;
-  return `<div class="sectionhead"><h2>Аккаунт</h2><button class="secondary" id="logoutBtn">Шығу</button></div><div class="account-hero">${avatarHtml(u)}<div class="account-main"><div class="account-name">${esc(u.name||'Пайдаланушы')}</div><div class="account-phone">${esc(u.phone||'Телефон көрсетілмеген')}</div><div class="muted">${esc(u.city||'')} ${u.email?'· '+esc(u.email):''}</div></div></div><div class="account-actions"><button class="primary" id="editProfile">✏️ Жеке мәліметтерді өзгерту</button><button class="secondary" id="sellerBtn">🏪 Менің дүкенім</button><button class="secondary" id="accountNotificationsTop">🔔 Хабарламалар</button></div><div class="account-statgrid"><div class="account-stat"><b>${orders.length}</b><span class="muted">Тапсырыс</span></div><div class="account-stat"><b>${favs}</b><span class="muted">Таңдаулы</span></div><div class="account-stat"><b>${chats}</b><span class="muted">Чат</span></div></div><div class="account-menu"><button id="accountOrders"><span class="mi">📦</span><span><b>Менің тапсырыстарым</b><br><span class="muted">Тапсырыстарыңыздың тарихы</span></span></button><button id="accountFavorites"><span class="mi">♡</span><span><b>Таңдаулылар</b><br><span class="muted">Сақталған тауарлар</span></span></button><button id="accountChats"><span class="mi">💬</span><span><b>Чаттар</b><br><span class="muted">Сатушылармен сөйлесу</span></span></button><button id="accountNotifications"><span class="mi">🔔</span><span><b>Хабарламалар</b><br><span class="muted">Тапсырыс, чат және дүкен жаңалықтары</span></span><span id="accountNotifBadge" class="badge hidden">0</span></button><button id="accountSecurity"><span class="mi">🔐</span><span><b>Қауіпсіздік</b><br><span class="muted">Аккаунт және телефон арқылы кіру</span></span></button></div><div class="sectionhead"><h2>Соңғы тапсырыстар</h2><button class="secondary" id="allBuyerOrders">Барлығын көру</button></div>${orders.slice(0,3).length?`<div class="list">${orders.slice(0,3).map(o=>`<div class="item"><div style="display:flex;justify-content:space-between;gap:8px"><b>#${esc(String(o.id).slice(-6))}</b><span class="buyer-status ${buyerStatusClass(o.status||'Жаңа тапсырыс')}">${esc(o.status||'Жаңа тапсырыс')}</span></div><div>${money(o.total)}</div><button class="primary" data-bod="${esc(o.id)}">Толық көру</button></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`;
+  return `<div class="sectionhead"><h2>Аккаунт</h2><button class="secondary" id="logoutBtn">Шығу</button></div><div class="account-hero">${avatarHtml(u)}<div class="account-main"><div class="account-name">${esc(u.name||'Пайдаланушы')}</div><div class="account-phone">${esc(u.phone||'Телефон көрсетілмеген')}</div><div class="muted">${esc(u.city||'')} ${u.email?'· '+esc(u.email):''}</div></div></div><div class="account-actions"><button class="primary" id="editProfile">✏️ Жеке мәліметтерді өзгерту</button><button class="secondary" id="sellerBtn">🏪 Менің дүкенім</button></div><div class="account-statgrid"><div class="account-stat"><b>${orders.length}</b><span class="muted">Тапсырыс</span></div><div class="account-stat"><b>${favs}</b><span class="muted">Таңдаулы</span></div><div class="account-stat"><b>${chats}</b><span class="muted">Чат</span></div></div><div class="account-menu"><button id="accountOrders"><span class="mi">📦</span><span><b>Менің тапсырыстарым</b><br><span class="muted">Тапсырыстарыңыздың тарихы</span></span></button><button id="accountFavorites"><span class="mi">♡</span><span><b>Таңдаулылар</b><br><span class="muted">Сақталған тауарлар</span></span></button><button id="accountChats"><span class="mi">💬</span><span><b>Чаттар</b><br><span class="muted">Сатушылармен сөйлесу</span></span></button><button id="accountSecurity"><span class="mi">🔐</span><span><b>Қауіпсіздік</b><br><span class="muted">Аккаунт және телефон арқылы кіру</span></span></button></div><div class="sectionhead"><h2>Соңғы тапсырыстар</h2><button class="secondary" id="allBuyerOrders">Барлығын көру</button></div>${orders.slice(0,3).length?`<div class="list">${orders.slice(0,3).map(o=>`<div class="item"><div style="display:flex;justify-content:space-between;gap:8px"><b>#${esc(String(o.id).slice(-6))}</b><span class="buyer-status ${buyerStatusClass(o.status||'Жаңа тапсырыс')}">${esc(o.status||'Жаңа тапсырыс')}</span></div><div>${money(o.total)}</div><button class="primary" data-bod="${esc(o.id)}">Толық көру</button></div>`).join('')}</div>`:'<div class="empty">Тапсырыс әлі жоқ.</div>'}`;
 }
 
 function render(){const app=document.getElementById('app');if(page==='home')app.innerHTML=renderHome();if(page==='search')app.innerHTML=renderSearch();if(page==='favorites')app.innerHTML=renderFav();if(page==='chats'){renderChats();}if(page==='account')app.innerHTML=renderAccount();document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));updateBadges();bindSmartSearchTools()};setTimeout(applyLanguage,0)
-function updateBadges(){document.getElementById('cartCount').textContent=state.cart.reduce((s,x)=>s+x.qty,0);const f=document.getElementById('favBadge');f.textContent=state.favorites.length;f.classList.toggle('hidden',!state.favorites.length);const uid=state.currentUser?.id;const n=uid?state.chats.reduce((s,c)=>s+(c.unread?.[uid]||0),0):0;const b=document.getElementById('chatBadge');b.textContent=n;b.classList.toggle('hidden',!n);const nb=document.getElementById('accountNotifBadge');if(nb){const nn=notificationBadgeCount();nb.textContent=nn;nb.classList.toggle('hidden',!nn)}}
+function updateBadges(){document.getElementById('cartCount').textContent=state.cart.reduce((s,x)=>s+x.qty,0);const f=document.getElementById('favBadge');f.textContent=state.favorites.length;f.classList.toggle('hidden',!state.favorites.length);const uid=state.currentUser?.id;const n=uid?state.chats.reduce((s,c)=>s+(c.unread?.[uid]||0),0):0;const b=document.getElementById('chatBadge');b.textContent=n;b.classList.toggle('hidden',!n)}
 function openModal(html){if(!html)return;document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show');setTimeout(applyLanguage,0)}
 function closeModal(){if(activeChat&&fbReady&&fbDb&&state.currentUser){try{fbDb.collection('chats').doc(activeChat).set({online:{[state.currentUser.id]:false}},{merge:true})}catch(_){} }if(window.__satugoPresenceUnsub){try{window.__satugoPresenceUnsub()}catch(_){}window.__satugoPresenceUnsub=null}if(chatUnsubscribe){try{chatUnsubscribe()}catch(_){ }chatUnsubscribe=null}document.body.classList.remove('chat-open');chatProductId=null;chatProducts=[];document.getElementById('modal').classList.remove('show');document.getElementById('sheet').innerHTML='';selectedProduct=null;activeChat=null}
 function closeChat(){closeModal()}
@@ -1054,45 +964,19 @@ async function openSeller(){
   if(!state.currentUser){openLogin();return}
   const uid=state.currentUser.id;
   if(fbReady&&fbDb&&state.currentUser.firebase){try{const qs=await fbDb.collection('orders').where('sellerIds','array-contains',uid).get();const map=new Map((state.orders||[]).map(o=>[String(o.id),o]));qs.docs.forEach(d=>{const x=d.data()||{};map.set(d.id,{id:d.id,...x,createdAt:x.createdAt?.toMillis?x.createdAt.toMillis():x.createdAt||Date.now()})});state.orders=[...map.values()];save()}catch(e){console.warn('Seller orders load:',e.message)}}
-  // Load seller products from Firestore so they do not disappear after refresh/device change.
-  if(fbReady&&fbDb&&state.currentUser.firebase){
-    try{
-      const ps=await fbDb.collection('products').where('sellerId','==',uid).get();
-      const map=new Map((state.products||[]).filter(p=>String(p.sellerId)===String(uid)).map(p=>[String(p.id),p]));
-      ps.docs.forEach(d=>{const x=d.data()||{};map.set(String(d.id),{id:d.id,...x,createdAt:x.createdAt?.toMillis?x.createdAt.toMillis():x.createdAt||Date.now(),images:Array.isArray(x.images)&&x.images.length?x.images:(x.image?[x.image]:[])});});
-      state.products=[...(state.products||[]).filter(p=>String(p.sellerId)!==String(uid)),...map.values()];
-      save();
-    }catch(e){console.warn('Seller products load:',e.message)}
-  }
   const mine=state.products.filter(p=>String(p.sellerId)===String(uid));
   const orders=state.orders.filter(o=>(o.sellerIds||[]).map(String).includes(String(uid)));
   const totalSales=mine.reduce((n,p)=>n+Number(p.sales||0),0);
   const stock=mine.reduce((n,p)=>n+Number(p.stock??p.quantity??0),0);
   const catOptions=['Киім','Аяқ киім','Косметика','Электрон','Үй','Ас үй','Балалар','Ойыншық','Спорт','Авто','Аксессуар','Кітап','Кеңсе','Басқа'];
-  const categoryPresets={
-    'Киім':{name:'Oversize худи',sizes:'XS, S, M, L, XL, XXL',colors:'Қара, Ақ, Сұр',gender:'Unisex',desc:'Жұмсақ материалдан жасалған күнделікті киім. Өлшемі мен түсін таңдауға болады.'},
-    'Аяқ киім':{name:'Ақ кроссовка',sizes:'36, 37, 38, 39, 40, 41, 42, 43, 44',colors:'Ақ, Қара',gender:'Unisex',desc:'Күнделікті киюге арналған ыңғайлы кроссовка. Өлшемін таңдаңыз.'},
-    'Косметика':{name:'Бетке арналған косметика',sizes:'50 мл, 100 мл',colors:'Ақ',gender:'Әйелдер',desc:'Күнделікті күтімге арналған косметикалық өнім. Қолдану тәсілін сипаттамаға жазыңыз.'},
-    'Электрон':{name:'Сымсыз құлаққап',sizes:'Standard',colors:'Қара, Ақ',gender:'Unisex',desc:'Сымсыз байланысы бар заманауи электронды құрылғы. Негізгі сипаттамаларын көрсетіңіз.'},
-    'Үй':{name:'Үйге арналған тауар',sizes:'Standard',colors:'Ақ, Қара, Сұр',gender:'Unisex',desc:'Үйге қолдануға арналған пайдалы тауар. Өлшемі мен материалын сипаттаңыз.'},
-    'Ас үй':{name:'Ас үйге арналған тауар',sizes:'Standard',colors:'Ақ, Қара',gender:'Unisex',desc:'Ас үйде күнделікті қолдануға арналған ыңғайлы тауар.'},
-    'Балалар':{name:'Балаларға арналған тауар',sizes:'1-2 жас, 3-5 жас, 6-8 жас, 9-12 жас',colors:'Көк, Қызғылт, Ақ',gender:'Балалар',desc:'Балаларға арналған қауіпсіз әрі ыңғайлы тауар.'},
-    'Ойыншық':{name:'Дамытушы ойыншық',sizes:'Standard',colors:'Көп түсті',gender:'Балалар',desc:'Баланың ойлау және шығармашылық қабілетін дамытуға арналған ойыншық.'},
-    'Спорт':{name:'Спорттық тауар',sizes:'S, M, L, XL',colors:'Қара, Көк, Қызыл',gender:'Unisex',desc:'Спортпен айналысуға арналған ыңғайлы тауар.'},
-    'Авто':{name:'Авто аксессуар',sizes:'Standard',colors:'Қара',gender:'Unisex',desc:'Автокөлікке арналған пайдалы аксессуар.'},
-    'Аксессуар':{name:'Сәнді аксессуар',sizes:'Standard',colors:'Қара, Ақ, Қоңыр',gender:'Unisex',desc:'Күнделікті стильді толықтыратын аксессуар.'},
-    'Кітап':{name:'Кітап',sizes:'Standard',colors:'',gender:'Unisex',desc:'Оқуға арналған кітап. Авторын, жанрын және қысқаша мазмұнын жазыңыз.'},
-    'Кеңсе':{name:'Кеңсе тауары',sizes:'Standard',colors:'Ақ, Қара',gender:'Unisex',desc:'Оқу және жұмысқа арналған кеңсе тауары.'},
-    'Басқа':{name:'Жаңа тауар',sizes:'Standard',colors:'Қара, Ақ',gender:'Unisex',desc:'Тауардың негізгі сипаттамаларын осы жерге жазыңыз.'}
-  };
   const productCards=mine.map(p=>{const first=productImages(p)[0]||p.image||'';return `<div class="my-product"><div class="my-product-img">${first?`<img src="${esc(first)}" alt="">`:`<span style="font-size:48px">${p.cat==='Косметика'?'💄':p.cat==='Электрон'?'📱':p.cat==='Киім'?'👕':'🛍️'}</span>`}</div><div class="my-product-info"><div class="my-product-name">${esc(p.name)}</div><div class="my-product-meta"><span class="my-product-price">${money(p.price)}</span><span class="my-product-stock">Қойма: ${Number(p.stock??p.quantity??0)}</span></div><div class="muted" style="margin-top:5px">${esc(p.cat||'Басқа')}</div></div><div class="my-product-actions"><button class="secondary" data-view-my-product="${esc(p.id)}">Көру</button></div></div>`}).join('');
   openModal(`<div class="seller-panel">
     <div class="modaltop"><div><div class="muted">Сатушы панелі</div><h2 style="margin:2px 0 0">🏪 Менің дүкенім</h2></div><button class="close" id="close">×</button></div>
     <div class="seller-hero"><div><h2>${esc(state.store?.ownerId===uid?state.store.name:(state.currentUser.name||'Менің дүкенім'))}</h2><p>Тауарларды қосыңыз, көріңіз және тапсырыстарды басқарыңыз.</p></div><div class="seller-pill">SatuGo Seller</div></div>
-    <div class="seller-stats"><div class="seller-stat"><b>${mine.length}</b><span>Тауар</span></div><div class="seller-stat"><b>${stock}</b><span>Қойма</span></div><div class="seller-stat"><b>${orders.length}</b><span>Тапсырыс</span></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0"><button class="secondary" id="sellerAnalyticsBtn">📊 Аналитика</button><button class="secondary" id="sellerNotificationsBtn">🔔 Хабарламалар</button></div>
+    <div class="seller-stats"><div class="seller-stat"><b>${mine.length}</b><span>Тауар</span></div><div class="seller-stat"><b>${stock}</b><span>Қойма</span></div><div class="seller-stat"><b>${orders.length}</b><span>Тапсырыс</span></div></div>
     <div class="product-form-card">
       <div class="product-form-title"><div><h3>➕ Жаңа тауар қосу</h3><div class="product-form-sub">Тауарды толық толтырсаңыз, сатып алушыға әдемі әрі түсінікті көрінеді.</div></div></div>
-      <div class="form-section"><div class="form-section-title">1. Негізгі ақпарат</div><div class="field"><label>Тауар атауы *</label><input id="pnm" placeholder="Мысалы: Nike Air Max 270"></div><div class="form-grid-3"><div class="field"><label>Бағасы *</label><input id="pprice" type="number" min="1" placeholder="39990"></div><div class="field"><label>Қойма</label><input id="pstock" type="number" min="0" value="10"></div><div class="field"><label>Категория</label><select id="pcat">${catOptions.map(x=>`<option>${x}</option>`).join('')}</select></div></div><div class="field"><label>Қысқаша сипаттама</label><textarea id="pdesc" rows="3" placeholder="Материалы, ерекшелігі, қолданылуы..."></textarea></div><div class="field"><label>Категория бойынша дайын нұсқа</label><div style="display:flex;gap:7px;flex-wrap:wrap"><button type="button" class="secondary" id="applyCategoryPreset">✨ Дайын нұсқаны толтыру</button><span class="muted" style="align-self:center">Категорияны таңдаңыз — атау, өлшем, түс және сипаттама автоматты толтырылады.</span></div></div></div>
+      <div class="form-section"><div class="form-section-title">1. Негізгі ақпарат</div><div class="field"><label>Тауар атауы *</label><input id="pnm" placeholder="Мысалы: Nike Air Max 270"></div><div class="form-grid-3"><div class="field"><label>Бағасы *</label><input id="pprice" type="number" min="1" placeholder="39990"></div><div class="field"><label>Қойма</label><input id="pstock" type="number" min="0" value="10"></div><div class="field"><label>Категория</label><select id="pcat">${catOptions.map(x=>`<option>${x}</option>`).join('')}</select></div></div><div class="field"><label>Қысқаша сипаттама</label><textarea id="pdesc" rows="3" placeholder="Материалы, ерекшелігі, қолданылуы..."></textarea></div></div>
       <div class="form-section"><div class="form-section-title">2. Суреттер</div><div class="field"><label>Негізгі сурет URL</label><input id="pimg" placeholder="https://...jpg"></div><div class="field"><label>Қосымша сурет URL-лары <span class="muted">(әр жолға біреу)</span></label><textarea id="pimages" rows="3" placeholder="https://...2.jpg\nhttps://...3.jpg\nhttps://...4.jpg"></textarea></div><div class="muted">Тауарды ашқанда галерея болып көрсетіледі.</div></div>
       <div class="form-section"><div class="form-section-title">3. Варианттар</div><div class="form-grid-2"><div class="field"><label>Размер / өлшемдер</label><input id="pSizes" placeholder="S, M, L, XL немесе 36, 37, 38"></div><div class="field"><label>Түстер</label><input id="pColors" placeholder="Қара, Ақ, Көк"></div></div><div class="field"><label>Кімге арналған</label><select id="pGender"><option value="">Көрсетілмеген</option><option value="Әйелдер">Әйелдер</option><option value="Ерлер">Ерлер</option><option value="Балалар">Балалар</option><option value="Unisex">Unisex</option></select></div></div>
       <div class="form-section"><div class="form-section-title">4. Ерекше тауар</div><label class="special-check"><input id="pSpecial" type="checkbox"><span>✨ Ерекше заттарға шығару</span></label><div class="field"><select id="pSpecialType"><option value="interesting">🤯 Қызық зат</option><option value="eye">👀 Көзге түсетін</option><option value="gift">🎁 Сыйлық</option></select></div></div>
@@ -1106,8 +990,6 @@ async function openSeller(){
   </div>`);
   document.getElementById('close').onclick=closeModal;
   document.getElementById('saveStore').onclick=async()=>{const n=document.getElementById('storeName').value.trim();if(!n){toast('Дүкен атауын енгізіңіз');return}try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('stores').doc(uid).set({ownerId:uid,name:n,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});state.store={...(state.store||{}),ownerId:uid,name:n};save();toast('Дүкен сақталды');openSeller()}catch(e){toast('Дүкенді сақтау сәтсіз болды: '+e.message)}};
-  document.getElementById('sellerAnalyticsBtn').onclick=()=>openSellerAnalytics('all');document.getElementById('sellerNotificationsBtn').onclick=openNotifications;
-  document.getElementById('applyCategoryPreset').onclick=()=>{const c=document.getElementById('pcat')?.value||'Басқа';const x=categoryPresets[c]||categoryPresets['Басқа'];const set=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||''};set('pnm',x.name);set('pSizes',x.sizes);set('pColors',x.colors);set('pGender',x.gender);set('pdesc',x.desc);toast('✨ '+c+' категориясына дайын нұсқа толтырылды')};
   document.getElementById('addProduct').onclick=saveSellerProduct;
   document.querySelectorAll('[data-view-my-product]').forEach(b=>b.onclick=()=>openProduct(b.dataset.viewMyProduct));
   document.querySelectorAll('[data-status]').forEach(b=>b.onclick=async()=>{const o=state.orders.find(x=>String(x.id)===String(b.dataset.status));if(!o)return;try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('orders').doc(o.id).update({status:'Қабылданды',statusHistory:firebase.firestore.FieldValue.arrayUnion({status:'Қабылданды',at:Date.now(),by:uid}),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});o.status='Қабылданды';save();openSeller();toast('Тапсырыс қабылданды')}catch(e){toast('Тапсырыс статусын өзгерту қатесі: '+e.message)}});
@@ -1486,7 +1368,7 @@ if(satugoAccountBtn){
 document.getElementById('languageBtn').onclick=toggleLanguage;
 document.getElementById('cartBtn').onclick=openCart;document.getElementById('searchBtn').onclick=()=>{page='search';render()};document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){page='search';render()}});
 document.addEventListener('input',e=>{if(e.target.id==='searchPageInput'){document.getElementById('searchInput').value=e.target.value;page='search';render();setTimeout(()=>{const x=document.getElementById('searchPageInput');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}},0)}});
-document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('sheet').addEventListener('click',e=>{e.stopPropagation()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='accountOrders'){renderBuyerOrders();}if(e.target.id==='allBuyerOrders'){renderBuyerOrders();}if(e.target.closest('[data-bod]')){openBuyerOrder(e.target.closest('[data-bod]').dataset.bod);}if(e.target.id==='accountFavorites'){page='favorites';render()}if(e.target.id==='accountChats'){page='chats';render()}if(e.target.id==='accountNotifications'||e.target.id==='accountNotificationsTop'){openNotifications();}if(e.target.id==='accountSecurity'){openSecurity();}if(e.target.id==='searchPageInput'){}}
+document.addEventListener('change',e=>{if(e.target.id==='smartSort'&&page==='search'){const mode=e.target.value;const inputValue=(document.getElementById('searchInput')?.value||'').trim();const q=parseSmartQuery(inputValue);let arr=state.products.filter(p=>smartProductMatches(p,q)).map(p=>({p,score:smartRank(p,q)}));if(mode==='cheap')arr.sort((a,b)=>Number(a.p.price||0)-Number(b.p.price||0));else if(mode==='expensive')arr.sort((a,b)=>Number(b.p.price||0)-Number(a.p.price||0));else arr.sort((a,b)=>b.score-a.score);const grid=document.querySelector('#app .grid');if(grid){grid.innerHTML=arr.map(x=>renderCard(x.p)).join('')}}});document.getElementById('imageSearchInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)searchByPhoto(file);e.target.value=''});document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.getElementById('sheet').addEventListener('click',e=>{e.stopPropagation()});document.getElementById('app').addEventListener('click',e=>{if(e.target.id==='loginBtn')openLogin();if(e.target.id==='logoutBtn'){if(fbReady)fbAuth.signOut();state.currentUser=null;save();render();toast('Аккаунттан шықтыңыз')}if(e.target.id==='editProfile')editProfile();if(e.target.id==='sellerBtn')openSeller();if(e.target.id==='accountOrders'){renderBuyerOrders();}if(e.target.id==='allBuyerOrders'){renderBuyerOrders();}if(e.target.closest('[data-bod]')){openBuyerOrder(e.target.closest('[data-bod]').dataset.bod);}if(e.target.id==='accountFavorites'){page='favorites';render()}if(e.target.id==='accountChats'){page='chats';render()}if(e.target.id==='accountSecurity'){openSecurity();}if(e.target.id==='searchPageInput'){}}
 );render();applyLanguage();
 async function syncFirebaseData(){
  if(!fbReady)return;
