@@ -617,10 +617,12 @@ async function markChatMessagesRead(chatId,uid){
     const c=snap.data()||{};
     const unread={...(c.unread||{}),[uid]:0};
     await ref.set({unread},{merge:true});
-    const ms=await ref.collection('messages').where('senderId','!=',uid).where('read','==',false).limit(100).get();
-    if(!ms.empty){
+    // Avoid a composite/inequality query here; it can trigger an index error on a new Firebase project.
+    const ms=await ref.collection('messages').where('read','==',false).limit(100).get();
+    const unreadOther=ms.docs.filter(d=>String(d.data()?.senderId||'')!==String(uid));
+    if(unreadOther.length){
       const batch=fbDb.batch();
-      ms.docs.forEach(d=>batch.update(d.ref,{read:true,readAt:firebase.firestore.FieldValue.serverTimestamp()}));
+      unreadOther.forEach(d=>batch.update(d.ref,{read:true,readAt:firebase.firestore.FieldValue.serverTimestamp()}));
       await batch.commit();
     }
   }catch(e){console.warn('mark read',e.message)}
@@ -1052,11 +1054,37 @@ async function openSeller(){
   if(!state.currentUser){openLogin();return}
   const uid=state.currentUser.id;
   if(fbReady&&fbDb&&state.currentUser.firebase){try{const qs=await fbDb.collection('orders').where('sellerIds','array-contains',uid).get();const map=new Map((state.orders||[]).map(o=>[String(o.id),o]));qs.docs.forEach(d=>{const x=d.data()||{};map.set(d.id,{id:d.id,...x,createdAt:x.createdAt?.toMillis?x.createdAt.toMillis():x.createdAt||Date.now()})});state.orders=[...map.values()];save()}catch(e){console.warn('Seller orders load:',e.message)}}
+  // Load seller products from Firestore so they do not disappear after refresh/device change.
+  if(fbReady&&fbDb&&state.currentUser.firebase){
+    try{
+      const ps=await fbDb.collection('products').where('sellerId','==',uid).get();
+      const map=new Map((state.products||[]).filter(p=>String(p.sellerId)===String(uid)).map(p=>[String(p.id),p]));
+      ps.docs.forEach(d=>{const x=d.data()||{};map.set(String(d.id),{id:d.id,...x,createdAt:x.createdAt?.toMillis?x.createdAt.toMillis():x.createdAt||Date.now(),images:Array.isArray(x.images)&&x.images.length?x.images:(x.image?[x.image]:[])});});
+      state.products=[...(state.products||[]).filter(p=>String(p.sellerId)!==String(uid)),...map.values()];
+      save();
+    }catch(e){console.warn('Seller products load:',e.message)}
+  }
   const mine=state.products.filter(p=>String(p.sellerId)===String(uid));
   const orders=state.orders.filter(o=>(o.sellerIds||[]).map(String).includes(String(uid)));
   const totalSales=mine.reduce((n,p)=>n+Number(p.sales||0),0);
   const stock=mine.reduce((n,p)=>n+Number(p.stock??p.quantity??0),0);
   const catOptions=['Киім','Аяқ киім','Косметика','Электрон','Үй','Ас үй','Балалар','Ойыншық','Спорт','Авто','Аксессуар','Кітап','Кеңсе','Басқа'];
+  const categoryPresets={
+    'Киім':{name:'Oversize худи',sizes:'XS, S, M, L, XL, XXL',colors:'Қара, Ақ, Сұр',gender:'Unisex',desc:'Жұмсақ материалдан жасалған күнделікті киім. Өлшемі мен түсін таңдауға болады.'},
+    'Аяқ киім':{name:'Ақ кроссовка',sizes:'36, 37, 38, 39, 40, 41, 42, 43, 44',colors:'Ақ, Қара',gender:'Unisex',desc:'Күнделікті киюге арналған ыңғайлы кроссовка. Өлшемін таңдаңыз.'},
+    'Косметика':{name:'Бетке арналған косметика',sizes:'50 мл, 100 мл',colors:'Ақ',gender:'Әйелдер',desc:'Күнделікті күтімге арналған косметикалық өнім. Қолдану тәсілін сипаттамаға жазыңыз.'},
+    'Электрон':{name:'Сымсыз құлаққап',sizes:'Standard',colors:'Қара, Ақ',gender:'Unisex',desc:'Сымсыз байланысы бар заманауи электронды құрылғы. Негізгі сипаттамаларын көрсетіңіз.'},
+    'Үй':{name:'Үйге арналған тауар',sizes:'Standard',colors:'Ақ, Қара, Сұр',gender:'Unisex',desc:'Үйге қолдануға арналған пайдалы тауар. Өлшемі мен материалын сипаттаңыз.'},
+    'Ас үй':{name:'Ас үйге арналған тауар',sizes:'Standard',colors:'Ақ, Қара',gender:'Unisex',desc:'Ас үйде күнделікті қолдануға арналған ыңғайлы тауар.'},
+    'Балалар':{name:'Балаларға арналған тауар',sizes:'1-2 жас, 3-5 жас, 6-8 жас, 9-12 жас',colors:'Көк, Қызғылт, Ақ',gender:'Балалар',desc:'Балаларға арналған қауіпсіз әрі ыңғайлы тауар.'},
+    'Ойыншық':{name:'Дамытушы ойыншық',sizes:'Standard',colors:'Көп түсті',gender:'Балалар',desc:'Баланың ойлау және шығармашылық қабілетін дамытуға арналған ойыншық.'},
+    'Спорт':{name:'Спорттық тауар',sizes:'S, M, L, XL',colors:'Қара, Көк, Қызыл',gender:'Unisex',desc:'Спортпен айналысуға арналған ыңғайлы тауар.'},
+    'Авто':{name:'Авто аксессуар',sizes:'Standard',colors:'Қара',gender:'Unisex',desc:'Автокөлікке арналған пайдалы аксессуар.'},
+    'Аксессуар':{name:'Сәнді аксессуар',sizes:'Standard',colors:'Қара, Ақ, Қоңыр',gender:'Unisex',desc:'Күнделікті стильді толықтыратын аксессуар.'},
+    'Кітап':{name:'Кітап',sizes:'Standard',colors:'',gender:'Unisex',desc:'Оқуға арналған кітап. Авторын, жанрын және қысқаша мазмұнын жазыңыз.'},
+    'Кеңсе':{name:'Кеңсе тауары',sizes:'Standard',colors:'Ақ, Қара',gender:'Unisex',desc:'Оқу және жұмысқа арналған кеңсе тауары.'},
+    'Басқа':{name:'Жаңа тауар',sizes:'Standard',colors:'Қара, Ақ',gender:'Unisex',desc:'Тауардың негізгі сипаттамаларын осы жерге жазыңыз.'}
+  };
   const productCards=mine.map(p=>{const first=productImages(p)[0]||p.image||'';return `<div class="my-product"><div class="my-product-img">${first?`<img src="${esc(first)}" alt="">`:`<span style="font-size:48px">${p.cat==='Косметика'?'💄':p.cat==='Электрон'?'📱':p.cat==='Киім'?'👕':'🛍️'}</span>`}</div><div class="my-product-info"><div class="my-product-name">${esc(p.name)}</div><div class="my-product-meta"><span class="my-product-price">${money(p.price)}</span><span class="my-product-stock">Қойма: ${Number(p.stock??p.quantity??0)}</span></div><div class="muted" style="margin-top:5px">${esc(p.cat||'Басқа')}</div></div><div class="my-product-actions"><button class="secondary" data-view-my-product="${esc(p.id)}">Көру</button></div></div>`}).join('');
   openModal(`<div class="seller-panel">
     <div class="modaltop"><div><div class="muted">Сатушы панелі</div><h2 style="margin:2px 0 0">🏪 Менің дүкенім</h2></div><button class="close" id="close">×</button></div>
@@ -1064,7 +1092,7 @@ async function openSeller(){
     <div class="seller-stats"><div class="seller-stat"><b>${mine.length}</b><span>Тауар</span></div><div class="seller-stat"><b>${stock}</b><span>Қойма</span></div><div class="seller-stat"><b>${orders.length}</b><span>Тапсырыс</span></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0"><button class="secondary" id="sellerAnalyticsBtn">📊 Аналитика</button><button class="secondary" id="sellerNotificationsBtn">🔔 Хабарламалар</button></div>
     <div class="product-form-card">
       <div class="product-form-title"><div><h3>➕ Жаңа тауар қосу</h3><div class="product-form-sub">Тауарды толық толтырсаңыз, сатып алушыға әдемі әрі түсінікті көрінеді.</div></div></div>
-      <div class="form-section"><div class="form-section-title">1. Негізгі ақпарат</div><div class="field"><label>Тауар атауы *</label><input id="pnm" placeholder="Мысалы: Nike Air Max 270"></div><div class="form-grid-3"><div class="field"><label>Бағасы *</label><input id="pprice" type="number" min="1" placeholder="39990"></div><div class="field"><label>Қойма</label><input id="pstock" type="number" min="0" value="10"></div><div class="field"><label>Категория</label><select id="pcat">${catOptions.map(x=>`<option>${x}</option>`).join('')}</select></div></div><div class="field"><label>Қысқаша сипаттама</label><textarea id="pdesc" rows="3" placeholder="Материалы, ерекшелігі, қолданылуы..."></textarea></div></div>
+      <div class="form-section"><div class="form-section-title">1. Негізгі ақпарат</div><div class="field"><label>Тауар атауы *</label><input id="pnm" placeholder="Мысалы: Nike Air Max 270"></div><div class="form-grid-3"><div class="field"><label>Бағасы *</label><input id="pprice" type="number" min="1" placeholder="39990"></div><div class="field"><label>Қойма</label><input id="pstock" type="number" min="0" value="10"></div><div class="field"><label>Категория</label><select id="pcat">${catOptions.map(x=>`<option>${x}</option>`).join('')}</select></div></div><div class="field"><label>Қысқаша сипаттама</label><textarea id="pdesc" rows="3" placeholder="Материалы, ерекшелігі, қолданылуы..."></textarea></div><div class="field"><label>Категория бойынша дайын нұсқа</label><div style="display:flex;gap:7px;flex-wrap:wrap"><button type="button" class="secondary" id="applyCategoryPreset">✨ Дайын нұсқаны толтыру</button><span class="muted" style="align-self:center">Категорияны таңдаңыз — атау, өлшем, түс және сипаттама автоматты толтырылады.</span></div></div></div>
       <div class="form-section"><div class="form-section-title">2. Суреттер</div><div class="field"><label>Негізгі сурет URL</label><input id="pimg" placeholder="https://...jpg"></div><div class="field"><label>Қосымша сурет URL-лары <span class="muted">(әр жолға біреу)</span></label><textarea id="pimages" rows="3" placeholder="https://...2.jpg\nhttps://...3.jpg\nhttps://...4.jpg"></textarea></div><div class="muted">Тауарды ашқанда галерея болып көрсетіледі.</div></div>
       <div class="form-section"><div class="form-section-title">3. Варианттар</div><div class="form-grid-2"><div class="field"><label>Размер / өлшемдер</label><input id="pSizes" placeholder="S, M, L, XL немесе 36, 37, 38"></div><div class="field"><label>Түстер</label><input id="pColors" placeholder="Қара, Ақ, Көк"></div></div><div class="field"><label>Кімге арналған</label><select id="pGender"><option value="">Көрсетілмеген</option><option value="Әйелдер">Әйелдер</option><option value="Ерлер">Ерлер</option><option value="Балалар">Балалар</option><option value="Unisex">Unisex</option></select></div></div>
       <div class="form-section"><div class="form-section-title">4. Ерекше тауар</div><label class="special-check"><input id="pSpecial" type="checkbox"><span>✨ Ерекше заттарға шығару</span></label><div class="field"><select id="pSpecialType"><option value="interesting">🤯 Қызық зат</option><option value="eye">👀 Көзге түсетін</option><option value="gift">🎁 Сыйлық</option></select></div></div>
@@ -1079,6 +1107,7 @@ async function openSeller(){
   document.getElementById('close').onclick=closeModal;
   document.getElementById('saveStore').onclick=async()=>{const n=document.getElementById('storeName').value.trim();if(!n){toast('Дүкен атауын енгізіңіз');return}try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('stores').doc(uid).set({ownerId:uid,name:n,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});state.store={...(state.store||{}),ownerId:uid,name:n};save();toast('Дүкен сақталды');openSeller()}catch(e){toast('Дүкенді сақтау сәтсіз болды: '+e.message)}};
   document.getElementById('sellerAnalyticsBtn').onclick=()=>openSellerAnalytics('all');document.getElementById('sellerNotificationsBtn').onclick=openNotifications;
+  document.getElementById('applyCategoryPreset').onclick=()=>{const c=document.getElementById('pcat')?.value||'Басқа';const x=categoryPresets[c]||categoryPresets['Басқа'];const set=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||''};set('pnm',x.name);set('pSizes',x.sizes);set('pColors',x.colors);set('pGender',x.gender);set('pdesc',x.desc);toast('✨ '+c+' категориясына дайын нұсқа толтырылды')};
   document.getElementById('addProduct').onclick=saveSellerProduct;
   document.querySelectorAll('[data-view-my-product]').forEach(b=>b.onclick=()=>openProduct(b.dataset.viewMyProduct));
   document.querySelectorAll('[data-status]').forEach(b=>b.onclick=async()=>{const o=state.orders.find(x=>String(x.id)===String(b.dataset.status));if(!o)return;try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('orders').doc(o.id).update({status:'Қабылданды',statusHistory:firebase.firestore.FieldValue.arrayUnion({status:'Қабылданды',at:Date.now(),by:uid}),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});o.status='Қабылданды';save();openSeller();toast('Тапсырыс қабылданды')}catch(e){toast('Тапсырыс статусын өзгерту қатесі: '+e.message)}});
