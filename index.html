@@ -198,12 +198,7 @@
 .product-review-summary,.product-review,.product-related{grid-column:1/-1;margin:18px 20px 0;padding:18px;border:1px solid #e8edf3;border-radius:20px;background:#fff}.product-review-summary{margin-top:20px}.review-row{display:grid;grid-template-columns:28px 1fr 28px;gap:8px;align-items:center;margin:7px 0;font-size:12px}.review-bar{height:7px;background:#edf1f5;border-radius:99px;overflow:hidden}.review-bar i{display:block;height:100%;background:#111827;border-radius:99px}.product-review{margin-top:10px}.review-head{display:flex;justify-content:space-between;gap:12px}.review-photo{max-width:150px;max-height:150px;border-radius:12px;margin-top:10px;object-fit:cover}.product-related{margin-bottom:20px}.product-related .grid{margin-top:10px}
 @media(max-width:800px){.product-detail-v2{display:block;border-radius:20px}.product-gallery{padding:10px}.product-main-photo{height:370px;border-radius:20px}.product-info-v2{padding:20px 16px 18px}.product-title-v2{font-size:25px}.product-price-v2{font-size:29px}.product-thumb{width:68px;height:68px;min-width:68px}.product-review-summary,.product-review,.product-related{margin-left:10px;margin-right:10px}}
 @media(max-width:430px){.product-main-photo{height:310px}.product-main-photo:after{font-size:11px;padding:7px 9px}.product-info-v2{padding:18px 13px}.product-actions-v2{grid-template-columns:50px 1fr 1.15fr}.product-actions-v2 button{min-height:48px}.product-share button{font-size:12px;padding:10px 6px}}
-
-/* SatuGo Smart Category Product Form */
-.smart-category-box{margin-top:14px;border:1px solid #e5e7eb;border-radius:20px;padding:16px;background:linear-gradient(180deg,#fff,#f8fafc)}
-.smart-category-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.smart-category-head h4{margin:0;font-size:16px}.smart-category-badge{font-size:12px;padding:6px 10px;border-radius:999px;background:#eef2ff;color:#4338ca;font-weight:700}
-.category-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}.category-quick button{border:1px solid #e5e7eb;background:#fff;border-radius:14px;padding:10px 8px;cursor:pointer;font-weight:700}.category-quick button.active{border-color:#111827;background:#111827;color:#fff}.smart-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.smart-field{min-width:0}.smart-field.full{grid-column:1/-1}.smart-field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}.smart-field input,.smart-field select{width:100%;box-sizing:border-box;border:1px solid #dbe1e8;border-radius:12px;padding:11px 12px;background:#fff}.smart-help{font-size:12px;color:#6b7280;margin-top:5px}.smart-empty{padding:12px;border-radius:14px;background:#f3f4f6;color:#6b7280;font-size:13px}
-@media(max-width:650px){.category-quick{grid-template-columns:repeat(2,1fr)}.smart-fields{grid-template-columns:1fr}.smart-field.full{grid-column:auto}}
+.chat-products-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0 6px}.chat-context-hint{font-size:11px;color:#6b7280}.chat-products{display:flex;gap:7px;overflow:auto;padding:2px 0 8px;scrollbar-width:none}.chat-products::-webkit-scrollbar{display:none}.chat-product-chip{display:flex;align-items:center;gap:6px;min-width:max-content;max-width:210px;border:1px solid #e5e7eb;background:#fff;border-radius:999px;padding:6px 10px;font-size:12px;cursor:pointer}.chat-product-chip.active{border-color:#111827;background:#111827;color:#fff}.chat-product-chip img{width:28px;height:28px;object-fit:cover;border-radius:8px}.chat-product-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.chat-product-card-main{display:flex;gap:10px;align-items:center;min-width:0}.chat-product-card-copy{min-width:0;display:flex;flex-direction:column;gap:2px}.chat-product-card-copy b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.chat-context-label{font-size:10px;color:#6b7280}.chat-product-placeholder{display:flex;align-items:center;justify-content:center;font-size:24px}.msg-product-context{display:flex;align-items:center;gap:6px;width:max-content;max-width:100%;border:0;background:#ffffff22;color:inherit;border-radius:8px;padding:4px 6px;margin-bottom:5px;cursor:pointer}.theirs .msg-product-context{background:#f3f4f6;color:#111827}.msg-product-context img{width:26px;height:26px;object-fit:cover;border-radius:6px}.chat-list-item{width:100%;cursor:pointer}.chat-list-main{display:flex;gap:10px;align-items:center}.chat-list-avatar{width:48px;height:48px;border-radius:12px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:0 0 auto}.chat-list-avatar img{width:100%;height:100%;object-fit:cover}.chat-list-copy{min-width:0;flex:1}.chat-list-title{display:flex;justify-content:space-between;gap:8px}.chat-list-products{font-size:12px;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}.chat-list-last{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}.chat-open .chat-products-head,.chat-open .chat-products{flex:0 0 auto}@media(max-width:600px){.chat-context-hint{display:none}.chat-product-card{padding:8px}.chat-product-card button{padding:8px;font-size:11px}.msg-product-context{max-width:190px}}
 </style>
 
 <style id="satugo-orders-ui">.buyer-status{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800;background:#f3f4f6}.buyer-status.new{background:#fff7ed}.buyer-status.accepted{background:#ecfdf5}.buyer-status.shipping{background:#eff6ff}.buyer-status.done{background:#f0fdf4}.buyer-status.cancelled{background:#fef2f2}.buyer-timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:14px 0}.buyer-step{text-align:center;font-size:11px;color:#94a3b8;padding:8px 3px;border:1px solid #e5e7eb;border-radius:10px}.buyer-step.done{color:#111827;font-weight:800;background:#f8fafc}.buyer-order-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}.buyer-order-meta>div{padding:10px;border:1px solid #e5e7eb;border-radius:12px;font-size:12px}.danger{border:0;border-radius:12px;padding:11px 14px;background:#fee2e2;color:#991b1b;font-weight:800;cursor:pointer}.orderitems{margin:8px 0;font-size:13px;line-height:1.5}@media(max-width:500px){.buyer-timeline{grid-template-columns:repeat(2,1fr)}}
@@ -226,56 +221,6 @@
 .product-detail-v2{background:#fff;border-radius:18px}.product-gallery{background:#fff}.product-main-photo{height:390px;border-radius:18px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;overflow:hidden}.product-main-photo img{width:100%;height:100%;object-fit:contain}.product-thumbs{display:flex;gap:8px;overflow:auto;padding:10px 0}.product-thumb{width:68px;height:68px;min-width:68px;padding:0;border:2px solid transparent;border-radius:12px;overflow:hidden;background:#f1f5f9;cursor:pointer}.product-thumb.active{border-color:#111827}.product-thumb img{width:100%;height:100%;object-fit:cover}.product-info-v2{padding:2px 0}.product-title-v2{font-size:27px;line-height:1.15;font-weight:950;margin:8px 0}.product-price-v2{font-size:29px;font-weight:950;margin:10px 0}.product-rating{display:flex;align-items:center;gap:8px;font-size:13px}.variant-block{margin:16px 0;padding-top:14px;border-top:1px solid #eef0f3}.variant-label{font-weight:900;font-size:13px;margin-bottom:8px}.variant-options{display:flex;flex-wrap:wrap;gap:8px}.variant-option{min-width:44px;padding:10px 13px;border:1px solid #dbe1e8;background:#fff;border-radius:11px;font-weight:800;cursor:pointer}.variant-option.selected{background:#111827;color:#fff;border-color:#111827}.buy-box-v2{position:sticky;top:82px;background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:16px;box-shadow:0 8px 28px #0000000a}.buy-actions-v2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.buy-actions-v2 button{padding:14px;font-weight:900}.product-info-card{margin-top:14px;padding:15px;border:1px solid #e5e7eb;border-radius:16px;background:#fff}.product-info-card h3{margin:0 0 10px}.product-info-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}.product-info-list div{padding:9px;background:#f8fafc;border-radius:10px;font-size:12px}.product-share{display:flex;gap:8px;margin-top:5px}.product-share button{flex:1;border:1px solid #e5e7eb;background:#fff;border-radius:11px;padding:10px;cursor:pointer}
 @media(max-width:800px){.seller-hero{align-items:flex-start;flex-direction:column}.form-grid-3,.form-grid-2{grid-template-columns:1fr}.my-products{grid-template-columns:1fr 1fr}.product-main-photo{height:290px}.product-title-v2{font-size:23px}.product-price-v2{font-size:25px}.buy-box-v2{position:static}}
 @media(max-width:430px){.seller-stats{grid-template-columns:1fr 1fr 1fr}.seller-stat{padding:10px 8px}.seller-stat b{font-size:18px}.my-product-img{height:120px}.image-preview-row{grid-template-columns:repeat(2,1fr)}.product-main-photo{height:250px}.buy-actions-v2{grid-template-columns:1fr}.product-info-list{grid-template-columns:1fr}}
-</style>
-
-<style id="satugo-product-add-clean-design">
-/* SatuGo — clean product add screen */
-.seller-panel{display:block!important;background:#fff}
-.seller-panel>.seller-hero,.seller-panel>.seller-stats{display:none!important}
-.product-form-card{border:0!important;background:#fff!important;box-shadow:none!important;padding:0!important;margin:0!important}
-.product-form-title{padding:0 0 14px!important;margin:0!important;border:0!important}
-.product-form-title h3{font-size:23px!important;font-weight:900!important;margin:0!important;letter-spacing:-.4px}
-.product-form-sub{display:none!important}
-.form-section{border:1px solid #e8ebf0!important;border-radius:18px!important;background:#fff!important;padding:16px!important;margin:0 0 12px!important;box-shadow:0 2px 12px rgba(15,23,42,.04)!important}
-.form-section-title{font-size:15px!important;font-weight:900!important;margin-bottom:12px!important;color:#111827}
-.field label,.smart-field label{font-size:12px!important;font-weight:800!important;color:#374151!important;margin-bottom:6px!important}
-.field input,.field select,.field textarea,.smart-field input,.smart-field select{border:1px solid #dfe4ea!important;background:#fafbfc!important;border-radius:12px!important;min-height:44px!important;padding:11px 12px!important;outline:none!important;transition:.18s!important}
-.field textarea{min-height:90px!important;resize:vertical}
-.field input:focus,.field select:focus,.field textarea:focus,.smart-field input:focus,.smart-field select:focus{border-color:#111827!important;background:#fff!important;box-shadow:0 0 0 3px rgba(17,24,39,.07)!important}
-.form-grid-3{gap:10px!important}.form-grid-2{gap:10px!important}
-.smart-category-box{margin-top:12px!important;border:1px solid #e6e9ee!important;border-radius:16px!important;padding:14px!important;background:#f8fafc!important}
-.smart-category-head{margin-bottom:10px!important}.smart-category-head h4{font-size:14px!important}.smart-category-badge{display:none!important}
-.smart-fields{gap:10px!important}.smart-help{display:none!important}
-.image-preview-row{margin-top:9px!important}
-.special-check{border:1px solid #e5e7eb!important;border-radius:12px!important;padding:11px 12px!important;background:#fafafa!important}
-.seller-submit{border:0!important;border-radius:13px!important;min-height:48px!important;font-size:15px!important;box-shadow:none!important;margin-top:2px!important}
-/* no decorative blocks around the form */
-.my-products-title,.seller-panel>h3,.seller-panel>.list,.seller-panel>.empty{margin-top:18px!important}
-
-/* Premium product photo picker */
-.photo-section-pro{overflow:hidden!important;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%)!important}
-.photo-title-pro{display:flex!important;align-items:center!important;justify-content:space-between!important}
-.photo-count{font-size:12px;font-weight:900;color:#64748b;background:#f1f5f9;border:1px solid #e2e8f0;padding:6px 9px;border-radius:999px}
-.photo-picker-pro{border:1.5px dashed #cbd5e1;border-radius:18px;background:#f8fafc;padding:12px;transition:.2s}
-.photo-picker-pro:hover{border-color:#111827;background:#fff}
-.photo-pick-btn{width:100%;border:0;background:#fff;border-radius:14px;min-height:72px;padding:10px 14px;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;color:#111827;box-shadow:0 4px 16px rgba(15,23,42,.05)}
-.photo-pick-btn b{display:block;font-size:14px;text-align:left}.photo-pick-btn small{display:block;color:#64748b;font-size:11px;font-weight:600;margin-top:3px;text-align:left}
-.photo-pick-icon{width:42px;height:42px;border-radius:13px;background:#111827;color:#fff;display:grid;place-items:center;font-size:27px;font-weight:300}
-.product-photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px}
-.product-photo-item{position:relative;aspect-ratio:1/1;border-radius:15px;overflow:hidden;background:#e2e8f0;border:1px solid #e2e8f0;box-shadow:0 5px 16px rgba(15,23,42,.07)}
-.product-photo-item img{width:100%;height:100%;object-fit:cover;display:block}.product-photo-item.main-photo{outline:2px solid #111827;outline-offset:-2px}
-.product-photo-main{position:absolute;left:7px;top:7px;background:#111827;color:#fff;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:900}
-.product-photo-remove{position:absolute;right:7px;top:7px;width:28px;height:28px;border:0;border-radius:50%;background:#fff;color:#111827;font-size:17px;line-height:1;cursor:pointer;box-shadow:0 3px 10px #0002}
-.url-fallback{margin-top:10px}.url-fallback label{color:#64748b!important}
-@media(max-width:430px){.product-photo-grid{grid-template-columns:repeat(2,1fr)}.photo-pick-btn{min-height:66px}.photo-pick-icon{width:38px;height:38px}}
-
-@media(max-width:650px){
- .seller-panel{padding-bottom:4px!important}
- .form-section{padding:13px!important;border-radius:15px!important}
- .product-form-title h3{font-size:21px!important}
- .form-grid-3,.form-grid-2,.smart-fields{grid-template-columns:1fr!important}
- .smart-field.full{grid-column:auto!important}
-}
 </style>
 </head>
 <body>
@@ -598,7 +543,11 @@ function renderChats(){
   fbDb.collection('chats').where('participants','array-contains',uid).get().then(snap=>{
     const arr=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.updatedAt?.toMillis?.()||0)-(a.updatedAt?.toMillis?.()||0));
     state.chats=arr;save();
-    app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2><span class="muted">'+arr.length+'</span></div>'+(arr.length?'<div class="list">'+arr.map(c=>{const otherId=(c.participants||[]).find(x=>x!==uid);const other=c.participantNames?.[otherId]||(c.buyerId===uid?c.sellerName:c.buyerName)||'Сатушы';const unread=c.unread?.[uid]||0;return '<button class="item" data-chat="'+esc(c.id)+'" style="text-align:left;border:1px solid #e5e7eb"><b>💬 '+esc(other)+'</b><div class="muted">'+esc(c.lastMessage||'Чат ашылды')+(unread?' <span class="badge">'+unread+'</span>':'')+'</div></button>'}).join('')+'</div>':'<div class="empty">Әзірге чат жоқ.<br>Тауарды ашып, «Сатушымен чат» батырмасын басыңыз.</div>');updateBadges();
+    app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2><span class="muted">'+arr.length+'</span></div>'+(arr.length?'<div class="list">'+arr.map(c=>{
+      const otherId=(c.participants||[]).find(x=>x!==uid);const other=c.participantNames?.[otherId]||(c.buyerId===uid?c.sellerName:c.buyerName)||'Сатушы';const unread=c.unread?.[uid]||0;
+      const products=Array.isArray(c.products)&&c.products.length?c.products:(c.productId?[{id:c.productId,name:c.productName,image:c.productImage,price:c.productPrice}]:[]);const p=products[0];
+      return '<button class="item chat-list-item" data-chat="'+esc(c.id)+'" style="text-align:left"><div class="chat-list-main"><div class="chat-list-avatar">'+(p?.image?'<img src="'+esc(p.image)+'" alt="">':'💬')+'</div><div class="chat-list-copy"><div class="chat-list-title"><b>💬 '+esc(other)+'</b>'+(unread?'<span class="badge">'+unread+'</span>':'')+'</div><div class="chat-list-products">'+esc(products.length+' тауар'+(products.length===1?'':' туралы'))+(p?.name?' · '+p.name:'')+'</div><div class="muted chat-list-last">'+esc(c.lastMessage||'Чат ашылды')+'</div></div></div></button>';
+    }).join('')+'</div>':'<div class="empty">Әзірге чат жоқ.<br>Тауарды ашып, «Сатушымен чат» батырмасын басыңыз.</div>');updateBadges();
   }).catch(e=>{console.error(e);app.innerHTML='<div class="sectionhead"><h2>💬 Чаттар</h2></div><div class="empty">Чаттарды жүктеу қатесі:<br>'+esc(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message)+'</div>'});
 }
 async function startChat(p){
@@ -608,22 +557,22 @@ async function startChat(p){
   if(p.sellerId===uid){toast('Өз тауарыңызға чат аша алмайсыз');return}
   if(!fbReady||!fbDb){toast('Firebase Firestore қосылмаған');return}
   const id='chat_'+[uid,p.sellerId].sort().join('_');
+  const product={id:String(p.id),name:p.name||'Тауар',image:p.image||((Array.isArray(p.images)&&p.images[0])||''),price:Number(p.price||0),category:p.cat||p.category||'',sellerId:p.sellerId};
   try{
-    await fbDb.collection('chats').doc(id).set({
-      participants:[uid,p.sellerId],
-      participantNames:{[uid]:state.currentUser?.name||'Пайдаланушы',[p.sellerId]:p.sellerName||'Сатушы'},
-      buyerId:uid,buyerName:state.currentUser?.name||'Пайдаланушы',
-      sellerId:p.sellerId,sellerName:p.sellerName||'Сатушы',
-      productId:p.id,productName:p.name||'Тауар',productImage:p.image||'',productPrice:Number(p.price||0),
-      lastMessage:'',unread:{[uid]:0,[p.sellerId]:0},updatedAt:firebase.firestore.FieldValue.serverTimestamp()
-    },{merge:true});
-    closeModal();await openChat(id);
+    const ref=fbDb.collection('chats').doc(id),old=await ref.get(),c=old.exists?(old.data()||{}):{};
+    let products=Array.isArray(c.products)?c.products:[];
+    if(!products.length&&c.productId)products=[{id:String(c.productId),name:c.productName||'Тауар',image:c.productImage||'',price:Number(c.productPrice||0),sellerId:p.sellerId}];
+    if(!products.some(x=>String(x.id)===String(product.id)))products.push(product);
+    await ref.set({participants:[uid,p.sellerId],participantNames:{...(c.participantNames||{}),[uid]:state.currentUser?.name||'Пайдаланушы',[p.sellerId]:p.sellerName||c.sellerName||'Сатушы'},buyerId:c.buyerId||uid,buyerName:c.buyerName||state.currentUser?.name||'Пайдаланушы',sellerId:p.sellerId,sellerName:c.sellerName||p.sellerName||'Сатушы',products,productId:c.productId||product.id,productName:c.productName||product.name,productImage:c.productImage||product.image,productPrice:c.productPrice||product.price,lastMessage:c.lastMessage||'',unread:{...(c.unread||{}),[uid]:c.unread?.[uid]||0,[p.sellerId]:c.unread?.[p.sellerId]||0},updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+    closeModal();await openChat(id,product.id);
   }catch(e){console.error(e);toast('Чатты ашу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}
 }
 let chatUnsubscribe=null;
 let chatTypingTimer=null;
 let chatTypingUnsub=null;
 let chatReply=null;
+let chatProductId=null;
+let chatProducts=[];
 
 function chatTime(v){
   try{
@@ -718,7 +667,7 @@ function setChatReply(m){
   document.getElementById('cancelChatReply').onclick=()=>setChatReply(null);
 }
 
-async function openChat(id){
+async function openChat(id,preferredProductId=null){
   const uid=state.currentUser?.id||fbAuth?.currentUser?.uid;
   if(!uid){openLogin();return}
   if(!fbReady||!fbDb){toast('Firebase Firestore қосылмаған');return}
@@ -728,17 +677,30 @@ async function openChat(id){
     const c={id:snap.id,...snap.data()};
     if(!(c.participants||[]).includes(uid)){toast('Чатқа рұқсат жоқ');return}
     activeChat=id;chatReply=null;
+    chatProducts=Array.isArray(c.products)?c.products.slice():[];
+    if(!chatProducts.length&&c.productId)chatProducts=[{id:String(c.productId),name:c.productName||'Тауар',image:c.productImage||'',price:Number(c.productPrice||0),sellerId:c.sellerId}];
+    chatProductId=preferredProductId||chatProducts[0]?.id||null;
     const otherId=(c.participants||[]).find(x=>x!==uid);
     const title=c.participantNames?.[otherId]||(c.buyerId===uid?c.sellerName:c.buyerName)||'Чат';
     try{await ref.set({online:{...(c.online||{}),[uid]:true,onlineAt:firebase.firestore.FieldValue.serverTimestamp()},typing:{[uid]:false}},{merge:true})}catch(_){}
     await markChatMessagesRead(id,uid);
     document.body.classList.add('chat-open');
-    openModal(`<div class="modaltop"><div style="display:flex;align-items:center;gap:8px;min-width:0"><button class="chat-back" id="chatBack" type="button">← Артқа</button><div style="min-width:0"><h2 style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0">💬 ${esc(title)}</h2><div class="muted" id="chatPresence">${c.online?.[otherId]?'🟢 Онлайн':'⚪ Офлайн'}</div><div id="chatTyping" class="chat-typing"></div></div></div><button class="close" id="close" type="button">×</button></div><div class="chat-product-card"><div style="display:flex;gap:10px;align-items:center;min-width:0">${c.productImage?`<img src="${esc(c.productImage)}" class="chat-product-img">`:''}<div style="min-width:0"><b>${esc(c.productName||'Тауар')}</b><div class="muted">${c.productPrice?money(c.productPrice):'Тауар туралы чат'}</div></div></div><button type="button" class="secondary" id="chatProductBtn">Тауарды көру</button></div><div class="chatbox"><div class="msgs" id="msgs"><div class="muted">Жүктелуде...</div></div><div id="chatReplyBox" class="chat-reply hidden"></div><div class="chat-quick"><button type="button" data-quick="Сәлеметсіз бе! Осы тауар әлі бар ма?">Сәлем!</button><button type="button" data-quick="Бағасын түсіруге бола ма?">Бағасы?</button><button type="button" data-quick="Жеткізу бар ма?">Жеткізу?</button></div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..." autocomplete="off"><input id="chatImage" type="file" accept="image/*" style="display:none"><button class="secondary" id="chatImageBtn" type="button" title="Фото жіберу">📷</button><button class="primary" id="sendChat" type="button">Жіберу</button></div></div>`);
+    openModal(`<div class="modaltop"><div style="display:flex;align-items:center;gap:8px;min-width:0"><button class="chat-back" id="chatBack" type="button">← Артқа</button><div style="min-width:0"><h2 style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0">💬 ${esc(title)}</h2><div class="muted" id="chatPresence">${c.online?.[otherId]?'🟢 Онлайн':'⚪ Офлайн'}</div><div id="chatTyping" class="chat-typing"></div></div></div><button class="close" id="close" type="button">×</button></div><div class="chat-products-head"><div><b>Сөйлесіп жатқан тауарлар</b><span class="muted" id="chatProductCount"></span></div><span class="chat-context-hint">Әр хабарлама тауарға байланады</span></div><div class="chat-products" id="chatProducts"></div><div class="chat-product-card" id="chatProductCard"></div><div class="chatbox"><div class="msgs" id="msgs"><div class="muted">Жүктелуде...</div></div><div id="chatReplyBox" class="chat-reply hidden"></div><div class="chat-quick"><button type="button" data-quick="Сәлеметсіз бе! Осы тауар әлі бар ма?">Сәлем!</button><button type="button" data-quick="Бағасын түсіруге бола ма?">Бағасы?</button><button type="button" data-quick="Жеткізу бар ма?">Жеткізу?</button></div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..." autocomplete="off"><input id="chatImage" type="file" accept="image/*" style="display:none"><button class="secondary" id="chatImageBtn" type="button" title="Фото жіберу">📷</button><button class="primary" id="sendChat" type="button">Жіберу</button></div></div>`);
     document.getElementById('close').onclick=closeChat;
     document.getElementById('chatBack').onclick=closeChat;
     document.getElementById('sendChat').onclick=()=>sendChat();
     document.getElementById('chatImageBtn').onclick=()=>document.getElementById('chatImage').click();
-    document.getElementById('chatProductBtn').onclick=()=>{if(c.productId){closeChat();openProduct(c.productId)}};
+    const renderChatProducts=()=>{
+      const wrap=document.getElementById('chatProducts'),card=document.getElementById('chatProductCard');if(!wrap||!card)return;
+      document.getElementById('chatProductCount').textContent=' · '+chatProducts.length;
+      wrap.innerHTML=chatProducts.map(p=>`<button type="button" class="chat-product-chip ${String(p.id)===String(chatProductId)?'active':''}" data-cpid="${esc(p.id)}">${p.image?`<img src="${esc(p.image)}" alt="">`:'<span>🛍️</span>'}<span>${esc(p.name||'Тауар')}</span></button>`).join('');
+      const cp=chatProducts.find(x=>String(x.id)===String(chatProductId))||chatProducts[0];
+      if(!cp){card.innerHTML='<div class="muted">Тауар таңдалмаған</div>';return}
+      card.innerHTML=`<div class="chat-product-card-main">${cp.image?`<img src="${esc(cp.image)}" class="chat-product-img" alt="">`:'<div class="chat-product-img chat-product-placeholder">🛍️</div>'}<div class="chat-product-card-copy"><b>${esc(cp.name||'Тауар')}</b><div class="muted">${cp.price?money(cp.price):'Бағасы көрсетілмеген'}</div><span class="chat-context-label">Келесі хабарлама осы тауарға қатысты</span></div></div><button type="button" class="secondary" id="chatProductBtn">Тауарды көру</button>`;
+      wrap.querySelectorAll('[data-cpid]').forEach(b=>b.onclick=()=>{chatProductId=b.dataset.cpid;renderChatProducts();document.getElementById('chatText')?.focus()});
+      document.getElementById('chatProductBtn').onclick=()=>{if(cp?.id){closeChat();openProduct(cp.id)}};
+    };
+    renderChatProducts();
     document.querySelectorAll('[data-quick]').forEach(b=>b.onclick=()=>{const input=document.getElementById('chatText');if(input){input.value=b.dataset.quick;input.focus();setTyping(true);}});
     document.getElementById('chatText').addEventListener('input',()=>{
       setTyping(true);
@@ -757,8 +719,9 @@ async function openChat(id){
       const box=document.getElementById('msgs');if(!box)return;
       box.innerHTML=s.empty?'<div class="muted">Хабарлама жоқ.</div>':s.docs.map(d=>{
         const m=d.data()||{},mine=m.senderId===uid,read=m.read===true,deleted=m.deleted===true;
-        return `<div class="msg-wrap ${mine?'mine-wrap':'theirs-wrap'}"><div class="msg ${mine?'mine':'theirs'} ${deleted?'deleted-msg':''}" data-mid="${esc(d.id)}">${m.replyTo?`<div class="reply-preview">↩️ ${esc((m.replyTo.text||'📷 Фото').slice(0,80))}</div>`:''}${m.image&&!deleted?`<img class="chat-photo" src="${esc(m.image)}" alt="Фото" title="Фотоны үлкейту">`:''}${m.text?`<div>${esc(deleted?'Хабарлама өшірілді':m.text)}</div>`:''}<div class="msg-meta">${esc(chatTime(m.createdAt))}${mine?' · '+(read?'Оқылды':'Жіберілді'):''}${mine&&!deleted?` · <button type="button" class="chat-action" data-del="${esc(d.id)}">Өшіру</button>`:''}${!deleted?` · <button type="button" class="chat-action" data-reply="${esc(d.id)}">Жауап</button>`:''}</div></div></div>`;
+        return `<div class="msg-wrap ${mine?'mine-wrap':'theirs-wrap'}"><div class="msg ${mine?'mine':'theirs'} ${deleted?'deleted-msg':''}" data-mid="${esc(d.id)}">${m.productContext?`<button type="button" class="msg-product-context" data-msg-product="${esc(m.productContext.id)}">${m.productContext.image?`<img src="${esc(m.productContext.image)}" alt="">`:'<span>🛍️</span>'}<span>${esc(m.productContext.name||'Тауар')}</span></button>`:''}${m.replyTo?`<div class="reply-preview">↩️ ${esc((m.replyTo.text||'📷 Фото').slice(0,80))}</div>`:''}${m.image&&!deleted?`<img class="chat-photo" src="${esc(m.image)}" alt="Фото" title="Фотоны үлкейту">`:''}${m.text?`<div>${esc(deleted?'Хабарлама өшірілді':m.text)}</div>`:''}<div class="msg-meta">${esc(chatTime(m.createdAt))}${mine?' · '+(read?'Оқылды':'Жіберілді'):''}${mine&&!deleted?` · <button type="button" class="chat-action" data-del="${esc(d.id)}">Өшіру</button>`:''}${!deleted?` · <button type="button" class="chat-action" data-reply="${esc(d.id)}">Жауап</button>`:''}</div></div></div>`;
       }).join('');
+      box.querySelectorAll('[data-msg-product]').forEach(b=>b.onclick=()=>{closeChat();openProduct(b.dataset.msgProduct)});
       box.querySelectorAll('.chat-photo').forEach(im=>im.onclick=()=>openModal(`<div class="modaltop"><h2>📷 Фото</h2><button class="close" id="close">×</button></div><div style="text-align:center"><img src="${im.src}" style="max-width:100%;max-height:72vh;border-radius:14px"></div>`));
       box.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{try{await ref.collection('messages').doc(b.dataset.del).update({deleted:true,text:'',image:''})}catch(e){toast('Хабарламаны өшіру қатесі: '+e.message)}});
       box.querySelectorAll('[data-reply]').forEach(b=>b.onclick=()=>{const d=s.docs.find(x=>x.id===b.dataset.reply);if(d){const m=d.data()||{};setChatReply({id:d.id,text:m.text||'',image:m.image||''});document.getElementById('chatText')?.focus()}});
@@ -779,12 +742,13 @@ async function sendChat(forcedText='',forcedImage=''){
     if(!snap.exists){toast('Чат табылмады');return}
     const c=snap.data()||{};
     if(!(c.participants||[]).includes(uid)){toast('Чатқа рұқсат жоқ');return}
-    const message={senderId:uid,senderName:state.currentUser?.name||'Пайдаланушы',text:text||'',image:forcedImage||'',read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()};
+    const cp=(chatProducts||[]).find(x=>String(x.id)===String(chatProductId));
+    const message={senderId:uid,senderName:state.currentUser?.name||'Пайдаланушы',text:text||'',image:forcedImage||'',read:false,productId:cp?.id||'',productContext:cp?{id:cp.id,name:cp.name||'Тауар',image:cp.image||'',price:Number(cp.price||0)}:null,createdAt:firebase.firestore.FieldValue.serverTimestamp()};
     if(chatReply)message.replyTo={id:chatReply.id,text:chatReply.text||'',hasImage:!!chatReply.image};
     await ref.collection('messages').add(message);
     const unread={...(c.unread||{}),[uid]:0},other=(c.participants||[]).find(x=>x!==uid);
     if(other)unread[other]=(unread[other]||0)+1;
-    await ref.set({lastMessage:text||'📷 Фото',lastSenderId:uid,unread,typing:{[uid]:false},updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+    await ref.set({lastMessage:(text||'📷 Фото')+(cp?.name?' · '+cp.name:''),lastSenderId:uid,unread,typing:{[uid]:false},updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
     chatReply=null;setChatReply(null);
     if(input){input.value='';input.focus()}
     if(chatTypingTimer)clearTimeout(chatTypingTimer);
@@ -806,7 +770,7 @@ function renderAccount(){
 function render(){const app=document.getElementById('app');if(page==='home')app.innerHTML=renderHome();if(page==='search')app.innerHTML=renderSearch();if(page==='favorites')app.innerHTML=renderFav();if(page==='chats'){renderChats();}if(page==='account')app.innerHTML=renderAccount();document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));updateBadges();bindSmartSearchTools()};setTimeout(applyLanguage,0)
 function updateBadges(){document.getElementById('cartCount').textContent=state.cart.reduce((s,x)=>s+x.qty,0);const f=document.getElementById('favBadge');f.textContent=state.favorites.length;f.classList.toggle('hidden',!state.favorites.length);const uid=state.currentUser?.id;const n=uid?state.chats.reduce((s,c)=>s+(c.unread?.[uid]||0),0):0;const b=document.getElementById('chatBadge');b.textContent=n;b.classList.toggle('hidden',!n)}
 function openModal(html){if(!html)return;document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show');setTimeout(applyLanguage,0)}
-function closeModal(){if(activeChat&&fbReady&&fbDb&&state.currentUser){try{fbDb.collection('chats').doc(activeChat).set({online:{[state.currentUser.id]:false}},{merge:true})}catch(_){} }if(window.__satugoPresenceUnsub){try{window.__satugoPresenceUnsub()}catch(_){}window.__satugoPresenceUnsub=null}if(chatUnsubscribe){try{chatUnsubscribe()}catch(_){ }chatUnsubscribe=null}document.body.classList.remove('chat-open');document.getElementById('modal').classList.remove('show');document.getElementById('sheet').innerHTML='';selectedProduct=null;activeChat=null}
+function closeModal(){if(activeChat&&fbReady&&fbDb&&state.currentUser){try{fbDb.collection('chats').doc(activeChat).set({online:{[state.currentUser.id]:false}},{merge:true})}catch(_){} }if(window.__satugoPresenceUnsub){try{window.__satugoPresenceUnsub()}catch(_){}window.__satugoPresenceUnsub=null}if(chatUnsubscribe){try{chatUnsubscribe()}catch(_){ }chatUnsubscribe=null}document.body.classList.remove('chat-open');chatProductId=null;chatProducts=[];document.getElementById('modal').classList.remove('show');document.getElementById('sheet').innerHTML='';selectedProduct=null;activeChat=null}
 function closeChat(){closeModal()}
 function productImages(p){
   const arr=[];
@@ -1012,8 +976,8 @@ async function openSeller(){
     <div class="seller-stats"><div class="seller-stat"><b>${mine.length}</b><span>Тауар</span></div><div class="seller-stat"><b>${stock}</b><span>Қойма</span></div><div class="seller-stat"><b>${orders.length}</b><span>Тапсырыс</span></div></div>
     <div class="product-form-card">
       <div class="product-form-title"><div><h3>➕ Жаңа тауар қосу</h3><div class="product-form-sub">Тауарды толық толтырсаңыз, сатып алушыға әдемі әрі түсінікті көрінеді.</div></div></div>
-      <div class="form-section"><div class="form-section-title">1. Негізгі ақпарат</div><div class="field"><label>Тауар атауы *</label><input id="pnm" placeholder="Мысалы: Nike Air Max 270"></div><div class="form-grid-3"><div class="field"><label>Бағасы *</label><input id="pprice" type="number" min="1" placeholder="39990"></div><div class="field"><label>Қойма</label><input id="pstock" type="number" min="0" value="10"></div><div class="field"><label>Категория</label><select id="pcat">${catOptions.map(x=>`<option>${x}</option>`).join('')}</select></div></div><div id="smartCategoryFields" class="smart-category-box"></div><div class="field"><label>Қысқаша сипаттама</label><textarea id="pdesc" rows="3" placeholder="Материалы, ерекшелігі, қолданылуы..."></textarea></div></div>
-      <div class="form-section photo-section-pro"><div class="form-section-title photo-title-pro"><span>2. Суреттер</span><span class="photo-count" id="photoCount">0/6</span></div><div class="photo-picker-pro" id="photoPickerBox"><input id="productPhotoFiles" type="file" accept="image/*" multiple hidden><button type="button" class="photo-pick-btn" id="chooseProductPhotos"><span class="photo-pick-icon">＋</span><span><b>Галереядан сурет таңдау</b><small>6 суретке дейін • JPG, PNG</small></span></button></div><div id="productPhotoPreview" class="product-photo-grid"></div><div class="field url-fallback"><label>Қажет болса сурет URL-ы</label><input id="pimg" placeholder="https://...jpg"></div><div class="field url-fallback"><label>Қосымша URL-лар <span class="muted">(әр жолға біреу)</span></label><textarea id="pimages" rows="2" placeholder="https://...2.jpg\nhttps://...3.jpg"></textarea></div></div>
+      <div class="form-section"><div class="form-section-title">1. Негізгі ақпарат</div><div class="field"><label>Тауар атауы *</label><input id="pnm" placeholder="Мысалы: Nike Air Max 270"></div><div class="form-grid-3"><div class="field"><label>Бағасы *</label><input id="pprice" type="number" min="1" placeholder="39990"></div><div class="field"><label>Қойма</label><input id="pstock" type="number" min="0" value="10"></div><div class="field"><label>Категория</label><select id="pcat">${catOptions.map(x=>`<option>${x}</option>`).join('')}</select></div></div><div class="field"><label>Қысқаша сипаттама</label><textarea id="pdesc" rows="3" placeholder="Материалы, ерекшелігі, қолданылуы..."></textarea></div></div>
+      <div class="form-section"><div class="form-section-title">2. Суреттер</div><div class="field"><label>Негізгі сурет URL</label><input id="pimg" placeholder="https://...jpg"></div><div class="field"><label>Қосымша сурет URL-лары <span class="muted">(әр жолға біреу)</span></label><textarea id="pimages" rows="3" placeholder="https://...2.jpg\nhttps://...3.jpg\nhttps://...4.jpg"></textarea></div><div class="muted">Тауарды ашқанда галерея болып көрсетіледі.</div></div>
       <div class="form-section"><div class="form-section-title">3. Варианттар</div><div class="form-grid-2"><div class="field"><label>Размер / өлшемдер</label><input id="pSizes" placeholder="S, M, L, XL немесе 36, 37, 38"></div><div class="field"><label>Түстер</label><input id="pColors" placeholder="Қара, Ақ, Көк"></div></div><div class="field"><label>Кімге арналған</label><select id="pGender"><option value="">Көрсетілмеген</option><option value="Әйелдер">Әйелдер</option><option value="Ерлер">Ерлер</option><option value="Балалар">Балалар</option><option value="Unisex">Unisex</option></select></div></div>
       <div class="form-section"><div class="form-section-title">4. Ерекше тауар</div><label class="special-check"><input id="pSpecial" type="checkbox"><span>✨ Ерекше заттарға шығару</span></label><div class="field"><select id="pSpecialType"><option value="interesting">🤯 Қызық зат</option><option value="eye">👀 Көзге түсетін</option><option value="gift">🎁 Сыйлық</option></select></div></div>
       <button class="primary seller-submit" id="addProduct">➕ Тауарды жариялау</button>
@@ -1026,81 +990,11 @@ async function openSeller(){
   </div>`);
   document.getElementById('close').onclick=closeModal;
   document.getElementById('saveStore').onclick=async()=>{const n=document.getElementById('storeName').value.trim();if(!n){toast('Дүкен атауын енгізіңіз');return}try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('stores').doc(uid).set({ownerId:uid,name:n,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});state.store={...(state.store||{}),ownerId:uid,name:n};save();toast('Дүкен сақталды');openSeller()}catch(e){toast('Дүкенді сақтау сәтсіз болды: '+e.message)}};
-  bindSmartCategoryFields();
-  productGalleryImages=[];
-  bindProductPhotoPicker();
-  document.getElementById('pcat').addEventListener('change',bindSmartCategoryFields);
   document.getElementById('addProduct').onclick=saveSellerProduct;
   document.querySelectorAll('[data-view-my-product]').forEach(b=>b.onclick=()=>openProduct(b.dataset.viewMyProduct));
   document.querySelectorAll('[data-status]').forEach(b=>b.onclick=async()=>{const o=state.orders.find(x=>String(x.id)===String(b.dataset.status));if(!o)return;try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('orders').doc(o.id).update({status:'Қабылданды',statusHistory:firebase.firestore.FieldValue.arrayUnion({status:'Қабылданды',at:Date.now(),by:uid}),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});o.status='Қабылданды';save();openSeller();toast('Тапсырыс қабылданды')}catch(e){toast('Тапсырыс статусын өзгерту қатесі: '+e.message)}});
 }
 
-const SMART_CATEGORY_DATA={
-  'Электрон':{icon:'📱',fields:[
-    ['brand','Бренд','select',['Apple','Samsung','Xiaomi','Huawei','Google','OnePlus','Oppo','Vivo','Realme','Басқа']],
-    ['model','Модель','select',[]],['storage','Жады','select',['64 GB','128 GB','256 GB','512 GB','1 TB','Басқа']],['ram','RAM','select',['4 GB','6 GB','8 GB','12 GB','16 GB','24 GB','Басқа']],['condition','Күйі','select',['Жаңа','Қолданылған','Жөнделген']],['color','Түс','select',['Қара','Ақ','Көк','Күміс','Алтын','Жасыл','Күлгін','Басқа']]
-  ]},
-  'Киім':{icon:'👕',fields:[['type','Киім түрі','select',['Футболка','Худи','Көйлек','Жейде','Шалбар','Джинсы','Куртка','Костюм','Свитер','Басқа']],['brand','Бренд','input'],['size','Өлшем','select',['XS','S','M','L','XL','XXL','3XL','Басқа']],['color','Түс','select',['Қара','Ақ','Көк','Қызыл','Жасыл','Сары','Қызғылт','Сұр','Қоңыр','Басқа']],['material','Материал','input'],['season','Маусым','select',['Көктем','Жаз','Күз','Қыс','Барлық маусым']]]},
-  'Аяқ киім':{icon:'👟',fields:[['type','Аяқ киім түрі','select',['Кроссовка','Кеды','Ботинка','Етік','Туфли','Сандал','Тәпішке','Басқа']],['brand','Бренд','input'],['size','Өлшем','select',['36','37','38','39','40','41','42','43','44','45','46','Басқа']],['color','Түс','select',['Қара','Ақ','Көк','Қызыл','Сұр','Қоңыр','Басқа']],['material','Материал','input'] ]},
-  'Косметика':{icon:'💄',fields:[['type','Өнім түрі','select',['Парфюм','Крем','Шампунь','Сусабын','Макияж','Ерін далабы','Сарысу','Маска','Басқа']],['brand','Бренд','input'],['skin','Тері түрі','select',['Барлық тері','Құрғақ','Майлы','Аралас','Сезімтал']],['volume','Көлемі','input'],['expiry','Жарамдылық мерзімі','input']]},
-  'Үй':{icon:'🏠',fields:[['type','Өнім түрі','select',['Жиһаз','Декор','Тұрмыстық зат','Жарықтандыру','Тоқыма','Басқа']],['material','Материал','input'],['color','Түс','input']]},
-  'Ас үй':{icon:'🍳',fields:[['type','Өнім түрі','select',['Ыдыс','Ас құралдары','Кастрөл','Таба','Техника','Басқа']],['material','Материал','input'],['volume','Көлемі','input']]},
-  'Балалар':{icon:'🧸',fields:[['type','Өнім түрі','select',['Киім','Аяқ киім','Арба','Балаға арналған зат','Басқа']],['age','Жасы','select',['0–1 жас','1–3 жас','3–6 жас','6–12 жас','12+']],['brand','Бренд','input']]},
-  'Ойыншық':{icon:'🧸',fields:[['type','Ойыншық түрі','select',['Конструктор','Машина','Қуыршақ','Пазл','Үстел ойыны','Басқа']],['age','Жасы','select',['0–3 жас','3–6 жас','6–12 жас','12+']],['material','Материал','input']]},
-  'Спорт':{icon:'⚽',fields:[['type','Спорт түрі','select',['Фитнес','Футбол','Бокс','Баскетбол','Теннис','Жүгіру','Басқа']],['brand','Бренд','input'],['size','Өлшем','input'],['color','Түс','input']]},
-  'Авто':{icon:'🚗',fields:[['brand','Марка','select',['Toyota','Mercedes-Benz','BMW','Hyundai','Kia','Lexus','Chevrolet','Volkswagen','Басқа']],['model','Модель','input'],['year','Жылы','input'],['engine','Қозғалтқыш','input'],['condition','Күйі','select',['Жаңа','Қолданылған','Жөнделген']]]},
-  'Аксессуар':{icon:'👜',fields:[['type','Аксессуар түрі','select',['Сөмке','Белдік','Көзілдірік','Сағат','Әшекей','Басқа']],['brand','Бренд','input'],['color','Түс','input']]},
-  'Кітап':{icon:'📚',fields:[['type','Кітап түрі','select',['Көркем әдебиет','Бизнес','Балалар','Оқу','Өзін-өзі дамыту','Басқа']],['author','Автор','input'],['language','Тілі','select',['Қазақша','Русский','English','Басқа']]]},
-  'Кеңсе':{icon:'🖊️',fields:[['type','Өнім түрі','select',['Кеңсе тауарлары','Принтер','Қағаз','Жиһаз','Басқа']],['brand','Бренд','input']]},
-  'Басқа':{icon:'🛍️',fields:[['brand','Бренд','input'],['model','Модель','input'],['condition','Күйі','select',['Жаңа','Қолданылған','Басқа']]]}
-};
-const SMART_MODELS={
- 'Apple':['iPhone 17 Pro Max','iPhone 17 Pro','iPhone 17','iPhone 16 Pro Max','iPhone 16 Pro','iPhone 16','iPhone 15'],
- 'Samsung':['Galaxy S25 Ultra','Galaxy S25+','Galaxy S25','Galaxy S24 Ultra','Galaxy S24','Galaxy A56','Galaxy A36'],
- 'Xiaomi':['Xiaomi 15 Ultra','Xiaomi 15','Redmi Note 14 Pro','Redmi Note 14','POCO X7'],
- 'Huawei':['Pura 70','Mate 70 Pro','Nova 13','MatePad'],
- 'Google':['Pixel 10 Pro XL','Pixel 10 Pro','Pixel 9 Pro','Pixel 9'],
- 'OnePlus':['OnePlus 13','OnePlus 13R','Nord 5'],
- 'Oppo':['Find X8 Pro','Reno 13','A5 Pro'],
- 'Vivo':['X200 Pro','V50','V40'],
- 'Realme':['GT 7','GT 6','12 Pro+']
-};
-function bindSmartCategoryFields(){
- const root=document.getElementById('smartCategoryFields'); if(!root)return;
- const cat=document.getElementById('pcat')?.value||'Басқа'; const d=SMART_CATEGORY_DATA[cat]||SMART_CATEGORY_DATA['Басқа'];
- root.innerHTML=`<div class="smart-category-head"><h4>${d.icon} ${esc(cat)} үшін арнайы мәліметтер</h4><span class="smart-category-badge">Автоматты форма</span></div><div class="smart-fields">${d.fields.map(([key,label,type,opts])=>`<div class="smart-field"><label>${label}</label>${type==='select'?`<select id="smart_${key}"><option value="">Таңдаңыз</option>${(opts||[]).map(o=>`<option>${esc(o)}</option>`).join('')}</select>`:`<input id="smart_${key}" placeholder="${esc(label)} енгізіңіз">`}</div>`).join('')}</div><div id="smartModelHint" class="smart-help"></div>`;
- const brand=document.getElementById('smart_brand'); const model=document.getElementById('smart_model');
- if(brand&&model){
-   const apply=()=>{const models=SMART_MODELS[brand.value]||[]; if(model.tagName==='SELECT'){model.innerHTML='<option value="">Модельді таңдаңыз</option>'+models.map(x=>`<option>${esc(x)}</option>`).join('');} else if(models.length){model.placeholder=models.join(' · ');} const h=document.getElementById('smartModelHint'); if(h)h.textContent=models.length?'Брендке сәйкес модельдер дайын.':'Модельді өзіңіз енгізіңіз.'};
-   brand.addEventListener('change',apply); apply();
- }
-}
-function collectSmartFields(){
- const out={}; document.querySelectorAll('#smartCategoryFields [id^="smart_"]').forEach(el=>{const v=(el.value||'').trim();if(v)out[el.id.replace('smart_','')]=v}); return out;
-}
-
-let productGalleryImages=[];
-function bindProductPhotoPicker(){
-  const input=document.getElementById('productPhotoFiles');
-  const btn=document.getElementById('chooseProductPhotos');
-  const grid=document.getElementById('productPhotoPreview');
-  const count=document.getElementById('photoCount');
-  if(!input||!btn||!grid)return;
-  const render=()=>{
-    if(count)count.textContent=`${productGalleryImages.length}/6`;
-    grid.innerHTML=productGalleryImages.map((src,i)=>`<div class="product-photo-item ${i===0?'main-photo':''}"><img src="${esc(src)}" alt="Фото ${i+1}">${i===0?'<span class="product-photo-main">НЕГІЗГІ</span>':''}<button type="button" class="product-photo-remove" data-photo-remove="${i}" aria-label="Өшіру">×</button></div>`).join('');
-    grid.querySelectorAll('[data-photo-remove]').forEach(b=>b.onclick=()=>{productGalleryImages.splice(Number(b.dataset.photoRemove),1);render()});
-  };
-  btn.onclick=()=>input.click();
-  input.onchange=async e=>{
-    const files=[...(e.target.files||[])].filter(f=>f.type.startsWith('image/'));
-    for(const file of files.slice(0,6-productGalleryImages.length)){
-      try{productGalleryImages.push(await resizeImageToDataUrl(file,900,.78))}catch(err){toast('Суретті оқу қатесі')}
-    }
-    input.value='';render();
-  };
-  render();
-}
 async function saveSellerProduct(){
   if(!state.currentUser){openLogin();return}
   const uid=state.currentUser.id;
@@ -1110,7 +1004,7 @@ async function saveSellerProduct(){
   const cat=document.getElementById('pcat')?.value.trim()||'Басқа';
   const image=document.getElementById('pimg')?.value.trim()||'';
   const extraImages=(document.getElementById('pimages')?.value||'').split(/\n|,/).map(x=>x.trim()).filter(Boolean);
-  const images=[...productGalleryImages,...(image?[image]:[]),...extraImages].filter((x,i,a)=>x&&!a.slice(0,i).includes(x)).slice(0,6);
+  const images=[image,...extraImages].filter((x,i,a)=>x&&!a.slice(0,i).includes(x));
   const description=document.getElementById('pdesc')?.value.trim()||'';
   const sizes=document.getElementById('pSizes')?.value.trim()||'';
   const colors=document.getElementById('pColors')?.value.trim()||'';
@@ -1120,8 +1014,7 @@ async function saveSellerProduct(){
   if(!name||price<=0){toast('Тауар атауы мен бағасын дұрыс енгізіңіз');return}
   try{
     const sellerName=state.store?.ownerId===uid?state.store.name:state.currentUser.name;
-    const smart=collectSmartFields();
-    const data={name,title:name,price,stock,quantity:stock,cat,category:cat,image:images[0]||'',images,description,sizes:sizes||smart.size||'',sizesText:sizes||smart.size||'',colors:colors||smart.color||'',colorsText:colors||smart.color||'',gender,sellerId:uid,sellerName:sellerName||'Сатушы',seller:sellerName||'Сатушы',rating:0,sales:0,special,specialType,smartFields:smart,...smart,createdAt:fbReady?firebase.firestore.FieldValue.serverTimestamp():Date.now()};
+    const data={name,title:name,price,stock,quantity:stock,cat,category:cat,image:images[0]||'',images,description,sizes,sizesText:sizes,colors,colorsText:colors,gender,sellerId:uid,sellerName:sellerName||'Сатушы',seller:sellerName||'Сатушы',rating:0,sales:0,special,specialType,createdAt:fbReady?firebase.firestore.FieldValue.serverTimestamp():Date.now()};
     if(fbReady&&fbDb&&state.currentUser.firebase){const ref=await fbDb.collection('products').add(data);state.products.unshift({id:ref.id,...data,createdAt:Date.now()})}else state.products.unshift({id:'p_'+Date.now(),...data,createdAt:Date.now()});
     save();toast(special?'✨ Ерекше тауар сақталды':'Тауар жарияланды');openSeller();
   }catch(e){console.error(e);toast('Тауарды сақтау сәтсіз болды: '+e.message)}
