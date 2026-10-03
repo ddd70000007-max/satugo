@@ -251,6 +251,24 @@
 .seller-submit{border:0!important;border-radius:13px!important;min-height:48px!important;font-size:15px!important;box-shadow:none!important;margin-top:2px!important}
 /* no decorative blocks around the form */
 .my-products-title,.seller-panel>h3,.seller-panel>.list,.seller-panel>.empty{margin-top:18px!important}
+
+/* Premium product photo picker */
+.photo-section-pro{overflow:hidden!important;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%)!important}
+.photo-title-pro{display:flex!important;align-items:center!important;justify-content:space-between!important}
+.photo-count{font-size:12px;font-weight:900;color:#64748b;background:#f1f5f9;border:1px solid #e2e8f0;padding:6px 9px;border-radius:999px}
+.photo-picker-pro{border:1.5px dashed #cbd5e1;border-radius:18px;background:#f8fafc;padding:12px;transition:.2s}
+.photo-picker-pro:hover{border-color:#111827;background:#fff}
+.photo-pick-btn{width:100%;border:0;background:#fff;border-radius:14px;min-height:72px;padding:10px 14px;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;color:#111827;box-shadow:0 4px 16px rgba(15,23,42,.05)}
+.photo-pick-btn b{display:block;font-size:14px;text-align:left}.photo-pick-btn small{display:block;color:#64748b;font-size:11px;font-weight:600;margin-top:3px;text-align:left}
+.photo-pick-icon{width:42px;height:42px;border-radius:13px;background:#111827;color:#fff;display:grid;place-items:center;font-size:27px;font-weight:300}
+.product-photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px}
+.product-photo-item{position:relative;aspect-ratio:1/1;border-radius:15px;overflow:hidden;background:#e2e8f0;border:1px solid #e2e8f0;box-shadow:0 5px 16px rgba(15,23,42,.07)}
+.product-photo-item img{width:100%;height:100%;object-fit:cover;display:block}.product-photo-item.main-photo{outline:2px solid #111827;outline-offset:-2px}
+.product-photo-main{position:absolute;left:7px;top:7px;background:#111827;color:#fff;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:900}
+.product-photo-remove{position:absolute;right:7px;top:7px;width:28px;height:28px;border:0;border-radius:50%;background:#fff;color:#111827;font-size:17px;line-height:1;cursor:pointer;box-shadow:0 3px 10px #0002}
+.url-fallback{margin-top:10px}.url-fallback label{color:#64748b!important}
+@media(max-width:430px){.product-photo-grid{grid-template-columns:repeat(2,1fr)}.photo-pick-btn{min-height:66px}.photo-pick-icon{width:38px;height:38px}}
+
 @media(max-width:650px){
  .seller-panel{padding-bottom:4px!important}
  .form-section{padding:13px!important;border-radius:15px!important}
@@ -995,7 +1013,7 @@ async function openSeller(){
     <div class="product-form-card">
       <div class="product-form-title"><div><h3>➕ Жаңа тауар қосу</h3><div class="product-form-sub">Тауарды толық толтырсаңыз, сатып алушыға әдемі әрі түсінікті көрінеді.</div></div></div>
       <div class="form-section"><div class="form-section-title">1. Негізгі ақпарат</div><div class="field"><label>Тауар атауы *</label><input id="pnm" placeholder="Мысалы: Nike Air Max 270"></div><div class="form-grid-3"><div class="field"><label>Бағасы *</label><input id="pprice" type="number" min="1" placeholder="39990"></div><div class="field"><label>Қойма</label><input id="pstock" type="number" min="0" value="10"></div><div class="field"><label>Категория</label><select id="pcat">${catOptions.map(x=>`<option>${x}</option>`).join('')}</select></div></div><div id="smartCategoryFields" class="smart-category-box"></div><div class="field"><label>Қысқаша сипаттама</label><textarea id="pdesc" rows="3" placeholder="Материалы, ерекшелігі, қолданылуы..."></textarea></div></div>
-      <div class="form-section"><div class="form-section-title">2. Суреттер</div><div class="field"><label>Негізгі сурет URL</label><input id="pimg" placeholder="https://...jpg"></div><div class="field"><label>Қосымша сурет URL-лары <span class="muted">(әр жолға біреу)</span></label><textarea id="pimages" rows="3" placeholder="https://...2.jpg\nhttps://...3.jpg\nhttps://...4.jpg"></textarea></div><div class="muted">Тауарды ашқанда галерея болып көрсетіледі.</div></div>
+      <div class="form-section photo-section-pro"><div class="form-section-title photo-title-pro"><span>2. Суреттер</span><span class="photo-count" id="photoCount">0/6</span></div><div class="photo-picker-pro" id="photoPickerBox"><input id="productPhotoFiles" type="file" accept="image/*" multiple hidden><button type="button" class="photo-pick-btn" id="chooseProductPhotos"><span class="photo-pick-icon">＋</span><span><b>Галереядан сурет таңдау</b><small>6 суретке дейін • JPG, PNG</small></span></button></div><div id="productPhotoPreview" class="product-photo-grid"></div><div class="field url-fallback"><label>Қажет болса сурет URL-ы</label><input id="pimg" placeholder="https://...jpg"></div><div class="field url-fallback"><label>Қосымша URL-лар <span class="muted">(әр жолға біреу)</span></label><textarea id="pimages" rows="2" placeholder="https://...2.jpg\nhttps://...3.jpg"></textarea></div></div>
       <div class="form-section"><div class="form-section-title">3. Варианттар</div><div class="form-grid-2"><div class="field"><label>Размер / өлшемдер</label><input id="pSizes" placeholder="S, M, L, XL немесе 36, 37, 38"></div><div class="field"><label>Түстер</label><input id="pColors" placeholder="Қара, Ақ, Көк"></div></div><div class="field"><label>Кімге арналған</label><select id="pGender"><option value="">Көрсетілмеген</option><option value="Әйелдер">Әйелдер</option><option value="Ерлер">Ерлер</option><option value="Балалар">Балалар</option><option value="Unisex">Unisex</option></select></div></div>
       <div class="form-section"><div class="form-section-title">4. Ерекше тауар</div><label class="special-check"><input id="pSpecial" type="checkbox"><span>✨ Ерекше заттарға шығару</span></label><div class="field"><select id="pSpecialType"><option value="interesting">🤯 Қызық зат</option><option value="eye">👀 Көзге түсетін</option><option value="gift">🎁 Сыйлық</option></select></div></div>
       <button class="primary seller-submit" id="addProduct">➕ Тауарды жариялау</button>
@@ -1009,6 +1027,8 @@ async function openSeller(){
   document.getElementById('close').onclick=closeModal;
   document.getElementById('saveStore').onclick=async()=>{const n=document.getElementById('storeName').value.trim();if(!n){toast('Дүкен атауын енгізіңіз');return}try{if(fbReady&&fbDb&&state.currentUser.firebase)await fbDb.collection('stores').doc(uid).set({ownerId:uid,name:n,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});state.store={...(state.store||{}),ownerId:uid,name:n};save();toast('Дүкен сақталды');openSeller()}catch(e){toast('Дүкенді сақтау сәтсіз болды: '+e.message)}};
   bindSmartCategoryFields();
+  productGalleryImages=[];
+  bindProductPhotoPicker();
   document.getElementById('pcat').addEventListener('change',bindSmartCategoryFields);
   document.getElementById('addProduct').onclick=saveSellerProduct;
   document.querySelectorAll('[data-view-my-product]').forEach(b=>b.onclick=()=>openProduct(b.dataset.viewMyProduct));
@@ -1059,6 +1079,28 @@ function collectSmartFields(){
  const out={}; document.querySelectorAll('#smartCategoryFields [id^="smart_"]').forEach(el=>{const v=(el.value||'').trim();if(v)out[el.id.replace('smart_','')]=v}); return out;
 }
 
+let productGalleryImages=[];
+function bindProductPhotoPicker(){
+  const input=document.getElementById('productPhotoFiles');
+  const btn=document.getElementById('chooseProductPhotos');
+  const grid=document.getElementById('productPhotoPreview');
+  const count=document.getElementById('photoCount');
+  if(!input||!btn||!grid)return;
+  const render=()=>{
+    if(count)count.textContent=`${productGalleryImages.length}/6`;
+    grid.innerHTML=productGalleryImages.map((src,i)=>`<div class="product-photo-item ${i===0?'main-photo':''}"><img src="${esc(src)}" alt="Фото ${i+1}">${i===0?'<span class="product-photo-main">НЕГІЗГІ</span>':''}<button type="button" class="product-photo-remove" data-photo-remove="${i}" aria-label="Өшіру">×</button></div>`).join('');
+    grid.querySelectorAll('[data-photo-remove]').forEach(b=>b.onclick=()=>{productGalleryImages.splice(Number(b.dataset.photoRemove),1);render()});
+  };
+  btn.onclick=()=>input.click();
+  input.onchange=async e=>{
+    const files=[...(e.target.files||[])].filter(f=>f.type.startsWith('image/'));
+    for(const file of files.slice(0,6-productGalleryImages.length)){
+      try{productGalleryImages.push(await resizeImageToDataUrl(file,900,.78))}catch(err){toast('Суретті оқу қатесі')}
+    }
+    input.value='';render();
+  };
+  render();
+}
 async function saveSellerProduct(){
   if(!state.currentUser){openLogin();return}
   const uid=state.currentUser.id;
@@ -1068,7 +1110,7 @@ async function saveSellerProduct(){
   const cat=document.getElementById('pcat')?.value.trim()||'Басқа';
   const image=document.getElementById('pimg')?.value.trim()||'';
   const extraImages=(document.getElementById('pimages')?.value||'').split(/\n|,/).map(x=>x.trim()).filter(Boolean);
-  const images=[image,...extraImages].filter((x,i,a)=>x&&!a.slice(0,i).includes(x));
+  const images=[...productGalleryImages,...(image?[image]:[]),...extraImages].filter((x,i,a)=>x&&!a.slice(0,i).includes(x)).slice(0,6);
   const description=document.getElementById('pdesc')?.value.trim()||'';
   const sizes=document.getElementById('pSizes')?.value.trim()||'';
   const colors=document.getElementById('pColors')?.value.trim()||'';
