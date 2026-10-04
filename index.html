@@ -1662,10 +1662,10 @@ function openSecurity(){
     document.getElementById('orderReview').onclick=()=>toast(status==='Жеткізілді'?'Пікір қалдыру бөліміне өтіңіз':'Тапсырыс жеткізілгеннен кейін бағалауға болады');
   };
 
-  window.openSeller=function(){
+  window.openSeller=function(skipOrderLoad=false){
     if(!state.currentUser){openLogin();return}
     const uid=state.currentUser.id;
-    if(fbReady&&fbDb&&state.currentUser.firebase){fbDb.collection('orders').where('sellerIds','array-contains',uid).get().then(qs=>{const map=new Map((state.orders||[]).map(o=>[String(o.id),o]));qs.docs.forEach(d=>{const x=d.data()||{};map.set(d.id,{id:d.id,...x,createdAt:x.createdAt?.toMillis?x.createdAt.toMillis():x.createdAt||Date.now()})});state.orders=[...map.values()];save();openSeller();}).catch(e=>console.warn('Seller orders load:',e.message));return}
+    if(!skipOrderLoad && fbReady&&fbDb&&state.currentUser.firebase){fbDb.collection('orders').where('sellerIds','array-contains',uid).get().then(qs=>{const map=new Map((state.orders||[]).map(o=>[String(o.id),o]));qs.docs.forEach(d=>{const x=d.data()||{};map.set(d.id,{id:d.id,...x,createdAt:x.createdAt?.toMillis?x.createdAt.toMillis():x.createdAt||Date.now()})});state.orders=[...map.values()];save();openSeller(true);}).catch(e=>{console.warn('Seller orders load:',e.message);openSeller(true);});return}
     const mine=state.products.filter(p=>String(p.sellerId)===String(uid));const orders=state.orders.filter(o=>(o.sellerIds||[]).map(String).includes(String(uid)));const totalSales=mine.reduce((n,p)=>n+Number(p.sales||0),0);const stock=mine.reduce((n,p)=>n+Number(p.stock??p.quantity??0),0);
     const catOptions=['Киім','Аяқ киім','Косметика','Электрон','Үй','Ас үй','Балалар','Ойыншық','Спорт','Авто','Аксессуар','Кітап','Кеңсе','Басқа'];
     const productCards=mine.map(p=>{const first=productImages(p)[0]||p.image||'';return `<div class="my-product"><div class="my-product-img">${first?`<img src="${opEsc(first)}" alt="">`:`<span style="font-size:48px">🛍️</span>`}</div><div class="my-product-info"><div class="my-product-name">${opEsc(p.name)}</div><div class="my-product-meta"><span class="my-product-price">${opMoney(p.price)}</span><span class="my-product-stock">Қойма: ${Number(p.stock??p.quantity??0)}</span></div><div class="muted">${opEsc(p.cat||'Басқа')}</div></div><div class="my-product-actions"><button class="secondary" data-view-my-product="${opEsc(p.id)}">Көру</button></div></div>`}).join('');
