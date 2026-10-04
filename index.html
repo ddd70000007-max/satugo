@@ -243,6 +243,10 @@
 <style id="satugo-gallery-pro">
 .gallery-picker{display:flex;align-items:center;gap:14px;padding:18px;border:2px dashed #cbd5e1;border-radius:20px;background:linear-gradient(135deg,#f8fafc,#fff);cursor:pointer;transition:.2s;margin-bottom:10px}.gallery-picker:hover{border-color:#111827;transform:translateY(-1px);box-shadow:0 10px 28px rgba(15,23,42,.08)}.gallery-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:#111827;color:#fff;font-size:23px}.gallery-picker span:nth-child(2){flex:1}.gallery-picker b{display:block;font-size:15px}.gallery-picker small{display:block;color:#64748b;margin-top:4px}.gallery-picker strong{padding:10px 15px;border-radius:12px;background:#111827;color:#fff;font-size:13px}.photo-picker-note{font-size:12px;color:#64748b;margin:7px 0 12px}.product-photo-preview{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}.product-photo-item{position:relative;aspect-ratio:1;border-radius:16px;overflow:hidden;background:#f1f5f9;border:1px solid #e2e8f0}.product-photo-item img{width:100%;height:100%;object-fit:cover}.product-photo-item .main-tag{position:absolute;left:7px;top:7px;background:#111827;color:#fff;border-radius:9px;padding:5px 7px;font-size:10px;font-weight:800}.product-photo-item button{position:absolute;right:7px;top:7px;width:28px;height:28px;border:0;border-radius:9px;background:rgba(255,255,255,.92);cursor:pointer;font-size:16px}.product-photo-item .loading{position:absolute;inset:0;display:grid;place-items:center;background:rgba(255,255,255,.78);font-size:12px;font-weight:800}@media(max-width:600px){.product-photo-preview{grid-template-columns:repeat(2,1fr)}.gallery-picker{padding:14px}.gallery-picker strong{padding:9px 11px}}
 </style>
+<style id="satugo-multi-product-chat">
+.chat-products-panel{margin:0 0 10px;padding:12px;border:1px solid #e5e7eb;border-radius:16px;background:#fafafa}.chat-products-title{font-weight:800;margin-bottom:9px}.chat-products-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}.chat-product-mini{min-width:230px;flex:0 0 230px;margin:0!important;padding:9px!important;display:flex;flex-direction:column;gap:8px}.chat-product-main{display:flex;gap:9px;align-items:center;min-width:0}.chat-products-hint{font-size:12px;margin-top:8px}.chat-view-product{width:100%}@media(max-width:600px){.chat-product-mini{min-width:210px;flex-basis:210px}.chat-products-panel{padding:9px}}
+</style>
+
 </head>
 <body>
 <header class="top"><div class="wrap topin"><div class="logo">Satu<b>Go</b></div><div class="search">
@@ -575,13 +579,21 @@ async function startChat(p){
   if(!fbReady||!fbDb){toast('Firebase Firestore қосылмаған');return}
   const id='chat_'+[uid,p.sellerId].sort().join('_');
   try{
-    await fbDb.collection('chats').doc(id).set({
+    const ref=fbDb.collection('chats').doc(id);
+    const oldSnap=await ref.get();
+    const old=oldSnap.exists?(oldSnap.data()||{}):{};
+    const newProduct={id:String(p.id||''),name:p.name||p.title||'Тауар',image:p.image||'',price:Number(p.price||0)};
+    const oldProducts=Array.isArray(old.products)?old.products:[];
+    const products=[...oldProducts.filter(x=>String(x?.id||'')!==newProduct.id),newProduct].slice(-8);
+    await ref.set({
       participants:[uid,p.sellerId],
       participantNames:{[uid]:state.currentUser?.name||'Пайдаланушы',[p.sellerId]:p.sellerName||'Сатушы'},
       buyerId:uid,buyerName:state.currentUser?.name||'Пайдаланушы',
       sellerId:p.sellerId,sellerName:p.sellerName||'Сатушы',
-      productId:p.id,productName:p.name||'Тауар',productImage:p.image||'',productPrice:Number(p.price||0),
-      lastMessage:'',unread:{[uid]:0,[p.sellerId]:0},updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+      productId:newProduct.id,productName:newProduct.name,productImage:newProduct.image,productPrice:newProduct.price,
+      products,
+      lastMessage:old.lastMessage||'',unread:{...(old.unread||{}),[uid]:old.unread?.[uid]||0,[p.sellerId]:old.unread?.[p.sellerId]||0},
+      updatedAt:firebase.firestore.FieldValue.serverTimestamp()
     },{merge:true});
     closeModal();await openChat(id);
   }catch(e){console.error(e);toast('Чатты ашу қатесі: '+(e.code==='permission-denied'?'Firebase Rules тексеріңіз':e.message))}
@@ -699,12 +711,14 @@ async function openChat(id){
     try{await ref.set({online:{...(c.online||{}),[uid]:true,onlineAt:firebase.firestore.FieldValue.serverTimestamp()},typing:{[uid]:false}},{merge:true})}catch(_){}
     await markChatMessagesRead(id,uid);
     document.body.classList.add('chat-open');
-    openModal(`<div class="modaltop"><div style="display:flex;align-items:center;gap:8px;min-width:0"><button class="chat-back" id="chatBack" type="button">← Артқа</button><div style="min-width:0"><h2 style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0">💬 ${esc(title)}</h2><div class="muted" id="chatPresence">${c.online?.[otherId]?'🟢 Онлайн':'⚪ Офлайн'}</div><div id="chatTyping" class="chat-typing"></div></div></div><button class="close" id="close" type="button">×</button></div><div class="chat-product-card"><div style="display:flex;gap:10px;align-items:center;min-width:0">${c.productImage?`<img src="${esc(c.productImage)}" class="chat-product-img">`:''}<div style="min-width:0"><b>${esc(c.productName||'Тауар')}</b><div class="muted">${c.productPrice?money(c.productPrice):'Тауар туралы чат'}</div></div></div><button type="button" class="secondary" id="chatProductBtn">Тауарды көру</button></div><div class="chatbox"><div class="msgs" id="msgs"><div class="muted">Жүктелуде...</div></div><div id="chatReplyBox" class="chat-reply hidden"></div><div class="chat-quick"><button type="button" data-quick="Сәлеметсіз бе! Осы тауар әлі бар ма?">Сәлем!</button><button type="button" data-quick="Бағасын түсіруге бола ма?">Бағасы?</button><button type="button" data-quick="Жеткізу бар ма?">Жеткізу?</button></div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..." autocomplete="off"><input id="chatImage" type="file" accept="image/*" style="display:none"><button class="secondary" id="chatImageBtn" type="button" title="Фото жіберу">📷</button><button class="primary" id="sendChat" type="button">Жіберу</button></div></div>`);
+    const chatProducts=Array.isArray(c.products)&&c.products.length?c.products:[{id:c.productId||'',name:c.productName||'Тауар',image:c.productImage||'',price:Number(c.productPrice||0)}];
+    const productsHtml=`<div class="chat-products-panel"><div class="chat-products-title">🛍️ Осы дүкеннің талқыланып жатқан тауарлары <span class="muted">${chatProducts.length}/8</span></div><div class="chat-products-row">${chatProducts.map(pr=>`<div class="chat-product-card chat-product-mini"><div class="chat-product-main">${pr.image?`<img src="${esc(pr.image)}" class="chat-product-img">`:''}<div style="min-width:0;flex:1"><b>${esc(pr.name||'Тауар')}</b><div class="muted">${pr.price?money(pr.price):'Бағасы көрсетілмеген'}</div></div></div><button type="button" class="secondary chat-view-product" data-product-id="${esc(pr.id||'')}">Көру</button></div>`).join('')}</div><div class="muted chat-products-hint">Бір сатушымен бірнеше тауарды бір чатта талқылай аласыз.</div></div>`;
+    openModal(`<div class="modaltop"><div style="display:flex;align-items:center;gap:8px;min-width:0"><button class="chat-back" id="chatBack" type="button">← Артқа</button><div style="min-width:0"><h2 style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0">💬 ${esc(title)}</h2><div class="muted" id="chatPresence">${c.online?.[otherId]?'🟢 Онлайн':'⚪ Офлайн'}</div><div id="chatTyping" class="chat-typing"></div></div></div><button class="close" id="close" type="button">×</button></div>${productsHtml}<div class="chatbox"><div class="msgs" id="msgs"><div class="muted">Жүктелуде...</div></div><div id="chatReplyBox" class="chat-reply hidden"></div><div class="chat-quick"><button type="button" data-quick="Сәлеметсіз бе! Осы тауар әлі бар ма?">Сәлем!</button><button type="button" data-quick="Бағасын түсіруге бола ма?">Бағасы?</button><button type="button" data-quick="Жеткізу бар ма?">Жеткізу?</button></div><div class="chatinput"><input id="chatText" placeholder="Хабарлама..." autocomplete="off"><input id="chatImage" type="file" accept="image/*" style="display:none"><button class="secondary" id="chatImageBtn" type="button" title="Фото жіберу">📷</button><button class="primary" id="sendChat" type="button">Жіберу</button></div></div>`);
     document.getElementById('close').onclick=closeChat;
     document.getElementById('chatBack').onclick=closeChat;
     document.getElementById('sendChat').onclick=()=>sendChat();
     document.getElementById('chatImageBtn').onclick=()=>document.getElementById('chatImage').click();
-    document.getElementById('chatProductBtn').onclick=()=>{if(c.productId){closeChat();openProduct(c.productId)}};
+    document.querySelectorAll('.chat-view-product').forEach(b=>b.onclick=()=>{const pid=b.dataset.productId;if(pid){closeChat();openProduct(pid)}});
     document.querySelectorAll('[data-quick]').forEach(b=>b.onclick=()=>{const input=document.getElementById('chatText');if(input){input.value=b.dataset.quick;input.focus();setTyping(true);}});
     document.getElementById('chatText').addEventListener('input',()=>{
       setTyping(true);
